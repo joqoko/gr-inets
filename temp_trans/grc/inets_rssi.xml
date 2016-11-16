@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<block>
+  <name>rssi</name>
+  <key>inets_rssi</key>
+  <category>inets</category>
+  <import>import inets</import>
+  <make>inets.rssi($alpha, $th_low_db, $num_idle_det)</make>
+  <callback>set_alpha($alpha)</callback>
+  <param>
+    <name>alpha</name>
+    <key>alpha</key>
+    <type>float</type>
+  </param>
+  <param>
+    <name>Num Idle Det</name>
+    <key>num_idle_det</key>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Detect Threshold [dBm]</name>
+    <key>th_low_db</key>
+    <type>float</type>
+  </param>
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+  </sink>
+  <source>
+    <name>rssi_avg</name>
+    <type>float</type>
+  </source>
+  <source>
+    <name>rssi</name>
+    <type>float</type>
+  </source>
+</block>
