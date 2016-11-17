@@ -27,6 +27,7 @@ install(FILES
     packetizer.h
     variable_rotator.h
     baseband_derotation.h
-    rssi.h DESTINATION include/inets
+    rssi.h
+    DESTINATION include/inets
 
 )

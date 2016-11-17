@@ -30,3 +30,4 @@ GR_SWIG_BLOCK_MAGIC2(inets, variable_rotator);
 GR_SWIG_BLOCK_MAGIC2(inets, baseband_derotation);
 %include "inets/rssi.h"
 GR_SWIG_BLOCK_MAGIC2(inets, rssi);
+

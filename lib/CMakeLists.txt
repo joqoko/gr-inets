@@ -31,7 +31,7 @@ list(APPEND inets_sources
     variable_rotator_impl.cc
     baseband_derotation_impl.cc
     rssi_impl.cc
-)
+    )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)
