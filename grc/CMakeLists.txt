@@ -27,5 +27,6 @@ install(FILES
     inets_stop_and_wait_arq.xml
     inets_rrrm.xml
     inets_per_logger.xml 
-    inets_rssi.xml DESTINATION share/gnuradio/grc/blocks
+    inets_rssi.xml
+    inets_framing_py_v1.xml DESTINATION share/gnuradio/grc/blocks
 )

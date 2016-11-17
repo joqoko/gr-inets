@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.8'?>
+<?grc format='1' created='3.7.11'?>
 <flow_graph>
   <timestamp>Mon Jun 22 11:05:12 2015</timestamp>
   <block>
@@ -9,8 +9,8 @@
       <value>Julian Arnold</value>
     </param>
     <param>
-      <key>alias</key>
-      <value></value>
+      <key>window_size</key>
+      <value>1280, 1024</value>
     </param>
     <param>
       <key>category</key>
@@ -41,6 +41,10 @@
       <value>hb</value>
     </param>
     <param>
+      <key>hier_block_src_path</key>
+      <value>.:</value>
+    </param>
+    <param>
       <key>id</key>
       <value>inets_tx_phy</value>
     </param>
@@ -49,8 +53,16 @@
       <value>0</value>
     </param>
     <param>
+      <key>qt_qss_theme</key>
+      <value></value>
+    </param>
+    <param>
       <key>realtime_scheduling</key>
       <value></value>
+    </param>
+    <param>
+      <key>run_command</key>
+      <value>{python} -u {filename}</value>
     </param>
     <param>
       <key>run_options</key>
@@ -67,10 +79,6 @@
     <param>
       <key>title</key>
       <value>TX PHY</value>
-    </param>
-    <param>
-      <key>window_size</key>
-      <value>1280, 1024</value>
     </param>
   </block>
   <block>
@@ -595,61 +603,6 @@
     </param>
   </block>
   <block>
-    <key>fec_async_encoder</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>encoder</key>
-      <value>enc_cc</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(224, 291)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>fec_async_encoder_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>packed</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>rev_pack</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>rev_unpack</key>
-      <value>True</value>
-    </param>
-  </block>
-  <block>
     <key>import</key>
     <param>
       <key>alias</key>
@@ -1157,12 +1110,6 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>fec_async_encoder_0</source_block_id>
-    <sink_block_id>inets_packetizer_0</sink_block_id>
-    <source_key>out</source_key>
-    <sink_key>payload_in</sink_key>
-  </connection>
-  <connection>
     <source_block_id>inets_packetizer_0</source_block_id>
     <sink_block_id>blocks_pdu_to_tagged_stream_0</sink_block_id>
     <source_key>packet_out</source_key>
@@ -1176,14 +1123,8 @@
   </connection>
   <connection>
     <source_block_id>pad_source_0</source_block_id>
-    <sink_block_id>fec_async_encoder_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>pad_source_0</source_block_id>
     <sink_block_id>inets_packetizer_0</sink_block_id>
-    <source_key>0</source_key>
+    <source_key>out</source_key>
     <sink_key>payload_in</sink_key>
   </connection>
   <connection>

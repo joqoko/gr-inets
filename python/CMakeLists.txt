@@ -35,7 +35,8 @@ GR_PYTHON_INSTALL(
     unmake_packet_python.py
     stop_and_wait_arq.py
     rrrm.py
-    per_logger.py DESTINATION ${GR_PYTHON_DIR}/inets
+    per_logger.py
+    framing_py_v1.py DESTINATION ${GR_PYTHON_DIR}/inets
 )
 
 ########################################################################
