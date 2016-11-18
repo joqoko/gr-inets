@@ -14,6 +14,7 @@
 #include "inets/variable_rotator.h"
 #include "inets/baseband_derotation.h"
 #include "inets/rssi.h"
+#include "inets/carrier_sensing_cpp_cc.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -31,3 +32,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, baseband_derotation);
 %include "inets/rssi.h"
 GR_SWIG_BLOCK_MAGIC2(inets, rssi);
 
+%include "inets/carrier_sensing_cpp_cc.h"
+GR_SWIG_BLOCK_MAGIC2(inets, carrier_sensing_cpp_cc);
