@@ -33,7 +33,8 @@ list(APPEND inets_sources
     rssi_impl.cc
     carrier_sensing_cpp_cc_impl.cc
     exponential_backoff_cpp_impl.cc
-    decision_cpp_impl.cc )
+    decision_cpp_impl.cc
+    idle_cpp_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

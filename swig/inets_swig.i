@@ -17,6 +17,7 @@
 #include "inets/carrier_sensing_cpp_cc.h"
 #include "inets/exponential_backoff_cpp.h"
 #include "inets/decision_cpp.h"
+#include "inets/idle_cpp.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -40,3 +41,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, carrier_sensing_cpp_cc);
 GR_SWIG_BLOCK_MAGIC2(inets, exponential_backoff_cpp);
 %include "inets/decision_cpp.h"
 GR_SWIG_BLOCK_MAGIC2(inets, decision_cpp);
+%include "inets/idle_cpp.h"
+GR_SWIG_BLOCK_MAGIC2(inets, idle_cpp);

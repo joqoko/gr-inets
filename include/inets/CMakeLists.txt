@@ -30,6 +30,7 @@ install(FILES
     rssi.h
     carrier_sensing_cpp_cc.h
     exponential_backoff_cpp.h
-    decision_cpp.h DESTINATION include/inets
+    decision_cpp.h
+    idle_cpp.h DESTINATION include/inets
 
 )
