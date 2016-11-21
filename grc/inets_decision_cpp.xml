@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<block>
+  <name>decision_cpp</name>
+  <key>inets_decision_cpp</key>
+  <category>inets_dmf_v1.0</category>
+  <import>import inets</import>
+  <make>inets.decision_cpp()</make>
+  <!-- make one 'param' node for every parameter you want settable from the gui.
+       sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+
+  <!-- make one 'sink' node per input. sub-nodes:
+       * name (an identifier for the gui)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>spark_in</name>
+    <type>message</type>
+  </sink>
+
+  <!-- make one 'source' node per output. sub-nodes:
+       * name (an identifier for the gui)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>spark_out_t</name>
+    <type>message</type>
+  </source>
+
+  <source>
+    <name>spark_out_f</name>
+    <type>message</type>
+  </source>
+</block>

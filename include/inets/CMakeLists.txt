@@ -29,6 +29,7 @@ install(FILES
     baseband_derotation.h
     rssi.h
     carrier_sensing_cpp_cc.h
-    exponential_backoff_cpp.h DESTINATION include/inets
+    exponential_backoff_cpp.h
+    decision_cpp.h DESTINATION include/inets
 
 )

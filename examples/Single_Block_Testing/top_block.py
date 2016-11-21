@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Mon Nov 21 11:18:05 2016
+# Generated: Mon Nov 21 14:27:22 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -63,15 +63,19 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_exponential_backoff_cpp_0 = inets.exponential_backoff_cpp(20, 6, 20)
-        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 100)
+        self.inets_decision_cpp_0 = inets.decision_cpp()
+        self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(pmt.from_bool(False), blocks.STROBE_POISSON, 2000, 500)
+        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 3000, 500)
+        self.blocks_message_debug_0_0 = blocks.message_debug()
         self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_exponential_backoff_cpp_0, 'spark_in'))    
-        self.msg_connect((self.inets_exponential_backoff_cpp_0, 'spark_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))    
+        self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))    
+        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_t'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_f'), (self.blocks_message_debug_0_0, 'print'))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
