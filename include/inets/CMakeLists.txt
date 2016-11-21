@@ -28,6 +28,7 @@ install(FILES
     variable_rotator.h
     baseband_derotation.h
     rssi.h
-    carrier_sensing_cpp_cc.h DESTINATION include/inets
+    carrier_sensing_cpp_cc.h
+    exponential_backoff_cpp.h DESTINATION include/inets
 
 )

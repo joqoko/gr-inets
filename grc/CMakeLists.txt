@@ -29,5 +29,6 @@ install(FILES
     inets_per_logger.xml 
     inets_rssi.xml
     inets_framing_py_v1.xml
-    inets_carrier_sensing_cpp_cc.xml DESTINATION share/gnuradio/grc/blocks
+    inets_carrier_sensing_cpp_cc.xml
+    inets_exponential_backoff_cpp.xml DESTINATION share/gnuradio/grc/blocks
 )
