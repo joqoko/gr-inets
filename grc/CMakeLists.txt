@@ -33,5 +33,6 @@ install(FILES
     inets_exponential_backoff_cpp.xml
     inets_decision_cpp.xml
     inets_idle_cpp.xml
-    inets_wait_cpp.xml DESTINATION share/gnuradio/grc/blocks
+    inets_wait_cpp.xml
+    inets_packet_tx_timing_c.xml DESTINATION share/gnuradio/grc/blocks
 )

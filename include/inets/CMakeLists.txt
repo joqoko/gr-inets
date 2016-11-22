@@ -32,6 +32,7 @@ install(FILES
     exponential_backoff_cpp.h
     decision_cpp.h
     idle_cpp.h
-    wait_cpp.h DESTINATION include/inets
+    wait_cpp.h
+    packet_tx_timing_c.h DESTINATION include/inets
 
 )
