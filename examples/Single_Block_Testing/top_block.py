@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Mon Nov 21 17:02:54 2016
+# Generated: Tue Nov 22 17:16:42 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -63,19 +63,15 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_idle_cpp_0 = inets.idle_cpp(5000)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
-        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 3000, 500)
-        self.blocks_message_debug_0_0 = blocks.message_debug()
+        self.inets_wait_cpp_0 = inets.wait_cpp(5)
+        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.cons(pmt.from_bool(True), pmt.from_float(200)), blocks.STROBE_POISSON, 500, 50)
         self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_idle_cpp_0, 'spark_in'))    
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_cpp_0, 'data_from_network_layer_in'))    
-        self.msg_connect((self.inets_idle_cpp_0, 'spark_out'), (self.blocks_message_debug_0, 'print'))    
-        self.msg_connect((self.inets_idle_cpp_0, 'payload_pmt_out'), (self.blocks_message_debug_0_0, 'print_pdu'))    
+        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_wait_cpp_0, 'wait_time_in'))    
+        self.msg_connect((self.inets_wait_cpp_0, 'spark_out'), (self.blocks_message_debug_0, 'print'))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")

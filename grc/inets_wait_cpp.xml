@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<block>
+  <name>wait_cpp</name>
+  <key>inets_wait_cpp</key>
+  <category>inets_dmf_v1.0</category>
+  <import>import inets</import>
+  <make>inets.wait_cpp($system_time_granularity_ms)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>System time granularity [ms]</name>
+    <key>system_time_granularity_ms</key>
+    <type>int</type>
+  </param>
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>wait_time_in</name>
+    <type>message</type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>spark_out</name>
+    <type>message</type>
+  </source>
+</block>

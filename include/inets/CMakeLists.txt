@@ -31,6 +31,7 @@ install(FILES
     carrier_sensing_cpp_cc.h
     exponential_backoff_cpp.h
     decision_cpp.h
-    idle_cpp.h DESTINATION include/inets
+    idle_cpp.h
+    wait_cpp.h DESTINATION include/inets
 
 )
