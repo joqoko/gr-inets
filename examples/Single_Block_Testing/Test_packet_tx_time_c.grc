@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.9'?>
+<?grc format='1' created='3.7.11'?>
 <flow_graph>
   <timestamp>Mon Jun 22 11:22:20 2015</timestamp>
   <block>
     <key>options</key>
     <param>
       <key>author</key>
-      <value>Julian Arnold</value>
+      <value>PWA</value>
     </param>
     <param>
       <key>window_size</key>
@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>radio_test_ap</value>
+      <value>Test_for_packet_tx_time_c</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>Radio Test AP</value>
+      <value>Packet TX time test</value>
     </param>
   </block>
   <block>
@@ -163,6 +163,143 @@
     </param>
   </block>
   <block>
+    <key>analog_noise_source_x</key>
+    <param>
+      <key>amp</key>
+      <value>0.1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(144, 532)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>analog_noise_source_x_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>noise_type</key>
+      <value>analog.GR_GAUSSIAN</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>seed</key>
+      <value>111</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_add_xx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(408, 520)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_add_xx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_message_debug</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1152, 632)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_message_debug_0</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_multiply_const_vxx</key>
     <param>
       <key>alias</key>
@@ -186,7 +323,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(864, 415)</value>
+      <value>(760, 420)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -237,7 +374,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1208, 425)</value>
+      <value>(1176, 592)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -245,7 +382,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>blocks_null_sink_0</value>
+      <value>blocks_null_sink_0_0</value>
     </param>
     <param>
       <key>type</key>
@@ -339,7 +476,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(480, 286)</value>
+      <value>(216, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -543,7 +680,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1000, 377)</value>
+      <value>(936, 396)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -610,7 +747,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(424, 454)</value>
+      <value>(160, 452)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -708,6 +845,53 @@
     </param>
   </block>
   <block>
+    <key>inets_packet_tx_timing_c</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(952, 596)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_packet_tx_timing_c_0</value>
+    </param>
+    <param>
+      <key>lengthtagname</key>
+      <value>"packet_len"</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>sample_rate</key>
+      <value>samp_rate</value>
+    </param>
+  </block>
+  <block>
     <key>inets_packetizer</key>
     <param>
       <key>bps</key>
@@ -797,7 +981,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(304, 295)</value>
+      <value>(40, 292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -819,6 +1003,10 @@
       <value>False</value>
     </param>
     <param>
+      <key>axislabels</key>
+      <value>True</value>
+    </param>
+    <param>
       <key>alias</key>
       <value></value>
     </param>
@@ -836,7 +1024,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(720, 648)</value>
+      <value>(496, 452)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1187,7 +1375,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(648, 416)</value>
+      <value>(488, 300)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1227,6 +1415,18 @@
     </param>
   </block>
   <connection>
+    <source_block_id>analog_noise_source_x_0</source_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_add_xx_0</source_block_id>
+    <sink_block_id>qtgui_const_sink_x_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
     <sink_block_id>digital_burst_shaper_xx_0</sink_block_id>
     <source_key>0</source_key>
@@ -1258,13 +1458,13 @@
   </connection>
   <connection>
     <source_block_id>digital_burst_shaper_xx_0</source_block_id>
-    <sink_block_id>blocks_null_sink_0</sink_block_id>
+    <sink_block_id>inets_packet_tx_timing_c_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>digital_chunks_to_symbols_xx_0</source_block_id>
-    <sink_block_id>qtgui_const_sink_x_0</sink_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1273,6 +1473,18 @@
     <sink_block_id>root_raised_cosine_filter_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_packet_tx_timing_c_0</source_block_id>
+    <sink_block_id>blocks_null_sink_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_packet_tx_timing_c_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>spark_out</source_key>
+    <sink_key>print</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_packetizer_0</source_block_id>

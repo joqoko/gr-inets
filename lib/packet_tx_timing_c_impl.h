@@ -36,6 +36,7 @@ namespace gr {
       packet_tx_timing_c_impl(float sample_rate, const std::string& lengthtagname);
       ~packet_tx_timing_c_impl();
 
+      int calculate_output_stream_length(const gr_vector_int &input_items);
       // Where all the action really happens
       int work(int noutput_items,
            gr_vector_int &ninput_items,

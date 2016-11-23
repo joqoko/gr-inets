@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Radio Test AP
-# Author: Julian Arnold
-# Generated: Wed Nov 23 14:21:33 2016
+# Title: Packet TX time test
+# Author: PWA
+# Generated: Wed Nov 23 15:09:10 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -36,12 +36,12 @@ import sys
 from gnuradio import qtgui
 
 
-class radio_test_ap(gr.top_block, Qt.QWidget):
+class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
 
     def __init__(self, constellation=gnuradio.digital.constellation_qpsk().base()):
-        gr.top_block.__init__(self, "Radio Test AP")
+        gr.top_block.__init__(self, "Packet TX time test")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Radio Test AP")
+        self.setWindowTitle("Packet TX time test")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -59,7 +59,7 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "radio_test_ap")
+        self.settings = Qt.QSettings("GNU Radio", "Test_for_packet_tx_time_c")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -154,7 +154,7 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
         self.connect((self.root_raised_cosine_filter_0, 0), (self.blocks_tagged_stream_multiply_length_0, 0))    
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "radio_test_ap")
+        self.settings = Qt.QSettings("GNU Radio", "Test_for_packet_tx_time_c")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -190,7 +190,7 @@ def argument_parser():
     return parser
 
 
-def main(top_block_cls=radio_test_ap, options=None):
+def main(top_block_cls=Test_for_packet_tx_time_c, options=None):
     if options is None:
         options, _ = argument_parser().parse_args()
 

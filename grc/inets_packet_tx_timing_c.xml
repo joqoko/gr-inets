@@ -4,7 +4,7 @@
   <key>inets_packet_tx_timing_c</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.packet_tx_timing_c()</make>
+  <make>inets.packet_tx_timing_c($sample_rate, $lenghthtagname)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -15,6 +15,12 @@
     <key>sample_rate</key>
     <type>float</type>
   </param>
+  <param>
+    <name>Length tag name</name>
+    <key>lengthtagname</key>
+    <value>"packet_len"</value>
+    <type>string</type>
+  </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -22,7 +28,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>tx_IQsamples_in</name>
+    <name>in</name>
     <type>complex</type>
   </sink>
 
@@ -31,3 +37,12 @@
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>complex</type>
+  </source>
+  <source>
+    <name>spark_out</name>
+    <type>message</type>
+  </source>
+</block>
