@@ -33,7 +33,7 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API packet_tx_timing_c : virtual public gr::tagged_stream_block
+    class INETS_API packet_tx_timing_c : virtual public tagged_stream_block
     {
      public:
       typedef boost::shared_ptr<packet_tx_timing_c> sptr;

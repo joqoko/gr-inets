@@ -1,10 +1,9 @@
-<?xml version="1.0"?>
 <block>
   <name>packet_tx_timing_c</name>
   <key>inets_packet_tx_timing_c</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.packet_tx_timing_c($sample_rate, $lenghthtagname)</make>
+  <make>inets.packet_tx_timing_c($sample_rate, $lengthtagname)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name

@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Packet TX time test
 # Author: PWA
-# Generated: Wed Nov 23 15:09:10 2016
+# Generated: Thu Nov 24 15:54:08 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -121,8 +121,7 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
         self.inets_packetizer_0 = inets.packetizer((preamble), 64, constellation.bits_per_symbol() * (samp_rate / sps))
-        self.inets_packet_tx_timing_c_0 = Template error: inets.packet_tx_timing_c($sample_rate, $lenghthtagname)
-            cannot find 'lenghthtagname'
+        self.inets_packet_tx_timing_c_0 = inets.packet_tx_timing_c(samp_rate, "packet_len")
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc((constellation.points()), 1)
         self.digital_burst_shaper_xx_0 = digital.burst_shaper_cc((gnuradio.fft.window.hanning(1024)), 0, 0, False, "packet_len")
         self.blocks_tagged_stream_multiply_length_0 = blocks.tagged_stream_multiply_length(gr.sizeof_gr_complex*1, "packet_len", sps)
