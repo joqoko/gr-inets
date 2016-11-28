@@ -33,6 +33,7 @@ install(FILES
     decision_cpp.h
     idle_cpp.h
     wait_cpp.h
-    packet_tx_timing_c.h DESTINATION include/inets
+    wait_frame_transmission_c.h
+    pending_tx_finish.h DESTINATION include/inets
 
 )

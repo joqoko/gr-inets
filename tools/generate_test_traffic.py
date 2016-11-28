@@ -6,7 +6,7 @@ IP = "127.0.0.1"
 PORT = 52001
 
 np.random.seed(0)
-payload = np.random.randint(0, 256, 100) #500 byte payload
+payload = np.random.randint(0, 256, 200) #500 byte payload
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -16,7 +16,7 @@ print len(payload)
 while True:
     num = s.sendto(payload.tostring()[0::8], (IP,PORT))
     print 'send '+str(num)+' bytes'
-    #time.sleep(0.4)
-    time.sleep(2)
+    #time.sleep(0.04)
+    time.sleep(1.5)
 
 

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<block>
+  <name>wait_frame_transmission_c</name>
+  <key>inets_wait_frame_transmission_c</key>
+  <category>inets_dmf_v1.0</category>
+  <import>import inets</import>
+  <make>inets.wait_frame_transmission_c($sample_rate, $lengthtagname)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>sample rate</name>
+    <key>sample_rate</key>
+    <type>float</type>
+  </param>
+  <param>
+    <name>Length tag name</name>
+    <key>lengthtagname</key>
+    <value>"packet_len"</value>
+    <type>string</type>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>spark_out</name>
+    <type>message</type>
+  </source>
+</block>

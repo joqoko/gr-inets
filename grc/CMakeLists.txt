@@ -34,5 +34,6 @@ install(FILES
     inets_decision_cpp.xml
     inets_idle_cpp.xml
     inets_wait_cpp.xml
-    inets_packet_tx_timing_c.xml DESTINATION share/gnuradio/grc/blocks
+    inets_wait_frame_transmission_c.xml
+    inets_pending_tx_finish.xml DESTINATION share/gnuradio/grc/blocks
 )

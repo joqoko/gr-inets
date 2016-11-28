@@ -18,39 +18,35 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_INETS_PENDING_TX_FINISH_IMPL_H
+#define INCLUDED_INETS_PENDING_TX_FINISH_IMPL_H
 
-#ifndef INCLUDED_INETS_PACKET_TX_TIMING_C_H
-#define INCLUDED_INETS_PACKET_TX_TIMING_C_H
-
-#include <inets/api.h>
-#include <gnuradio/tagged_stream_block.h>
+#include <inets/pending_tx_finish.h>
 
 namespace gr {
   namespace inets {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup inets
-     *
-     */
-    class INETS_API packet_tx_timing_c : virtual public tagged_stream_block
+    class pending_tx_finish_impl : public pending_tx_finish
     {
-     public:
-      typedef boost::shared_ptr<packet_tx_timing_c> sptr;
+     private:
+      // Nothing to declare in this block.
+      int _develop_mode;
+      float _sample_rate;
+      const pmt::pmt_t _d_lengthtagname;
+      void display_tags_info(std::vector <tag_t> tags);
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of inets::packet_tx_timing_c.
-       *
-       * To avoid accidental use of raw pointers, inets::packet_tx_timing_c's
-       * constructor is in a private implementation
-       * class. inets::packet_tx_timing_c::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(float sample_rate, const std::string& lengthtagname="packet_len");
+     public:
+      pending_tx_finish_impl(int develop_mode, float sample_rate, const std::string &lengthtagname);
+      ~pending_tx_finish_impl();
+
+      // Where all the action really happens
+      int work(int noutput_items,
+         gr_vector_const_void_star &input_items,
+         gr_vector_void_star &output_items);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_PACKET_TX_TIMING_C_H */
+#endif /* INCLUDED_INETS_PENDING_TX_FINISH_IMPL_H */
 

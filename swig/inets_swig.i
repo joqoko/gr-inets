@@ -19,7 +19,8 @@
 #include "inets/decision_cpp.h"
 #include "inets/idle_cpp.h"
 #include "inets/wait_cpp.h"
-#include "inets/packet_tx_timing_c.h"
+#include "inets/wait_frame_transmission_c.h"
+#include "inets/pending_tx_finish.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -48,5 +49,9 @@ GR_SWIG_BLOCK_MAGIC2(inets, idle_cpp);
 
 %include "inets/wait_cpp.h"
 GR_SWIG_BLOCK_MAGIC2(inets, wait_cpp);
-%include "inets/packet_tx_timing_c.h"
-GR_SWIG_BLOCK_MAGIC2(inets, packet_tx_timing_c);
+
+
+%include "inets/wait_frame_transmission_c.h"
+GR_SWIG_BLOCK_MAGIC2(inets, wait_frame_transmission_c);
+%include "inets/pending_tx_finish.h"
+GR_SWIG_BLOCK_MAGIC2(inets, pending_tx_finish);

@@ -1,14 +1,21 @@
+<?xml version="1.0"?>
 <block>
-  <name>packet_tx_timing_c</name>
-  <key>inets_packet_tx_timing_c</key>
+  <name>pending_tx_finish</name>
+  <key>inets_pending_tx_finish</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.packet_tx_timing_c($sample_rate, $lengthtagname)</make>
+  <make>inets.pending_tx_finish($develop_mode, $sample_rate, $lengthtagname)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
   <param>
     <name>sample rate</name>
     <key>sample_rate</key>
@@ -36,10 +43,6 @@
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
-  <source>
-    <name>out</name>
-    <type>complex</type>
-  </source>
   <source>
     <name>spark_out</name>
     <type>message</type>
