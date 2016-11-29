@@ -112,7 +112,9 @@ namespace gr {
                 packet.insert(packet.end(), payload.begin(), payload.end());
                 packet.insert(packet.end(), _random.begin(), _random.begin() + _padding);
 
+                // Add key to the tx_time tag
                 static const pmt::pmt_t time_key = pmt::string_to_symbol("tx_time");
+                // Get the time
                 struct timeval t;
                 gettimeofday(&t, NULL);
                 double tx_time = t.tv_sec + t.tv_usec / 1000000.0;

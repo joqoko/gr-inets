@@ -4,15 +4,22 @@
   <key>inets_wait_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.wait_cpp($system_time_granularity_ms)</make>
+  <make>inets.wait_cpp($develop_mode, $system_time_granularity_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>System time granularity [ms]</name>
-    <key>system_time_granularity_ms</key>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <value>develop_mode</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>System time granularity [us]</name>
+    <key>system_time_granularity_us</key>
+    <value>system_time_granularity_us</value>
     <type>int</type>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:

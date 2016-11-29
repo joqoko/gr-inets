@@ -29,20 +29,21 @@ namespace gr {
   namespace inets {
 
     wait_cpp::sptr
-    wait_cpp::make(int system_time_granularity_ms)
+    wait_cpp::make(int develop_mode, int system_time_granularity_us)
     {
       return gnuradio::get_initial_sptr
-        (new wait_cpp_impl(system_time_granularity_ms));
+        (new wait_cpp_impl(develop_mode, system_time_granularity_us));
     }
 
     /*
      * The private constructor
      */
-    wait_cpp_impl::wait_cpp_impl(int system_time_granularity_ms)
+    wait_cpp_impl::wait_cpp_impl(int develop_mode, int system_time_granularity_us)
       : gr::block("wait_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-        _system_time_granularity_ms(system_time_granularity_ms)
+        _develop_mode(develop_mode),
+        _system_time_granularity_us(system_time_granularity_us)
     {
       _wait_time = 0;
       message_port_register_in(pmt::mp("wait_time_in"));
@@ -79,14 +80,20 @@ namespace gr {
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
+      if(_develop_mode)
+      {
         std::cout << "Start time: " << start_time << std::endl;
         std::cout << "wait time: " << _wait_time/1000 << std::endl;
+      }
       while(current_time < start_time + _wait_time / 1000)
       {
-        boost::this_thread::sleep(boost::posix_time::milliseconds(_system_time_granularity_ms));
+        boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
-        std::cout << "Remaining time: " << _wait_time/1000 - (current_time - start_time) << std::endl;
+        if(_develop_mode)
+        {
+          std::cout << "Remaining time: " << _wait_time/1000 - (current_time - start_time) << std::endl;
+        }
       }
       message_port_pub(pmt::mp("spark_out"), pmt::from_bool(true));
     }

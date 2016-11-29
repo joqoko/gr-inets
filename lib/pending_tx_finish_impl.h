@@ -33,10 +33,13 @@ namespace gr {
       int _develop_mode;
       float _sample_rate;
       const pmt::pmt_t _d_lengthtagname;
-      void display_tags_info(std::vector <tag_t> tags);
+      float _wait_time;
+      int _system_time_granularity_us;
+      int process_tags_info(std::vector <tag_t> tags);
+      void countdown_sensing();
 
      public:
-      pending_tx_finish_impl(int develop_mode, float sample_rate, const std::string &lengthtagname);
+      pending_tx_finish_impl(int develop_mode, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname);
       ~pending_tx_finish_impl();
 
       // Where all the action really happens

@@ -93,6 +93,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(192, 12)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>develop_mode</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(8, 160)</value>
     </param>
     <param>
@@ -106,6 +133,33 @@
     <param>
       <key>value</key>
       <value>320000</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(336, 12)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>system_time_granularity_us</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>10</value>
     </param>
   </block>
   <block>
@@ -209,12 +263,16 @@
       <value></value>
     </param>
     <param>
+      <key>develop_mode</key>
+      <value>develop_mode</value>
+    </param>
+    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(592, 368)</value>
+      <value>(576, 344)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -233,8 +291,8 @@
       <value>0</value>
     </param>
     <param>
-      <key>system_time_granularity_ms</key>
-      <value>5</value>
+      <key>system_time_granularity_us</key>
+      <value>system_time_granularity_us</value>
     </param>
   </block>
   <connection>

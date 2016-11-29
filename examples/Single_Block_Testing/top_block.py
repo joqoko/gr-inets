@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Tue Nov 22 17:18:31 2016
+# Generated: Tue Nov 29 16:21:31 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -58,12 +58,14 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.system_time_granularity_us = system_time_granularity_us = 10
         self.samp_rate = samp_rate = 320000
+        self.develop_mode = develop_mode = 0
 
         ##################################################
         # Blocks
         ##################################################
-        self.inets_wait_cpp_0 = inets.wait_cpp(5)
+        self.inets_wait_cpp_0 = inets.wait_cpp(develop_mode, system_time_granularity_us)
         self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.cons(pmt.from_bool(True), pmt.from_float(200)), blocks.STROBE_POISSON, 500, 50)
         self.blocks_message_debug_0 = blocks.message_debug()
 
@@ -78,11 +80,23 @@ class top_block(gr.top_block, Qt.QWidget):
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
+    def get_system_time_granularity_us(self):
+        return self.system_time_granularity_us
+
+    def set_system_time_granularity_us(self, system_time_granularity_us):
+        self.system_time_granularity_us = system_time_granularity_us
+
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+
+    def get_develop_mode(self):
+        return self.develop_mode
+
+    def set_develop_mode(self, develop_mode):
+        self.develop_mode = develop_mode
 
 
 def main(top_block_cls=top_block, options=None):

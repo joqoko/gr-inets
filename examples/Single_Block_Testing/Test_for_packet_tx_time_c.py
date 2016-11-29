@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Packet TX time test
 # Author: PWA
-# Generated: Mon Nov 28 17:46:38 2016
+# Generated: Tue Nov 29 16:46:36 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -70,9 +70,11 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.system_time_granularity_us = system_time_granularity_us = 5
         self.sps = sps = 4
         self.samp_rate = samp_rate = 4e6
         self.preamble = preamble = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0]
+        self.develop_mode = develop_mode = 2
 
         ##################################################
         # Blocks
@@ -170,16 +172,15 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
-        self.inets_pending_tx_finish_0 = inets.pending_tx_finish(0, samp_rate, "packet_len")
         self.inets_packetizer_0 = inets.packetizer((preamble), 64, constellation.bits_per_symbol() * (samp_rate / sps))
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc((constellation.points()), 1)
         self.digital_burst_shaper_xx_0 = digital.burst_shaper_cc((gnuradio.fft.window.hanning(1024)), 0, 0, False, "packet_len")
         self.blocks_tagged_stream_multiply_length_0 = blocks.tagged_stream_multiply_length(gr.sizeof_gr_complex*1, "packet_len", sps)
+        self.blocks_tag_debug_0 = blocks.tag_debug(gr.sizeof_char*1, '', ""); self.blocks_tag_debug_0.set_display(True)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(8, constellation.bits_per_symbol(), "packet_len", False, gr.GR_MSB_FIRST)
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, "packet_len")
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.6, ))
-        self.blocks_message_debug_0 = blocks.message_debug()
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 0.1, 111)
 
@@ -188,14 +189,13 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_packetizer_0, 'payload_in'))    
         self.msg_connect((self.inets_packetizer_0, 'packet_out'), (self.blocks_pdu_to_tagged_stream_0, 'pdus'))    
-        self.msg_connect((self.inets_pending_tx_finish_0, 'spark_out'), (self.blocks_message_debug_0, 'print'))    
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 1))    
         self.connect((self.blocks_add_xx_0, 0), (self.qtgui_const_sink_x_0, 0))    
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.digital_burst_shaper_xx_0, 0))    
         self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.blocks_repack_bits_bb_0, 0))    
+        self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.blocks_tag_debug_0, 0))    
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))    
         self.connect((self.blocks_tagged_stream_multiply_length_0, 0), (self.blocks_multiply_const_vxx_0, 0))    
-        self.connect((self.digital_burst_shaper_xx_0, 0), (self.inets_pending_tx_finish_0, 0))    
         self.connect((self.digital_burst_shaper_xx_0, 0), (self.qtgui_time_sink_x_0, 0))    
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.blocks_add_xx_0, 0))    
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.root_raised_cosine_filter_0, 0))    
@@ -211,6 +211,12 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
 
     def set_constellation(self, constellation):
         self.constellation = constellation
+
+    def get_system_time_granularity_us(self):
+        return self.system_time_granularity_us
+
+    def set_system_time_granularity_us(self, system_time_granularity_us):
+        self.system_time_granularity_us = system_time_granularity_us
 
     def get_sps(self):
         return self.sps
@@ -232,6 +238,12 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
 
     def set_preamble(self, preamble):
         self.preamble = preamble
+
+    def get_develop_mode(self):
+        return self.develop_mode
+
+    def set_develop_mode(self, develop_mode):
+        self.develop_mode = develop_mode
 
 
 def argument_parser():

@@ -29,23 +29,25 @@ namespace gr {
   namespace inets {
 
     pending_tx_finish::sptr
-    pending_tx_finish::make(int develop_mode, float sample_rate, const std::string &lengthtagname)
+    pending_tx_finish::make(int develop_mode, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
     {
       return gnuradio::get_initial_sptr
-        (new pending_tx_finish_impl(develop_mode, sample_rate, lengthtagname));
+        (new pending_tx_finish_impl(develop_mode, system_time_granularity_us, sample_rate, lengthtagname));
     }
 
     /*
      * The private constructor
      */
-    pending_tx_finish_impl::pending_tx_finish_impl(int develop_mode, float sample_rate, const std::string &lengthtagname)
+    pending_tx_finish_impl::pending_tx_finish_impl(int develop_mode, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
       : gr::sync_block("pending_tx_finish",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(0, 0, 0)),
         _sample_rate(sample_rate),
         _d_lengthtagname(pmt::string_to_symbol(lengthtagname)),
-        _develop_mode(develop_mode)
+        _develop_mode(develop_mode),
+        _system_time_granularity_us(system_time_granularity_us)
     {
+      _wait_time = 0;
       message_port_register_out(pmt::mp("spark_out"));
     }
 
@@ -65,22 +67,30 @@ namespace gr {
 
       std::vector <tag_t> tags;
       get_tags_in_range(tags, 0, nitems_read(0), nitems_read(0) + noutput_items);// + packet_length);
-      display_tags_info(tags);
+      // If tag(s) is detected, we need to wait then send the spark signal.
+      if(process_tags_info(tags))
+      {
+        std::cout << "Executed" << std::endl;
+        boost::thread thrd(&pending_tx_finish_impl::countdown_sensing, this);
+      }
 
       // Tell runtime system how many output items we produced.
       return noutput_items;
     }
 
-    void 
-    pending_tx_finish_impl::display_tags_info(std::vector <tag_t> tags)
+    int
+    pending_tx_finish_impl::process_tags_info(std::vector <tag_t> tags)
     {
-      std::cout << "Number of tags: " << tags.size() << std::endl;
-      if(_develop_mode)
+      if(_develop_mode > 0)
       {
-        if(tags.size() > 0)
+        std::cout << "+++++++++++++++++++++++++++++++++++++++++" << std::endl;
+        std::cout << "Number of tags: " << tags.size() << std::endl;
+      }
+      if(tags.size() > 0)
+      {
+        for(int i = 0; i < tags.size(); i++)
         {
-          std::cout << "I am here p1" << std::endl;
-          for(int i = 0; i < tags.size(); i++)
+          if(_develop_mode > 1)
           {
             std::cout << "Index of tags: " << i << std::endl;
             std::cout << "Offset: " << tags[i].offset << std::endl;
@@ -88,9 +98,51 @@ namespace gr {
             std::cout << "Value: " << tags[i].value << std::endl;
             std::cout << "Srcid: " << tags[i].srcid << std::endl;
           }
+          
+          // std::cout << "string comapre: " << pmt::symbol_to_string(tags[i].key) << "packet_len" <<  (pmt::symbol_to_string(tags[i].key) == "packet_len") << std::endl;
+          if(pmt::symbol_to_string(tags[i].key) == "packet_len")
+          {
+            _wait_time = pmt::to_double(tags[i].value) / _sample_rate;     
+            if(_develop_mode > 0)
+            {
+              std::cout << "Frame transmission time is: " << _wait_time << std::endl;
+            }
+            /break;
+          }
         }
       }
+      else
+      {
+        _wait_time = 0;
+      }
+      return tags.size();
     }
+
+    void pending_tx_finish_impl::countdown_sensing()
+    {
+      struct timeval t;
+      gettimeofday(&t, NULL);
+      double current_time = t.tv_sec + t.tv_usec / 1000000.0;
+      double start_time = t.tv_sec + t.tv_usec / 1000000.0;
+      if(_develop_mode)
+      {
+        std::cout << "Start time: " << start_time << std::endl;
+        std::cout << "wait time: " << _wait_time << std::endl;
+      }
+      while(current_time < start_time + _wait_time)
+      {
+        boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
+        gettimeofday(&t, NULL);
+        current_time = t.tv_sec + t.tv_usec / 1000000.0;
+        if(_develop_mode)
+        {
+          std::cout << "Remaining time: " << _wait_time - (current_time - start_time) << std::endl;
+        }
+      }
+      message_port_pub(pmt::mp("spark_out"), pmt::from_bool(true));
+    }
+
+
   } /* namespace inets */
 } /* namespace gr */
 

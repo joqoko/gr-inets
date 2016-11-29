@@ -4,7 +4,7 @@
   <key>inets_pending_tx_finish</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.pending_tx_finish($develop_mode, $sample_rate, $lengthtagname)</make>
+  <make>inets.pending_tx_finish($develop_mode, $system_time_granularity_us, $sample_rate, $lengthtagname)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -13,12 +13,19 @@
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>
-    <value>1</value>
+    <value>develop_mode</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>System time granularity [us]</name>
+    <key>system_time_granularity_us</key>
+    <value>system_time_granularity_us</value>
     <type>int</type>
   </param>
   <param>
     <name>sample rate</name>
     <key>sample_rate</key>
+    <value>samp_rate</value>
     <type>float</type>
   </param>
   <param>
