@@ -119,23 +119,27 @@ namespace gr {
                 gettimeofday(&t, NULL);
                 double tx_time = t.tv_sec + t.tv_usec / 1000000.0;
                 double min_time_diff = (1000 * 8.0) / _bps; //Max packet len [bit] / bit rate 
+                // Ensure that frames are not overlap each other
                 if((tx_time - _last_tx_time) <= min_time_diff) {
                     tx_time = _last_tx_time + min_time_diff;
                 } else {
                     //std::cout << "in time packet" << std::endl;
                 }
                 //std::cout << "tx time = " << std::fixed << tx_time << std::endl;
+                // update the tx_time to the current packet
                 _last_tx_time = tx_time;
+                // question 1: why add 0.05?
                 uhd::time_spec_t now = uhd::time_spec_t(tx_time)
                     + uhd::time_spec_t(0.05);
-
+                // the value of the tag is a tuple
                 const pmt::pmt_t time_value = pmt::make_tuple(
                     pmt::from_uint64(now.get_full_secs()),
                     pmt::from_double(now.get_frac_secs())
                 );
+
                 pmt::pmt_t out_pmt_vector = pmt::init_u8vector(packet.size(), packet);
                 pmt::pmt_t meta = pmt::make_dict();
-                meta = pmt::dict_add(meta, pmt::mp("tx_time"), time_value);
+                //meta = pmt::dict_add(meta, pmt::mp("tx_time"), time_value);
                 pmt::pmt_t pdu = pmt::cons(meta, out_pmt_vector);
 
                 message_port_pub(pmt::mp("packet_out"), pdu);
