@@ -323,37 +323,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_message_debug</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1192, 512)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_message_debug_0</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_multiply_const_vxx</key>
     <param>
       <key>alias</key>
@@ -903,7 +872,7 @@
     </param>
   </block>
   <block>
-    <key>inets_pending_tx_finish</key>
+    <key>inets_t_control_tx_cc</key>
     <param>
       <key>alias</key>
       <value></value>
@@ -926,7 +895,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(960, 548)</value>
+      <value>(1048, 560)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -934,11 +903,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_pending_tx_finish_0</value>
-    </param>
-    <param>
-      <key>lengthtagname</key>
-      <value>"packet_len"</value>
+      <value>inets_t_control_tx_cc_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -947,14 +912,6 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
-    </param>
-    <param>
-      <key>system_time_granularity_us</key>
-      <value>system_time_granularity_us</value>
-    </param>
-    <param>
-      <key>sample_rate</key>
-      <value>samp_rate</value>
     </param>
   </block>
   <block>
@@ -1836,13 +1793,7 @@
   </connection>
   <connection>
     <source_block_id>digital_burst_shaper_xx_0</source_block_id>
-    <sink_block_id>inets_pending_tx_finish_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>digital_burst_shaper_xx_0</source_block_id>
-    <sink_block_id>qtgui_time_sink_x_0</sink_block_id>
+    <sink_block_id>inets_t_control_tx_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1865,10 +1816,10 @@
     <sink_key>pdus</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_pending_tx_finish_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>spark_out</source_key>
-    <sink_key>print</sink_key>
+    <source_block_id>inets_t_control_tx_cc_0</source_block_id>
+    <sink_block_id>qtgui_time_sink_x_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>packet_out</source_block_id>

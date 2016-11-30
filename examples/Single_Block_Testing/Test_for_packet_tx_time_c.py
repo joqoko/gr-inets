@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Packet TX time test
 # Author: PWA
-# Generated: Wed Nov 30 14:02:35 2016
+# Generated: Wed Nov 30 16:25:58 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -172,7 +172,7 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
-        self.inets_pending_tx_finish_0 = inets.pending_tx_finish(develop_mode, system_time_granularity_us, samp_rate, "packet_len")
+        self.inets_t_control_tx_cc_0 = inets.t_control_tx_cc(develop_mode)
         self.inets_packetizer_0 = inets.packetizer((preamble), 64, constellation.bits_per_symbol() * (samp_rate / sps))
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc((constellation.points()), 1)
         self.digital_burst_shaper_xx_0 = digital.burst_shaper_cc((gnuradio.fft.window.hanning(1024)), 0, 0, False, "packet_len")
@@ -181,7 +181,6 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(8, constellation.bits_per_symbol(), "packet_len", False, gr.GR_MSB_FIRST)
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, "packet_len")
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.6, ))
-        self.blocks_message_debug_0 = blocks.message_debug()
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 0.1, 111)
 
@@ -190,17 +189,16 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_packetizer_0, 'payload_in'))    
         self.msg_connect((self.inets_packetizer_0, 'packet_out'), (self.blocks_pdu_to_tagged_stream_0, 'pdus'))    
-        self.msg_connect((self.inets_pending_tx_finish_0, 'spark_out'), (self.blocks_message_debug_0, 'print'))    
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 1))    
         self.connect((self.blocks_add_xx_0, 0), (self.qtgui_const_sink_x_0, 0))    
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.digital_burst_shaper_xx_0, 0))    
         self.connect((self.blocks_pdu_to_tagged_stream_0, 0), (self.blocks_repack_bits_bb_0, 0))    
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))    
         self.connect((self.blocks_tagged_stream_multiply_length_0, 0), (self.blocks_multiply_const_vxx_0, 0))    
-        self.connect((self.digital_burst_shaper_xx_0, 0), (self.inets_pending_tx_finish_0, 0))    
-        self.connect((self.digital_burst_shaper_xx_0, 0), (self.qtgui_time_sink_x_0, 0))    
+        self.connect((self.digital_burst_shaper_xx_0, 0), (self.inets_t_control_tx_cc_0, 0))    
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.blocks_add_xx_0, 0))    
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.root_raised_cosine_filter_0, 0))    
+        self.connect((self.inets_t_control_tx_cc_0, 0), (self.qtgui_time_sink_x_0, 0))    
         self.connect((self.root_raised_cosine_filter_0, 0), (self.blocks_tagged_stream_multiply_length_0, 0))    
 
     def closeEvent(self, event):
