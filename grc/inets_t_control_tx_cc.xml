@@ -4,7 +4,7 @@
   <key>inets_t_control_tx_cc</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.t_control_tx_cc($develop_mode)</make>
+  <make>inets.t_control_tx_cc($develop_mode, $bps)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -17,6 +17,12 @@
     <type>int</type>
   </param>
 
+  <param>
+    <name>bitrate</name>
+    <key>bps</key>
+    <value>constellation.bits_per_symbol() * (samp_rate / sps)</value>
+    <type>float</type>
+  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type

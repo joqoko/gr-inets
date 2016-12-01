@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Packet TX time test
 # Author: PWA
-# Generated: Wed Nov 30 16:25:58 2016
+# Generated: Thu Dec  1 02:01:19 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -81,56 +81,6 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         ##################################################
         self.root_raised_cosine_filter_0 = filter.interp_fir_filter_ccf(sps, firdes.root_raised_cosine(
         	1, sps, 1.0, 0.8, 11*sps))
-        self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
-        	1024, #size
-        	samp_rate, #samp_rate
-        	"", #name
-        	1 #number of inputs
-        )
-        self.qtgui_time_sink_x_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
-        
-        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
-        
-        self.qtgui_time_sink_x_0.enable_tags(-1, True)
-        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_0.enable_autoscale(False)
-        self.qtgui_time_sink_x_0.enable_grid(False)
-        self.qtgui_time_sink_x_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0.enable_control_panel(False)
-        
-        if not True:
-          self.qtgui_time_sink_x_0.disable_legend()
-        
-        labels = ['', '', '', '', '',
-                  '', '', '', '', '']
-        widths = [1, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1]
-        colors = ["blue", "red", "green", "black", "cyan",
-                  "magenta", "yellow", "dark red", "dark green", "blue"]
-        styles = [1, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-                   -1, -1, -1, -1, -1]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-                  1.0, 1.0, 1.0, 1.0, 1.0]
-        
-        for i in xrange(2*1):
-            if len(labels[i]) == 0:
-                if(i % 2 == 0):
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
-                else:
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
-            else:
-                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
-        
-        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
         	1024, #size
         	"", #name
@@ -172,7 +122,8 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
-        self.inets_t_control_tx_cc_0 = inets.t_control_tx_cc(develop_mode)
+        self.inets_t_control_tx_cc_0 = inets.t_control_tx_cc(develop_mode, constellation.bits_per_symbol() * (samp_rate / sps))
+        self.inets_pending_tx_finish_0 = inets.pending_tx_finish(develop_mode, system_time_granularity_us, samp_rate, "packet_len")
         self.inets_packetizer_0 = inets.packetizer((preamble), 64, constellation.bits_per_symbol() * (samp_rate / sps))
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc((constellation.points()), 1)
         self.digital_burst_shaper_xx_0 = digital.burst_shaper_cc((gnuradio.fft.window.hanning(1024)), 0, 0, False, "packet_len")
@@ -181,6 +132,7 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(8, constellation.bits_per_symbol(), "packet_len", False, gr.GR_MSB_FIRST)
         self.blocks_pdu_to_tagged_stream_0 = blocks.pdu_to_tagged_stream(blocks.byte_t, "packet_len")
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.6, ))
+        self.blocks_message_debug_0 = blocks.message_debug()
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 0.1, 111)
 
@@ -189,6 +141,7 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_packetizer_0, 'payload_in'))    
         self.msg_connect((self.inets_packetizer_0, 'packet_out'), (self.blocks_pdu_to_tagged_stream_0, 'pdus'))    
+        self.msg_connect((self.inets_pending_tx_finish_0, 'spark_out'), (self.blocks_message_debug_0, 'print'))    
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 1))    
         self.connect((self.blocks_add_xx_0, 0), (self.qtgui_const_sink_x_0, 0))    
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.digital_burst_shaper_xx_0, 0))    
@@ -198,7 +151,7 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         self.connect((self.digital_burst_shaper_xx_0, 0), (self.inets_t_control_tx_cc_0, 0))    
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.blocks_add_xx_0, 0))    
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.root_raised_cosine_filter_0, 0))    
-        self.connect((self.inets_t_control_tx_cc_0, 0), (self.qtgui_time_sink_x_0, 0))    
+        self.connect((self.inets_t_control_tx_cc_0, 0), (self.inets_pending_tx_finish_0, 0))    
         self.connect((self.root_raised_cosine_filter_0, 0), (self.blocks_tagged_stream_multiply_length_0, 0))    
 
     def closeEvent(self, event):
@@ -231,7 +184,6 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
     def get_preamble(self):
         return self.preamble

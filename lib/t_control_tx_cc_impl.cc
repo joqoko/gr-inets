@@ -24,27 +24,30 @@
 
 #include <gnuradio/io_signature.h>
 #include "t_control_tx_cc_impl.h"
+#include <uhd/types/time_spec.hpp>
+#include <sys/time.h>
 
 namespace gr {
   namespace inets {
 
     t_control_tx_cc::sptr
-    t_control_tx_cc::make(int develop_mode)
+    t_control_tx_cc::make(int develop_mode, double bps)
     {
       return gnuradio::get_initial_sptr
-        (new t_control_tx_cc_impl(develop_mode));
+        (new t_control_tx_cc_impl(develop_mode, bps));
     }
 
     /*
      * The private constructor
      */
-    t_control_tx_cc_impl::t_control_tx_cc_impl(int develop_mode)
+    t_control_tx_cc_impl::t_control_tx_cc_impl(int develop_mode, double bps)
       : gr::block("t_control_tx_cc",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex))),
-        _develop_mode(develop_mode)
+        _develop_mode(develop_mode),
+        _last_tx_time(0),
+        _bps(bps)
     {
-      _packet_len_tag();
     }
 
     /*
@@ -84,6 +87,40 @@ namespace gr {
       if(process_tags_info(tags))
       {
         std::cout << "Executed 1" << std::endl;
+
+        /*
+          JUA parketizer code starts 
+        */ 
+        // Add key to the tx_time tag
+        static const pmt::pmt_t time_key = pmt::string_to_symbol("tx_time");
+        // Get the time
+        struct timeval t;
+        gettimeofday(&t, NULL);
+        double tx_time = t.tv_sec + t.tv_usec / 1000000.0;
+        double min_time_diff = (1000 * 8.0) / _bps; //Max packet len [bit] / bit rate 
+        // Ensure that frames are not overlap each other
+        if((tx_time - _last_tx_time) <= min_time_diff) {
+          tx_time = _last_tx_time + min_time_diff;
+        } else {
+          //std::cout << "in time packet" << std::endl;
+        }
+        //std::cout << "tx time = " << std::fixed << tx_time << std::endl;
+        // update the tx_time to the current packet
+        _last_tx_time = tx_time;
+        // question 1: why add 0.05?
+        uhd::time_spec_t now = uhd::time_spec_t(tx_time)
+          + uhd::time_spec_t(0.05);
+        // the value of the tag is a tuple
+        const pmt::pmt_t time_value = pmt::make_tuple(
+          pmt::from_uint64(now.get_full_secs()),
+          pmt::from_double(now.get_frac_secs())
+        );
+        
+        add_item_tag(0, _packet_len_tag.offset, time_key, time_value);
+        
+       /* 
+         JUA parketizer code starts 
+       */
       }
       // Do <+signal processing+>
       // Tell runtime system how many input items we consumed on
@@ -110,16 +147,18 @@ namespace gr {
         }
           
           // std::cout << "string comapre: " << pmt::symbol_to_string(tags[i].key) << "packet_len" <<  (pmt::symbol_to_string(tags[i].key) == "packet_len") << std::endl;
-        if(pmt::symbol_to_string(tags[i].key) == "tx_time")
+        if(pmt::symbol_to_string(tags[i].key) == "packet_len")
         {
+          _packet_len_tag = tags[i];          
           tag_detected = 1;
           if(_develop_mode > 0)
           {
-            std::cout << "tx_time tag found: " << tag_detected << std::endl;
+            std::cout << "packet_len tag found." << std::endl;
           }
           break;
         }
       }
+
       return tag_detected;
     }
 

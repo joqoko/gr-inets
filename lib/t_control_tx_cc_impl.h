@@ -31,12 +31,14 @@ namespace gr {
      private:
       // Nothing to declare in this block.
       int _develop_mode;
-      <tag_t> _packet_len_tag;
+      double _last_tx_time;
+      double _bps;
+      tag_t _packet_len_tag;
       int process_tags_info(std::vector <tag_t> tags);
 
 
      public:
-      t_control_tx_cc_impl(int develop_mode);
+      t_control_tx_cc_impl(int develop_mode, double bps);
       ~t_control_tx_cc_impl();
 
       // Where all the action really happens
