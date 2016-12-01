@@ -105,7 +105,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(760, 420)</value>
+      <value>(448, 420)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -152,7 +152,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(400, 164)</value>
+      <value>(280, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -211,7 +211,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 284)</value>
+      <value>(496, 276)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -258,7 +258,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(752, 294)</value>
+      <value>(168, 408)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -399,7 +399,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(936, 396)</value>
+      <value>(600, 388)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -466,7 +466,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 452)</value>
+      <value>(688, 276)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -564,6 +564,53 @@
     </param>
   </block>
   <block>
+    <key>inets_framing_py_v1</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>fr_seq</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(248, 176)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_framing_py_v1_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>src_addr</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>inets_packetizer</key>
     <param>
       <key>bps</key>
@@ -587,7 +634,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(224, 148)</value>
+      <value>(144, 268)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -638,7 +685,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(928, 572)</value>
+      <value>(1000, 396)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -693,7 +740,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(744, 596)</value>
+      <value>(832, 412)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -728,7 +775,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1144, 708)</value>
+      <value>(1144, 556)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -771,7 +818,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(696, 164)</value>
+      <value>(1160, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -798,7 +845,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 292)</value>
+      <value>(8, 404)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -825,7 +872,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(968, 724)</value>
+      <value>(1008, 508)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -868,7 +915,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(56, 156)</value>
+      <value>(24, 188)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -974,7 +1021,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(488, 300)</value>
+      <value>(928, 244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1150,7 +1197,7 @@
   </connection>
   <connection>
     <source_block_id>blocks_pdu_to_tagged_stream_0</source_block_id>
-    <sink_block_id>packet_in</sink_block_id>
+    <sink_block_id>blocks_repack_bits_bb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1179,6 +1226,12 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>inets_framing_py_v1_0</source_block_id>
+    <sink_block_id>inets_packetizer_0</sink_block_id>
+    <source_key>frame_out</source_key>
+    <sink_key>payload_in</sink_key>
+  </connection>
+  <connection>
     <source_block_id>inets_packetizer_0</source_block_id>
     <sink_block_id>blocks_pdu_to_tagged_stream_0</sink_block_id>
     <source_key>packet_out</source_key>
@@ -1204,19 +1257,19 @@
   </connection>
   <connection>
     <source_block_id>packet_out</source_block_id>
-    <sink_block_id>blocks_repack_bits_bb_0</sink_block_id>
+    <sink_block_id>blocks_tagged_stream_multiply_length_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>pad_source_0</source_block_id>
-    <sink_block_id>inets_packetizer_0</sink_block_id>
+    <sink_block_id>inets_framing_py_v1_0</sink_block_id>
     <source_key>out</source_key>
     <sink_key>payload_in</sink_key>
   </connection>
   <connection>
     <source_block_id>root_raised_cosine_filter_0</source_block_id>
-    <sink_block_id>blocks_tagged_stream_multiply_length_0</sink_block_id>
+    <sink_block_id>packet_in</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

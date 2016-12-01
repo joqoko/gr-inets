@@ -35,6 +35,7 @@ install(FILES
     wait_cpp.h
     wait_frame_transmission_c.h
     pending_tx_finish.h
-    t_control_tx_cc.h DESTINATION include/inets
+    t_control_tx_cc.h
+    tx_buffer.h DESTINATION include/inets
 
 )

@@ -38,7 +38,8 @@ list(APPEND inets_sources
     wait_cpp_impl.cc
     wait_frame_transmission_c_impl.cc
     pending_tx_finish_impl.cc
-    t_control_tx_cc_impl.cc )
+    t_control_tx_cc_impl.cc
+    tx_buffer_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)
