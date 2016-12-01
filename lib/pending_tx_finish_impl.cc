@@ -70,44 +70,7 @@ namespace gr {
       // If tag(s) is detected, we need to wait then send the spark signal.
       if(process_tags_info(tags))
       {
-
-        std::cout << "Executed 1" << std::endl;
-        /*
-          JUA parketizer code starts 
-      
-        // Add key to the tx_time tag
-        static const pmt::pmt_t time_key = pmt::string_to_symbol("tx_time");
-        // Get the time
-        struct timeval t;
-        gettimeofday(&t, NULL);
-        double tx_time = t.tv_sec + t.tv_usec / 1000000.0;
-        double min_time_diff = (1000 * 8.0) / _bps; //Max packet len [bit] / bit rate 
-        // Ensure that frames are not overlap each other
-        if((tx_time - _last_tx_time) <= min_time_diff) {
-          tx_time = _last_tx_time + min_time_diff;
-        } else {
-          //std::cout << "in time packet" << std::endl;
-        }
-        //std::cout << "tx time = " << std::fixed << tx_time << std::endl;
-        // update the tx_time to the current packet
-        _last_tx_time = tx_time;
-        // question 1: why add 0.05?
-        uhd::time_spec_t now = uhd::time_spec_t(tx_time)
-          + uhd::time_spec_t(0.05);
-        // the value of the tag is a tuple
-        const pmt::pmt_t time_value = pmt::make_tuple(
-          pmt::from_uint64(now.get_full_secs()),
-          pmt::from_double(now.get_frac_secs())
-        );
-
-        pmt::pmt_t meta = pmt::make_dict();
-        meta = pmt::dict_add(meta, pmt::mp("tx_time"), time_value);
-        
-     
-          JUA parketizer code starts 
-         */
         boost::thread thrd(&pending_tx_finish_impl::countdown_sensing, this);
-        std::cout << "Executed 2" << std::endl;
       }
 
       // Tell runtime system how many output items we produced.
@@ -156,7 +119,6 @@ namespace gr {
     void pending_tx_finish_impl::countdown_sensing()
     {
       struct timeval t;
-        std::cout << "Executed 3" << std::endl;
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
@@ -166,6 +128,7 @@ namespace gr {
         std::cout << "Start time: " << start_time << std::endl;
         std::cout << "wait time: " << _wait_time << std::endl;
       }
+      int count = 0;
       while(current_time < start_time + _wait_time)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
@@ -173,9 +136,12 @@ namespace gr {
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
         if(_develop_mode)
         {
-          std::cout << "Remaining time: " << _wait_time - (current_time - start_time) << std::endl;
+        //  std::cout << "Remaining time: " << _wait_time - (current_time - start_time) << "Count is: "<< count << std::endl;
+          count = count + 1; 
         }
       }
+      if(_develop_mode)
+        std::cout << "Count is: " << count << std::endl;
       _wait_time = 0;
       message_port_pub(pmt::mp("spark_out"), pmt::from_bool(true));
     }

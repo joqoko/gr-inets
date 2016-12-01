@@ -8,7 +8,7 @@
  * any later version.
  * 
  * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * but WITHOUT ANY WARRANTY without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * 
@@ -86,8 +86,6 @@ namespace gr {
 
       if(process_tags_info(tags))
       {
-        std::cout << "Executed 1" << std::endl;
-
         /*
           JUA parketizer code starts 
         */ 
