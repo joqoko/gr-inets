@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Top Block
-# Generated: Fri Dec  2 16:30:04 2016
+# Title: Test Tx buffer function
+# Author: PWA
+# Generated: Fri Dec  2 17:51:05 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -29,12 +30,12 @@ import sys
 from gnuradio import qtgui
 
 
-class top_block(gr.top_block, Qt.QWidget):
+class Test_tx_buff(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Top Block")
+        gr.top_block.__init__(self, "Test Tx buffer function")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Top Block")
+        self.setWindowTitle("Test Tx buffer function")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -52,31 +53,32 @@ class top_block(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
+        self.settings = Qt.QSettings("GNU Radio", "Test_tx_buff")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 32000
+        self.develop_mode = develop_mode = 2
 
         ##################################################
         # Blocks
         ##################################################
-        self.inets_tx_buffer_0 = inets.tx_buffer(10, 1)
+        self.inets_tx_buffer_0 = inets.tx_buffer(develop_mode, 5, 1)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
+        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2500, 100)
         self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_tx_buffer_0, 'spark_in'))    
+        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_tx_buffer_0, 'spark_in'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_tx_buffer_0, 'payload_in'))    
-        self.msg_connect((self.inets_tx_buffer_0, 'payload_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_tx_buffer_0, 'payload_out'), (self.blocks_message_debug_0, 'print_pdu'))    
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
+        self.settings = Qt.QSettings("GNU Radio", "Test_tx_buff")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -86,8 +88,14 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
 
+    def get_develop_mode(self):
+        return self.develop_mode
 
-def main(top_block_cls=top_block, options=None):
+    def set_develop_mode(self, develop_mode):
+        self.develop_mode = develop_mode
+
+
+def main(top_block_cls=Test_tx_buff, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

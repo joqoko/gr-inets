@@ -24,6 +24,7 @@
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
+#include <gnuradio/msg_queue.h>
 
 namespace gr {
   namespace inets {
@@ -46,7 +47,7 @@ namespace gr {
        * class. inets::tx_buffer::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int max_buffer_size, int policy);
+      static sptr make(int develop_mode, int max_buffer_size, int policy);
     };
 
   } // namespace inets

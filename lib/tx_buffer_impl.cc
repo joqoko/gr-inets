@@ -24,32 +24,35 @@
 
 #include <gnuradio/io_signature.h>
 #include "tx_buffer_impl.h"
+#include <gnuradio/msg_queue.h>
+#include <queue>
 
 namespace gr {
   namespace inets {
 
     tx_buffer::sptr
-    tx_buffer::make(int buffer_size, int policy)
+    tx_buffer::make(int develop_mode, int max_buffer_size, int policy)
     {
       return gnuradio::get_initial_sptr
-        (new tx_buffer_impl(buffer_size, policy));
+        (new tx_buffer_impl(develop_mode, max_buffer_size, policy));
     }
 
     /*
      * The private constructor
      */
-    tx_buffer_impl::tx_buffer_impl(int max_buffer_size, int policy)
+    tx_buffer_impl::tx_buffer_impl(int develop_mode, int max_buffer_size, int policy)
       : gr::block("tx_buffer",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _max_buffer_size(max_buffer_size),
-        _policy(policy)
+        _policy(policy),
+        _develop_mode(develop_mode)
     {
       message_port_register_in(pmt::mp("payload_in"));
-      set_msg_handler(pmt::mp("payload_in"), boost::bind(&tx_buffer_impl::enqueue, this, _1 ));
       message_port_register_in(pmt::mp("spark_in"));
-      set_msg_handler(pmt::mp("spark_in"), boost::bind(&tx_buffer_impl::dequeue, this, _1 ));
       message_port_register_out(pmt::mp("payload_out"));
+      set_msg_handler(pmt::mp("payload_in"), boost::bind(&tx_buffer_impl::enqueue, this, _1 ));
+      set_msg_handler(pmt::mp("spark_in"), boost::bind(&tx_buffer_impl::dequeue, this, _1 ));
     }
 
     /*
@@ -59,30 +62,50 @@ namespace gr {
     {
     }
 
-    int tx_buffer_impl::enqueue(pmt::pmt_t msg)
+    int tx_buffer_impl::enqueue(pmt::pmt_t payload)
     {
-      if(_policy < 1)
+      if(_tx_buff.size() < _max_buffer_size)
       {
-        if(_tx_buff.size() < _buffer_size)
-        {
-          _tx_buff.push(msg);
-        }        
-      }
-      return _tx_buff.size();
-    }
-
-    int tx_buffer_impl::dequeue()
-    {
-      if(_tx_buff.size() > 0)
-      {
-        message_port_pub(pmt::mp("payload_out", _tx_buff.front()));
-        _tx_buff.pop();
-        return 1;
+        _tx_buff.push(payload);
+        if(_develop_mode)
+          std::cout << "After enqueue, there are " << _tx_buff.size() << " payloads in the tx buffer." << std::endl;
       }
       else
-        return 0;
+      {
+        if(_develop_mode)
+          std::cout << "Tx buffer is full, current payload is discarded." << std::endl;
+      }
+      return 1;
+    }
+
+    int tx_buffer_impl::dequeue(pmt::pmt_t spark)
+    {
+      // std::cout << "received a message" << std::endl;
+      if(pmt::is_bool(spark))
+      {
+        // std::cout << "received a pmt bool" << std::endl;
+        if(pmt::to_bool(spark))
+        {
+          // this function is fired
+          if(_tx_buff.size() > 0)
+          {
+            if(_develop_mode)
+              std::cout << "Before dequeue, there are " << _tx_buff.size() << " payloads in the tx buffer." << std::endl;
+            message_port_pub(pmt::mp("payload_out"), _tx_buff.front());
+            _tx_buff.pop();
+            if(_develop_mode)
+               std::cout << "After dequeue, there are " << _tx_buff.size() << " payloads in the tx buffer." << std::endl;
+          }
+        }
+      }
+      else
+      {
+        // not a boolean pmt, most likely an import error
+        if(_develop_mode)
+          std::cout << "not a spark signal" << std::endl;
+      }
+      return 0;
     }
 
   } /* namespace inets */
 } /* namespace gr */
-

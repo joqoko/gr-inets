@@ -22,6 +22,8 @@
 #define INCLUDED_INETS_TX_BUFFER_IMPL_H
 
 #include <inets/tx_buffer.h>
+#include <gnuradio/msg_queue.h>
+#include <queue>
 
 namespace gr {
   namespace inets {
@@ -30,20 +32,17 @@ namespace gr {
     {
      private:
       // Nothing to declare in this block.
-      int _buffer_size;
+      int _develop_mode;
+      int _max_buffer_size;
       int _policy;
-      std::queue<pmt::pmt_t> tx_buff;
+      std::queue<pmt::pmt_t> _tx_buff;
+      int enqueue(pmt::pmt_t payload);      
+      int dequeue(pmt::pmt_t spark);
 
-     public:
-      tx_buffer_impl(int max_buffer_size, int policy);
+    public:
+      tx_buffer_impl(int develop_mode, int max_buffer_size, int policy);
       ~tx_buffer_impl();
-
-      int general_work(int noutput_items,
-           gr_vector_int &ninput_items,
-           gr_vector_const_void_star &input_items,
-           gr_vector_void_star &output_items);
-    };
-
+     };
   } // namespace inets
 } // namespace gr
 
