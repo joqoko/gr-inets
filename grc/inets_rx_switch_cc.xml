@@ -13,8 +13,8 @@
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>
-    <value>true</value>
-    <type>bool</type>
+    <value>develop_mode</value>
+    <type>int</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

@@ -63,14 +63,24 @@ namespace gr {
     {
       const gr_complex *in = (const gr_complex *) input_items[0];
       gr_complex *out = (gr_complex *) output_items[0];
-
+      gr_complex complex_zero(0, 0);
         
       /* 
        * signal is not changed if _is_receiving is true, otherwise just all zeros.
        */
-      for(int i = 0; i < noutput_items; i++)
+      if(_is_receiving)
       {
-        out[i] = in[i] * _is_receiving;
+        for(int i = 0; i < noutput_items; i++)
+        {
+          out[i] = in[i];
+        }
+      }
+      else
+      {
+        for(int i = 0; i < noutput_items; i++)
+        {
+          out[i] = complex_zero;
+        }
       }
       // Tell runtime system how many output items we produced.
       return noutput_items;
@@ -85,7 +95,7 @@ namespace gr {
         // std::cout << "received a pmt bool" << std::endl;
         if(pmt::to_bool(spark))
         {
-          if(_develop_mode)
+          if(_develop_mode > 1)
           {
             if(_is_receiving)
               std::cout << "Continue receiving." << std::endl;
@@ -96,7 +106,7 @@ namespace gr {
         }
         else
         {
-          if(_develop_mode)
+          if(_develop_mode > 1)
           {
             if(_is_receiving)
               std::cout << "Stop receiving." << std::endl;
