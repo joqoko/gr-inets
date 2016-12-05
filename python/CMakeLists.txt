@@ -54,3 +54,4 @@ GR_ADD_TEST(qa_variable_rotator ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}
 GR_ADD_TEST(qa_baseband_derotation ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_baseband_derotation.py)
 GR_ADD_TEST(qa_stop_and_wait_arq ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_stop_and_wait_arq.py)
 GR_ADD_TEST(qa_rrrm ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_rrrm.py)
+GR_ADD_TEST(qa_framing_cpp ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_framing_cpp.py)

@@ -41,7 +41,7 @@ list(APPEND inets_sources
     t_control_tx_cc_impl.cc
     tx_buffer_impl.cc
     rx_switch_cc_impl.cc
-    framing_impl.cc )
+    framing_cpp_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

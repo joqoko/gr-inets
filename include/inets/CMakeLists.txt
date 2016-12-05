@@ -38,6 +38,6 @@ install(FILES
     t_control_tx_cc.h
     tx_buffer.h
     rx_switch_cc.h
-    framing.h DESTINATION include/inets
+    framing_cpp.h DESTINATION include/inets
 
 )

@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<block>
+  <name>framing_cpp</name>
+  <key>inets_framing_cpp</key>
+  <category>inets_dmf_v1.0</category>
+  <import>import inets</import>
+  <make>inets.framing_cpp($develop_mode, $frame_type, $len_frame_type, $len_frame_index, $len_destination_address, $len_source_address, $len_reserved_field_I, $len_reserved_field_II)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <value>develop_mode</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Frame type</name>
+    <key>frame_type</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+
+  <param>
+    <name>Length of frame type</name>
+    <key>len_frame_type</key>
+    <value>len_frame_type</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of frame index</name>
+    <key>len_frame_index</key>
+    <value>len_frame_index</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of destination address</name>
+    <key>len_</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of</name>
+    <key>len_</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of</name>
+    <key>len_</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of</name>
+    <key>len_</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>payload_in</name>
+    <type>message</type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>frame_out</name>
+    <type>message</type>
+  </source>
+</block>
