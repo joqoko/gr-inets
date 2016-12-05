@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test tx rx
 # Author: PWA
-# Generated: Sun Dec  4 21:01:14 2016
+# Generated: Mon Dec  5 07:12:37 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -30,6 +30,7 @@ from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from gnuradio.qtgui import Range, RangeWidget
 from optparse import OptionParser
+from receive_frame import receive_frame  # grc-generated hier_block
 from send_frame import send_frame  # grc-generated hier_block
 import gnuradio
 import inets
@@ -81,10 +82,10 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self.qpsk_mod = qpsk_mod = gnuradio.digital.constellation_qpsk().base()
         self.preamble = preamble = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0]
         self.mu = mu = range_mu
-        self.max_buffer_size = max_buffer_size = 1
+        self.max_buffer_size = max_buffer_size = 10
         self.diff_preamble_256 = diff_preamble_256 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0]
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
-        self.develop_mode = develop_mode = 1
+        self.develop_mode = develop_mode = 0
         self.bpsk_mod = bpsk_mod = gnuradio.digital.constellation_bpsk().base()
 
         ##################################################
@@ -109,11 +110,22 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self.top_layout.addWidget(self.tab)
         self.send_frame_0 = send_frame(
             constellation=gnuradio.digital.constellation_qpsk().base(),
-            develop_mode=2,
-            preamble=[],
-            samp_rate=4e6,
+            develop_mode=develop_mode,
+            preamble=diff_preamble_128,
+            samp_rate=samp_rate,
             sps=4,
             system_time_granularity_us=5,
+        )
+        self.receive_frame_0 = receive_frame(
+            constellation=gnuradio.digital.constellation_qpsk().base(),
+            develop_mode=develop_mode,
+            matched_filter_coeff=rrc,
+            mu=mu,
+            preamble=diff_preamble_128,
+            rx_gain=0,
+            samp_rate=samp_rate,
+            sps=4,
+            threshold=30,
         )
         self._range_rx_gain_range = Range(0, 60, 1, 15, 200)
         self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, 'Rx Gain', "counter_slider", float)
@@ -124,26 +136,26 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
+        self.qtgui_time_sink_x_1 = qtgui.time_sink_c(
         	1024, #size
         	samp_rate, #samp_rate
         	"", #name
         	1 #number of inputs
         )
-        self.qtgui_time_sink_x_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
+        self.qtgui_time_sink_x_1.set_update_time(0.10)
+        self.qtgui_time_sink_x_1.set_y_axis(-1, 1)
         
-        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
+        self.qtgui_time_sink_x_1.set_y_label('Amplitude', "")
         
-        self.qtgui_time_sink_x_0.enable_tags(-1, True)
-        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_0.enable_autoscale(False)
-        self.qtgui_time_sink_x_0.enable_grid(False)
-        self.qtgui_time_sink_x_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_1.enable_tags(-1, True)
+        self.qtgui_time_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_1.enable_autoscale(False)
+        self.qtgui_time_sink_x_1.enable_grid(False)
+        self.qtgui_time_sink_x_1.enable_axis_labels(True)
+        self.qtgui_time_sink_x_1.enable_control_panel(False)
         
         if not True:
-          self.qtgui_time_sink_x_0.disable_legend()
+          self.qtgui_time_sink_x_1.disable_legend()
         
         labels = ['', '', '', '', '',
                   '', '', '', '', '']
@@ -161,32 +173,87 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         for i in xrange(2*1):
             if len(labels[i]) == 0:
                 if(i % 2 == 0):
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
+                    self.qtgui_time_sink_x_1.set_line_label(i, "Re{{Data {0}}}".format(i/2))
                 else:
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+                    self.qtgui_time_sink_x_1.set_line_label(i, "Im{{Data {0}}}".format(i/2))
             else:
-                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
+                self.qtgui_time_sink_x_1.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_1.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_1.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_1.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_1.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_1.set_line_alpha(i, alphas[i])
         
-        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self._qtgui_time_sink_x_1_win = sip.wrapinstance(self.qtgui_time_sink_x_1.pyqwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_time_sink_x_1_win)
+        self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
+        	1024, #size
+        	"", #name
+        	1 #number of inputs
+        )
+        self.qtgui_const_sink_x_0.set_update_time(0.10)
+        self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
+        self.qtgui_const_sink_x_0.set_x_axis(-2, 2)
+        self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
+        self.qtgui_const_sink_x_0.enable_autoscale(False)
+        self.qtgui_const_sink_x_0.enable_grid(False)
+        self.qtgui_const_sink_x_0.enable_axis_labels(True)
+        
+        if not True:
+          self.qtgui_const_sink_x_0.disable_legend()
+        
+        labels = ['', '', '', '', '',
+                  '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+                  1, 1, 1, 1, 1]
+        colors = ["blue", "red", "red", "red", "red",
+                  "red", "red", "red", "red", "red"]
+        styles = [0, 0, 0, 0, 0,
+                  0, 0, 0, 0, 0]
+        markers = [0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0]
+        for i in xrange(1):
+            if len(labels[i]) == 0:
+                self.qtgui_const_sink_x_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_const_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_const_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_const_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_const_sink_x_0.set_line_style(i, styles[i])
+            self.qtgui_const_sink_x_0.set_line_marker(i, markers[i])
+            self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
+        
+        self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
         self.inets_tx_buffer_0 = inets.tx_buffer(develop_mode, max_buffer_size, 1)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
+        self.blocks_null_sink_0_0_0_1 = blocks.null_sink(gr.sizeof_float*1)
+        self.blocks_null_sink_0_0_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
+        self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(pmt.from_bool(False), blocks.STROBE_POISSON, 5000, 2000)
+        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 10000, 5000)
         self.blocks_message_strobe_0_0 = blocks.message_strobe(pmt.from_bool(True), 1000)
+        self.blocks_message_debug_0_0_0 = blocks.message_debug()
+        self.blocks_message_debug_0_0 = blocks.message_debug()
         self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0_0, 'strobe'), (self.inets_tx_buffer_0, 'spark_in'))    
+        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.receive_frame_0, 'rx_switch_in'))    
+        self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.receive_frame_0, 'rx_switch_in'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_tx_buffer_0, 'payload_in'))    
         self.msg_connect((self.inets_tx_buffer_0, 'payload_out'), (self.send_frame_0, 'in'))    
+        self.msg_connect((self.receive_frame_0, 'out'), (self.blocks_message_debug_0_0, 'print_pdu'))    
+        self.msg_connect((self.receive_frame_0, 'snr'), (self.blocks_message_debug_0_0_0, 'print'))    
         self.msg_connect((self.send_frame_0, 'message_out'), (self.blocks_message_debug_0, 'print'))    
-        self.connect((self.send_frame_0, 0), (self.qtgui_time_sink_x_0, 0))    
+        self.connect((self.receive_frame_0, 1), (self.blocks_null_sink_0_0_0, 0))    
+        self.connect((self.receive_frame_0, 2), (self.blocks_null_sink_0_0_0_1, 0))    
+        self.connect((self.receive_frame_0, 3), (self.qtgui_const_sink_x_0, 0))    
+        self.connect((self.receive_frame_0, 0), (self.qtgui_time_sink_x_1, 0))    
+        self.connect((self.send_frame_0, 0), (self.receive_frame_0, 0))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_tx_rx")
@@ -224,7 +291,9 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.send_frame_0.set_samp_rate(self.samp_rate)
+        self.receive_frame_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
 
     def get_rx_gain(self):
         return self.rx_gain
@@ -237,6 +306,7 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
 
     def set_rrc(self, rrc):
         self.rrc = rrc
+        self.receive_frame_0.set_matched_filter_coeff(self.rrc)
 
     def get_range_noise(self):
         return self.range_noise
@@ -261,6 +331,7 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
 
     def set_mu(self, mu):
         self.mu = mu
+        self.receive_frame_0.set_mu(self.mu)
 
     def get_max_buffer_size(self):
         return self.max_buffer_size
@@ -279,12 +350,16 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
 
     def set_diff_preamble_128(self, diff_preamble_128):
         self.diff_preamble_128 = diff_preamble_128
+        self.send_frame_0.set_preamble(self.diff_preamble_128)
+        self.receive_frame_0.set_preamble(self.diff_preamble_128)
 
     def get_develop_mode(self):
         return self.develop_mode
 
     def set_develop_mode(self, develop_mode):
         self.develop_mode = develop_mode
+        self.send_frame_0.set_develop_mode(self.develop_mode)
+        self.receive_frame_0.set_develop_mode(self.develop_mode)
 
     def get_bpsk_mod(self):
         return self.bpsk_mod
