@@ -24,6 +24,7 @@
 
 #include <gnuradio/io_signature.h>
 #include "framing_cpp_impl.h"
+#include <gnuradio/digital/crc32_bb.h>
 
 namespace gr {
   namespace inets {
@@ -83,7 +84,11 @@ namespace gr {
               if(_develop_mode)
                 std::cout << "Valid payload data with length " << _payload_length << ". Framing starts." << std::endl;
             }
-            std::vector<unsigned char> frame_header = frame_header_formation();
+            std::vector<unsigned char> frame_header;
+            frame_header_formation(&frame_header);
+            std::vector<unsigned char> frame;
+            frame.insert(frame.end(), frame_header.begin(), frame_header.end());
+            frame.insert(frame.end(), payload_array.begin(), payload_array.end());
             /*
             if(pmt::is_u8vector(payload_pmt)){
                 const std::vector< unsigned char > payload_raw = pmt::u8vector_elements(payload_pmt);
@@ -149,8 +154,8 @@ namespace gr {
         }
     }
 
-    std::vector<unsigned char>
-    framing_cpp_impl::frame_header_formation()
+    void 
+    framing_cpp_impl::frame_header_formation(std::vector<unsigned char> *frame_header)
     {
       std::cout << "frame header is generated" << std::endl;
       std::vector< unsigned char > vec_frame_header;
@@ -160,6 +165,7 @@ namespace gr {
       std::vector< unsigned char > vec_source_address;
       std::vector< unsigned char > vec_reserved_field_I;
       std::vector< unsigned char > vec_reserved_field_II;
+      std::vector< unsigned char > vec_payload_length;
       /* 
         frame type (1 Bytes)
         frame index (1 Bytes)
@@ -170,6 +176,7 @@ namespace gr {
         Payload length (1 Bytes)
        */
       // Frame type 
+      std::cout << "frame type is: " << _frame_type << std::endl;
       intToByte(_frame_type, &vec_frame_type, _len_frame_type);
       // Frame index
       intToByte(_frame_index, &vec_frame_index, _len_frame_index);
@@ -182,12 +189,24 @@ namespace gr {
       // Reserved field II
       intToByte(_reserved_field_II, &vec_reserved_field_II, _len_reserved_field_II);
       // Payload length
-//      intToByte(_, &vec_, _len_);
-      for (int i = 0; i < vec_frame_type.size(); i++) {
-//        std::cout <<  static_cast<unsigned>(vec_frame_type[i])  << " " << std::endl;
+      intToByte(_payload_length, &vec_payload_length, _len_payload_length);
+
+      //std::cout  << "Frame header length before frame type: " << frame_header->size() << std::endl;
+      frame_header->insert(frame_header->end(), vec_frame_type.begin(), vec_frame_type.begin() + _len_frame_type);
+      //std::cout  << "Frame header length after frame type: " << frame_header->size() << std::endl;
+      frame_header->insert(frame_header->end(), vec_frame_index.begin(), vec_frame_index.begin() + _len_frame_index);
+      frame_header->insert(frame_header->end(), vec_destination_address.begin(), vec_destination_address.begin() + _len_destination_address);
+      frame_header->insert(frame_header->end(), vec_source_address.begin(), vec_source_address.begin() + _len_source_address);
+      frame_header->insert(frame_header->end(), vec_reserved_field_I.begin(), vec_reserved_field_I.begin() + _len_reserved_field_I);
+      frame_header->insert(frame_header->end(), vec_reserved_field_II.begin(), vec_reserved_field_II.begin() + _len_reserved_field_II);
+      frame_header->insert(frame_header->end(), vec_payload_length.begin(), vec_payload_length.begin() + _len_payload_length);
+      if(_develop_mode)
+      {
+        for(int i=0; i<frame_header->size(); ++i)
+          std::cout << int((*frame_header)[i]) << ' ';
+        }
+        std::cout << "with length " << frame_header->size() << std::endl; 
       }
-      return vec_frame_header;
-    }
 
     void 
     framing_cpp_impl::intToByte(int i, std::vector<unsigned char> *bytes, int size)

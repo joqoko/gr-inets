@@ -51,7 +51,7 @@ namespace gr {
       ~framing_cpp_impl();
 
       void frame_formation(pmt::pmt_t rx_payload);
-      std::vector<unsigned char> frame_header_formation();
+      void frame_header_formation(std::vector<unsigned char> *frame_header);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
     };
 

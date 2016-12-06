@@ -19,7 +19,7 @@
   <param>
     <name>Frame type</name>
     <key>frame_type</key>
-    <value>1</value>
+    <value>frame_type</value>
     <type>int</type>
   </param>
 

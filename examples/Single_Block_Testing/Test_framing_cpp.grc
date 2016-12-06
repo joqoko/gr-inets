@@ -105,7 +105,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -159,7 +159,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>2</value>
     </param>
   </block>
   <block>
@@ -282,7 +282,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 92)</value>
+      <value>(1008, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -321,7 +321,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>2</value>
     </param>
   </block>
   <block>
@@ -348,7 +348,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>2</value>
     </param>
   </block>
   <block>
@@ -402,7 +402,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>5</value>
     </param>
   </block>
   <block>
@@ -429,7 +429,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>6</value>
     </param>
   </block>
   <block>
@@ -483,7 +483,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>4</value>
     </param>
   </block>
   <block>
@@ -608,11 +608,11 @@
     </param>
     <param>
       <key>frame_type</key>
-      <value>1</value>
+      <value>frame_type</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(576, 260)</value>
+      <value>(632, 236)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -681,6 +681,6 @@
     <source_block_id>inets_framing_cpp_0</source_block_id>
     <sink_block_id>blocks_message_debug_0</sink_block_id>
     <source_key>frame_out</source_key>
-    <sink_key>print_pdu</sink_key>
+    <sink_key>print</sink_key>
   </connection>
 </flow_graph>
