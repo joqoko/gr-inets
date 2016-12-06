@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Mon Dec  5 16:19:14 2016
+# Generated: Tue Dec  6 17:03:19 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -57,13 +57,26 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.source_address = source_address = 1
         self.samp_rate = samp_rate = 32000
+        self.reserved_field_II = reserved_field_II = 1
+        self.reserved_field_I = reserved_field_I = 1
+        self.len_source_address = len_source_address = 1
+        self.len_reserved_field_II = len_reserved_field_II = 1
+        self.len_reserved_field_I = len_reserved_field_I = 1
+        self.len_payload_length = len_payload_length = 1
+        self.len_frame_type = len_frame_type = 1
+        self.len_frame_index = len_frame_index = 1
+        self.len_destination_address = len_destination_address = 1
+        self.frame_type = frame_type = 1
+        self.frame_index = frame_index = 1
         self.develop_mode = develop_mode = 1
+        self.destination_address = destination_address = 1
 
         ##################################################
         # Blocks
         ##################################################
-        self.inets_framing_cpp_0 = inets.framing_cpp(develop_mode, 1)
+        self.inets_framing_cpp_0 = inets.framing_cpp(develop_mode, 1, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_debug_0 = blocks.message_debug()
 
@@ -71,12 +84,18 @@ class top_block(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_cpp_0, 'payload_in'))    
-        self.msg_connect((self.inets_framing_cpp_0, 'frame_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_framing_cpp_0, 'frame_out'), (self.blocks_message_debug_0, 'print_pdu'))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
+
+    def get_source_address(self):
+        return self.source_address
+
+    def set_source_address(self, source_address):
+        self.source_address = source_address
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -84,11 +103,83 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
 
+    def get_reserved_field_II(self):
+        return self.reserved_field_II
+
+    def set_reserved_field_II(self, reserved_field_II):
+        self.reserved_field_II = reserved_field_II
+
+    def get_reserved_field_I(self):
+        return self.reserved_field_I
+
+    def set_reserved_field_I(self, reserved_field_I):
+        self.reserved_field_I = reserved_field_I
+
+    def get_len_source_address(self):
+        return self.len_source_address
+
+    def set_len_source_address(self, len_source_address):
+        self.len_source_address = len_source_address
+
+    def get_len_reserved_field_II(self):
+        return self.len_reserved_field_II
+
+    def set_len_reserved_field_II(self, len_reserved_field_II):
+        self.len_reserved_field_II = len_reserved_field_II
+
+    def get_len_reserved_field_I(self):
+        return self.len_reserved_field_I
+
+    def set_len_reserved_field_I(self, len_reserved_field_I):
+        self.len_reserved_field_I = len_reserved_field_I
+
+    def get_len_payload_length(self):
+        return self.len_payload_length
+
+    def set_len_payload_length(self, len_payload_length):
+        self.len_payload_length = len_payload_length
+
+    def get_len_frame_type(self):
+        return self.len_frame_type
+
+    def set_len_frame_type(self, len_frame_type):
+        self.len_frame_type = len_frame_type
+
+    def get_len_frame_index(self):
+        return self.len_frame_index
+
+    def set_len_frame_index(self, len_frame_index):
+        self.len_frame_index = len_frame_index
+
+    def get_len_destination_address(self):
+        return self.len_destination_address
+
+    def set_len_destination_address(self, len_destination_address):
+        self.len_destination_address = len_destination_address
+
+    def get_frame_type(self):
+        return self.frame_type
+
+    def set_frame_type(self, frame_type):
+        self.frame_type = frame_type
+
+    def get_frame_index(self):
+        return self.frame_index
+
+    def set_frame_index(self, frame_index):
+        self.frame_index = frame_index
+
     def get_develop_mode(self):
         return self.develop_mode
 
     def set_develop_mode(self, develop_mode):
         self.develop_mode = develop_mode
+
+    def get_destination_address(self):
+        return self.destination_address
+
+    def set_destination_address(self, destination_address):
+        self.destination_address = destination_address
 
 
 def main(top_block_cls=top_block, options=None):

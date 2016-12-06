@@ -4,7 +4,7 @@
   <key>inets_framing_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.framing_cpp($develop_mode, $frame_type, $len_frame_type, $len_frame_index, $len_destination_address, $len_source_address, $len_reserved_field_I, $len_reserved_field_II)</make>
+  <make>inets.framing_cpp($develop_mode, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -30,39 +30,69 @@
     <type>int</type>
   </param>
   <param>
+    <name>Frame index</name>
+    <key>frame_index</key>
+    <value>frame_index</value>
+    <type>int</type>
+  </param>
+  <param>
     <name>Length of frame index</name>
     <key>len_frame_index</key>
     <value>len_frame_index</value>
     <type>int</type>
   </param>
   <param>
+    <name>Destination address</name>
+    <key>destination_address</key>
+    <value>destination_address</value>
+    <type>int</type>
+  </param>
+  <param>
     <name>Length of destination address</name>
     <key>len_destination_address</key>
-    <value>1</value>
+    <value>len_destination_address</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Source address</name>
+    <key>source_address</key>
+    <value>source_address</value>
     <type>int</type>
   </param>
   <param>
     <name>Length of source address</name>
     <key>len_source_address</key>
-    <value>1</value>
+    <value>len_source_address</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Reserved field I</name>
+    <key>reserved_field_I</key>
+    <value>reserved_field_I</value>
     <type>int</type>
   </param>
   <param>
     <name>Length of reserved field I</name>
     <key>len_reserved_field_I</key>
-    <value>1</value>
+    <value>len_reserved_field_I</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Reserved field II</name>
+    <key>reserved_field_II</key>
+    <value>reserved_field_II</value>
     <type>int</type>
   </param>
   <param>
     <name>Length of reserved field II</name>
     <key>len_reserved_field_II</key>
-    <value>1</value>
+    <value>len_reserved_field_II</value>
     <type>int</type>
   </param>
   <param>
-    <name>Length of payload length</name>
+    <name>Length of payload length field</name>
     <key>len_payload_length</key>
-    <value>1</value>
+    <value>len_payload_length</value>
     <type>int</type>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:

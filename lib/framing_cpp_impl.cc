@@ -29,27 +29,32 @@ namespace gr {
   namespace inets {
 
     framing_cpp::sptr
-    framing_cpp::make(int develop_mode, int frame_type, int len_frame_type, int len_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II)
+    framing_cpp::make(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length)
     {
       return gnuradio::get_initial_sptr
-        (new framing_cpp_impl(develop_mode, frame_type, len_frame_type, len_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II));
+        (new framing_cpp_impl(develop_mode, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length));
     }
 
     /*
      * The private constructor
      */
-    framing_cpp_impl::framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II)
+    framing_cpp_impl::framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length)
       : gr::block("framing_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _len_frame_type(len_frame_type), // Bytes
+        _frame_index(frame_index),
         _len_frame_index(len_frame_index), // Bytes
+        _destination_address(destination_address),
         _len_destination_address(len_destination_address), // Bytes
+        _source_address(source_address), 
         _len_source_address(len_source_address), // Bytes
+        _reserved_field_I(reserved_field_I), 
         _len_reserved_field_I(len_reserved_field_I), // Bytes
+        _reserved_field_II(reserved_field_II),
         _len_reserved_field_II(len_reserved_field_II), // Bytes
-        _len_payload_length(0), // Bytes
+        _len_payload_length(len_payload_length), // Bytes
        _frame_type(frame_type)
     {
       message_port_register_in(pmt::mp("payload_in"));
@@ -65,15 +70,19 @@ namespace gr {
     }
 
     void 
-    framing_cpp_impl::frame_formation(pmt::pmt_t payload)
+    framing_cpp_impl::frame_formation(pmt::pmt_t rx_payload)
     {
-        std::cout << "Here 1" << std::endl;
-        if(pmt::is_pair(payload)) {
+        if(pmt::is_pair(rx_payload)) {
 
-            std::cout << "Here 2" << std::endl;
+            pmt::pmt_t payload_pmt = pmt::cdr(rx_payload);
 
-            pmt::pmt_t payload_pmt = pmt::cdr(payload);
-
+            if(pmt::is_u8vector(payload_pmt))
+            {
+              const std::vector<unsigned char> payload_array = pmt::u8vector_elements(payload_pmt);
+              _payload_length = payload_array.size(); 
+              if(_develop_mode)
+                std::cout << "Valid payload data with length " << _payload_length << ". Framing starts." << std::endl;
+            }
             std::vector<unsigned char> frame_header = frame_header_formation();
             /*
             if(pmt::is_u8vector(payload_pmt)){
@@ -132,7 +141,7 @@ namespace gr {
                 message_port_pub(pmt::mp("packet_out"), pdu);
             } else { std::cout << "no u8 vector " << std::endl; }
            */
-          message_port_pub(pmt::mp("frame_out"), pmt::init_u8vector(frame_header.size(), frame_header));  
+        //  message_port_pub(pmt::mp("frame_out"), pmt::init_u8vector(frame_header.size(), frame_header));  
         } 
         else 
         {
@@ -161,9 +170,21 @@ namespace gr {
         Payload length (1 Bytes)
        */
       // Frame type 
-      intToByte(_frame_type, &vec_frame_type, 2);
+      intToByte(_frame_type, &vec_frame_type, _len_frame_type);
+      // Frame index
+      intToByte(_frame_index, &vec_frame_index, _len_frame_index);
+      // Destination address
+      intToByte(_destination_address, &vec_destination_address, _len_destination_address);
+      // Source address
+      intToByte(_source_address, &vec_source_address, _len_source_address);
+      // Reserved field I
+      intToByte(_reserved_field_I, &vec_reserved_field_I, _len_reserved_field_I);
+      // Reserved field II
+      intToByte(_reserved_field_II, &vec_reserved_field_II, _len_reserved_field_II);
+      // Payload length
+//      intToByte(_, &vec_, _len_);
       for (int i = 0; i < vec_frame_type.size(); i++) {
-        std::cout <<  static_cast<unsigned>(vec_frame_type[i])  << " " << std::endl;
+//        std::cout <<  static_cast<unsigned>(vec_frame_type[i])  << " " << std::endl;
       }
       return vec_frame_header;
     }
@@ -171,9 +192,9 @@ namespace gr {
     void 
     framing_cpp_impl::intToByte(int i, std::vector<unsigned char> *bytes, int size)
     {
-      std::cout << "Type is about to converted" << std::endl;
+//      std::cout << "Type is about to converted" << std::endl;
       bytes->insert(bytes->end(), (unsigned char) (0xff & i));
-      std::cout << "First byte is converted" << std::endl;
+//      std::cout << "First byte is converted" << std::endl;
       if(size > 1)
       {
         bytes->insert(bytes->end(), (unsigned char) ((0xff00 & i) >> 8));

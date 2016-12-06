@@ -33,18 +33,24 @@ namespace gr {
       int _develop_mode;
       int _frame_type; 
       int _len_frame_type; // Bytes
+      int _frame_index;
       int _len_frame_index; // Bytes
+      int _destination_address;
       int _len_destination_address; // Bytes
+      int _source_address; 
       int _len_source_address; // Bytes
+      int _reserved_field_I;
       int _len_reserved_field_I; // Bytes
+      int _reserved_field_II;
       int _len_reserved_field_II; // Bytes
+      int _payload_length;
       int _len_payload_length; // Bytes
 
      public:
-      framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int len_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II);
+      framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length);
       ~framing_cpp_impl();
 
-      void frame_formation(pmt::pmt_t payload);
+      void frame_formation(pmt::pmt_t rx_payload);
       std::vector<unsigned char> frame_header_formation();
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
     };
