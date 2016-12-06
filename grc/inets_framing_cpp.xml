@@ -37,25 +37,31 @@
   </param>
   <param>
     <name>Length of destination address</name>
-    <key>len_</key>
+    <key>len_destination_address</key>
     <value>1</value>
     <type>int</type>
   </param>
   <param>
-    <name>Length of</name>
-    <key>len_</key>
+    <name>Length of source address</name>
+    <key>len_source_address</key>
     <value>1</value>
     <type>int</type>
   </param>
   <param>
-    <name>Length of</name>
-    <key>len_</key>
+    <name>Length of reserved field I</name>
+    <key>len_reserved_field_I</key>
     <value>1</value>
     <type>int</type>
   </param>
   <param>
-    <name>Length of</name>
-    <key>len_</key>
+    <name>Length of reserved field II</name>
+    <key>len_reserved_field_II</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of payload length</name>
+    <key>len_payload_length</key>
     <value>1</value>
     <type>int</type>
   </param>

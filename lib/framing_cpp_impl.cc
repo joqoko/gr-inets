@@ -29,16 +29,16 @@ namespace gr {
   namespace inets {
 
     framing_cpp::sptr
-    framing_cpp::make(int develop_mode, int frame_type)
+    framing_cpp::make(int develop_mode, int frame_type, int len_frame_type, int len_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II)
     {
       return gnuradio::get_initial_sptr
-        (new framing_cpp_impl(develop_mode, frame_type));
+        (new framing_cpp_impl(develop_mode, frame_type, len_frame_type, len_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II));
     }
 
     /*
      * The private constructor
      */
-    framing_cpp_impl::framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int len_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II)
+    framing_cpp_impl::framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II)
       : gr::block("framing_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -165,28 +165,27 @@ namespace gr {
       for (int i = 0; i < vec_frame_type.size(); i++) {
         std::cout <<  static_cast<unsigned>(vec_frame_type[i])  << " " << std::endl;
       }
-      return frame_header;
+      return vec_frame_header;
     }
 
     void 
-    framing_cpp_impl::intToByte(int i, std::vector<unsigned char> &bytes, int size)
+    framing_cpp_impl::intToByte(int i, std::vector<unsigned char> *bytes, int size)
     {
       std::cout << "Type is about to converted" << std::endl;
-      bytes.insert(bytes.end(), (unsigned char) (0xff & i));
+      bytes->insert(bytes->end(), (unsigned char) (0xff & i));
       std::cout << "First byte is converted" << std::endl;
       if(size > 1)
       {
-        bytes.insert(bytes.end(), (unsigned char) ((0xff00 & i) >> 8));
+        bytes->insert(bytes->end(), (unsigned char) ((0xff00 & i) >> 8));
         if(size > 2)
         {
-          bytes.insert(bytes.end(), (unsigned char) ((0xff0000 & i) >> 16));
+          bytes->insert(bytes->end(), (unsigned char) ((0xff0000 & i) >> 16));
           if(size > 3)
           {
-            bytes.insert(bytes.end(), (unsigned char) ((0xff000000 & i) >> 24));
+            bytes->insert(bytes->end(), (unsigned char) ((0xff000000 & i) >> 24));
           }
         }
       }
-      return bytes;
     }
     
   } /* namespace inets */

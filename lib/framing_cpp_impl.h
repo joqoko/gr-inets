@@ -32,19 +32,13 @@ namespace gr {
       // Nothing to declare in this block.
       int _develop_mode;
       int _frame_type; 
-      int _len_frame_type = 1; // Bytes
-      int _len_frame_index = 1; // Bytes
-      int _len_destination_address = 1; // Bytes
-      int _len_source_address = 1; // Bytes
-      int _len_reserved_field_I = 2; // Bytes
-      int _len_reserved_field_II = 2; // Bytes
-      int _len_payload_length = 1; // Bytes
-      frame index (1 Bytes)
-      Destination address (1 Bytes)
-      Source address (1 Bytes)
-      Reserved field 1 (2 Bytes)
-      Reserved field 2 (2 Bytes)
-      Payload length (1 Bytes)
+      int _len_frame_type; // Bytes
+      int _len_frame_index; // Bytes
+      int _len_destination_address; // Bytes
+      int _len_source_address; // Bytes
+      int _len_reserved_field_I; // Bytes
+      int _len_reserved_field_II; // Bytes
+      int _len_payload_length; // Bytes
 
      public:
       framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int len_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II);
@@ -52,8 +46,7 @@ namespace gr {
 
       void frame_formation(pmt::pmt_t payload);
       std::vector<unsigned char> frame_header_formation();
-      intToByte(int i, std::vector<unsigned char> &bytes, int size);
-      
+      void intToByte(int i, std::vector<unsigned char> *bytes, int size);
     };
 
   } // namespace inets
