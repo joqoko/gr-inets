@@ -24,8 +24,9 @@
 
 #include <gnuradio/io_signature.h>
 #include "framing_cpp_impl.h"
-#include <gnuradio/digital/crc32_bb.h>
-
+#include <gnuradio/digital/crc32.h> 
+#include <volk/volk.h>
+#include <boost/crc.hpp>
 namespace gr {
   namespace inets {
 
@@ -74,21 +75,35 @@ namespace gr {
     framing_cpp_impl::frame_formation(pmt::pmt_t rx_payload)
     {
         if(pmt::is_pair(rx_payload)) {
-
+            pmt::pmt_t meta = pmt::car(rx_payload);
             pmt::pmt_t payload_pmt = pmt::cdr(rx_payload);
-
+            std::vector<unsigned char> payload_array; 
             if(pmt::is_u8vector(payload_pmt))
             {
-              const std::vector<unsigned char> payload_array = pmt::u8vector_elements(payload_pmt);
+              payload_array = pmt::u8vector_elements(payload_pmt);
               _payload_length = payload_array.size(); 
-              if(_develop_mode)
-                std::cout << "Valid payload data with length " << _payload_length << ". Framing starts." << std::endl;
             }
             std::vector<unsigned char> frame_header;
             frame_header_formation(&frame_header);
             std::vector<unsigned char> frame;
             frame.insert(frame.end(), frame_header.begin(), frame_header.end());
+            if(_develop_mode)
+              std::cout << "Frame header, length " << frame.size() << std::endl;
             frame.insert(frame.end(), payload_array.begin(), payload_array.end());
+            if(_develop_mode)
+              std::cout << "Frame header with payload, length " << frame.size() << std::endl;
+            // CRC
+            // crc32_bb_calc(&frame);
+            // change frame to pmt::pmt_t
+            pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
+            pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
+            pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
+            std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
+            if(_develop_mode)
+              std::cout << "Frame header with payload with CRC, length " << frame_after_crc_vector.size() << std::endl;
+            
+            message_port_pub(pmt::mp("frame_out"), frame_after_crc);
+
             /*
             if(pmt::is_u8vector(payload_pmt)){
                 const std::vector< unsigned char > payload_raw = pmt::u8vector_elements(payload_pmt);
@@ -228,5 +243,38 @@ namespace gr {
       }
     }
     
+    pmt::pmt_t
+    framing_cpp_impl::crc32_bb_calc(pmt::pmt_t msg)
+    {
+      // extract input pdu
+      pmt::pmt_t meta(pmt::car(msg));
+      pmt::pmt_t bytes(pmt::cdr(msg));
+
+      unsigned int crc;
+      size_t pkt_len(0);
+      const uint8_t* bytes_in = pmt::u8vector_elements(bytes, pkt_len);
+      uint8_t* bytes_out = (uint8_t*)volk_malloc(4 + pkt_len*sizeof(uint8_t),
+                                                 volk_get_alignment());
+
+      _crc_impl.reset();
+      _crc_impl.process_bytes(bytes_in, pkt_len);
+      crc = _crc_impl();
+      memcpy((void*)bytes_out, (const void*)bytes_in, pkt_len);
+      memcpy((void*)(bytes_out + pkt_len), &crc, 4); // FIXME big-endian/little-endian, this might be wrong
+
+      pmt::pmt_t output = pmt::init_u8vector(pkt_len+4, bytes_out); // this copies the values from bytes_out into the u8vector
+      return pmt::cons(meta, output);
+    } 
+
+    void 
+    framing_cpp_impl::disp_vec(std::vector<unsigned char> vec)
+    {
+      std::cout << "display unsigned char vector:" << ' ';
+      for(int i=0; i<vec.size(); ++i)
+        std::cout << vec[i] << ' ';
+    }
+
+
+
   } /* namespace inets */
 } /* namespace gr */

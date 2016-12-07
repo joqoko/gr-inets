@@ -22,7 +22,8 @@
 #define INCLUDED_INETS_FRAMING_CPP_IMPL_H
 
 #include <inets/framing_cpp.h>
-
+#include <gnuradio/digital/crc32.h>
+#include <boost/crc.hpp>
 namespace gr {
   namespace inets {
 
@@ -45,7 +46,8 @@ namespace gr {
       int _len_reserved_field_II; // Bytes
       int _payload_length;
       int _len_payload_length; // Bytes
-
+      boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
+      pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
      public:
       framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length);
       ~framing_cpp_impl();
@@ -53,6 +55,7 @@ namespace gr {
       void frame_formation(pmt::pmt_t rx_payload);
       void frame_header_formation(std::vector<unsigned char> *frame_header);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
+      void disp_vec(std::vector<unsigned char> vec);
     };
 
   } // namespace inets
