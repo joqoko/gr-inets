@@ -25,6 +25,7 @@
 #include "inets/tx_buffer.h"
 #include "inets/rx_switch_cc.h"
 #include "inets/framing_cpp.h"
+#include "inets/analyze_frame_cpp.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -69,3 +70,6 @@ GR_SWIG_BLOCK_MAGIC2(inets, rx_switch_cc);
 
 %include "inets/framing_cpp.h"
 GR_SWIG_BLOCK_MAGIC2(inets, framing_cpp);
+
+%include "inets/analyze_frame_cpp.h"
+GR_SWIG_BLOCK_MAGIC2(inets, analyze_frame_cpp);

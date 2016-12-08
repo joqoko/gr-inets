@@ -18,16 +18,15 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_FRAMING_CPP_IMPL_H
-#define INCLUDED_INETS_FRAMING_CPP_IMPL_H
+#ifndef INCLUDED_INETS_ANALYZE_FRAME_CPP_IMPL_H
+#define INCLUDED_INETS_ANALYZE_FRAME_CPP_IMPL_H
 
-#include <inets/framing_cpp.h>
-#include <gnuradio/digital/crc32.h>
-#include <boost/crc.hpp>
+#include <inets/analyze_frame_cpp.h>
+
 namespace gr {
   namespace inets {
 
-    class framing_cpp_impl : public framing_cpp
+    class analyze_frame_cpp_impl : public analyze_frame_cpp
     {
      private:
       // Nothing to declare in this block.
@@ -48,19 +47,16 @@ namespace gr {
       int _len_payload_length; // Bytes
       boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
-      void frame_formation(pmt::pmt_t rx_payload);
-      void frame_header_formation(std::vector<unsigned char> *frame_header);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
-      void disp_vec(std::vector<unsigned char> vec);
-
+      void frame_analysis(pmt::pmt_t rx_payload); 
      public:
-      framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length);
-      ~framing_cpp_impl();
+      analyze_frame_cpp_impl(int develop_mode, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length);
+      ~analyze_frame_cpp_impl();
 
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAMING_CPP_IMPL_H */
+#endif /* INCLUDED_INETS_ANALYZE_FRAME_CPP_IMPL_H */
 

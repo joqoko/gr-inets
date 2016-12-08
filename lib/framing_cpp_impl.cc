@@ -74,99 +74,40 @@ namespace gr {
     void 
     framing_cpp_impl::frame_formation(pmt::pmt_t rx_payload)
     {
-        if(pmt::is_pair(rx_payload)) {
-            pmt::pmt_t meta = pmt::car(rx_payload);
-            pmt::pmt_t payload_pmt = pmt::cdr(rx_payload);
-            std::vector<unsigned char> payload_array; 
-            if(pmt::is_u8vector(payload_pmt))
-            {
-              payload_array = pmt::u8vector_elements(payload_pmt);
-              _payload_length = payload_array.size(); 
-            }
-            std::vector<unsigned char> frame_header;
-            frame_header_formation(&frame_header);
-            std::vector<unsigned char> frame;
-            frame.insert(frame.end(), frame_header.begin(), frame_header.end());
-            if(_develop_mode)
-              std::cout << "Frame header, length " << frame.size() << std::endl;
-            frame.insert(frame.end(), payload_array.begin(), payload_array.end());
-            if(_develop_mode)
-              std::cout << "Frame header with payload, length " << frame.size() << std::endl;
-            // CRC
-            // crc32_bb_calc(&frame);
-            // change frame to pmt::pmt_t
-            pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
-            pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
-            pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
-            std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
-            if(_develop_mode)
-              std::cout << "Frame header with payload with CRC, length " << frame_after_crc_vector.size() << std::endl;
-            
-            message_port_pub(pmt::mp("frame_out"), frame_after_crc);
-
-            /*
-            if(pmt::is_u8vector(payload_pmt)){
-                const std::vector< unsigned char > payload_raw = pmt::u8vector_elements(payload_pmt);
-                std::vector< unsigned char > packet;
-                
-                packet.insert(packet.end(), _random.begin(), _random.begin() + _padding);
-                packet.insert(packet.end(), _preamble_packed.begin(), _preamble_packed.end());
-    
-                unsigned char hdr[32]; 
-                _header_generator->header_formatter(payload.size(), hdr, std::vector<tag_t>());
-                std::vector<unsigned char> hdr_packed;
-                //Big Endian. MSB to lowest position
-                for(int i = 0; i < 32; i += 8) {
-                    unsigned char curr_byte = 0;
-                    for(int j = 0; j < 8; j++) {
-                        curr_byte += hdr[i + j] << (7 - j);
-                    }
-                    hdr_packed.push_back(curr_byte);
-                }
-
-                packet.insert(packet.end(), hdr_packed.begin(), hdr_packed.end());
-                packet.insert(packet.end(), payload.begin(), payload.end());
-                packet.insert(packet.end(), _random.begin(), _random.begin() + _padding);
-
-                // Add key to the tx_time tag
-                static const pmt::pmt_t time_key = pmt::string_to_symbol("tx_time");
-                // Get the time
-                struct timeval t;
-                gettimeofday(&t, NULL);
-                double tx_time = t.tv_sec + t.tv_usec / 1000000.0;
-                double min_time_diff = (1000 * 8.0) / _bps; //Max packet len [bit] / bit rate 
-                // Ensure that frames are not overlap each other
-                if((tx_time - _last_tx_time) <= min_time_diff) {
-                    tx_time = _last_tx_time + min_time_diff;
-                } else {
-                    //std::cout << "in time packet" << std::endl;
-                }
-                //std::cout << "tx time = " << std::fixed << tx_time << std::endl;
-                // update the tx_time to the current packet
-                _last_tx_time = tx_time;
-                // question 1: why add 0.05?
-                uhd::time_spec_t now = uhd::time_spec_t(tx_time)
-                    + uhd::time_spec_t(0.05);
-                // the value of the tag is a tuple
-                const pmt::pmt_t time_value = pmt::make_tuple(
-                    pmt::from_uint64(now.get_full_secs()),
-                    pmt::from_double(now.get_frac_secs())
-                );
-
-                pmt::pmt_t out_pmt_vector = pmt::init_u8vector(packet.size(), packet);
-                pmt::pmt_t meta = pmt::make_dict();
-                //meta = pmt::dict_add(meta, pmt::mp("tx_time"), time_value);
-                pmt::pmt_t pdu = pmt::cons(meta, out_pmt_vector);
-
-                message_port_pub(pmt::mp("packet_out"), pdu);
-            } else { std::cout << "no u8 vector " << std::endl; }
-           */
-        //  message_port_pub(pmt::mp("frame_out"), pmt::init_u8vector(frame_header.size(), frame_header));  
-        } 
-        else 
+      if(pmt::is_pair(rx_payload)) 
+      {
+        pmt::pmt_t meta = pmt::car(rx_payload);
+        pmt::pmt_t payload_pmt = pmt::cdr(rx_payload);
+        std::vector<unsigned char> payload_array; 
+        if(pmt::is_u8vector(payload_pmt))
         {
-            std::cout << "pmt is not a pair" << std::endl;
+          payload_array = pmt::u8vector_elements(payload_pmt);
+          _payload_length = payload_array.size(); 
+          std::vector<unsigned char> frame_header;
+          frame_header_formation(&frame_header);
+          std::vector<unsigned char> frame;
+          frame.insert(frame.end(), frame_header.begin(), frame_header.end());
+          if(_develop_mode)
+            std::cout << "frame header, length " << frame.size() << std::endl;
+          frame.insert(frame.end(), payload_array.begin(), payload_array.end());
+          if(_develop_mode)
+            std::cout << "frame header with payload, length " << frame.size() << std::endl;
+          // crc
+          // crc32_bb_calc(&frame);
+          // change frame to pmt::pmt_t
+          pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
+          pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
+          pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
+          std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
+          if(_develop_mode)
+            std::cout << "frame header with payload with crc, length " << frame_after_crc_vector.size() << std::endl;
+          message_port_pub(pmt::mp("frame_out"), frame_after_crc);
         }
+        else
+          std::cout << "pmt is not a u8vector" << std::endl;
+      }
+      else 
+        std::cout << "pmt is not a pair" << std::endl;
     }
 
     void 
