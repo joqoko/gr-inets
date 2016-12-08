@@ -42,7 +42,12 @@ namespace gr {
       : gr::block("analyze_frame_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0))
-    {}
+    {
+      message_port_register_in(pmt::mp("frame_in"));
+      message_port_register_out(pmt::mp("frame_header_out"));
+      message_port_register_out(pmt::mp("payload_out"));
+      set_msg_handler(pmt::mp("frame_in"), boost::bind(&framing_cpp_impl::frame_formation, this, _1 ));
+    }
 
     /*
      * Our virtual destructor.
@@ -64,24 +69,10 @@ namespace gr {
           _frame_length = frame_array.size(); 
           _header_length = get_frame_header_length();
           std::vector<unsigned char> frame_header;
-          frame_header_formation(&frame_header);
-          std::vector<unsigned char> frame;
-          frame.insert(frame.end(), frame_header.begin(), frame_header.end());
-          if(_develop_mode)
-            std::cout << "Frame header, length " << frame.size() << std::endl;
-          frame.insert(frame.end(), payload_array.begin(), payload_array.end());
-          if(_develop_mode)
-            std::cout << "Frame header with payload, length " << frame.size() << std::endl;
-          // CRC
-          // crc32_bb_calc(&frame);
-          // change frame to pmt::pmt_t
-          pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
-          pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
-          pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
-          std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
-          if(_develop_mode)
-            std::cout << "Frame header with payload with CRC, length " << frame_after_crc_vector.size() << std::endl;
-          message_port_pub(pmt::mp("frame_out"), frame_after_crc);
+          payload_array = frame_array.assign(_header_length + 1, frame_array.end());
+          frame_header_array = frame_array.erase(_header_length + 1, frame_array.end());
+          message_port_pub(pmt::mp("frame_header_out"),frame_header_array);
+          message_port_pub(pmt::mp("payload_out"), payload_array);
         }
         else
           std::cout << "pmt is not a u8vector" << std::endl;

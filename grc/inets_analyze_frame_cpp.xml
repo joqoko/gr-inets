@@ -10,20 +10,62 @@
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
-  <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
-  </param>
 
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <value>develop_mode</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of frame type</name>
+    <key>len_frame_type</key>
+    <value>len_frame_type</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of frame index</name>
+    <key>len_frame_index</key>
+    <value>len_frame_index</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of destination address</name>
+    <key>len_destination_address</key>
+    <value>len_destination_address</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of source address</name>
+    <key>len_source_address</key>
+    <value>len_source_address</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of reserved field I</name>
+    <key>len_reserved_field_I</key>
+    <value>len_reserved_field_I</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of reserved field II</name>
+    <key>len_reserved_field_II</key>
+    <value>len_reserved_field_II</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of payload length field</name>
+    <key>len_payload_length</key>
+    <value>len_payload_length</value>
+    <type>int</type>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>in</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>frame_in</name>
+    <type>message</type>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -32,7 +74,11 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>frame_header_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>payload_out</name>
+    <type>message</type>
   </source>
 </block>
