@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Wed Dec  7 16:03:54 2016
+# Generated: Wed Dec  7 20:13:46 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -84,7 +84,7 @@ class top_block(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_cpp_0, 'payload_in'))    
-        self.msg_connect((self.inets_framing_cpp_0, 'frame_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_framing_cpp_0, 'frame_out'), (self.blocks_message_debug_0, 'print_pdu'))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")

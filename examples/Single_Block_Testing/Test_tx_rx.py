@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test tx rx
 # Author: PWA
-# Generated: Mon Dec  5 07:12:37 2016
+# Generated: Wed Dec  7 21:32:19 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -110,9 +110,22 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self.top_layout.addWidget(self.tab)
         self.send_frame_0 = send_frame(
             constellation=gnuradio.digital.constellation_qpsk().base(),
+            destination_address=3,
             develop_mode=develop_mode,
+            frame_index=2,
+            frame_type=1,
+            len_destination_address=1,
+            len_frame_index=1,
+            len_frame_type=1,
+            len_payload_length=1,
+            len_reserved_field_I=2,
+            len_reserved_field_II=2,
+            len_source_address=2,
             preamble=diff_preamble_128,
+            reserved_field_I=5,
+            reserved_field_II=6,
             samp_rate=samp_rate,
+            source_address=4,
             sps=4,
             system_time_granularity_us=5,
         )
@@ -231,7 +244,6 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_null_sink_0_0_0_1 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_null_sink_0_0_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
-        self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(pmt.from_bool(False), blocks.STROBE_POISSON, 5000, 2000)
         self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 10000, 5000)
         self.blocks_message_strobe_0_0 = blocks.message_strobe(pmt.from_bool(True), 1000)
         self.blocks_message_debug_0_0_0 = blocks.message_debug()
@@ -243,12 +255,11 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0_0, 'strobe'), (self.inets_tx_buffer_0, 'spark_in'))    
         self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.receive_frame_0, 'rx_switch_in'))    
-        self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.receive_frame_0, 'rx_switch_in'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_tx_buffer_0, 'payload_in'))    
         self.msg_connect((self.inets_tx_buffer_0, 'payload_out'), (self.send_frame_0, 'in'))    
         self.msg_connect((self.receive_frame_0, 'out'), (self.blocks_message_debug_0_0, 'print_pdu'))    
         self.msg_connect((self.receive_frame_0, 'snr'), (self.blocks_message_debug_0_0_0, 'print'))    
-        self.msg_connect((self.send_frame_0, 'message_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.send_frame_0, 'message_out'), (self.blocks_message_debug_0, 'print_pdu'))    
         self.connect((self.receive_frame_0, 1), (self.blocks_null_sink_0_0_0, 0))    
         self.connect((self.receive_frame_0, 2), (self.blocks_null_sink_0_0_0_1, 0))    
         self.connect((self.receive_frame_0, 3), (self.qtgui_const_sink_x_0, 0))    

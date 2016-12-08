@@ -93,7 +93,9 @@ namespace gr {
                 const std::vector< unsigned char > payload = pmt::u8vector_elements(payload_pmt);
                 std::vector< unsigned char > packet;
                 
+                     // _random has 64 bytes 
                 packet.insert(packet.end(), _random.begin(), _random.begin() + _padding);
+                     // _preamble_packed has 16 bytes 
                 packet.insert(packet.end(), _preamble_packed.begin(), _preamble_packed.end());
     
                 unsigned char hdr[32]; 
@@ -107,7 +109,7 @@ namespace gr {
                     }
                     hdr_packed.push_back(curr_byte);
                 }
-
+                     // hdr_packed has 4 bytes
                 packet.insert(packet.end(), hdr_packed.begin(), hdr_packed.end());
                 packet.insert(packet.end(), payload.begin(), payload.end());
                 packet.insert(packet.end(), _random.begin(), _random.begin() + _padding);

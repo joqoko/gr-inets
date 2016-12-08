@@ -172,7 +172,6 @@ namespace gr {
     void 
     framing_cpp_impl::frame_header_formation(std::vector<unsigned char> *frame_header)
     {
-      std::cout << "frame header is generated" << std::endl;
       std::vector< unsigned char > vec_frame_header;
       std::vector< unsigned char > vec_frame_type;
       std::vector< unsigned char > vec_frame_index;
@@ -191,7 +190,6 @@ namespace gr {
         Payload length (1 Bytes)
        */
       // Frame type 
-      std::cout << "frame type is: " << _frame_type << std::endl;
       intToByte(_frame_type, &vec_frame_type, _len_frame_type);
       // Frame index
       intToByte(_frame_index, &vec_frame_index, _len_frame_index);
@@ -215,13 +213,7 @@ namespace gr {
       frame_header->insert(frame_header->end(), vec_reserved_field_I.begin(), vec_reserved_field_I.begin() + _len_reserved_field_I);
       frame_header->insert(frame_header->end(), vec_reserved_field_II.begin(), vec_reserved_field_II.begin() + _len_reserved_field_II);
       frame_header->insert(frame_header->end(), vec_payload_length.begin(), vec_payload_length.begin() + _len_payload_length);
-      if(_develop_mode)
-      {
-        for(int i=0; i<frame_header->size(); ++i)
-          std::cout << int((*frame_header)[i]) << ' ';
-        }
-        std::cout << "with length " << frame_header->size() << std::endl; 
-      }
+    }
 
     void 
     framing_cpp_impl::intToByte(int i, std::vector<unsigned char> *bytes, int size)

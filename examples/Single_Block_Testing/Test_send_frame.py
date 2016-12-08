@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test send frame
 # Author: PWA
-# Generated: Tue Dec  6 13:44:45 2016
+# Generated: Wed Dec  7 20:31:10 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -105,9 +105,22 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
         self.top_layout.addWidget(self.tab)
         self.send_frame_0 = send_frame(
             constellation=gnuradio.digital.constellation_qpsk().base(),
+            destination_address=3,
             develop_mode=2,
+            frame_index=2,
+            frame_type=1,
+            len_destination_address=1,
+            len_frame_index=1,
+            len_frame_type=1,
+            len_payload_length=1,
+            len_reserved_field_I=2,
+            len_reserved_field_II=2,
+            len_source_address=1,
             preamble=[],
+            reserved_field_I=5,
+            reserved_field_II=6,
             samp_rate=4e6,
+            source_address=4,
             sps=4,
             system_time_granularity_us=5,
         )

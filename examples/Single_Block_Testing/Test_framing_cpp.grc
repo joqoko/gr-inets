@@ -681,6 +681,6 @@
     <source_block_id>inets_framing_cpp_0</source_block_id>
     <sink_block_id>blocks_message_debug_0</sink_block_id>
     <source_key>frame_out</source_key>
-    <sink_key>print</sink_key>
+    <sink_key>print_pdu</sink_key>
   </connection>
 </flow_graph>
