@@ -57,7 +57,7 @@ namespace gr {
         _reserved_field_II(reserved_field_II),
         _len_reserved_field_II(len_reserved_field_II), // Bytes
         _len_payload_length(len_payload_length), // Bytes
-       _frame_type(frame_type)
+        _frame_type(frame_type)
     {
       message_port_register_in(pmt::mp("payload_in"));
       message_port_register_out(pmt::mp("frame_out"));
@@ -74,6 +74,12 @@ namespace gr {
     void 
     framing_cpp_impl::frame_formation(pmt::pmt_t rx_payload)
     {
+      if(_develop_mode)
+      {
+        std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+        std::cout << "Frame_formation" << std::endl;
+        std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+      }
       if(pmt::is_pair(rx_payload)) 
       {
         pmt::pmt_t meta = pmt::car(rx_payload);

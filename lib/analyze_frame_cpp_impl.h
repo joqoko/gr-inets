@@ -22,6 +22,8 @@
 #define INCLUDED_INETS_ANALYZE_FRAME_CPP_IMPL_H
 
 #include <inets/analyze_frame_cpp.h>
+#include <gnuradio/digital/crc32.h>
+#include <boost/crc.hpp>
 
 namespace gr {
   namespace inets {
@@ -49,7 +51,8 @@ namespace gr {
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
       void frame_analysis(pmt::pmt_t rx_frame);
-      void get_frame_header_length();
+      int get_frame_header_length();
+      void disp_vec(std::vector<unsigned char> vec);
 
      public:
       analyze_frame_cpp_impl(int develop_mode, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length);

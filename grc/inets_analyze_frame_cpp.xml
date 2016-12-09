@@ -2,7 +2,7 @@
 <block>
   <name>analyze_frame_cpp</name>
   <key>inets_analyze_frame_cpp</key>
-  <category>[inets]</category>
+  <category>inets_dmf_v1.0</category>
   <import>import inets</import>
   <make>inets.analyze_frame_cpp($develop_mode, $len_frame_type, $len_frame_index, $len_destination_address, $len_source_address, $len_reserved_field_I, $len_reserved_field_II, $len_payload_length)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
@@ -58,6 +58,7 @@
     <key>len_payload_length</key>
     <value>len_payload_length</value>
     <type>int</type>
+  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -74,10 +75,16 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
+    <name>good_frame_received</name>
+    <type>message</type>
+  </source>
+
+  <source>
     <name>frame_header_out</name>
     <type>message</type>
   </source>
   <source>
+
     <name>payload_out</name>
     <type>message</type>
   </source>
