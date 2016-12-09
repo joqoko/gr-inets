@@ -39,6 +39,7 @@ install(FILES
     tx_buffer.h
     rx_switch_cc.h
     framing_cpp.h
-    analyze_frame_cpp.h DESTINATION include/inets
+    analyze_frame_cpp.h
+    frame_header_analysis_cpp.h DESTINATION include/inets
 
 )

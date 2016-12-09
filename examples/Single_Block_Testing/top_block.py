@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Fri Dec  9 16:19:25 2016
+# Generated: Fri Dec  9 17:19:28 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -70,14 +70,14 @@ class top_block(gr.top_block, Qt.QWidget):
         self.len_destination_address = len_destination_address = 1
         self.frame_type = frame_type = 1
         self.frame_index = frame_index = 2
-        self.develop_mode = develop_mode = 1
+        self.develop_mode = develop_mode = 0
         self.destination_address = destination_address = 3
 
         ##################################################
         # Blocks
         ##################################################
         self.inets_framing_cpp_0 = inets.framing_cpp(develop_mode, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length)
-        self.inets_analyze_frame_cpp_0 = inets.analyze_frame_cpp(develop_mode, len_frame_type, len_frame_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II, len_payload_length)
+        self.inets_frame_header_analysis_cpp_0 = inets.frame_header_analysis_cpp(develop_mode, len_frame_type, len_frame_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II, len_payload_length)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_debug_0 = blocks.message_debug()
 
@@ -85,10 +85,14 @@ class top_block(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_cpp_0, 'payload_in'))    
-        self.msg_connect((self.inets_analyze_frame_cpp_0, 'good_frame_received'), (self.blocks_message_debug_0, 'print'))    
-        self.msg_connect((self.inets_analyze_frame_cpp_0, 'frame_header_out'), (self.blocks_message_debug_0, 'print_pdu'))    
-        self.msg_connect((self.inets_analyze_frame_cpp_0, 'payload_out'), (self.blocks_message_debug_0, 'print_pdu'))    
-        self.msg_connect((self.inets_framing_cpp_0, 'frame_out'), (self.inets_analyze_frame_cpp_0, 'frame_in'))    
+        self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'frame_header_out'), (self.blocks_message_debug_0, 'print_pdu'))    
+        self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'frame_out'), (self.blocks_message_debug_0, 'print_pdu'))    
+        self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'frame_type_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'frame_index_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'destination_address_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'source_address_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'payload_length_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_framing_cpp_0, 'frame_out'), (self.inets_frame_header_analysis_cpp_0, 'frame_in'))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")

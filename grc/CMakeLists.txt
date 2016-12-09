@@ -40,5 +40,6 @@ install(FILES
     inets_tx_buffer.xml
     inets_rx_switch_cc.xml
     inets_framing_cpp.xml
-    inets_analyze_frame_cpp.xml DESTINATION share/gnuradio/grc/blocks
+    inets_analyze_frame_cpp.xml
+    inets_frame_header_analysis_cpp.xml DESTINATION share/gnuradio/grc/blocks
 )

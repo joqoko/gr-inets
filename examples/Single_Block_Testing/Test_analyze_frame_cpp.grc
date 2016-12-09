@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -506,7 +506,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1168, 248)</value>
+      <value>(992, 296)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -537,7 +537,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(384, 244)</value>
+      <value>(32, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -577,7 +577,7 @@
     </param>
   </block>
   <block>
-    <key>inets_analyze_frame_cpp</key>
+    <key>inets_frame_header_analysis_cpp</key>
     <param>
       <key>alias</key>
       <value></value>
@@ -600,7 +600,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(896, 252)</value>
+      <value>(536, 292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -608,7 +608,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_analyze_frame_cpp_0</value>
+      <value>inets_frame_header_analysis_cpp_0</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -683,7 +683,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(632, 236)</value>
+      <value>(280, 252)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -749,26 +749,50 @@
     <sink_key>payload_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_analyze_frame_cpp_0</source_block_id>
+    <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>destination_address_out</source_key>
+    <sink_key>print</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
     <sink_block_id>blocks_message_debug_0</sink_block_id>
     <source_key>frame_header_out</source_key>
     <sink_key>print_pdu</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_analyze_frame_cpp_0</source_block_id>
+    <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
     <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>good_frame_received</source_key>
+    <source_key>frame_index_out</source_key>
     <sink_key>print</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_analyze_frame_cpp_0</source_block_id>
+    <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
     <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>payload_out</source_key>
+    <source_key>frame_out</source_key>
     <sink_key>print_pdu</sink_key>
   </connection>
   <connection>
+    <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>frame_type_out</source_key>
+    <sink_key>print</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>payload_length_out</source_key>
+    <sink_key>print</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>source_address_out</source_key>
+    <sink_key>print</sink_key>
+  </connection>
+  <connection>
     <source_block_id>inets_framing_cpp_0</source_block_id>
-    <sink_block_id>inets_analyze_frame_cpp_0</sink_block_id>
+    <sink_block_id>inets_frame_header_analysis_cpp_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>frame_in</sink_key>
   </connection>
