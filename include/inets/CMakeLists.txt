@@ -40,6 +40,7 @@ install(FILES
     rx_switch_cc.h
     framing_cpp.h
     analyze_frame_cpp.h
-    frame_header_analysis_cpp.h DESTINATION include/inets
+    frame_header_analysis_cpp.h
+    message_tomb.h DESTINATION include/inets
 
 )

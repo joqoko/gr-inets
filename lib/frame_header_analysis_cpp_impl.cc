@@ -98,7 +98,6 @@ namespace gr {
           int _header_length = get_frame_header_length();
           std::vector<unsigned char> frame_header_array;
           frame_header_array.insert(frame_header_array.end(), frame_array.begin(), frame_array.begin() + _header_length);
-          std::cout << "length of frame_header_array is: " << frame_header_array.size() << std::endl;
           pmt::pmt_t frame_header_array_u8vector = pmt::init_u8vector(_header_length, frame_header_array);
           pmt::pmt_t frame_header_array_pmt = pmt::cons(meta, frame_header_array_u8vector);
           
@@ -110,6 +109,7 @@ namespace gr {
           int payload_length = frame_header_array[8];
           if(_develop_mode)
           {
+            std::cout << "length of frame_header_array is: " << frame_header_array.size() << std::endl;
             std::cout << "frame type is: " << frame_type << std::endl;
             std::cout << "frame index is: " << frame_index << std::endl;
             std::cout << "destination address is: " << destination_address << std::endl;

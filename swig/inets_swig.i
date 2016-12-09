@@ -27,6 +27,7 @@
 #include "inets/framing_cpp.h"
 #include "inets/analyze_frame_cpp.h"
 #include "inets/frame_header_analysis_cpp.h"
+#include "inets/message_tomb.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -76,3 +77,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, framing_cpp);
 GR_SWIG_BLOCK_MAGIC2(inets, analyze_frame_cpp);
 %include "inets/frame_header_analysis_cpp.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_header_analysis_cpp);
+%include "inets/message_tomb.h"
+GR_SWIG_BLOCK_MAGIC2(inets, message_tomb);

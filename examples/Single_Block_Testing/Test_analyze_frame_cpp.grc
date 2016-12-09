@@ -742,6 +742,37 @@
       <value>source_address</value>
     </param>
   </block>
+  <block>
+    <key>inets_message_tomb</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(976, 520)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_message_tomb_0</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>blocks_socket_pdu_0</source_block_id>
     <sink_block_id>inets_framing_cpp_0</sink_block_id>
@@ -756,9 +787,9 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <sink_block_id>inets_message_tomb_0</sink_block_id>
     <source_key>frame_header_out</source_key>
-    <sink_key>print_pdu</sink_key>
+    <sink_key>message_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
@@ -768,9 +799,9 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <sink_block_id>inets_message_tomb_0</sink_block_id>
     <source_key>frame_out</source_key>
-    <sink_key>print_pdu</sink_key>
+    <sink_key>message_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
