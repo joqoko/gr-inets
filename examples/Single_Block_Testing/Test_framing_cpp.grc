@@ -201,6 +201,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(1008, 92)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>increase_index</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(440, 12)</value>
     </param>
     <param>
@@ -537,7 +564,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(384, 244)</value>
+      <value>(248, 244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -612,7 +639,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(632, 236)</value>
+      <value>(584, 232)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -621,6 +648,10 @@
     <param>
       <key>id</key>
       <value>inets_framing_cpp_0</value>
+    </param>
+    <param>
+      <key>increase_index</key>
+      <value>increase_index</value>
     </param>
     <param>
       <key>len_destination_address</key>

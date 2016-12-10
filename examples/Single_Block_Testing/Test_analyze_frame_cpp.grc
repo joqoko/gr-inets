@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>0</value>
+      <value>4</value>
     </param>
   </block>
   <block>
@@ -533,7 +533,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(992, 296)</value>
+      <value>(1096, 300)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -698,7 +698,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(840, 404)</value>
+      <value>(816, 308)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -836,7 +836,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(864, 472)</value>
+      <value>(864, 576)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -852,12 +852,6 @@
     <sink_block_id>inets_framing_cpp_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>payload_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>frame_info_out</source_key>
-    <sink_key>print</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>

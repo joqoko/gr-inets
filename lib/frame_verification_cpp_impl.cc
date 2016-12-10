@@ -88,14 +88,35 @@ namespace gr {
         // payload_length
         pmt::pmt_t payload_length_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("payload_length"), not_found);
         int payload_length = pmt::to_long(payload_length_pmt);
-        if(_develop_mode)
+        /*
+         * CRC
+         */
+        // rx_frame with crc
+        pmt::pmt_t frame_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_pmt"), not_found);
+        // rx_frame without crc in vector form
+        std::vector<unsigned char> frame_array = pmt::u8vector_elements(frame_pmt);
+        std::vector<unsigned char> frame_for_recrc_vector;
+        frame_for_recrc_vector.insert(frame_for_recrc_vector.end(), frame_array.begin(), frame_array.end() - 4);
+        pmt::pmt_t frame_for_recrc_pmt = pmt::init_u8vector(frame_for_recrc_vector.size(), frame_for_recrc_vector);
+        pmt::pmt_t meta = pmt::make_dict();        
+        pmt::pmt_t frame_before_recrc_pmt = pmt::cons(meta, frame_for_recrc_pmt);
+        pmt::pmt_t frame_after_recrc_pmt = crc32_bb_calc(frame_before_recrc_pmt);
+        std::vector<unsigned char> frame_after_recrc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_recrc_pmt));
+        good_frame = (frame_after_recrc_vector == frame_array);
+        std::cout << frame_array.size() << "size is" << frame_after_recrc_vector.size() << std::endl;
+
+
+
+        if(_develop_mode == 4)
         {
           std::cout << "dict has key frame_type: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_type")) << " with value: " << frame_type << std::endl;
           std::cout << "dict has key frame_index: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_index")) << " with value: " << frame_index << std::endl;
           std::cout << "dict has key destination_address: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("destination_address")) << " with value: " << destination_address << std::endl;
           std::cout << "dict has key source address: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("source_address")) << " with value: " << source_address << std::endl;
           std::cout << "dict has key payload_length: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("payload_length")) << " with value: " << payload_length << std::endl;
+          std::cout << "Frame verification result: " << good_frame << ", (1: passed, 0: failed)" << std::endl;
         }
+        message_port_pub(pmt::mp("good_frame"), pmt::from_bool(good_frame));
       }
       else 
         std::cout << "pmt is not a dict" << std::endl;
