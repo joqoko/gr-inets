@@ -44,7 +44,8 @@ list(APPEND inets_sources
     framing_cpp_impl.cc
     analyze_frame_cpp_impl.cc
     frame_header_analysis_cpp_impl.cc
-    message_tomb_impl.cc )
+    message_tomb_impl.cc
+    frame_verification_cpp_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

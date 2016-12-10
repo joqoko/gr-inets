@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<block>
+  <name>frame_verification_cpp</name>
+  <key>inets_frame_verification_cpp</key>
+  <category>inets_dmf_v1.0</category>
+  <import>import inets</import>
+  <make>inets.frame_verification_cpp($develop_mode)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <value>develop_mode</value>
+    <type>int</type>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>frame_info_in</name>
+    <type>message</type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>good_frame</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>payload_out</name>
+    <type>message</type>
+  </source>
+</block>

@@ -73,7 +73,6 @@
        * name (an identifier for the GUI)
        * type
        * vlen
-       * optional (set to 1 for optional inputs) -->
   <source>
     <name>frame_type_out</name>
     <type>message</type>
@@ -99,8 +98,9 @@
     <type>message</type>
   </source>
 
+       * optional (set to 1 for optional inputs) -->
   <source>
-    <name>frame_header_out</name>
+    <name>frame_info_out</name>
     <type>message</type>
   </source>
   <source>

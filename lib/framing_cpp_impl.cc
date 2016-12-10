@@ -31,16 +31,16 @@ namespace gr {
   namespace inets {
 
     framing_cpp::sptr
-    framing_cpp::make(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length)
+    framing_cpp::make(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index)
     {
       return gnuradio::get_initial_sptr
-        (new framing_cpp_impl(develop_mode, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length));
+        (new framing_cpp_impl(develop_mode, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index));
     }
 
     /*
      * The private constructor
      */
-    framing_cpp_impl::framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length)
+    framing_cpp_impl::framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index)
       : gr::block("framing_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -57,7 +57,8 @@ namespace gr {
         _reserved_field_II(reserved_field_II),
         _len_reserved_field_II(len_reserved_field_II), // Bytes
         _len_payload_length(len_payload_length), // Bytes
-        _frame_type(frame_type)
+        _frame_type(frame_type),
+        _increase_index(increase_index)
     {
       message_port_register_in(pmt::mp("payload_in"));
       message_port_register_out(pmt::mp("frame_out"));
@@ -139,6 +140,8 @@ namespace gr {
       // Frame type 
       intToByte(_frame_type, &vec_frame_type, _len_frame_type);
       // Frame index
+      if(_increase_index)
+        _frame_index++;
       intToByte(_frame_index, &vec_frame_index, _len_frame_index);
       // Destination address
       intToByte(_destination_address, &vec_destination_address, _len_destination_address);

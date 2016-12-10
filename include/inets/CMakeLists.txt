@@ -41,6 +41,7 @@ install(FILES
     framing_cpp.h
     analyze_frame_cpp.h
     frame_header_analysis_cpp.h
-    message_tomb.h DESTINATION include/inets
+    message_tomb.h
+    frame_verification_cpp.h DESTINATION include/inets
 
 )

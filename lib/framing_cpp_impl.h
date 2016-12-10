@@ -46,6 +46,7 @@ namespace gr {
       int _len_reserved_field_II; // Bytes
       int _payload_length;
       int _len_payload_length; // Bytes
+      int _increase_index;
       boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
       void frame_formation(pmt::pmt_t rx_payload);
@@ -54,7 +55,7 @@ namespace gr {
       void disp_vec(std::vector<unsigned char> vec);
 
      public:
-      framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length);
+      framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index);
       ~framing_cpp_impl();
 
     };

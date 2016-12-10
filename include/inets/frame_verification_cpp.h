@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_FRAMING_CPP_H
-#define INCLUDED_INETS_FRAMING_CPP_H
+#ifndef INCLUDED_INETS_FRAME_VERIFICATION_CPP_H
+#define INCLUDED_INETS_FRAME_VERIFICATION_CPP_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API framing_cpp : virtual public gr::block
+    class INETS_API frame_verification_cpp : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<framing_cpp> sptr;
+      typedef boost::shared_ptr<frame_verification_cpp> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::framing_cpp.
+       * \brief Return a shared_ptr to a new instance of inets::frame_verification_cpp.
        *
-       * To avoid accidental use of raw pointers, inets::framing_cpp's
+       * To avoid accidental use of raw pointers, inets::frame_verification_cpp's
        * constructor is in a private implementation
-       * class. inets::framing_cpp::make is the public interface for
+       * class. inets::frame_verification_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index);
+      static sptr make(int develop_mode);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAMING_CPP_H */
+#endif /* INCLUDED_INETS_FRAME_VERIFICATION_CPP_H */
 

@@ -55,14 +55,14 @@ namespace gr {
         _len_payload_length(len_payload_length) // Bytes
     {
       message_port_register_in(pmt::mp("frame_in"));
-      message_port_register_out(pmt::mp("frame_type_out"));
-      message_port_register_out(pmt::mp("frame_index_out"));
-      message_port_register_out(pmt::mp("destination_address_out"));
-      message_port_register_out(pmt::mp("source_address_out"));
-      message_port_register_out(pmt::mp("reserved_field_I_out"));
-      message_port_register_out(pmt::mp("reserved_field_II_out"));
-      message_port_register_out(pmt::mp("payload_length_out"));
-      message_port_register_out(pmt::mp("frame_header_out"));
+//      message_port_register_out(pmt::mp("frame_type_out"));
+//      message_port_register_out(pmt::mp("frame_index_out"));
+//      message_port_register_out(pmt::mp("destination_address_out"));
+//      message_port_register_out(pmt::mp("source_address_out"));
+//      message_port_register_out(pmt::mp("reserved_field_I_out"));
+//      message_port_register_out(pmt::mp("reserved_field_II_out"));
+//      message_port_register_out(pmt::mp("payload_length_out"));
+      message_port_register_out(pmt::mp("frame_info_out"));
       message_port_register_out(pmt::mp("frame_out"));
       set_msg_handler(pmt::mp("frame_in"), boost::bind(&frame_header_analysis_cpp_impl::frame_analysis, this, _1 ));
     }
@@ -107,6 +107,14 @@ namespace gr {
           int destination_address = frame_header_array[2];
           int source_address = frame_header_array[3];
           int payload_length = frame_header_array[8];
+          pmt::pmt_t frame_info  = pmt::make_dict();
+          frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_type"), pmt::from_long(frame_type));
+          frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_index"), pmt::from_long(frame_index));
+          frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("destination_address"), pmt::from_long(destination_address));
+          frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("source_address"), pmt::from_long(source_address));
+          frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(payload_length));
+          frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_pmt);
+
           if(_develop_mode)
           {
             std::cout << "length of frame_header_array is: " << frame_header_array.size() << std::endl;
@@ -116,12 +124,12 @@ namespace gr {
             std::cout << "source address is: " << source_address << std::endl;
             std::cout << "paylaod length is: " << payload_length << std::endl;
           }
-          message_port_pub(pmt::mp("frame_type_out"), pmt::from_long(frame_type));
-          message_port_pub(pmt::mp("frame_index_out"), pmt::from_long(frame_index));
-          message_port_pub(pmt::mp("destination_address_out"), pmt::from_long(destination_address));
-          message_port_pub(pmt::mp("source_address_out"), pmt::from_long(source_address));
-          message_port_pub(pmt::mp("payload_length_out"), pmt::from_long(payload_length));
-          message_port_pub(pmt::mp("frame_header_out"), frame_header_array_pmt);
+    //      message_port_pub(pmt::mp("frame_type_out"), pmt::from_long(frame_type));
+    //      message_port_pub(pmt::mp("frame_index_out"), pmt::from_long(frame_index));
+    //      message_port_pub(pmt::mp("destination_address_out"), pmt::from_long(destination_address));
+    //      message_port_pub(pmt::mp("source_address_out"), pmt::from_long(source_address));
+    //      message_port_pub(pmt::mp("payload_length_out"), pmt::from_long(payload_length));
+          message_port_pub(pmt::mp("frame_info_out"), frame_info);
           message_port_pub(pmt::mp("frame_out"), rx_frame);
         }
         else

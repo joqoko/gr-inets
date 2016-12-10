@@ -42,5 +42,6 @@ install(FILES
     inets_framing_cpp.xml
     inets_analyze_frame_cpp.xml
     inets_frame_header_analysis_cpp.xml
-    inets_message_tomb.xml DESTINATION share/gnuradio/grc/blocks
+    inets_message_tomb.xml
+    inets_frame_verification_cpp.xml DESTINATION share/gnuradio/grc/blocks
 )
