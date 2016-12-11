@@ -31,6 +31,8 @@ namespace gr {
     {
      private:
       bool _in_idle;
+      std::vector<int> _develop_mode;
+      int _my_develop_mode;
       bool _experiment_running;
       int _experiment_duration;
       void activate_idle(pmt::pmt_t msg);

@@ -38,11 +38,13 @@ namespace gr {
     /*
      * The private constructor
      */
-    idle_cpp_impl::idle_cpp_impl(int experiment_duration)
+    idle_cpp_impl::idle_cpp_impl(std::vector<int> develop_mode, int experiment_duration)
       : gr::block("idle_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-        _experiment_duration(experiment_duration)
+        _experiment_duration(experiment_duration),
+        _develop_mode(develop_mode);
+        _my_develop_mode(1)
     {
       _experiment_running = false;
       _in_idle = true;
