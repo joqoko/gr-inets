@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>frame_verification_cpp</name>
-  <key>inets_frame_verification_cpp</key>
+  <name>address_check_cpp</name>
+  <key>inets_address_check_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.frame_verification_cpp($develop_mode)</make>
+  <make>inets.address_check_cpp($develop_mode, $my_address, $apply_address_check)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -14,6 +14,18 @@
     <name>Develop mode</name>
     <key>develop_mode</key>
     <value>develop_mode</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>My address</name>
+    <key>my_address</key>
+    <value>my_address</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Apply address check?</name>
+    <key>apply_address_check</key>
+    <value>apply_address_check</value>
     <type>int</type>
   </param>
 
@@ -33,15 +45,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>good_frame</name>
-    <type>message</type>
-  </source>
-  <source>
     <name>frame_info_out</name>
-    <type>message</type>
-  </source>
-  <source>
-    <name>payload_out</name>
     <type>message</type>
   </source>
 </block>

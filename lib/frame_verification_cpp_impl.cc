@@ -49,6 +49,7 @@ namespace gr {
     {
       message_port_register_in(pmt::mp("frame_info_in"));
       message_port_register_out(pmt::mp("good_frame"));
+      message_port_register_out(pmt::mp("frame_info_out"));
       message_port_register_out(pmt::mp("payload_out"));
       set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&frame_verification_cpp_impl::check_frame, this, _1 ));
     }
@@ -71,7 +72,7 @@ namespace gr {
       }
       if(pmt::is_dict(frame_info)) 
       {
-        bool good_frame;
+        int is_good_frame;
         pmt::pmt_t not_found;
         // frame_type
         pmt::pmt_t frame_type_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found);
@@ -88,6 +89,12 @@ namespace gr {
         // payload_length
         pmt::pmt_t payload_length_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("payload_length"), not_found);
         int payload_length = pmt::to_long(payload_length_pmt);
+        // header_length
+        pmt::pmt_t header_length_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("header_length"), not_found);
+        int header_length = pmt::to_long(header_length_pmt);
+        // rx_frame_address_check
+        pmt::pmt_t rx_frame_address_check_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("address_check"), not_found);
+        int rx_frame_address_check = pmt::to_long(rx_frame_address_check_pmt);
         /*
          * CRC
          */
@@ -97,15 +104,14 @@ namespace gr {
         std::vector<unsigned char> frame_array = pmt::u8vector_elements(frame_pmt);
         std::vector<unsigned char> frame_for_recrc_vector;
         frame_for_recrc_vector.insert(frame_for_recrc_vector.end(), frame_array.begin(), frame_array.end() - 4);
+        std::vector<unsigned char> payload_vector;
+        payload_vector.insert(payload_vector.end(), frame_for_recrc_vector.begin() + header_length, frame_for_recrc_vector.end());
         pmt::pmt_t frame_for_recrc_pmt = pmt::init_u8vector(frame_for_recrc_vector.size(), frame_for_recrc_vector);
         pmt::pmt_t meta = pmt::make_dict();        
         pmt::pmt_t frame_before_recrc_pmt = pmt::cons(meta, frame_for_recrc_pmt);
         pmt::pmt_t frame_after_recrc_pmt = crc32_bb_calc(frame_before_recrc_pmt);
         std::vector<unsigned char> frame_after_recrc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_recrc_pmt));
-        good_frame = (frame_after_recrc_vector == frame_array);
-        std::cout << frame_array.size() << "size is" << frame_after_recrc_vector.size() << std::endl;
-
-
+        is_good_frame = (frame_after_recrc_vector == frame_array) && rx_frame_address_check;
 
         if(_develop_mode == 4)
         {
@@ -114,67 +120,20 @@ namespace gr {
           std::cout << "dict has key destination_address: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("destination_address")) << " with value: " << destination_address << std::endl;
           std::cout << "dict has key source address: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("source_address")) << " with value: " << source_address << std::endl;
           std::cout << "dict has key payload_length: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("payload_length")) << " with value: " << payload_length << std::endl;
-          std::cout << "Frame verification result: " << good_frame << ", (1: passed, 0: failed)" << std::endl;
+          std::cout << "dict has key header_length: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("header_length")) << " with value: " << header_length << std::endl;
+          std::cout << "address check is: " << rx_frame_address_check << ", (1: passed, 0: failed)" << std::endl;
+          std::cout << "Frame verification result: " << is_good_frame << ", (1: passed, 0: failed)" << std::endl;
         }
-        message_port_pub(pmt::mp("good_frame"), pmt::from_bool(good_frame));
+        message_port_pub(pmt::mp("good_frame"), pmt::from_long(is_good_frame));
+          pmt::pmt_t payload_u8vector = pmt::init_u8vector(payload_vector.size(), payload_vector);
+          pmt::pmt_t payload = pmt::cons(meta, payload_u8vector); 
+        message_port_pub(pmt::mp("payload_out"), payload);
+        frame_info = pmt::dict_delete(frame_info, pmt::string_to_symbol("good_frame"));
+        frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"), pmt::from_long(is_good_frame));
+        message_port_pub(pmt::mp("frame_info_out"), frame_info);
       }
       else 
         std::cout << "pmt is not a dict" << std::endl;
-    }
-    
-
-    void 
-    frame_verification_cpp_impl::check_frame_v0(pmt::pmt_t rx_frame)
-    {
-      if(_develop_mode)
-      {
-        std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-        std::cout << "Frame verification" << std::endl;
-        std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-      }
-      if(pmt::is_dict(rx_frame)) 
-      {
-        bool good_frame;
-        pmt::pmt_t meta = pmt::car(rx_frame);
-        pmt::pmt_t frame_pmt = pmt::cdr(rx_frame);
-        std::vector<unsigned char> frame_array; 
-        if(pmt::is_u8vector(frame_pmt))
-        {
-          std::vector<unsigned char> frame_array = pmt::u8vector_elements(frame_pmt);
-          int _frame_length = frame_array.size(); 
-          /*
-           * CRC
-           */
-          std::vector<unsigned char> frame_array_for_crc;
-          frame_array_for_crc.insert(frame_array_for_crc.begin(), frame_array.begin(), frame_array.end() - 4); 
-          // only for test
-          //frame_array_for_crc.insert(frame_array_for_crc.begin(), frame_array.begin() + 4, frame_array.end()); 
-          
-          pmt::pmt_t frame_before_recrc_u8vector = pmt::init_u8vector(frame_array_for_crc.size(), frame_array_for_crc);
-          pmt::pmt_t frame_array_before_recrc = pmt::cons(meta, frame_before_recrc_u8vector); 
-          pmt::pmt_t frame_array_recrc = crc32_bb_calc(frame_array_before_recrc);
-          frame_array_for_crc = pmt::u8vector_elements(pmt::cdr(frame_array_recrc));
-          good_frame = (frame_array_for_crc == frame_array);
-          /*
-           * payload
-           */
-          std::vector<unsigned char> payload_array;
-          payload_array.insert(payload_array.begin(), frame_array.begin() + 9, frame_array.end());
-          pmt::pmt_t payload_array_u8vector = pmt::init_u8vector(payload_array.size(), payload_array);
-          pmt::pmt_t payload_array_pmt = pmt::cons(meta, payload_array_u8vector);
-          if(_develop_mode)
-          {
-            std::cout << "Frame verification is: " << good_frame << " (1: passed, 0: failed)." << std::endl;
-            std::cout << "length of payload array is: " << payload_array.size() << std::endl;
-          }
-          message_port_pub(pmt::mp("good_frame_received"), pmt::from_bool(good_frame));
-          message_port_pub(pmt::mp("payload_out"), payload_array_pmt);
-        }
-        else
-          std::cout << "pmt is not a u8vector" << std::endl;
-      }
-      else 
-        std::cout << "pmt is not a pair" << std::endl;
     }
     
     pmt::pmt_t

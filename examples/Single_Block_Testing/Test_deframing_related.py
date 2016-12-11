@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Top Block
-# Generated: Sat Dec 10 16:59:12 2016
+# Title: Test_deframing_related
+# Author: pwa
+# Generated: Sun Dec 11 15:58:43 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -28,12 +29,12 @@ import sys
 from gnuradio import qtgui
 
 
-class top_block(gr.top_block, Qt.QWidget):
+class Test_deframing_related(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Top Block")
+        gr.top_block.__init__(self, "Test_deframing_related")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Top Block")
+        self.setWindowTitle("Test_deframing_related")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -51,7 +52,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
+        self.settings = Qt.QSettings("GNU Radio", "Test_deframing_related")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -61,6 +62,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 32000
         self.reserved_field_II = reserved_field_II = 6
         self.reserved_field_I = reserved_field_I = 5
+        self.my_address = my_address = 3
         self.len_source_address = len_source_address = 1
         self.len_reserved_field_II = len_reserved_field_II = 2
         self.len_reserved_field_I = len_reserved_field_I = 2
@@ -71,8 +73,9 @@ class top_block(gr.top_block, Qt.QWidget):
         self.increase_index = increase_index = 1
         self.frame_type = frame_type = 1
         self.frame_index = frame_index = 2
-        self.develop_mode = develop_mode = 4
+        self.develop_mode = develop_mode = 0
         self.destination_address = destination_address = 3
+        self.apply_address_check = apply_address_check = 0
 
         ##################################################
         # Blocks
@@ -80,22 +83,26 @@ class top_block(gr.top_block, Qt.QWidget):
         self.inets_message_tomb_0 = inets.message_tomb()
         self.inets_framing_cpp_0 = inets.framing_cpp(develop_mode, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index)
         self.inets_frame_verification_cpp_0 = inets.frame_verification_cpp(develop_mode)
-        self.inets_frame_header_analysis_cpp_0 = inets.frame_header_analysis_cpp(develop_mode, len_frame_type, len_frame_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II, len_payload_length)
+        self.inets_frame_header_analysis_cpp_0 = inets.frame_header_analysis_cpp(develop_mode, len_frame_type, len_frame_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II, len_payload_length, apply_address_check)
+        self.inets_address_check_cpp_0 = inets.address_check_cpp(develop_mode, my_address, apply_address_check)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.blocks_message_debug_0, 'print_pdu'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_cpp_0, 'payload_in'))    
-        self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'frame_info_out'), (self.inets_frame_verification_cpp_0, 'frame_info_in'))    
+        self.msg_connect((self.inets_address_check_cpp_0, 'frame_info_out'), (self.inets_frame_verification_cpp_0, 'frame_info_in'))    
+        self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'frame_info_out'), (self.inets_address_check_cpp_0, 'frame_info_in'))    
         self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'frame_out'), (self.inets_message_tomb_0, 'message_in'))    
-        self.msg_connect((self.inets_frame_verification_cpp_0, 'good_frame'), (self.blocks_message_debug_0, 'print'))    
         self.msg_connect((self.inets_frame_verification_cpp_0, 'payload_out'), (self.blocks_message_debug_0, 'print_pdu'))    
+        self.msg_connect((self.inets_frame_verification_cpp_0, 'frame_info_out'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.inets_frame_verification_cpp_0, 'good_frame'), (self.inets_message_tomb_0, 'message_in'))    
         self.msg_connect((self.inets_framing_cpp_0, 'frame_out'), (self.inets_frame_header_analysis_cpp_0, 'frame_in'))    
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
+        self.settings = Qt.QSettings("GNU Radio", "Test_deframing_related")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -122,6 +129,12 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_reserved_field_I(self, reserved_field_I):
         self.reserved_field_I = reserved_field_I
+
+    def get_my_address(self):
+        return self.my_address
+
+    def set_my_address(self, my_address):
+        self.my_address = my_address
 
     def get_len_source_address(self):
         return self.len_source_address
@@ -195,8 +208,14 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_destination_address(self, destination_address):
         self.destination_address = destination_address
 
+    def get_apply_address_check(self):
+        return self.apply_address_check
 
-def main(top_block_cls=top_block, options=None):
+    def set_apply_address_check(self, apply_address_check):
+        self.apply_address_check = apply_address_check
+
+
+def main(top_block_cls=Test_deframing_related, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

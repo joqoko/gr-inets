@@ -6,11 +6,11 @@
     <key>options</key>
     <param>
       <key>author</key>
-      <value></value>
+      <value>pwa</value>
     </param>
     <param>
       <key>window_size</key>
-      <value></value>
+      <value>1920, 1024</value>
     </param>
     <param>
       <key>category</key>
@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>top_block</value>
+      <value>Test_deframing_related</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,34 @@
     </param>
     <param>
       <key>title</key>
+      <value>Test_deframing_related</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
       <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(320, 156)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>apply_address_check</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -120,7 +147,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 84)</value>
+      <value>(8, 108)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -132,7 +159,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4</value>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -417,6 +444,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(200, 156)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>my_address</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>3</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(736, 92)</value>
     </param>
     <param>
@@ -471,7 +525,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 160)</value>
+      <value>(8, 180)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -533,7 +587,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1096, 300)</value>
+      <value>(1200, 704)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -564,7 +618,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 260)</value>
+      <value>(16, 332)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -604,7 +658,11 @@
     </param>
   </block>
   <block>
-    <key>inets_frame_header_analysis_cpp</key>
+    <key>inets_address_check_cpp</key>
+    <param>
+      <key>apply_address_check</key>
+      <value>apply_address_check</value>
+    </param>
     <param>
       <key>alias</key>
       <value></value>
@@ -627,7 +685,58 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(536, 292)</value>
+      <value>(680, 332)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_address_check_cpp_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>my_address</key>
+      <value>my_address</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_header_analysis_cpp</key>
+    <param>
+      <key>apply_address_check</key>
+      <value>apply_address_check</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>develop_mode</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(424, 300)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -698,7 +807,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(816, 308)</value>
+      <value>(912, 336)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -753,7 +862,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(280, 252)</value>
+      <value>(176, 244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -836,7 +945,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(864, 576)</value>
+      <value>(1152, 528)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -849,13 +958,25 @@
   </block>
   <connection>
     <source_block_id>blocks_socket_pdu_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>pdus</source_key>
+    <sink_key>print_pdu</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_socket_pdu_0</source_block_id>
     <sink_block_id>inets_framing_cpp_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>payload_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
+    <source_block_id>inets_address_check_cpp_0</source_block_id>
     <sink_block_id>inets_frame_verification_cpp_0</sink_block_id>
+    <source_key>frame_info_out</source_key>
+    <sink_key>frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>
+    <sink_block_id>inets_address_check_cpp_0</sink_block_id>
     <source_key>frame_info_out</source_key>
     <sink_key>frame_info_in</sink_key>
   </connection>
@@ -867,9 +988,15 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_verification_cpp_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <sink_block_id>inets_message_tomb_0</sink_block_id>
+    <source_key>frame_info_out</source_key>
+    <sink_key>message_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_verification_cpp_0</source_block_id>
+    <sink_block_id>inets_message_tomb_0</sink_block_id>
     <source_key>good_frame</source_key>
-    <sink_key>print</sink_key>
+    <sink_key>message_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_verification_cpp_0</source_block_id>

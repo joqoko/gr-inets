@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_FRAME_HEADER_ANALYSIS_CPP_H
-#define INCLUDED_INETS_FRAME_HEADER_ANALYSIS_CPP_H
+#ifndef INCLUDED_INETS_ADDRESS_CHECK_CPP_H
+#define INCLUDED_INETS_ADDRESS_CHECK_CPP_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API frame_header_analysis_cpp : virtual public gr::block
+    class INETS_API address_check_cpp : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<frame_header_analysis_cpp> sptr;
+      typedef boost::shared_ptr<address_check_cpp> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::frame_header_analysis_cpp.
+       * \brief Return a shared_ptr to a new instance of inets::address_check_cpp.
        *
-       * To avoid accidental use of raw pointers, inets::frame_header_analysis_cpp's
+       * To avoid accidental use of raw pointers, inets::address_check_cpp's
        * constructor is in a private implementation
-       * class. inets::frame_header_analysis_cpp::make is the public interface for
+       * class. inets::address_check_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check);
+      static sptr make(int develop_mode, int my_address, int apply_address_check);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_HEADER_ANALYSIS_CPP_H */
+#endif /* INCLUDED_INETS_ADDRESS_CHECK_CPP_H */
 

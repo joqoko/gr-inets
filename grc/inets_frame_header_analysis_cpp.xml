@@ -4,7 +4,7 @@
   <key>inets_frame_header_analysis_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.frame_header_analysis_cpp($develop_mode, $len_frame_type, $len_frame_index, $len_destination_address, $len_source_address, $len_reserved_field_I, $len_reserved_field_II, $len_payload_length)</make>
+  <make>inets.frame_header_analysis_cpp($develop_mode, $len_frame_type, $len_frame_index, $len_destination_address, $len_source_address, $len_reserved_field_I, $len_reserved_field_II, $len_payload_length, $apply_address_check)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -57,6 +57,12 @@
     <name>Length of payload length field</name>
     <key>len_payload_length</key>
     <value>len_payload_length</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Apply address check?</name>
+    <key>apply_address_check</key>
+    <value>apply_address_check</value>
     <type>int</type>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
