@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>receive frame_phy</value>
+      <value>receive_frame_phy</value>
     </param>
   </block>
   <block>
@@ -1174,7 +1174,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(976, 91)</value>
+      <value>(952, 124)</value>
     </param>
     <param>
       <key>_rotation</key>

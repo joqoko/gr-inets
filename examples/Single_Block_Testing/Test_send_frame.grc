@@ -603,7 +603,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(784, 296)</value>
+      <value>(784, 588)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -634,7 +634,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 372)</value>
+      <value>(216, 524)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -771,7 +771,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(720, 480)</value>
+      <value>(720, 452)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1153,8 +1153,64 @@
       <value>4</value>
     </param>
     <param>
+      <key>destination_address</key>
+      <value>3</value>
+    </param>
+    <param>
       <key>develop_mode</key>
       <value>2</value>
+    </param>
+    <param>
+      <key>frame_index</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>frame_type</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>increase_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_destination_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_type</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_payload_length</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_reserved_field_I</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_II</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_source_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>reserved_field_I</key>
+      <value>5</value>
+    </param>
+    <param>
+      <key>reserved_field_II</key>
+      <value>6</value>
+    </param>
+    <param>
+      <key>source_address</key>
+      <value>4</value>
     </param>
     <param>
       <key>system_time_granularity_us</key>
@@ -1284,14 +1340,14 @@
   </connection>
   <connection>
     <source_block_id>send_frame_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>message_out</source_key>
-    <sink_key>print</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>send_frame_0</source_block_id>
     <sink_block_id>qtgui_time_sink_x_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>send_frame_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>tx_ifs_finish</source_key>
+    <sink_key>print</sink_key>
   </connection>
 </flow_graph>

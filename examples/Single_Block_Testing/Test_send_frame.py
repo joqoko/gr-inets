@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test send frame
 # Author: PWA
-# Generated: Wed Dec  7 20:31:10 2016
+# Generated: Sun Dec 11 20:44:21 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -109,6 +109,7 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
             develop_mode=2,
             frame_index=2,
             frame_type=1,
+            increase_index=1,
             len_destination_address=1,
             len_frame_index=1,
             len_frame_type=1,
@@ -190,7 +191,7 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.send_frame_0, 'in'))    
-        self.msg_connect((self.send_frame_0, 'message_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.send_frame_0, 'tx_ifs_finish'), (self.blocks_message_debug_0, 'print'))    
         self.connect((self.send_frame_0, 0), (self.qtgui_time_sink_x_0, 0))    
 
     def closeEvent(self, event):
