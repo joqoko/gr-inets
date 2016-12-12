@@ -32,21 +32,25 @@ namespace gr {
   namespace inets {
 
     frame_verification_cpp::sptr
-    frame_verification_cpp::make(int develop_mode)
+    frame_verification_cpp::make(std::vector<int> develop_mode_list)
     {
       return gnuradio::get_initial_sptr
-        (new frame_verification_cpp_impl(develop_mode));
+        (new frame_verification_cpp_impl(develop_mode_list));
     }
 
     /*
      * The private constructor
      */
-    frame_verification_cpp_impl::frame_verification_cpp_impl(int develop_mode)
+    frame_verification_cpp_impl::frame_verification_cpp_impl(std::vector<int> develop_mode_list)
       : gr::block("frame_verification_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-       _develop_mode(develop_mode)
+       _my_develop_mode(12),
+       _develop_mode_list(develop_mode_list)
     {
+      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
+      if(_develop_mode)
+        std::cout << "develop_mode of frame_verification_cpp is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in"));
       message_port_register_out(pmt::mp("good_frame"));
       message_port_register_out(pmt::mp("frame_info_out"));
@@ -66,9 +70,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-        std::cout << "Frame verification" << std::endl;
-        std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+        std::cout << "++++++++  frame_verification_cpp  ++++++++++" << std::endl;
       }
       if(pmt::is_dict(frame_info)) 
       {
@@ -113,7 +115,7 @@ namespace gr {
         std::vector<unsigned char> frame_after_recrc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_recrc_pmt));
         is_good_frame = (frame_after_recrc_vector == frame_array) && rx_frame_address_check;
 
-        if(_develop_mode == 4)
+        if(_develop_mode)
         {
           std::cout << "dict has key frame_type: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_type")) << " with value: " << frame_type << std::endl;
           std::cout << "dict has key frame_index: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_index")) << " with value: " << frame_index << std::endl;

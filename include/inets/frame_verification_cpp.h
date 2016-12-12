@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::frame_verification_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode);
+      static sptr make(std::vector<int>_develop_mode_list);
     };
 
   } // namespace inets
