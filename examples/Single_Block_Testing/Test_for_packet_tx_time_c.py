@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Packet TX time test
 # Author: PWA
-# Generated: Mon Dec 12 01:59:00 2016
+# Generated: Mon Dec 12 02:11:53 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -74,7 +74,7 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.samp_rate = samp_rate = 4e6
         self.preamble = preamble = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0]
-        self.develop_mode_list = develop_mode_list = [0,1, 3]
+        self.develop_mode_list = develop_mode_list = [0,1,4]
 
         ##################################################
         # Blocks
@@ -122,7 +122,7 @@ class Test_for_packet_tx_time_c(gr.top_block, Qt.QWidget):
         
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
-        self.inets_t_control_tx_cc_0 = inets.t_control_tx_cc(0, constellation.bits_per_symbol() * (samp_rate / sps))
+        self.inets_t_control_tx_cc_0 = inets.t_control_tx_cc((develop_mode_list), constellation.bits_per_symbol() * (samp_rate / sps))
         self.inets_pending_tx_finish_0 = inets.pending_tx_finish(0, system_time_granularity_us, samp_rate, "packet_len")
         self.inets_packetizer_0 = inets.packetizer((develop_mode_list), (preamble), 64, constellation.bits_per_symbol() * (samp_rate / sps))
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc((constellation.points()), 1)

@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::t_control_tx_cc::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, double bps);
+      static sptr make(std::vector<int> develop_mode_list, double bps);
     };
 
   } // namespace inets

@@ -31,23 +31,27 @@ namespace gr {
   namespace inets {
 
     t_control_tx_cc::sptr
-    t_control_tx_cc::make(int develop_mode, double bps)
+    t_control_tx_cc::make(std::vector<int> develop_mode_list, double bps)
     {
       return gnuradio::get_initial_sptr
-        (new t_control_tx_cc_impl(develop_mode, bps));
+        (new t_control_tx_cc_impl(develop_mode_list, bps));
     }
 
     /*
      * The private constructor
      */
-    t_control_tx_cc_impl::t_control_tx_cc_impl(int develop_mode, double bps)
+    t_control_tx_cc_impl::t_control_tx_cc_impl(std::vector<int> develop_mode_list, double bps)
       : gr::block("t_control_tx_cc",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex))),
-        _develop_mode(develop_mode),
+        _develop_mode_list(develop_mode_list),
+        _my_develop_mode(4),
         _last_tx_time(0),
         _bps(bps)
     {
+      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
+      if(_develop_mode)
+        std::cout << "develop_mode of framing_cpp is activated." << std::endl;
     }
 
     /*
@@ -132,10 +136,14 @@ namespace gr {
     int
     t_control_tx_cc_impl::process_tags_info(std::vector <tag_t> tags)
     {
+      if(_develop_mode)
+      {
+        std::cout << "++++++++++++++   Framing_cpp  ++++++++++++++" << std::endl;
+      }
       int tag_detected = 0; 
       for(int i = 0; i < tags.size(); i++)
       {
-        if(_develop_mode > 1)
+        if(_develop_mode)
         {
           std::cout << "Index of tags: " << i << std::endl;
           std::cout << "Offset: " << tags[i].offset << std::endl;
