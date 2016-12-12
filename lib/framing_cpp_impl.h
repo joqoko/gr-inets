@@ -37,8 +37,10 @@ namespace gr {
       int _frame_type; 
       int _len_frame_type; // Bytes
       int _frame_index;
+      int _ack_index;
       int _len_frame_index; // Bytes
       int _destination_address;
+      int _ack_address;
       int _len_destination_address; // Bytes
       int _source_address; 
       int _len_source_address; // Bytes

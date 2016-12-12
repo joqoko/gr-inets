@@ -84,6 +84,9 @@ namespace gr {
       {
         std::cout << "++++++++++++++   Framing_cpp  ++++++++++++++" << std::endl;
       }
+      /*
+       * Generate a data frame
+       */
       if(pmt::is_pair(rx_payload)) 
       {
         pmt::pmt_t meta = pmt::car(rx_payload);
@@ -91,6 +94,7 @@ namespace gr {
         std::vector<unsigned char> payload_array; 
         if(pmt::is_u8vector(payload_pmt))
         {
+          _frame_type = 1;
           payload_array = pmt::u8vector_elements(payload_pmt);
           _payload_length = payload_array.size(); 
           std::vector<unsigned char> frame_header;
@@ -115,6 +119,43 @@ namespace gr {
         }
         else
           std::cout << "pmt is not a u8vector" << std::endl;
+      }
+      /*
+       * Generate an ack frame
+       */
+      else if(pmt::is_dict(rx_payload))
+      {
+        pmt::pmt_t meta = pmt::make_dict();
+        pmt::pmt_t not_found;
+        int _frame_type = pmt::to_long(pmt::dict_ref(rx_payload, pmt::string_to_symbol("frame_type"), not_found));
+        // generate an ack frame
+        if(_frame_type == 2)
+        { 
+          int _ack_address = pmt::to_long(pmt::dict_ref(rx_payload, pmt::string_to_symbol("destination_address"), not_found));
+          int _ack_index = pmt::to_long(pmt::dict_ref(rx_payload, pmt::string_to_symbol("frame_index"), not_found));
+          std::vector<unsigned char> frame_header;
+          frame_header_formation(&frame_header);
+          std::vector<unsigned char> frame;
+          frame.insert(frame.end(), frame_header.begin(), frame_header.end());
+          if(_develop_mode)
+            std::cout << "frame header, length " << frame.size() << std::endl;
+          // crc
+          // crc32_bb_calc(&frame);
+          // change frame to pmt::pmt_t
+          pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
+          pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
+          pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
+          std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
+          if(_develop_mode)
+            std::cout << "ack frame with crc(no payload), length " << frame_after_crc_vector.size() << std::endl;
+          message_port_pub(pmt::mp("frame_out"), frame_after_crc);
+        }
+      }
+      /*
+       * Generate an ack frame
+       */
+      else
+        std::cout << "frame type of received frame_info is: " << _frame_type << ". do nothing here now." << std::endl;
       }
       else 
         std::cout << "pmt is not a pair" << std::endl;
@@ -142,20 +183,44 @@ namespace gr {
        */
       // Frame type 
       intToByte(_frame_type, &vec_frame_type, _len_frame_type);
-      // Frame index
-      if(_increase_index)
-        _frame_index++;
-      intToByte(_frame_index, &vec_frame_index, _len_frame_index);
-      // Destination address
-      intToByte(_destination_address, &vec_destination_address, _len_destination_address);
+      if(_frame_type == 1)
+      {
+        // Frame index
+        if(_increase_index)
+          _frame_index++;
+        intToByte(_frame_index, &vec_frame_index, _len_frame_index);
+        // Destination address
+        intToByte(_destination_address, &vec_destination_address, _len_destination_address);
+        // Payload length
+        intToByte(_payload_length, &vec_payload_length, _len_payload_length);
+      }
+      else if(_frame_type == 2)
+      {
+        // Frame index
+        intToByte(_ack_index, &vec_frame_index, _len_frame_index);
+        // Destination address
+        intToByte(_ack_address, &vec_destination_address, _len_destination_address);
+        // Payload length
+        intToByte(0, &vec_payload_length, _len_payload_length);
+      }
+      else
+      {
+        std::cout << "Framing: unknown frame type. Please check your connections." << std::endl;
+        // Frame index
+        if(_increase_index)
+          _frame_index++;
+        intToByte(_frame_index, &vec_frame_index, _len_frame_index);
+        // Destination address
+        intToByte(_destination_address, &vec_destination_address, _len_destination_address);
+        // Payload length
+        intToByte(_payload_length, &vec_payload_length, _len_payload_length);
+      }
       // Source address
       intToByte(_source_address, &vec_source_address, _len_source_address);
       // Reserved field I
       intToByte(_reserved_field_I, &vec_reserved_field_I, _len_reserved_field_I);
       // Reserved field II
       intToByte(_reserved_field_II, &vec_reserved_field_II, _len_reserved_field_II);
-      // Payload length
-      intToByte(_payload_length, &vec_payload_length, _len_payload_length);
 
       //std::cout  << "Frame header length before frame type: " << frame_header->size() << std::endl;
       frame_header->insert(frame_header->end(), vec_frame_type.begin(), vec_frame_type.begin() + _len_frame_type);
