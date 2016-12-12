@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_decision
 # Author: PWA
-# Generated: Mon Dec 12 13:39:12 2016
+# Generated: Mon Dec 12 22:13:30 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -60,24 +60,24 @@ class Test_decision(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 320000
-        self.develop_mode_list = develop_mode_list = [1, 3, 4, 14]
+        self.develop_mode_list = develop_mode_list = [1, 3, 4, 14, 21, 22]
 
         ##################################################
         # Blocks
         ##################################################
         self.inets_decision_cpp_0 = inets.decision_cpp((develop_mode_list), 14)
+        self.inets_counter_0_0 = inets.counter((develop_mode_list), 22)
+        self.inets_counter_0 = inets.counter((develop_mode_list), 21)
         self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(pmt.from_bool(False), blocks.STROBE_POISSON, 2000, 500)
         self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 3000, 500)
-        self.blocks_message_debug_0_0 = blocks.message_debug()
-        self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))    
         self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))    
-        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_t'), (self.blocks_message_debug_0, 'print'))    
-        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_f'), (self.blocks_message_debug_0_0, 'print'))    
+        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_t'), (self.inets_counter_0, 'message_in'))    
+        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_f'), (self.inets_counter_0_0, 'message_in'))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_decision")

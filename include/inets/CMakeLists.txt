@@ -43,6 +43,7 @@ install(FILES
     message_tomb.h
     frame_verification_cpp.h
     address_check_cpp.h
-    timeout_cpp.h DESTINATION include/inets
+    timeout_cpp.h
+    counter.h DESTINATION include/inets
 
 )

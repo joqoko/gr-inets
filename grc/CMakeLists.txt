@@ -44,5 +44,6 @@ install(FILES
     inets_message_tomb.xml
     inets_frame_verification_cpp.xml
     inets_address_check_cpp.xml
-    inets_timeout_cpp.xml DESTINATION share/gnuradio/grc/blocks
+    inets_timeout_cpp.xml
+    inets_counter.xml DESTINATION share/gnuradio/grc/blocks
 )

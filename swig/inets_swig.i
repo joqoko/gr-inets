@@ -30,6 +30,7 @@
 #include "inets/frame_verification_cpp.h"
 #include "inets/address_check_cpp.h"
 #include "inets/timeout_cpp.h"
+#include "inets/counter.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -85,3 +86,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, frame_verification_cpp);
 GR_SWIG_BLOCK_MAGIC2(inets, address_check_cpp);
 %include "inets/timeout_cpp.h"
 GR_SWIG_BLOCK_MAGIC2(inets, timeout_cpp);
+%include "inets/counter.h"
+GR_SWIG_BLOCK_MAGIC2(inets, counter);
