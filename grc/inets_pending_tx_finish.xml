@@ -4,17 +4,17 @@
   <key>inets_pending_tx_finish</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.pending_tx_finish($develop_mode, $system_time_granularity_us, $sample_rate, $lengthtagname)</make>
+  <make>inets.pending_tx_finish($develop_mode_list, $system_time_granularity_us, $sample_rate, $lengthtagname)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>Develop mode</name>
-    <key>develop_mode</key>
-    <value>develop_mode</value>
-    <type>int</type>
+    <name>Develop mode list</name>
+    <key>develop_mode_list</key>
+    <value>develop_mode_list</value>
+    <type>int_vector</type>
   </param>
   <param>
     <name>System time granularity [us]</name>

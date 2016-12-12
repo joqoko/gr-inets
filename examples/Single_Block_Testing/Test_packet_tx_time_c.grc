@@ -105,7 +105,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>[0,1,4]</value>
+      <value>[0,1,5]</value>
     </param>
   </block>
   <block>
@@ -921,8 +921,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>0</value>
+      <key>develop_mode_list</key>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -930,7 +930,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(928, 572)</value>
+      <value>(928, 588)</value>
     </param>
     <param>
       <key>_rotation</key>

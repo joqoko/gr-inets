@@ -31,6 +31,8 @@ namespace gr {
      private:
       // Nothing to declare in this block.
       int _develop_mode;
+      int _my_develop_mode;
+      std::vector<int> _develop_mode_list;
       float _sample_rate;
       const pmt::pmt_t _d_lengthtagname;
       float _wait_time;
@@ -39,7 +41,7 @@ namespace gr {
       void countdown_sensing();
 
      public:
-      pending_tx_finish_impl(int develop_mode, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname);
+      pending_tx_finish_impl(std::vector<int> develop_mode_list, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname);
       ~pending_tx_finish_impl();
 
       // Where all the action really happens

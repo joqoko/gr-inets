@@ -29,24 +29,28 @@ namespace gr {
   namespace inets {
 
     pending_tx_finish::sptr
-    pending_tx_finish::make(int develop_mode, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
+    pending_tx_finish::make(std::vector<int> develop_mode_list, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
     {
       return gnuradio::get_initial_sptr
-        (new pending_tx_finish_impl(develop_mode, system_time_granularity_us, sample_rate, lengthtagname));
+        (new pending_tx_finish_impl(develop_mode_list, system_time_granularity_us, sample_rate, lengthtagname));
     }
 
     /*
      * The private constructor
      */
-    pending_tx_finish_impl::pending_tx_finish_impl(int develop_mode, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
+    pending_tx_finish_impl::pending_tx_finish_impl(std::vector<int> develop_mode_list, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
       : gr::sync_block("pending_tx_finish",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(0, 0, 0)),
         _sample_rate(sample_rate),
         _d_lengthtagname(pmt::string_to_symbol(lengthtagname)),
-        _develop_mode(develop_mode),
+        _develop_mode_list(develop_mode_list),
+        _my_develop_mode(5),
         _system_time_granularity_us(system_time_granularity_us)
     {
+      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
+      if(_develop_mode)
+        std::cout << "develop_mode of pending_tx_finish is activated." << std::endl;
       _wait_time = 0;
       message_port_register_out(pmt::mp("spark_out"));
     }
@@ -80,16 +84,16 @@ namespace gr {
     int
     pending_tx_finish_impl::process_tags_info(std::vector <tag_t> tags)
     {
-      if(_develop_mode > 0)
+      if(_develop_mode)
       {
-        std::cout << "+++++++++++++++++++++++++++++++++++++++++" << std::endl;
+        std::cout << "+++++++++++  pending_tx_finish  ++++++++++++" << std::endl;
         std::cout << "Number of tags: " << tags.size() << std::endl;
       }
       if(tags.size() > 0)
       {
         for(int i = 0; i < tags.size(); i++)
         {
-          if(_develop_mode > 1)
+          if(_develop_mode)
           {
             std::cout << "Index of tags: " << i << std::endl;
             std::cout << "Offset: " << tags[i].offset << std::endl;
@@ -102,7 +106,7 @@ namespace gr {
           if(pmt::symbol_to_string(tags[i].key) == "packet_len")
           {
             _wait_time = pmt::to_double(tags[i].value) / _sample_rate;     
-            if(_develop_mode > 0)
+            if(_develop_mode)
             {
               std::cout << "Frame transmission time is: " << _wait_time << std::endl;
             }

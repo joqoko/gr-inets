@@ -90,6 +90,10 @@ namespace gr {
 
       if(process_tags_info(tags))
       {
+        if(_develop_mode)
+        {
+          std::cout << "++++++++++++   t_control_tx_cc  ++++++++++++" << std::endl;
+        }
         /*
           JUA parketizer code starts 
         */ 
@@ -136,10 +140,6 @@ namespace gr {
     int
     t_control_tx_cc_impl::process_tags_info(std::vector <tag_t> tags)
     {
-      if(_develop_mode)
-      {
-        std::cout << "++++++++++++++   Framing_cpp  ++++++++++++++" << std::endl;
-      }
       int tag_detected = 0; 
       for(int i = 0; i < tags.size(); i++)
       {
