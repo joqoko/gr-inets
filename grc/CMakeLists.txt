@@ -34,7 +34,6 @@ install(FILES
     inets_decision_cpp.xml
     inets_idle_cpp.xml
     inets_wait_cpp.xml
-    inets_wait_frame_transmission_c.xml
     inets_pending_tx_finish.xml
     inets_t_control_tx_cc.xml
     inets_tx_buffer.xml

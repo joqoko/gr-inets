@@ -32,8 +32,8 @@ Index		block name
  5		pending_tx_finish
  6		tx_buffer
  7		wait_cpp
- 8		wait_frame_transmission_c
- 9		message_tomb
+ 8		wait_frame_transmission_c (deleted. Refer to t_control_tx_cc and pending_tx_finish)
+ 9		message_tomb (not necessary to provide develop mode)
  10		rx_switch_cc
  11		frame_header_analysis_cpp
  12		frame_verification_cpp

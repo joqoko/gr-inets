@@ -101,11 +101,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>develop_mode</value>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>[1, 2, 10]</value>
     </param>
   </block>
   <block>
@@ -323,8 +323,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>develop_mode</value>
+      <key>develop_mode_list</key>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>_enabled</key>

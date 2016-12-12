@@ -30,11 +30,13 @@ namespace gr {
     {
      private:
      int _develop_mode;
+     int _my_develop_mode;
+     std::vector<int> _develop_mode_list;
      int _is_receiving;
      void kai_guan(pmt::pmt_t spark);
 
      public:
-      rx_switch_cc_impl(int develop_mode);
+      rx_switch_cc_impl(std::vector<int> _develop_mode_list);
       ~rx_switch_cc_impl();
 
       // Where all the action really happens

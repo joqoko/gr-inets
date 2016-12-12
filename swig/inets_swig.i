@@ -19,7 +19,6 @@
 #include "inets/decision_cpp.h"
 #include "inets/idle_cpp.h"
 #include "inets/wait_cpp.h"
-#include "inets/wait_frame_transmission_c.h"
 #include "inets/pending_tx_finish.h"
 #include "inets/t_control_tx_cc.h"
 #include "inets/tx_buffer.h"
@@ -59,9 +58,6 @@ GR_SWIG_BLOCK_MAGIC2(inets, idle_cpp);
 %include "inets/wait_cpp.h"
 GR_SWIG_BLOCK_MAGIC2(inets, wait_cpp);
 
-
-%include "inets/wait_frame_transmission_c.h"
-GR_SWIG_BLOCK_MAGIC2(inets, wait_frame_transmission_c);
 %include "inets/pending_tx_finish.h"
 GR_SWIG_BLOCK_MAGIC2(inets, pending_tx_finish);
 
