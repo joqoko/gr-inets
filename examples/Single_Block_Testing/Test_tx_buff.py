@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test Tx buffer function
 # Author: PWA
-# Generated: Sun Dec 11 20:41:43 2016
+# Generated: Mon Dec 12 09:31:37 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -60,22 +60,23 @@ class Test_tx_buff(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 32000
-        self.develop_mode = develop_mode = 2
+        self.max_buffer_size = max_buffer_size = 5
+        self.develop_mode_list = develop_mode_list = [1,2,3,4,5,6]
 
         ##################################################
         # Blocks
         ##################################################
-        self.inets_tx_buffer_0 = inets.tx_buffer(develop_mode, 5, 1)
+        self.inets_tx_buffer_0 = inets.tx_buffer((develop_mode_list), max_buffer_size, 1)
+        self.inets_message_tomb_0 = inets.message_tomb()
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2500, 100)
-        self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_tx_buffer_0, 'spark_in'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_tx_buffer_0, 'payload_in'))    
-        self.msg_connect((self.inets_tx_buffer_0, 'payload_out'), (self.blocks_message_debug_0, 'print_pdu'))    
+        self.msg_connect((self.inets_tx_buffer_0, 'payload_out'), (self.inets_message_tomb_0, 'message_in'))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_tx_buff")
@@ -88,11 +89,17 @@ class Test_tx_buff(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
 
-    def get_develop_mode(self):
-        return self.develop_mode
+    def get_max_buffer_size(self):
+        return self.max_buffer_size
 
-    def set_develop_mode(self, develop_mode):
-        self.develop_mode = develop_mode
+    def set_max_buffer_size(self, max_buffer_size):
+        self.max_buffer_size = max_buffer_size
+
+    def get_develop_mode_list(self):
+        return self.develop_mode_list
+
+    def set_develop_mode_list(self, develop_mode_list):
+        self.develop_mode_list = develop_mode_list
 
 
 def main(top_block_cls=Test_tx_buff, options=None):

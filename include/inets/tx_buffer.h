@@ -47,7 +47,7 @@ namespace gr {
        * class. inets::tx_buffer::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int max_buffer_size, int policy);
+      static sptr make(std::vector<int> _develop_mode_list, int max_buffer_size, int policy);
     };
 
   } // namespace inets

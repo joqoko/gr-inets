@@ -33,6 +33,8 @@ namespace gr {
      private:
       // Nothing to declare in this block.
       int _develop_mode;
+      int _my_develop_mode;
+      std::vector<int> _develop_mode_list;
       int _max_buffer_size;
       int _policy;
       std::queue<pmt::pmt_t> _tx_buff;
@@ -40,7 +42,7 @@ namespace gr {
       int dequeue(pmt::pmt_t spark);
 
     public:
-      tx_buffer_impl(int develop_mode, int max_buffer_size, int policy);
+      tx_buffer_impl(std::vector<int> _develop_mode_list, int max_buffer_size, int policy);
       ~tx_buffer_impl();
      };
   } // namespace inets

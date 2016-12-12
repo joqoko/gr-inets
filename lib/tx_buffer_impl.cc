@@ -31,23 +31,27 @@ namespace gr {
   namespace inets {
 
     tx_buffer::sptr
-    tx_buffer::make(int develop_mode, int max_buffer_size, int policy)
+    tx_buffer::make(std::vector<int> develop_mode_list, int max_buffer_size, int policy)
     {
       return gnuradio::get_initial_sptr
-        (new tx_buffer_impl(develop_mode, max_buffer_size, policy));
+        (new tx_buffer_impl(develop_mode_list, max_buffer_size, policy));
     }
 
     /*
      * The private constructor
      */
-    tx_buffer_impl::tx_buffer_impl(int develop_mode, int max_buffer_size, int policy)
+    tx_buffer_impl::tx_buffer_impl(std::vector<int> develop_mode_list, int max_buffer_size, int policy)
       : gr::block("tx_buffer",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _max_buffer_size(max_buffer_size),
         _policy(policy),
-        _develop_mode(develop_mode)
+        _develop_mode_list(develop_mode_list),
+        _my_develop_mode(6)
     {
+      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
+      if(_develop_mode)
+        std::cout << "develop_mode of tx_buffer is activated." << std::endl;
       message_port_register_in(pmt::mp("payload_in"));
       message_port_register_in(pmt::mp("spark_in"));
       message_port_register_out(pmt::mp("payload_out"));
@@ -64,6 +68,10 @@ namespace gr {
 
     int tx_buffer_impl::enqueue(pmt::pmt_t payload)
     {
+      if(_develop_mode)
+      {
+        std::cout << "++++++++++++++   tx_buffer  ++++++++++++++++" << std::endl;
+      }
       if(_tx_buff.size() < _max_buffer_size)
       {
         _tx_buff.push(payload);
