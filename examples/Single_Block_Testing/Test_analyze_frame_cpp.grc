@@ -973,4 +973,10 @@
     <source_key>frame_out</source_key>
     <sink_key>frame_in</sink_key>
   </connection>
+  <connection>
+    <source_block_id>inets_framing_cpp_0</source_block_id>
+    <sink_block_id>inets_message_tomb_0</sink_block_id>
+    <source_key>tx_frame_info_out</source_key>
+    <sink_key>message_in</sink_key>
+  </connection>
 </flow_graph>

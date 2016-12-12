@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test tx rx
 # Author: PWA
-# Generated: Mon Dec 12 00:04:32 2016
+# Generated: Mon Dec 12 21:39:21 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -103,7 +103,7 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self.max_buffer_size = max_buffer_size = 10
         self.diff_preamble_256 = diff_preamble_256 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0]
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
-        self.develop_mode = develop_mode = 0
+        self.develop_mode_list = develop_mode_list = [0]
         self.bpsk_mod = bpsk_mod = gnuradio.digital.constellation_bpsk().base()
 
         ##################################################
@@ -128,8 +128,8 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self.top_layout.addWidget(self.tab)
         self.send_frame_0 = send_frame(
             constellation=gnuradio.digital.constellation_qpsk().base(),
-            destination_address=3,
-            develop_mode=develop_mode,
+            destination_address=destination_address,
+            develop_mode_list=[0, 1],
             frame_index=2,
             frame_type=1,
             increase_index=1,
@@ -151,7 +151,7 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self.receive_frame_0 = receive_frame(
             apply_address_check=apply_address_check,
             constellation=gnuradio.digital.constellation_qpsk().base(),
-            develop_mode=develop_mode,
+            develop_mode=develop_mode_list,
             len_destination_address=len_destination_address,
             len_frame_index=len_frame_index,
             len_frame_type=len_frame_type,
@@ -177,7 +177,7 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_tx_buffer_0 = inets.tx_buffer(develop_mode, max_buffer_size, 1)
+        self.inets_tx_buffer_0 = inets.tx_buffer((develop_mode_list), max_buffer_size, 1)
         self.inets_message_tomb_0 = inets.message_tomb()
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
@@ -193,7 +193,7 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_tx_buffer_0, 'payload_in'))    
         self.msg_connect((self.inets_tx_buffer_0, 'payload_out'), (self.send_frame_0, 'in'))    
         self.msg_connect((self.receive_frame_0, 'is_good_frame_out'), (self.blocks_message_debug_0_0, 'print'))    
-        self.msg_connect((self.send_frame_0, 'tx_ifs_finish'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_message_tomb_0, 'message_in'))    
         self.connect((self.send_frame_0, 0), (self.blocks_null_sink_0, 0))    
         self.connect((self.send_frame_0, 0), (self.receive_frame_0, 0))    
 
@@ -214,6 +214,7 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
 
     def set_destination_address(self, destination_address):
         self.destination_address = destination_address
+        self.send_frame_0.set_destination_address(self.destination_address)
         self.receive_frame_0.set_my_address(self.destination_address)
 
     def get_frame_index(self):
@@ -403,13 +404,12 @@ class Test_tx_rx(gr.top_block, Qt.QWidget):
         self.send_frame_0.set_preamble(self.diff_preamble_128)
         self.receive_frame_0.set_preamble(self.diff_preamble_128)
 
-    def get_develop_mode(self):
-        return self.develop_mode
+    def get_develop_mode_list(self):
+        return self.develop_mode_list
 
-    def set_develop_mode(self, develop_mode):
-        self.develop_mode = develop_mode
-        self.send_frame_0.set_develop_mode(self.develop_mode)
-        self.receive_frame_0.set_develop_mode(self.develop_mode)
+    def set_develop_mode_list(self, develop_mode_list):
+        self.develop_mode_list = develop_mode_list
+        self.receive_frame_0.set_develop_mode(self.develop_mode_list)
 
     def get_bpsk_mod(self):
         return self.bpsk_mod

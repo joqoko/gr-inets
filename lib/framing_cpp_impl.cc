@@ -150,12 +150,11 @@ namespace gr {
             std::cout << "ack frame with crc(no payload), length " << frame_after_crc_vector.size() << std::endl;
           message_port_pub(pmt::mp("frame_out"), frame_after_crc);
         }
-      }
-      /*
-       * Generate an ack frame
-       */
-      else
-        std::cout << "frame type of received frame_info is: " << _frame_type << ". do nothing here now." << std::endl;
+        /*
+         * unknown frame type 
+         */
+        else
+          std::cout << "frame type of received frame_info is: " << _frame_type << ". do nothing here now." << std::endl;
       }
       else 
         std::cout << "pmt is not a pair" << std::endl;

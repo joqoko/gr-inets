@@ -148,11 +148,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>develop_mode</value>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>label</key>
-      <value>develop_mode</value>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>short_id</key>
@@ -160,11 +160,11 @@
     </param>
     <param>
       <key>type</key>
-      <value>intx</value>
+      <value></value>
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>[0]</value>
     </param>
   </block>
   <block>
@@ -272,8 +272,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>develop_mode</value>
+      <key>develop_mode_list</key>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -323,8 +323,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>develop_mode</value>
+      <key>develop_mode_list</key>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -394,8 +394,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>develop_mode</value>
+      <key>develop_mode_list</key>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>_enabled</key>
