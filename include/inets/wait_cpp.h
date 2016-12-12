@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::wait_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int system_time_granularity_us);
+      static sptr make(std::vector<int> _develop_mode_list, int system_time_granularity_us);
     };
 
   } // namespace inets

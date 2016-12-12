@@ -29,22 +29,26 @@ namespace gr {
   namespace inets {
 
     wait_cpp::sptr
-    wait_cpp::make(int develop_mode, int system_time_granularity_us)
+    wait_cpp::make(std::vector<int> develop_mode_list, int system_time_granularity_us)
     {
       return gnuradio::get_initial_sptr
-        (new wait_cpp_impl(develop_mode, system_time_granularity_us));
+        (new wait_cpp_impl(develop_mode_list, system_time_granularity_us));
     }
 
     /*
      * The private constructor
      */
-    wait_cpp_impl::wait_cpp_impl(int develop_mode, int system_time_granularity_us)
+    wait_cpp_impl::wait_cpp_impl(std::vector<int> develop_mode_list, int system_time_granularity_us)
       : gr::block("wait_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-        _develop_mode(develop_mode),
+        _my_develop_mode(7),
+        _develop_mode_list(develop_mode_list),
         _system_time_granularity_us(system_time_granularity_us)
     {
+      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
+      if(_develop_mode)
+        std::cout << "develop_mode of wait_cpp is activated." << std::endl;
       _wait_time = 0;
       message_port_register_in(pmt::mp("wait_time_in"));
       message_port_register_out(pmt::mp("spark_out"));
@@ -63,6 +67,10 @@ namespace gr {
 
     void wait_cpp_impl::start_waiting(pmt::pmt_t msg) 
     {
+      if(_develop_mode)
+      {
+        std::cout << "++++++++++++   start_waiting   +++++++++++++" << std::endl;
+      }
       if(pmt::is_pair(msg))
       {
         pmt::pmt_t payload_pmt = pmt::cdr(msg);

@@ -30,13 +30,15 @@ namespace gr {
     {
      private:
        int _develop_mode;
+       int _my_develop_mode;
+       std::vector<int> _develop_mode_list;
        int _system_time_granularity_us;
        float _wait_time; 
        void start_waiting(pmt::pmt_t msg);
        void countdown_sensing();
  
      public:
-      wait_cpp_impl(int develop_mode, int system_time_granularity_us);
+      wait_cpp_impl(std::vector<int> _develop_mode_list, int system_time_granularity_us);
       ~wait_cpp_impl();
     };
 
