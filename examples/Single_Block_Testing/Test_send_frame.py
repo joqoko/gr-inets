@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test send frame
 # Author: PWA
-# Generated: Mon Dec 12 09:13:26 2016
+# Generated: Mon Dec 12 16:31:02 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -32,6 +32,7 @@ from gnuradio.qtgui import Range, RangeWidget
 from optparse import OptionParser
 from send_frame import send_frame  # grc-generated hier_block
 import gnuradio
+import inets
 import numpy
 import sip
 from gnuradio import qtgui
@@ -69,7 +70,9 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 15
         self.range_mu = range_mu = 0.6
+        self.timeout_duration_ms = timeout_duration_ms = 1000
         self.threshold = threshold = 40
+        self.system_time_granularity_us = system_time_granularity_us = 100000
         self.samp_rate = samp_rate = 4e6
         self.rx_gain = rx_gain = range_rx_gain
         
@@ -81,6 +84,7 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
         self.mu = mu = range_mu
         self.diff_preamble_256 = diff_preamble_256 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0]
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
+        self.develop_mode_list = develop_mode_list = [16]
         self.bpsk_mod = bpsk_mod = gnuradio.digital.constellation_bpsk().base()
 
         ##################################################
@@ -106,7 +110,7 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
         self.send_frame_0 = send_frame(
             constellation=gnuradio.digital.constellation_qpsk().base(),
             destination_address=3,
-            develop_mode=2,
+            develop_mode_list=develop_mode_list,
             frame_index=2,
             frame_type=1,
             increase_index=1,
@@ -123,7 +127,7 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
             samp_rate=4e6,
             source_address=4,
             sps=4,
-            system_time_granularity_us=5,
+            system_time_granularity_us=system_time_granularity_us,
         )
         self._range_rx_gain_range = Range(0, 60, 1, 15, 200)
         self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, 'Rx Gain', "counter_slider", float)
@@ -184,6 +188,7 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
         
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.inets_timeout_cpp_0 = inets.timeout_cpp((develop_mode_list), timeout_duration_ms, system_time_granularity_us)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_debug_0 = blocks.message_debug()
 
@@ -191,7 +196,9 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.send_frame_0, 'in'))    
-        self.msg_connect((self.send_frame_0, 'tx_ifs_finish'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_timeout_cpp_0, 'spark_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_timeout_cpp_0, 'ack_info_in'))    
+        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_timeout_cpp_0, 'tx_frame_info_in'))    
         self.connect((self.send_frame_0, 0), (self.qtgui_time_sink_x_0, 0))    
 
     def closeEvent(self, event):
@@ -219,11 +226,24 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
         self.range_mu = range_mu
         self.set_mu(self.range_mu)
 
+    def get_timeout_duration_ms(self):
+        return self.timeout_duration_ms
+
+    def set_timeout_duration_ms(self, timeout_duration_ms):
+        self.timeout_duration_ms = timeout_duration_ms
+
     def get_threshold(self):
         return self.threshold
 
     def set_threshold(self, threshold):
         self.threshold = threshold
+
+    def get_system_time_granularity_us(self):
+        return self.system_time_granularity_us
+
+    def set_system_time_granularity_us(self, system_time_granularity_us):
+        self.system_time_granularity_us = system_time_granularity_us
+        self.send_frame_0.set_system_time_granularity_us(self.system_time_granularity_us)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -279,6 +299,13 @@ class Test_send_frame(gr.top_block, Qt.QWidget):
 
     def set_diff_preamble_128(self, diff_preamble_128):
         self.diff_preamble_128 = diff_preamble_128
+
+    def get_develop_mode_list(self):
+        return self.develop_mode_list
+
+    def set_develop_mode_list(self, develop_mode_list):
+        self.develop_mode_list = develop_mode_list
+        self.send_frame_0.set_develop_mode_list(self.develop_mode_list)
 
     def get_bpsk_mod(self):
         return self.bpsk_mod

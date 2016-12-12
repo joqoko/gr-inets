@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Top Block
-# Generated: Mon Dec 12 13:36:51 2016
+# Title: Test_decision
+# Author: PWA
+# Generated: Mon Dec 12 13:39:12 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -29,12 +30,12 @@ import sys
 from gnuradio import qtgui
 
 
-class top_block(gr.top_block, Qt.QWidget):
+class Test_decision(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Top Block")
+        gr.top_block.__init__(self, "Test_decision")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Top Block")
+        self.setWindowTitle("Test_decision")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -52,30 +53,34 @@ class top_block(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
+        self.settings = Qt.QSettings("GNU Radio", "Test_decision")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 320000
-        self.develop_mode_list = develop_mode_list = [1, 3, 4, 15]
+        self.develop_mode_list = develop_mode_list = [1, 3, 4, 14]
 
         ##################################################
         # Blocks
         ##################################################
-        self.inets_exponential_backoff_cpp_0 = inets.exponential_backoff_cpp((develop_mode_list), 20, 6, 20)
-        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 100)
+        self.inets_decision_cpp_0 = inets.decision_cpp((develop_mode_list), 14)
+        self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(pmt.from_bool(False), blocks.STROBE_POISSON, 2000, 500)
+        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 3000, 500)
+        self.blocks_message_debug_0_0 = blocks.message_debug()
         self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_exponential_backoff_cpp_0, 'spark_in'))    
-        self.msg_connect((self.inets_exponential_backoff_cpp_0, 'spark_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))    
+        self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))    
+        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_t'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_f'), (self.blocks_message_debug_0_0, 'print'))    
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
+        self.settings = Qt.QSettings("GNU Radio", "Test_decision")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -92,7 +97,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.develop_mode_list = develop_mode_list
 
 
-def main(top_block_cls=top_block, options=None):
+def main(top_block_cls=Test_decision, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>exponential_backoff_cpp</name>
-  <key>inets_exponential_backoff_cpp</key>
+  <name>timeout_cpp</name>
+  <key>inets_timeout_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.exponential_backoff_cpp($develop_mode_list, $backoff_time_unit, $max_n_backoff, $min_backoff)</make>
+  <make>inets.timeout_cpp($develop_mode_list, $timeout_duration_ms, $system_time_granularity_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -17,27 +17,29 @@
     <type>int_vector</type>
   </param>
   <param>
-    <name>Backoff time unit [ms]</name>
-    <key>backoff_time_unit</key>
+    <name>Timeout duration [ms]</name>
+    <key>timeout_duration_ms</key>
+    <value>timeout_duration_ms</value>
     <type>int</type>
   </param>
   <param>
-    <name>Max. number of backoff</name>
-    <key>max_n_backoff</key>
+    <name>System time granularity [us]</name>
+    <key>system_time_granularity_us</key>
+    <value>system_time_granularity_us</value>
     <type>int</type>
   </param>
-  <param>
-    <name>Min. backoff time [ms]</name>
-    <key>min_backoff</key>
-    <type>int</type>
-  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>spark_in</name>
+    <name>tx_frame_info_in</name>
+    <type>message</type>
+  </sink>
+  <sink>
+    <name>ack_info_in</name>
     <type>message</type>
   </sink>
 

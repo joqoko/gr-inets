@@ -42,6 +42,7 @@ install(FILES
     frame_header_analysis_cpp.h
     message_tomb.h
     frame_verification_cpp.h
-    address_check_cpp.h DESTINATION include/inets
+    address_check_cpp.h
+    timeout_cpp.h DESTINATION include/inets
 
 )

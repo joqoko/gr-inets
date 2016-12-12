@@ -66,6 +66,7 @@ namespace gr {
         std::cout << "develop_mode of framing_cpp is activated." << std::endl;
       message_port_register_in(pmt::mp("payload_in"));
       message_port_register_out(pmt::mp("frame_out"));
+      message_port_register_out(pmt::mp("tx_frame_info_out"));
       set_msg_handler(pmt::mp("payload_in"), boost::bind(&framing_cpp_impl::frame_formation, this, _1 ));
     }
 
@@ -165,6 +166,23 @@ namespace gr {
       frame_header->insert(frame_header->end(), vec_reserved_field_I.begin(), vec_reserved_field_I.begin() + _len_reserved_field_I);
       frame_header->insert(frame_header->end(), vec_reserved_field_II.begin(), vec_reserved_field_II.begin() + _len_reserved_field_II);
       frame_header->insert(frame_header->end(), vec_payload_length.begin(), vec_payload_length.begin() + _len_payload_length);
+
+      pmt::pmt_t frame_info = pmt::make_dict();
+      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_type"), pmt::from_long(_frame_type));
+      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_index"), pmt::from_long(_frame_index));
+      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("destination_address"), pmt::from_long(_destination_address));
+      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("source_address"), pmt::from_long(_source_address));
+      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(_payload_length));
+
+      if(_develop_mode)
+      {
+        std::cout << "frame type is: " << _frame_type << std::endl;
+        std::cout << "frame index is: " << _frame_index << std::endl;
+        std::cout << "destination address is: " << _destination_address << std::endl;
+        std::cout << "source address is: " << _source_address << std::endl;
+        std::cout << "payload length is: " << _payload_length << std::endl;
+      }
+      message_port_pub(pmt::mp("tx_frame_info_out"), frame_info);
     }
 
     void 

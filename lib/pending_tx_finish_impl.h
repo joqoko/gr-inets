@@ -35,10 +35,12 @@ namespace gr {
       std::vector<int> _develop_mode_list;
       float _sample_rate;
       const pmt::pmt_t _d_lengthtagname;
+      pmt::pmt_t _tx_frame_info;
       float _wait_time;
       int _system_time_granularity_us;
       int process_tags_info(std::vector <tag_t> tags);
-      void countdown_sensing();
+      void buffer_tx_frame_info(pmt::pmt_t tx_frame_info);
+      void countdown_waiting();
 
      public:
       pending_tx_finish_impl(std::vector<int> develop_mode_list, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname);

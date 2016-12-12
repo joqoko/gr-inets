@@ -52,7 +52,9 @@ namespace gr {
       if(_develop_mode)
         std::cout << "develop_mode of pending_tx_finish is activated." << std::endl;
       _wait_time = 0;
-      message_port_register_out(pmt::mp("spark_out"));
+      message_port_register_in(pmt::mp("tx_frame_info_in"));
+      message_port_register_out(pmt::mp("tx_frame_info_out"));
+      set_msg_handler(pmt::mp("tx_frame_info_in"), boost::bind(&pending_tx_finish_impl::buffer_tx_frame_info, this, _1 ));
     }
 
     /*
@@ -74,11 +76,24 @@ namespace gr {
       // If tag(s) is detected, we need to wait then send the spark signal.
       if(process_tags_info(tags))
       {
-        boost::thread thrd(&pending_tx_finish_impl::countdown_sensing, this);
+        boost::thread thrd(&pending_tx_finish_impl::countdown_waiting, this);
       }
 
       // Tell runtime system how many output items we produced.
       return noutput_items;
+    }
+
+    void
+    pending_tx_finish_impl::buffer_tx_frame_info(pmt::pmt_t tx_frame_info)
+    {
+      if(pmt::is_dict(tx_frame_info))
+      {
+        _tx_frame_info = tx_frame_info;
+        if(_develop_mode)
+          std::cout << "tx_frame_info received." << std::endl;
+      }
+      else
+        std::cout << "tx_frame_info is not a dict. Please check your connection." << std::endl;
     }
 
     int
@@ -120,7 +135,7 @@ namespace gr {
       return tags.size();
     }
 
-    void pending_tx_finish_impl::countdown_sensing()
+    void pending_tx_finish_impl::countdown_waiting()
     {
       struct timeval t;
       gettimeofday(&t, NULL);
@@ -147,7 +162,7 @@ namespace gr {
       if(_develop_mode)
         std::cout << "Count is: " << count << std::endl;
       _wait_time = 0;
-      message_port_pub(pmt::mp("spark_out"), pmt::from_bool(true));
+      message_port_pub(pmt::mp("tx_frame_info_out"), _tx_frame_info);
     }
 
 

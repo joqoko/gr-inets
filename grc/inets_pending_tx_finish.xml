@@ -44,6 +44,10 @@
     <name>in</name>
     <type>complex</type>
   </sink>
+  <sink>
+    <name>tx_frame_info_in</name>
+    <type>message</type>
+  </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
@@ -51,7 +55,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>spark_out</name>
+    <name>tx_frame_info_out</name>
     <type>message</type>
   </source>
 </block>

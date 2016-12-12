@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /* 
- * Copyright 2016 <+inets+>.
+ * Copyright 2016 <+YOU OR YOUR COMPANY+>.
  * 
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_EXPONENTIAL_BACKOFF_CPP_H
-#define INCLUDED_INETS_EXPONENTIAL_BACKOFF_CPP_H
+#ifndef INCLUDED_INETS_TIMEOUT_CPP_H
+#define INCLUDED_INETS_TIMEOUT_CPP_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API exponential_backoff_cpp : virtual public gr::block
+    class INETS_API timeout_cpp : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<exponential_backoff_cpp> sptr;
+      typedef boost::shared_ptr<timeout_cpp> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::exponential_backoff_cpp.
+       * \brief Return a shared_ptr to a new instance of inets::timeout_cpp.
        *
-       * To avoid accidental use of raw pointers, inets::exponential_backoff_cpp's
+       * To avoid accidental use of raw pointers, inets::timeout_cpp's
        * constructor is in a private implementation
-       * class. inets::exponential_backoff_cpp::make is the public interface for
+       * class. inets::timeout_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make(std::vector<int> develop_mode_list, int backoff_time_unit, int max_n_backoff, int min_backoff);
+      static sptr make(std::vector<int> develop_mode_list, int timeout_duration_ms, int system_time_granularity_us);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_EXPONENTIAL_BACKOFF_CPP_H */
+#endif /* INCLUDED_INETS_TIMEOUT_CPP_H */
 

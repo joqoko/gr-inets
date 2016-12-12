@@ -120,4 +120,8 @@
     <name>frame_out</name>
     <type>message</type>
   </source>
+  <source>
+    <name>tx_frame_info_out</name>
+    <type>message</type>
+  </source>
 </block>

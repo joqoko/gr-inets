@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /* 
- * Copyright 2016 <+inets+>.
+ * Copyright 2016 <+YOU OR YOUR COMPANY+>.
  * 
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,36 +18,35 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_EXPONENTIAL_BACKOFF_CPP_IMPL_H
-#define INCLUDED_INETS_EXPONENTIAL_BACKOFF_CPP_IMPL_H
+#ifndef INCLUDED_INETS_TIMEOUT_CPP_IMPL_H
+#define INCLUDED_INETS_TIMEOUT_CPP_IMPL_H
 
-#include <inets/exponential_backoff_cpp.h>
+#include <inets/timeout_cpp.h>
 
 namespace gr {
   namespace inets {
 
-    class exponential_backoff_cpp_impl : public exponential_backoff_cpp
+    class timeout_cpp_impl : public timeout_cpp
     {
      private:
-       int _backoff_time_unit;
-       int _max_n_backoff;
-       int _my_develop_mode;
-       int _develop_mode;
-       std::vector<int> _develop_mode_list;
-       bool _backoff_increase;
-       int _min_backoff;
-       int _n_backoff;
-       void start_backoff(pmt::pmt_t msg);
-       void countdown_backoff();
+      std::vector<int> _develop_mode_list;
+      int _my_develop_mode;
+      int _develop_mode;
+      int _in_timeout;
+      int _timeout_duration_ms;
+      int _system_time_granularity_us;
+      void start_timeout(pmt::pmt_t tx_frame_info);
+      void kill_timeout(pmt::pmt_t ack_info);
+      void countdown_timeout();
 
      public:
-      exponential_backoff_cpp_impl(std::vector<int> develop_mode_list, int backoff_time_unit, int max_n_backoff, int min_backoff);
-      ~exponential_backoff_cpp_impl();
+      timeout_cpp_impl(std::vector<int> develop_mode_list, int timeout_duration_ms, int system_time_granularity_us);
+      ~timeout_cpp_impl();
 
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_EXPONENTIAL_BACKOFF_CPP_IMPL_H */
+#endif /* INCLUDED_INETS_TIMEOUT_CPP_IMPL_H */
 
