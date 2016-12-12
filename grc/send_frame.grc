@@ -403,11 +403,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>develop_mode</value>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>label</key>
-      <value>develop mode</value>
+      <value>develop mode list</value>
     </param>
     <param>
       <key>short_id</key>
@@ -415,11 +415,11 @@
     </param>
     <param>
       <key>type</key>
-      <value>intx</value>
+      <value></value>
     </param>
     <param>
       <key>value</key>
-      <value>2</value>
+      <value>[0, 1]</value>
     </param>
   </block>
   <block>
@@ -754,8 +754,8 @@
       <value>destination_address</value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>develop_mode</value>
+      <key>develop_mode_list</key>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -901,7 +901,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>develop_mode</value>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -909,7 +909,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1184, 364)</value>
+      <value>(1128, 364)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -956,7 +956,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>develop_mode</value>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -964,7 +964,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1040, 292)</value>
+      <value>(896, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1773,7 +1773,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(688, 516)</value>
+      <value>(696, 516)</value>
     </param>
     <param>
       <key>_rotation</key>

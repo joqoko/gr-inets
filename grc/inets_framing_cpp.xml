@@ -4,17 +4,17 @@
   <key>inets_framing_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.framing_cpp($develop_mode, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index)</make>
+  <make>inets.framing_cpp($develop_mode_list, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>Develop mode</name>
-    <key>develop_mode</key>
-    <value>develop_mode</value>
-    <type>int</type>
+    <name>Develop mode list</name>
+    <key>develop_mode_list</key>
+    <value>develop_mode_list</value>
+    <type>int_vector</type>
   </param>
   <param>
     <name>Frame type</name>

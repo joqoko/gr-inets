@@ -34,12 +34,15 @@ namespace gr {
         std::vector< unsigned char > _random;
         std::vector< unsigned char > _preamble;
         std::vector< unsigned char > _preamble_packed;
+        int _my_develop_mode;
+        int _develop_mode;
+        std::vector<int> _develop_mode_list;
         int _padding;
         double _last_tx_time;
         double _bps;
         static const unsigned char _random_array[128];
       public:
-        packetizer_impl(const std::vector< unsigned char > &preamble, int padding, double bps);
+        packetizer_impl(std::vector<int> develop_mode_list, const std::vector< unsigned char > &preamble, int padding, double bps);
         ~packetizer_impl();
         void receive(pmt::pmt_t msg);
     };

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Mon Dec 12 01:11:33 2016
+# Generated: Mon Dec 12 01:33:50 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -64,6 +64,7 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.inets_message_tomb_0 = inets.message_tomb()
         self.inets_idle_cpp_0 = inets.idle_cpp((develop_mode_list), 5000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 2000)
@@ -76,9 +77,9 @@ class top_block(gr.top_block, Qt.QWidget):
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_idle_cpp_0, 'frame_from_phy_in'))    
         self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.inets_idle_cpp_0, 'spark_in'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_cpp_0, 'payload_from_network_layer_in'))    
-        self.msg_connect((self.inets_idle_cpp_0, 'frame_pmt_out'), (self.blocks_message_debug_0, 'print_pdu'))    
-        self.msg_connect((self.inets_idle_cpp_0, 'payload_pmt_out'), (self.blocks_message_debug_0, 'print_pdu'))    
-        self.msg_connect((self.inets_idle_cpp_0, 'spark_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_idle_cpp_0, 'spark_out'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.inets_idle_cpp_0, 'payload_pmt_out'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.inets_idle_cpp_0, 'frame_pmt_out'), (self.inets_message_tomb_0, 'message_in'))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")

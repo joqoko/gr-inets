@@ -52,7 +52,10 @@ namespace gr {
       _in_idle = true;
       _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
+      {
         std::cout << "Experiment is started. The whole experiment will take " << _experiment_duration << " seconds." << std::endl;
+        std::cout << "develop_mode of idle_cpp is activated." << std::endl;
+      }
       message_port_register_in(pmt::mp("spark_in"));
       message_port_register_in(pmt::mp("payload_from_network_layer_in"));
       message_port_register_in(pmt::mp("frame_from_phy_in"));
@@ -85,6 +88,10 @@ namespace gr {
       /*
        * Check the received message. Misconnecting message port may lead to this error.
        */
+      if(_develop_mode)
+      {
+        std::cout << "+++++++++++++     idle_cpp     +++++++++++++" << std::endl;
+      }
       if(pmt::is_bool(msg))
       {
         /*
@@ -121,6 +128,10 @@ namespace gr {
 
     void idle_cpp_impl::handler_data_from_network_layer(pmt::pmt_t msg)
     {
+      if(_develop_mode)
+      {
+        std::cout << "+++++++++++++     idle_cpp     +++++++++++++" << std::endl;
+      }
       if(!_in_idle)
       {
         if(_develop_mode)
@@ -158,6 +169,10 @@ namespace gr {
 
     void idle_cpp_impl::handler_good_packet_from_phy(pmt::pmt_t msg)
     {
+      if(_develop_mode)
+      {
+        std::cout << "+++++++++++++     idle_cpp     +++++++++++++" << std::endl;
+      }
       if(!_in_idle)
       {
         if(_develop_mode)

@@ -120,7 +120,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 124)</value>
+      <value>(8, 108)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -128,11 +128,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>develop_mode</value>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>[1, 2, 3]</value>
     </param>
   </block>
   <block>
@@ -471,7 +471,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 204)</value>
+      <value>(8, 180)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -533,7 +533,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(952, 264)</value>
+      <value>(952, 288)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -564,7 +564,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(256, 340)</value>
+      <value>(272, 324)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -622,8 +622,8 @@
       <value>destination_address</value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>develop_mode</value>
+      <key>develop_mode_list</key>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -702,6 +702,37 @@
       <value>source_address</value>
     </param>
   </block>
+  <block>
+    <key>inets_message_tomb</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1000, 432)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_message_tomb_0</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>blocks_socket_pdu_0</source_block_id>
     <sink_block_id>inets_framing_cpp_0</sink_block_id>
@@ -710,8 +741,8 @@
   </connection>
   <connection>
     <source_block_id>inets_framing_cpp_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <sink_block_id>inets_message_tomb_0</sink_block_id>
     <source_key>frame_out</source_key>
-    <sink_key>print_pdu</sink_key>
+    <sink_key>message_in</sink_key>
   </connection>
 </flow_graph>

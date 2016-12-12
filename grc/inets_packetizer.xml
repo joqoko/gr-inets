@@ -3,7 +3,13 @@
   <key>inets_packetizer</key>
   <category>iNets</category>
   <import>import inets</import>
-  <make>inets.packetizer($preamble, $padding, $bps)</make>
+  <make>inets.packetizer($develop_mode_list, $preamble, $padding, $bps)</make>
+  <param>
+    <name>Develop mode list</name>
+    <key>develop_mode_list</key>
+    <value>develop_mode_list</value>
+    <type>int_vector</type>
+  </param>
   <param>
     <name>Preamble</name>
     <key>preamble</key>

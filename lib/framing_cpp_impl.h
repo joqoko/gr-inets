@@ -31,7 +31,9 @@ namespace gr {
     {
      private:
       // Nothing to declare in this block.
+      std::vector<int> _develop_mode_list;
       int _develop_mode;
+      int _my_develop_mode;
       int _frame_type; 
       int _len_frame_type; // Bytes
       int _frame_index;
@@ -55,7 +57,7 @@ namespace gr {
       void disp_vec(std::vector<unsigned char> vec);
 
      public:
-      framing_cpp_impl(int develop_mode, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index);
+      framing_cpp_impl(std::vector<int> develop_mode_list, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index);
       ~framing_cpp_impl();
 
     };
