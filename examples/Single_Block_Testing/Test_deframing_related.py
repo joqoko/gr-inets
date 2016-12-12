@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_deframing_related
 # Author: pwa
-# Generated: Sun Dec 11 19:58:06 2016
+# Generated: Mon Dec 12 10:29:17 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -73,7 +73,7 @@ class Test_deframing_related(gr.top_block, Qt.QWidget):
         self.increase_index = increase_index = 1
         self.frame_type = frame_type = 1
         self.frame_index = frame_index = 2
-        self.develop_mode = develop_mode = 0
+        self.develop_mode_list = develop_mode_list = [1, 3, 4, 11]
         self.destination_address = destination_address = 3
         self.apply_address_check = apply_address_check = 0
 
@@ -81,24 +81,22 @@ class Test_deframing_related(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         self.inets_message_tomb_0 = inets.message_tomb()
-        self.inets_framing_cpp_0 = inets.framing_cpp(develop_mode, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index)
-        self.inets_frame_verification_cpp_0 = inets.frame_verification_cpp(develop_mode)
-        self.inets_frame_header_analysis_cpp_0 = inets.frame_header_analysis_cpp(develop_mode, len_frame_type, len_frame_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II, len_payload_length, apply_address_check)
-        self.inets_address_check_cpp_0 = inets.address_check_cpp(develop_mode, my_address, apply_address_check)
+        self.inets_framing_cpp_0 = inets.framing_cpp((develop_mode_list), frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index)
+        self.inets_frame_verification_cpp_0 = inets.frame_verification_cpp(0)
+        self.inets_frame_header_analysis_cpp_0 = inets.frame_header_analysis_cpp((develop_mode_list), len_frame_type, len_frame_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II, len_payload_length, apply_address_check)
+        self.inets_address_check_cpp_0 = inets.address_check_cpp(0, my_address, apply_address_check)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
-        self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.blocks_message_debug_0, 'print_pdu'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_cpp_0, 'payload_in'))    
         self.msg_connect((self.inets_address_check_cpp_0, 'frame_info_out'), (self.inets_frame_verification_cpp_0, 'frame_info_in'))    
         self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'frame_info_out'), (self.inets_address_check_cpp_0, 'frame_info_in'))    
         self.msg_connect((self.inets_frame_header_analysis_cpp_0, 'frame_out'), (self.inets_message_tomb_0, 'message_in'))    
-        self.msg_connect((self.inets_frame_verification_cpp_0, 'payload_out'), (self.blocks_message_debug_0, 'print_pdu'))    
-        self.msg_connect((self.inets_frame_verification_cpp_0, 'good_frame'), (self.blocks_message_debug_0, 'print'))    
         self.msg_connect((self.inets_frame_verification_cpp_0, 'frame_info_out'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.inets_frame_verification_cpp_0, 'good_frame'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.inets_frame_verification_cpp_0, 'payload_out'), (self.inets_message_tomb_0, 'message_in'))    
         self.msg_connect((self.inets_framing_cpp_0, 'frame_out'), (self.inets_frame_header_analysis_cpp_0, 'frame_in'))    
 
     def closeEvent(self, event):
@@ -196,11 +194,11 @@ class Test_deframing_related(gr.top_block, Qt.QWidget):
     def set_frame_index(self, frame_index):
         self.frame_index = frame_index
 
-    def get_develop_mode(self):
-        return self.develop_mode
+    def get_develop_mode_list(self):
+        return self.develop_mode_list
 
-    def set_develop_mode(self, develop_mode):
-        self.develop_mode = develop_mode
+    def set_develop_mode_list(self, develop_mode_list):
+        self.develop_mode_list = develop_mode_list
 
     def get_destination_address(self):
         return self.destination_address

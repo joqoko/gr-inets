@@ -34,6 +34,8 @@ namespace gr {
      private:
       // Nothing to declare in this block.
       int _develop_mode;
+      int _my_develop_mode;
+      std::vector<int> _develop_mode_list;
       int _frame_type; 
       int _len_frame_type; // Bytes
       int _frame_index;
@@ -53,7 +55,7 @@ namespace gr {
       int get_frame_header_length();
 
      public:
-      frame_header_analysis_cpp_impl(int develop_mode, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check);
+      frame_header_analysis_cpp_impl(std::vector<int> _develop_mode_list, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check);
       ~frame_header_analysis_cpp_impl();
 
     };

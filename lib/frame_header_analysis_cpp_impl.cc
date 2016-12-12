@@ -32,20 +32,21 @@ namespace gr {
   namespace inets {
 
     frame_header_analysis_cpp::sptr
-    frame_header_analysis_cpp::make(int develop_mode, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check)
+    frame_header_analysis_cpp::make(std::vector<int> develop_mode_list, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check)
     {
       return gnuradio::get_initial_sptr
-        (new frame_header_analysis_cpp_impl(develop_mode, len_frame_type, len_frame_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II, len_payload_length, apply_address_check));
+        (new frame_header_analysis_cpp_impl(develop_mode_list, len_frame_type, len_frame_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II, len_payload_length, apply_address_check));
     }
 
     /*
      * The private constructor
      */
-    frame_header_analysis_cpp_impl::frame_header_analysis_cpp_impl(int develop_mode, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check)
+    frame_header_analysis_cpp_impl::frame_header_analysis_cpp_impl(std::vector<int> develop_mode_list, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check)
       : gr::block("frame_header_analysis_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-        _develop_mode(develop_mode),
+        _my_develop_mode(11),
+        _develop_mode_list(develop_mode_list),
         _len_frame_type(len_frame_type), // Bytes
         _len_frame_index(len_frame_index), // Bytes
         _len_destination_address(len_destination_address), // Bytes
@@ -55,14 +56,10 @@ namespace gr {
         _len_payload_length(len_payload_length), // Bytes
         _apply_address_check(apply_address_check)
     {
+      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
+      if(_develop_mode)
+        std::cout << "develop_mode of frame_header_analysis_cpp is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_in"));
-//      message_port_register_out(pmt::mp("frame_type_out"));
-//      message_port_register_out(pmt::mp("frame_index_out"));
-//      message_port_register_out(pmt::mp("destination_address_out"));
-//      message_port_register_out(pmt::mp("source_address_out"));
-//      message_port_register_out(pmt::mp("reserved_field_I_out"));
-//      message_port_register_out(pmt::mp("reserved_field_II_out"));
-//      message_port_register_out(pmt::mp("payload_length_out"));
       message_port_register_out(pmt::mp("frame_info_out"));
       message_port_register_out(pmt::mp("frame_out"));
       set_msg_handler(pmt::mp("frame_in"), boost::bind(&frame_header_analysis_cpp_impl::frame_analysis, this, _1 ));
@@ -79,9 +76,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-        std::cout << "Frame header analysis" << std::endl;
-        std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+        std::cout << "++++++++  frame_header_analysis_cpp  +++++++" << std::endl;
       }
       if(pmt::is_pair(rx_frame)) 
       {
@@ -133,11 +128,6 @@ namespace gr {
             std::cout << "address check is initialized to: " << address_check << std::endl;
             std::cout << "frame verification (good_frame) is initialized to: " << is_good_frame << std::endl;
           }
-    //      message_port_pub(pmt::mp("frame_type_out"), pmt::from_long(frame_type));
-    //      message_port_pub(pmt::mp("frame_index_out"), pmt::from_long(frame_index));
-    //      message_port_pub(pmt::mp("destination_address_out"), pmt::from_long(destination_address));
-    //      message_port_pub(pmt::mp("source_address_out"), pmt::from_long(source_address));
-    //      message_port_pub(pmt::mp("payload_length_out"), pmt::from_long(payload_length));
           message_port_pub(pmt::mp("frame_info_out"), frame_info);
           message_port_pub(pmt::mp("frame_out"), rx_frame);
         }
