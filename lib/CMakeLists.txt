@@ -47,7 +47,8 @@ list(APPEND inets_sources
     frame_verification_cpp_impl.cc
     address_check_cpp_impl.cc
     timeout_cpp_impl.cc
-    counter_impl.cc )
+    counter_impl.cc
+    null_message_source_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

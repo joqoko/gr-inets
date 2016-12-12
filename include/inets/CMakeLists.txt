@@ -44,6 +44,7 @@ install(FILES
     frame_verification_cpp.h
     address_check_cpp.h
     timeout_cpp.h
-    counter.h DESTINATION include/inets
+    counter.h
+    null_message_source.h DESTINATION include/inets
 
 )

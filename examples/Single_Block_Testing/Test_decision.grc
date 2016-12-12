@@ -370,6 +370,45 @@
       <value>0</value>
     </param>
   </block>
+  <block>
+    <key>inets_null_message_source</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(224, 392)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_null_message_source_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>blocks_message_strobe_random_0</source_block_id>
     <sink_block_id>inets_decision_cpp_0</sink_block_id>
@@ -393,5 +432,11 @@
     <sink_block_id>inets_counter_0</sink_block_id>
     <source_key>spark_out_t</source_key>
     <sink_key>message_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_null_message_source_0</source_block_id>
+    <sink_block_id>inets_decision_cpp_0</sink_block_id>
+    <source_key>null_message_out</source_key>
+    <sink_key>spark_in</sink_key>
   </connection>
 </flow_graph>

@@ -542,49 +542,6 @@
     </param>
   </block>
   <block>
-    <key>pad_sink</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1040, 92)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>is_good_frame_out</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>message</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>is_good_frame_out</value>
-    </param>
-    <param>
-      <key>num_streams</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>optional</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
     <key>parameter</key>
     <param>
       <key>alias</key>
@@ -1143,8 +1100,8 @@
       <value>apply_address_check</value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>develop_mode</value>
+      <key>develop_mode_list</key>
+      <value>[0]</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -1256,6 +1213,49 @@
     <param>
       <key>preamble</key>
       <value>preamble</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1096, 84)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rx_frame_info_out</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>message</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>rx_frame_info_out</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1481,8 +1481,8 @@
   </connection>
   <connection>
     <source_block_id>receive_frame_mac_0</source_block_id>
-    <sink_block_id>is_good_frame_out</sink_block_id>
-    <source_key>good_frame</source_key>
+    <sink_block_id>rx_frame_info_out</sink_block_id>
+    <source_key>rx_frame_info_out</source_key>
     <sink_key>in</sink_key>
   </connection>
   <connection>

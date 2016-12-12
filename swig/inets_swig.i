@@ -31,6 +31,7 @@
 #include "inets/address_check_cpp.h"
 #include "inets/timeout_cpp.h"
 #include "inets/counter.h"
+#include "inets/null_message_source.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -88,3 +89,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, address_check_cpp);
 GR_SWIG_BLOCK_MAGIC2(inets, timeout_cpp);
 %include "inets/counter.h"
 GR_SWIG_BLOCK_MAGIC2(inets, counter);
+%include "inets/null_message_source.h"
+GR_SWIG_BLOCK_MAGIC2(inets, null_message_source);

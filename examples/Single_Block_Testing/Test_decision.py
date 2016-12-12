@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_decision
 # Author: PWA
-# Generated: Mon Dec 12 22:13:30 2016
+# Generated: Mon Dec 12 22:39:41 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -65,6 +65,7 @@ class Test_decision(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.inets_null_message_source_0 = inets.null_message_source()
         self.inets_decision_cpp_0 = inets.decision_cpp((develop_mode_list), 14)
         self.inets_counter_0_0 = inets.counter((develop_mode_list), 22)
         self.inets_counter_0 = inets.counter((develop_mode_list), 21)
@@ -74,10 +75,9 @@ class Test_decision(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))    
-        self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))    
         self.msg_connect((self.inets_decision_cpp_0, 'spark_out_t'), (self.inets_counter_0, 'message_in'))    
         self.msg_connect((self.inets_decision_cpp_0, 'spark_out_f'), (self.inets_counter_0_0, 'message_in'))    
+        self.msg_connect((self.inets_null_message_source_0, 'null_message_out'), (self.inets_decision_cpp_0, 'spark_in'))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_decision")
