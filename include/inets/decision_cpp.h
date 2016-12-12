@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::decision_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make();
+      static sptr make(std::vector<int> develop_mode_list, int decision_index);
     };
 
   } // namespace inets

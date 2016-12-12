@@ -4,13 +4,24 @@
   <key>inets_decision_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.decision_cpp()</make>
+  <make>inets.decision_cpp($develop_mode_list, $decision_index)</make>
   <!-- make one 'param' node for every parameter you want settable from the gui.
        sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
-
+  <param>
+    <name>Develop mode list</name>
+    <key>develop_mode_list</key>
+    <value>develop_mode_list</value>
+    <type>int_vector</type>
+  </param>
+  <param>
+    <name>Decision index for develop mode</name>
+    <key>decision_index</key>
+    <value>14</value>
+    <type>int</type>
+  </param>
   <!-- make one 'sink' node per input. sub-nodes:
        * name (an identifier for the gui)
        * type

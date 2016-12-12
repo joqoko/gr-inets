@@ -29,20 +29,25 @@ namespace gr {
   namespace inets {
 
     decision_cpp::sptr
-    decision_cpp::make()
+    decision_cpp::make(std::vector<int> develop_mode_list, int decision_index)
     {
       return gnuradio::get_initial_sptr
-        (new decision_cpp_impl());
+        (new decision_cpp_impl(develop_mode_list, decision_index));
     }
 
     /*
      * the private constructor
      */
-    decision_cpp_impl::decision_cpp_impl()
+    decision_cpp_impl::decision_cpp_impl(std::vector<int> develop_mode_list, int decision_index)
       : gr::block("decision_cpp",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(0, 0, 0))
+              gr::io_signature::make(0, 0, 0)),
+        _develop_mode_list(develop_mode_list),
+        _decision_index(decision_index)
     {
+      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _decision_index) != _develop_mode_list.end());
+      if(_develop_mode)
+        std::cout << "develop_mode of the " << _decision_index << "th decision block is activated." << std::endl;
       message_port_register_in(pmt::mp("spark_in"));
       message_port_register_out(pmt::mp("spark_out_t"));
       message_port_register_out(pmt::mp("spark_out_f"));
@@ -61,24 +66,28 @@ namespace gr {
 
     void decision_cpp_impl::decision_making(pmt::pmt_t msg)
     {
+      if(_develop_mode)
+      {
+        std::cout << "++++++++++++   decision_cpp   ++++++++++++++" << std::endl;
+      }
       /*
        * check the received message. misconnecting message port may lead to this error.
        */
-      std::cout << "Step 1" << std::endl;
       if(pmt::is_bool(msg))
       {
         /*
          * if the received message is ture (in boolean form), then start the cs countdown.
          */
-        std::cout << "Step 2" << std::endl;
         if(pmt::to_bool(msg))
         {
-	  std::cout << "True output" << std::endl;
+          if(_develop_mode)
+	    std::cout << "True output" << std::endl;
           message_port_pub(pmt::mp("spark_out_t"), pmt::from_bool(true));
         }
         else
         {
-          std::cout << "False outout" << std::endl;
+          if(_develop_mode)
+            std::cout << "False outout" << std::endl;
           message_port_pub(pmt::mp("spark_out_f"), pmt::from_bool(true));
         }
       }

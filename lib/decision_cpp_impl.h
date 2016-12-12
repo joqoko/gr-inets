@@ -30,10 +30,13 @@ namespace gr {
     class decision_cpp_impl : public decision_cpp
     {
      private:
+      int _decision_index;
+      int _develop_mode;
+      std::vector<int> _develop_mode_list;
       void decision_making(pmt::pmt_t msg);
     
      public:
-      decision_cpp_impl();
+      decision_cpp_impl(std::vector<int> develop_mode_list, int decision_index);
       ~decision_cpp_impl();
     };
   } // namespace inets
