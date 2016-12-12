@@ -4,7 +4,7 @@
   <key>inets_idle_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.idle_cpp($experiment_duration)</make>
+  <make>inets.idle_cpp($develop_mode_list, $experiment_duration)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -14,6 +14,12 @@
     <name>Experiment duration</name>
     <key>experiment_duration</key>
     <type>int</type>
+  </param>
+  <param>
+    <name>Develop mode list</name>
+    <key>develop_mode_list</key>
+    <value>develop_mode_list</value>
+    <type>int_vector</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -27,7 +33,11 @@
   </sink>
 
   <sink>
-    <name>data_from_network_layer_in</name>
+    <name>payload_from_network_layer_in</name>
+    <type>message</type>
+  </sink>
+  <sink>
+    <name>frame_from_phy_in</name>
     <type>message</type>
   </sink>
 
@@ -35,9 +45,12 @@
     <name>spark_out</name>
     <type>message</type>
   </source>
-
   <source>
     <name>payload_pmt_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>frame_pmt_out</name>
     <type>message</type>
   </source>
   <!-- Make one 'source' node per output. Sub-nodes:

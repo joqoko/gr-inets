@@ -1,4 +1,3 @@
-
 /* -*- c++ -*- */
 /* 
  * Copyright 2016 <+YOU OR YOUR COMPANY+>.
@@ -23,6 +22,7 @@
 #define INCLUDED_INETS_IDLE_CPP_IMPL_H
 
 #include <inets/idle_cpp.h>
+#include <algorithm>
 
 namespace gr {
   namespace inets {
@@ -31,7 +31,8 @@ namespace gr {
     {
      private:
       bool _in_idle;
-      std::vector<int> _develop_mode;
+      std::vector<int> _develop_mode_list;
+      int _develop_mode;
       int _my_develop_mode;
       bool _experiment_running;
       int _experiment_duration;
@@ -40,7 +41,7 @@ namespace gr {
       void handler_good_packet_from_phy(pmt::pmt_t msg);
 
      public:
-      idle_cpp_impl(int experiment_duration);
+      idle_cpp_impl(std::vector<int> develop_mode_list, int experiment_duration);
       ~idle_cpp_impl();
 
     };

@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::idle_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int experiment_duration);
+      static sptr make(std::vector<int> develop_mode_list, int experiment_duration);
     };
 
   } // namespace inets

@@ -700,7 +700,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1152, 212)</value>
+      <value>(1176, 176)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -731,7 +731,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 300)</value>
+      <value>(16, 268)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -782,7 +782,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(632, 236)</value>
+      <value>(616, 220)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -880,7 +880,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(24, 156)</value>
+      <value>(24, 132)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1208,7 +1208,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(208, 180)</value>
+      <value>(192, 156)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1785,7 +1785,7 @@
     </param>
     <param>
       <key>destination_address</key>
-      <value>destination_address</value>
+      <value>3</value>
     </param>
     <param>
       <key>develop_mode</key>
@@ -1793,43 +1793,43 @@
     </param>
     <param>
       <key>frame_index</key>
-      <value>frame_index</value>
+      <value>2</value>
     </param>
     <param>
       <key>frame_type</key>
-      <value>frame_type</value>
+      <value>1</value>
     </param>
     <param>
       <key>increase_index</key>
-      <value>increase_index</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_destination_address</key>
-      <value>len_destination_address</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_frame_index</key>
-      <value>len_frame_index</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_frame_type</key>
-      <value>len_frame_type</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_payload_length</key>
-      <value>len_payload_length</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_reserved_field_I</key>
-      <value>len_reserved_field_I</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_reserved_field_II</key>
-      <value>len_reserved_field_II</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_source_address</key>
-      <value>len_source_address</value>
+      <value>1</value>
     </param>
     <param>
       <key>preamble</key>
@@ -1837,15 +1837,15 @@
     </param>
     <param>
       <key>reserved_field_I</key>
-      <value>reserved_field_I</value>
+      <value>5</value>
     </param>
     <param>
       <key>reserved_field_II</key>
-      <value>reserved_field_II</value>
+      <value>6</value>
     </param>
     <param>
       <key>source_address</key>
-      <value>source_address</value>
+      <value>4</value>
     </param>
     <param>
       <key>system_time_granularity_us</key>
@@ -2070,12 +2070,6 @@
     <sink_block_id>inets_tx_buffer_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>payload_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_socket_pdu_0</source_block_id>
-    <sink_block_id>send_frame_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_tx_buffer_0</source_block_id>
