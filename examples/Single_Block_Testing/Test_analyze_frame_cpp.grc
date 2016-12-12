@@ -105,7 +105,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>0</value>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -159,7 +159,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>[1, 3, 4, 12]</value>
+      <value>[1, 3, 4, 13]</value>
     </param>
   </block>
   <block>
@@ -645,8 +645,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>0</value>
+      <key>develop_mode_list</key>
+      <value>develop_mode_list</value>
     </param>
     <param>
       <key>_enabled</key>

@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_deframing_related
 # Author: pwa
-# Generated: Mon Dec 12 10:49:56 2016
+# Generated: Mon Dec 12 11:16:54 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -73,9 +73,9 @@ class Test_deframing_related(gr.top_block, Qt.QWidget):
         self.increase_index = increase_index = 1
         self.frame_type = frame_type = 1
         self.frame_index = frame_index = 2
-        self.develop_mode_list = develop_mode_list = [1, 3, 4, 12]
+        self.develop_mode_list = develop_mode_list = [1, 3, 4, 13]
         self.destination_address = destination_address = 3
-        self.apply_address_check = apply_address_check = 0
+        self.apply_address_check = apply_address_check = 1
 
         ##################################################
         # Blocks
@@ -84,7 +84,7 @@ class Test_deframing_related(gr.top_block, Qt.QWidget):
         self.inets_framing_cpp_0 = inets.framing_cpp((develop_mode_list), frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index)
         self.inets_frame_verification_cpp_0 = inets.frame_verification_cpp((develop_mode_list))
         self.inets_frame_header_analysis_cpp_0 = inets.frame_header_analysis_cpp((develop_mode_list), len_frame_type, len_frame_index, len_destination_address, len_source_address, len_reserved_field_I, len_reserved_field_II, len_payload_length, apply_address_check)
-        self.inets_address_check_cpp_0 = inets.address_check_cpp(0, my_address, apply_address_check)
+        self.inets_address_check_cpp_0 = inets.address_check_cpp((develop_mode_list), my_address, apply_address_check)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################

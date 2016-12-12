@@ -29,23 +29,27 @@ namespace gr {
   namespace inets {
 
     address_check_cpp::sptr
-    address_check_cpp::make(int develop_mode, int my_address, int apply_address_check)
+    address_check_cpp::make(std::vector<int> develop_mode_list, int my_address, int apply_address_check)
     {
       return gnuradio::get_initial_sptr
-        (new address_check_cpp_impl(develop_mode, my_address, apply_address_check));
+        (new address_check_cpp_impl(develop_mode_list, my_address, apply_address_check));
     }
 
     /*
      * The private constructor
      */
-    address_check_cpp_impl::address_check_cpp_impl(int develop_mode, int my_address, int apply_address_check)
+    address_check_cpp_impl::address_check_cpp_impl(std::vector<int> develop_mode_list, int my_address, int apply_address_check)
       : gr::block("address_check_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-        _develop_mode(develop_mode),
+        _my_develop_mode(13),
+        _develop_mode_list(develop_mode_list),
         _my_address(my_address),
         _apply_address_check(apply_address_check)
     {
+      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
+      if(_develop_mode)
+        std::cout << "develop_mode of address_check_cpp is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in"));
       message_port_register_out(pmt::mp("frame_info_out"));
       set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&address_check_cpp_impl::check_address, this, _1 ));
@@ -65,9 +69,7 @@ namespace gr {
       {
         if(_develop_mode)
         {
-          std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-          std::cout << "Frame address check" << std::endl;
-          std::cout << "+++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+          std::cout << "++++++++++   address_check_cpp   +++++++++++" << std::endl;
         }
         pmt::pmt_t not_found;
         int received_frame_address = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found));
@@ -77,6 +79,9 @@ namespace gr {
         frame_info = pmt::dict_delete(frame_info, pmt::string_to_symbol("address_check"));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"), pmt::from_long(is_my_address));
       }
+      else
+        if(_develop_mode)
+          std::cout << "+++++++   address_check_cpp is off   +++++++" << std::endl;
       message_port_pub(pmt::mp("frame_info_out"), frame_info);
     }
 

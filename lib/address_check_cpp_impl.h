@@ -30,12 +30,14 @@ namespace gr {
     {
      private:
       int _develop_mode;
+      int _my_develop_mode;
+      std::vector<int> _develop_mode_list;
       int _my_address;
       int _apply_address_check;
       void check_address(pmt::pmt_t frame_info);
 
      public:
-      address_check_cpp_impl(int develop_mode, int my_address, int apply_address_check);
+      address_check_cpp_impl(std::vector<int> develop_mode_list, int my_address, int apply_address_check);
       ~address_check_cpp_impl();
 
     };

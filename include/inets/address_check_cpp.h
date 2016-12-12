@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::address_check_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int my_address, int apply_address_check);
+      static sptr make(std::vector<int> develop_mode_list, int my_address, int apply_address_check);
     };
 
   } // namespace inets
