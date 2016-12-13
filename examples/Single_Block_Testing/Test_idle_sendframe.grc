@@ -425,7 +425,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>len_num_resend</value>
+      <value>len_num_transmission</value>
     </param>
     <param>
       <key>value</key>
@@ -1101,8 +1101,8 @@
       <value>len_frame_type</value>
     </param>
     <param>
-      <key>len_num_resend</key>
-      <value>len_num_resend</value>
+      <key>len_num_transmission</key>
+      <value>len_num_transmission</value>
     </param>
     <param>
       <key>len_payload_length</key>

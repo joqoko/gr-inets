@@ -49,7 +49,8 @@ list(APPEND inets_sources
     timeout_cpp_impl.cc
     counter_impl.cc
     null_message_source_impl.cc
-    idle_impl.cc )
+    idle_impl.cc
+    decouple_frame_info_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

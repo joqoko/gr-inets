@@ -398,7 +398,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>len_num_resend</value>
+      <value>len_num_transmission</value>
     </param>
     <param>
       <key>value</key>
@@ -969,8 +969,8 @@
       <value>len_frame_type</value>
     </param>
     <param>
-      <key>len_num_resend</key>
-      <value>len_num_resend</value>
+      <key>len_num_transmission</key>
+      <value>len_num_transmission</value>
     </param>
     <param>
       <key>len_payload_length</key>
@@ -1091,6 +1091,12 @@
     <source_block_id>blocks_message_strobe_random_0_0</source_block_id>
     <sink_block_id>inets_idle_0</sink_block_id>
     <source_key>strobe</source_key>
+    <sink_key>data_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_socket_pdu_0</source_block_id>
+    <sink_block_id>inets_idle_0</sink_block_id>
+    <source_key>pdus</source_key>
     <sink_key>data_in</sink_key>
   </connection>
   <connection>

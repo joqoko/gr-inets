@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle
 # Author: PWA
-# Generated: Tue Dec 13 13:31:14 2016
+# Generated: Tue Dec 13 15:11:36 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -61,7 +61,6 @@ class Test_idle(gr.top_block, Qt.QWidget):
         ##################################################
         self.source_address = source_address = 1
         self.self_data_info = self_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
-        self.self_ack_info = self_ack_info = pmt.to_pmt({'frame_type': 2, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 0, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 0})
         self.samp_rate = samp_rate = 320000
         self.reserved_field_II = reserved_field_II = 6
         self.reserved_field_I = reserved_field_I = 5
@@ -71,7 +70,7 @@ class Test_idle(gr.top_block, Qt.QWidget):
         self.len_reserved_field_II = len_reserved_field_II = 2
         self.len_reserved_field_I = len_reserved_field_I = 2
         self.len_payload_length = len_payload_length = 1
-        self.len_num_resend = len_num_resend = 1
+        self.len_num_transmission = len_num_transmission = 1
         self.len_frame_type = len_frame_type = 1
         self.len_frame_index = len_frame_index = 1
         self.len_destination_address = len_destination_address = 1
@@ -79,9 +78,8 @@ class Test_idle(gr.top_block, Qt.QWidget):
         self.frame_type = frame_type = 1
         self.frame_index = frame_index = 2
         self.experiment_duration_s = experiment_duration_s = 1000
-        self.develop_mode_list = develop_mode_list = [1, 2, 3, 20]
+        self.develop_mode_list = develop_mode_list = [1, 2, 3]
         self.destination_address = destination_address = 3
-        self.counter_id = counter_id = 20
         self.another_data_info = another_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 1, 'source_address': 2, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
         self.another_ack_info = another_ack_info = pmt.to_pmt({'frame_type': 2, 'frame_index': 1, 'destination_address': 1, 'source_address': 2, 'num_resend': 0, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 0})
 
@@ -90,20 +88,19 @@ class Test_idle(gr.top_block, Qt.QWidget):
         ##################################################
         self.inets_null_message_source_0 = inets.null_message_source()
         self.inets_message_tomb_0 = inets.message_tomb()
-        self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_resend)
-        self.inets_counter_0 = inets.counter((develop_mode_list), counter_id)
-        self.frame_info_simulator = blocks.message_strobe_random(self_ack_info, blocks.STROBE_POISSON, 4000, 2000)
+        self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_0_0_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 0)
+        self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(another_data_info, blocks.STROBE_POISSON, 2000, 0)
         self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.frame_info_simulator, 'strobe'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_counter_0, 'message_in'))    
-        self.msg_connect((self.inets_idle_0, 'data_out'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.inets_idle_0, 'data_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_message_tomb_0, 'message_in'))    
         self.msg_connect((self.inets_null_message_source_0, 'null_message_out'), (self.inets_idle_0, 'reset_idle'))    
 
     def closeEvent(self, event):
@@ -122,13 +119,6 @@ class Test_idle(gr.top_block, Qt.QWidget):
 
     def set_self_data_info(self, self_data_info):
         self.self_data_info = self_data_info
-
-    def get_self_ack_info(self):
-        return self.self_ack_info
-
-    def set_self_ack_info(self, self_ack_info):
-        self.self_ack_info = self_ack_info
-        self.frame_info_simulator.set_msg(self.self_ack_info)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -184,11 +174,11 @@ class Test_idle(gr.top_block, Qt.QWidget):
     def set_len_payload_length(self, len_payload_length):
         self.len_payload_length = len_payload_length
 
-    def get_len_num_resend(self):
-        return self.len_num_resend
+    def get_len_num_transmission(self):
+        return self.len_num_transmission
 
-    def set_len_num_resend(self, len_num_resend):
-        self.len_num_resend = len_num_resend
+    def set_len_num_transmission(self, len_num_transmission):
+        self.len_num_transmission = len_num_transmission
 
     def get_len_frame_type(self):
         return self.len_frame_type
@@ -244,17 +234,12 @@ class Test_idle(gr.top_block, Qt.QWidget):
     def set_destination_address(self, destination_address):
         self.destination_address = destination_address
 
-    def get_counter_id(self):
-        return self.counter_id
-
-    def set_counter_id(self, counter_id):
-        self.counter_id = counter_id
-
     def get_another_data_info(self):
         return self.another_data_info
 
     def set_another_data_info(self, another_data_info):
         self.another_data_info = another_data_info
+        self.blocks_message_strobe_random_0_0.set_msg(self.another_data_info)
 
     def get_another_ack_info(self):
         return self.another_ack_info

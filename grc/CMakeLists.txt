@@ -47,5 +47,6 @@ install(FILES
     inets_timeout_cpp.xml
     inets_counter.xml
     inets_null_message_source.xml
-    inets_idle.xml DESTINATION share/gnuradio/grc/blocks
+    inets_idle.xml
+    inets_decouple_frame_info.xml DESTINATION share/gnuradio/grc/blocks
 )

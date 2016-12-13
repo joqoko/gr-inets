@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_IDLE_H
-#define INCLUDED_INETS_IDLE_H
+#ifndef INCLUDED_INETS_DECOUPLE_FRAME_INFO_H
+#define INCLUDED_INETS_DECOUPLE_FRAME_INFO_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API idle : virtual public gr::block
+    class INETS_API decouple_frame_info : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<idle> sptr;
+      typedef boost::shared_ptr<decouple_frame_info> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::idle.
+       * \brief Return a shared_ptr to a new instance of inets::decouple_frame_info.
        *
-       * To avoid accidental use of raw pointers, inets::idle's
+       * To avoid accidental use of raw pointers, inets::decouple_frame_info's
        * constructor is in a private implementation
-       * class. inets::idle::make is the public interface for
+       * class. inets::decouple_frame_info::make is the public interface for
        * creating new instances.
        */
-      static sptr make(std::vector<int> develop_mode_list, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_retransmission);
+      static sptr make(std::vector<int> develop_mode_list);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_IDLE_H */
+#endif /* INCLUDED_INETS_DECOUPLE_FRAME_INFO_H */
 

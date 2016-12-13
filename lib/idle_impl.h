@@ -51,8 +51,8 @@ namespace gr {
       int _len_destination_address; // Bytes
       int _source_address; 
       int _len_source_address; // Bytes
-      int _num_resend; 
-      int _len_num_resend; // Bytes
+      int _num_transmission; 
+      int _len_num_transmission; // Bytes
       int _reserved_field_I;
       int _len_reserved_field_I; // Bytes
       int _reserved_field_II;
@@ -60,17 +60,20 @@ namespace gr {
       int _payload_length;
       int _len_payload_length; // Bytes
       int _increase_index;
+      int _last_frame_index;
       boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       void reset_idle(pmt::pmt_t data);
       void state_transition(pmt::pmt_t data);
       pmt::pmt_t data_frame_framing(pmt::pmt_t rx_payload);
       pmt::pmt_t ack_frame_framing(pmt::pmt_t rx_payload);
-      void frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length);
+      pmt::pmt_t frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
+      int get_frame_header_length();
+      void send_data_frame_to_send_frame();
 
      public:
-      idle_impl(std::vector<int> develop_mode_list, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_resend);
+      idle_impl(std::vector<int> develop_mode_list, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission);
       ~idle_impl();
 
     };

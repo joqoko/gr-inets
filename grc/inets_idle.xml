@@ -4,7 +4,7 @@
   <key>inets_idle</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.idle($develop_mode_list, $experiment_duration_s, $max_num_retransmission, $max_buffer_size, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_resend)</make>
+  <make>inets.idle($develop_mode_list, $experiment_duration_s, $max_num_retransmission, $max_buffer_size, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -41,7 +41,7 @@
     <type>int</type>
   </param>
   <param>
-    <name>Length of frame type</name>
+    <name>Length of frame_type</name>
     <key>len_frame_type</key>
     <value>len_frame_type</value>
     <type>int</type>
@@ -53,7 +53,7 @@
     <type>int</type>
   </param>
   <param>
-    <name>Length of frame index</name>
+    <name>Length of frame_index</name>
     <key>len_frame_index</key>
     <value>len_frame_index</value>
     <type>int</type>
@@ -65,7 +65,7 @@
     <type>int</type>
   </param>
   <param>
-    <name>Length of destination address</name>
+    <name>Length of destination_address</name>
     <key>len_destination_address</key>
     <value>len_destination_address</value>
     <type>int</type>
@@ -77,7 +77,7 @@
     <type>int</type>
   </param>
   <param>
-    <name>Length of source address</name>
+    <name>Length of source_address</name>
     <key>len_source_address</key>
     <value>len_source_address</value>
     <type>int</type>
@@ -89,7 +89,7 @@
     <type>int</type>
   </param>
   <param>
-    <name>Length of reserved field I</name>
+    <name>Length of reserved_field I</name>
     <key>len_reserved_field_I</key>
     <value>len_reserved_field_I</value>
     <type>int</type>
@@ -101,13 +101,13 @@
     <type>int</type>
   </param>
   <param>
-    <name>Length of reserved field II</name>
+    <name>Length of reserved_field II</name>
     <key>len_reserved_field_II</key>
     <value>len_reserved_field_II</value>
     <type>int</type>
   </param>
   <param>
-    <name>Length of payload length field</name>
+    <name>Length of payload_length</name>
     <key>len_payload_length</key>
     <value>len_payload_length</value>
     <type>int</type>
@@ -119,9 +119,9 @@
     <type>int</type>
   </param>
   <param>
-    <name>Length of number of resend</name>
-    <key>len_num_resend</key>
-    <value>len_num_resend</value>
+    <name>Length of num_transmission</name>
+    <key>len_num_transmission</key>
+    <value>len_num_transmission</value>
     <type>int</type>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:

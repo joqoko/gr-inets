@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle_sendframe
 # Author: PWA
-# Generated: Tue Dec 13 13:33:52 2016
+# Generated: Tue Dec 13 15:12:08 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -76,7 +76,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         self.len_reserved_field_II = len_reserved_field_II = 2
         self.len_reserved_field_I = len_reserved_field_I = 2
         self.len_payload_length = len_payload_length = 1
-        self.len_num_resend = len_num_resend = 1
+        self.len_num_transmission = len_num_transmission = 1
         self.len_frame_type = len_frame_type = 1
         self.len_frame_index = len_frame_index = 1
         self.len_destination_address = len_destination_address = 1
@@ -117,7 +117,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         )
         self.inets_null_message_source_0 = inets.null_message_source()
         self.inets_message_tomb_0 = inets.message_tomb()
-        self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_resend)
+        self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.frame_info_simulator = blocks.message_strobe_random(self_ack_info, blocks.STROBE_POISSON, 4000, 2000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
@@ -213,11 +213,11 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
     def set_len_payload_length(self, len_payload_length):
         self.len_payload_length = len_payload_length
 
-    def get_len_num_resend(self):
-        return self.len_num_resend
+    def get_len_num_transmission(self):
+        return self.len_num_transmission
 
-    def set_len_num_resend(self, len_num_resend):
-        self.len_num_resend = len_num_resend
+    def set_len_num_transmission(self, len_num_transmission):
+        self.len_num_transmission = len_num_transmission
 
     def get_len_frame_type(self):
         return self.len_frame_type

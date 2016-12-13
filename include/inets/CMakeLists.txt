@@ -46,6 +46,7 @@ install(FILES
     timeout_cpp.h
     counter.h
     null_message_source.h
-    idle.h DESTINATION include/inets
+    idle.h
+    decouple_frame_info.h DESTINATION include/inets
 
 )
