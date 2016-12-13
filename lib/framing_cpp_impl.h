@@ -24,6 +24,7 @@
 #include <inets/framing_cpp.h>
 #include <gnuradio/digital/crc32.h>
 #include <boost/crc.hpp>
+
 namespace gr {
   namespace inets {
 

@@ -23,6 +23,8 @@
 
 #include <inets/idle.h>
 #include <queue>
+#include <gnuradio/digital/crc32.h>
+#include <boost/crc.hpp>
 
 namespace gr {
   namespace inets {
@@ -35,16 +37,40 @@ namespace gr {
       int _max_buffer_size; 
       int _develop_mode; 
       int _my_develop_mode; 
-      int _my_address; 
       bool _experiment_running;
       bool _in_idle;
       std::queue<pmt::pmt_t> _tx_buff;
       int _max_num_retransmission;
+      int _frame_type; 
+      int _len_frame_type; // Bytes
+      int _frame_index;
+      int _ack_index;
+      int _len_frame_index; // Bytes
+      int _destination_address;
+      int _ack_address;
+      int _len_destination_address; // Bytes
+      int _source_address; 
+      int _len_source_address; // Bytes
+      int _num_resend; 
+      int _len_num_resend; // Bytes
+      int _reserved_field_I;
+      int _len_reserved_field_I; // Bytes
+      int _reserved_field_II;
+      int _len_reserved_field_II; // Bytes
+      int _payload_length;
+      int _len_payload_length; // Bytes
+      int _increase_index;
+      boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       void reset_idle(pmt::pmt_t data);
       void state_transition(pmt::pmt_t data);
+      pmt::pmt_t data_frame_framing(pmt::pmt_t rx_payload);
+      pmt::pmt_t ack_frame_framing(pmt::pmt_t rx_payload);
+      void frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length);
+      void intToByte(int i, std::vector<unsigned char> *bytes, int size);
+      pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
 
      public:
-      idle_impl(std::vector<int> develop_mode_list, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int my_address);
+      idle_impl(std::vector<int> develop_mode_list, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_resend);
       ~idle_impl();
 
     };

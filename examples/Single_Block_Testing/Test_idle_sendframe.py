@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Test_idle
+# Title: Test_idle_sendframe
 # Author: PWA
-# Generated: Tue Dec 13 13:31:14 2016
+# Generated: Tue Dec 13 13:33:52 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -17,6 +17,10 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
+import os
+import sys
+sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
+
 from PyQt4 import Qt
 from gnuradio import blocks
 from gnuradio import eng_notation
@@ -24,18 +28,19 @@ from gnuradio import gr
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
+from send_frame import send_frame  # grc-generated hier_block
+import gnuradio
 import inets
 import pmt
-import sys
 from gnuradio import qtgui
 
 
-class Test_idle(gr.top_block, Qt.QWidget):
+class Test_idle_sendframe(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Test_idle")
+        gr.top_block.__init__(self, "Test_idle_sendframe")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Test_idle")
+        self.setWindowTitle("Test_idle_sendframe")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -53,7 +58,7 @@ class Test_idle(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Test_idle")
+        self.settings = Qt.QSettings("GNU Radio", "Test_idle_sendframe")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -88,12 +93,34 @@ class Test_idle(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.send_frame_0 = send_frame(
+            constellation=gnuradio.digital.constellation_qpsk().base(),
+            destination_address=3,
+            develop_mode_list=[0, 1],
+            frame_index=2,
+            frame_type=1,
+            increase_index=1,
+            len_destination_address=1,
+            len_frame_index=1,
+            len_frame_type=1,
+            len_payload_length=1,
+            len_reserved_field_I=2,
+            len_reserved_field_II=2,
+            len_source_address=1,
+            preamble=[],
+            reserved_field_I=5,
+            reserved_field_II=6,
+            samp_rate=4e6,
+            source_address=4,
+            sps=4,
+            system_time_granularity_us=5,
+        )
         self.inets_null_message_source_0 = inets.null_message_source()
         self.inets_message_tomb_0 = inets.message_tomb()
         self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_resend)
-        self.inets_counter_0 = inets.counter((develop_mode_list), counter_id)
         self.frame_info_simulator = blocks.message_strobe_random(self_ack_info, blocks.STROBE_POISSON, 4000, 2000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
+        self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
         self.blocks_message_strobe_random_0_0_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 0)
         self.blocks_message_debug_0 = blocks.message_debug()
 
@@ -102,12 +129,14 @@ class Test_idle(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.frame_info_simulator, 'strobe'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_counter_0, 'message_in'))    
-        self.msg_connect((self.inets_idle_0, 'data_out'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.inets_idle_0, 'data_out'), (self.send_frame_0, 'in'))    
         self.msg_connect((self.inets_null_message_source_0, 'null_message_out'), (self.inets_idle_0, 'reset_idle'))    
+        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.blocks_message_debug_0, 'print'))    
+        self.connect((self.send_frame_0, 0), (self.blocks_null_sink_0, 0))    
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Test_idle")
+        self.settings = Qt.QSettings("GNU Radio", "Test_idle_sendframe")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -263,7 +292,7 @@ class Test_idle(gr.top_block, Qt.QWidget):
         self.another_ack_info = another_ack_info
 
 
-def main(top_block_cls=Test_idle, options=None):
+def main(top_block_cls=Test_idle_sendframe, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

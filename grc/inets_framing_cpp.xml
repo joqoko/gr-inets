@@ -22,7 +22,6 @@
     <value>frame_type</value>
     <type>int</type>
   </param>
-
   <param>
     <name>Length of frame type</name>
     <key>len_frame_type</key>

@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::idle::make is the public interface for
        * creating new instances.
        */
-      static sptr make(std::vector<int> develop_mode_list, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int my_address);
+      static sptr make(std::vector<int> develop_mode_list, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_resend);
     };
 
   } // namespace inets
