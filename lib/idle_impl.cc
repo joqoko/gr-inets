@@ -67,7 +67,8 @@ namespace gr {
         _len_payload_length(len_payload_length), // Bytes
         _frame_type(frame_type),
         _increase_index(increase_index),
-        _max_num_retransmission(max_num_retransmission)
+        _max_num_retransmission(max_num_retransmission),
+        _last_frame_index(0)
     {
       _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
@@ -91,11 +92,13 @@ namespace gr {
     void 
     idle_impl::send_data_frame_to_send_frame()
     {
+      pmt::pmt_t not_found;
+      _last_frame_index = pmt::to_long(pmt::dict_ref(_tx_buff.front(), pmt::string_to_symbol("frame_index"), not_found));
       if(_develop_mode)
-        std::cout << "in idle, start transmissioning a frame to transmission_frame. there are " << _tx_buff.size() << " frames in the tx buffer." << std::endl;
       message_port_pub(pmt::mp("data_out"), _tx_buff.front());
       _tx_buff.pop();
       _in_idle = false;
+        std::cout << "in idle, send the " << _last_frame_index << "th frame to send_frame. there are " << _tx_buff.size() << " frames in the tx buffer." << std::endl;
     }
 
     void
@@ -209,13 +212,21 @@ namespace gr {
             // if it is an ACK frame. Note that we need to compare the frame index to the frame index of the last send data frame. 
             if(frame_type == 2)
             {
-              _in_idle = true;
-              message_port_pub(pmt::mp("successful_transmission"), pmt::from_bool(true));
-              if(_develop_mode)
-                std::cout << "successfully sent one frame. back to idle. next one!" << std::endl;
-              if(_tx_buff.size())
+              int frame_index = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_index"), not_found));
+              if(frame_index == _last_frame_index)
+              { 
+                _in_idle = true;
+                message_port_pub(pmt::mp("successful_transmission"), pmt::from_bool(true));
+                if(_develop_mode)
+                  std::cout << "successfully sent one frame. back to idle. next one!" << std::endl;
+                if(_tx_buff.size())
+                {
+                  send_data_frame_to_send_frame();
+                }
+              }
+              else
               {
-                send_data_frame_to_send_frame();
+                std::cout << "Received an ack of the " << frame_index << "th frame, but we are expecting the ack of the " << _last_frame_index << "th frame. please check your setup." << std::endl;
               }
             }
             // if it is a data frame, we need to set idle state to false and transmission ack back.
@@ -243,7 +254,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "+++++++++++  data_frame framing  +++++++++++" << std::endl;
+        std::cout << "       +++++  data_frame framing  +++++      " << std::endl;
       }
       /*
        * Generate a data frame
@@ -294,7 +305,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "++++++++++++  ack_frame framing  +++++++++++" << std::endl;
+        std::cout << "       +++++  ack_frame framing  +++++      " << std::endl;
       }
       /*
        * Generate an ack frame

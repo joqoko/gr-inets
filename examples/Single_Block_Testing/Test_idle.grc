@@ -240,7 +240,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>2</value>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -777,7 +777,7 @@
     </param>
     <param>
       <key>msg</key>
-      <value>another_data_info</value>
+      <value>another_ack_info</value>
     </param>
     <param>
       <key>minoutbuf</key>
