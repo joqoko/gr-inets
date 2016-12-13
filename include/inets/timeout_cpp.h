@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::timeout_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make(std::vector<int> develop_mode_list, int timeout_duration_ms, int system_time_granularity_us);
+      static sptr make(std::vector<int> develop_mode_list, float timeout_duration_ms, int system_time_granularity_us);
     };
 
   } // namespace inets

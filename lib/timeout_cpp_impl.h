@@ -33,14 +33,15 @@ namespace gr {
       int _my_develop_mode;
       int _develop_mode;
       int _in_timeout;
-      int _timeout_duration_ms;
+      float _timeout_duration_ms;
       int _system_time_granularity_us;
+      pmt::pmt_t _waiting_frame_info;
       void start_timeout(pmt::pmt_t tx_frame_info);
       void kill_timeout(pmt::pmt_t ack_info);
       void countdown_timeout();
 
      public:
-      timeout_cpp_impl(std::vector<int> develop_mode_list, int timeout_duration_ms, int system_time_granularity_us);
+      timeout_cpp_impl(std::vector<int> develop_mode_list, float timeout_duration_ms, int system_time_granularity_us);
       ~timeout_cpp_impl();
 
     };

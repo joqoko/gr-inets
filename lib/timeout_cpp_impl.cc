@@ -29,7 +29,7 @@ namespace gr {
   namespace inets {
 
     timeout_cpp::sptr
-    timeout_cpp::make(std::vector<int> develop_mode_list, int timeout_duration_ms, int system_time_granularity_us)
+    timeout_cpp::make(std::vector<int> develop_mode_list, float timeout_duration_ms, int system_time_granularity_us)
     {
       return gnuradio::get_initial_sptr
         (new timeout_cpp_impl(develop_mode_list, timeout_duration_ms, system_time_granularity_us));
@@ -38,12 +38,12 @@ namespace gr {
     /*
      * The private constructor
      */
-    timeout_cpp_impl::timeout_cpp_impl(std::vector<int> develop_mode_list, int timeout_duration_ms, int system_time_granularity_us)
+    timeout_cpp_impl::timeout_cpp_impl(std::vector<int> develop_mode_list, float timeout_duration_ms, int system_time_granularity_us)
       : gr::block("timeout_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode_list(develop_mode_list),
-        _my_develop_mode(16),
+        _my_develop_mode(17),
         _timeout_duration_ms(float(timeout_duration_ms)),
         _in_timeout(false),
         _system_time_granularity_us(system_time_granularity_us)
@@ -51,15 +51,15 @@ namespace gr {
       _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
         std::cout << "develop_mode of timeout_cpp is activated." << std::endl;
-      message_port_register_in(pmt::mp("tx_frame_info_in"));
-      message_port_register_in(pmt::mp("ack_info_in"));
-      message_port_register_out(pmt::mp("spark_out"));
+      message_port_register_in(pmt::mp("data_frame_info_in"));
+      message_port_register_in(pmt::mp("ack_frame_info_in"));
+      message_port_register_out(pmt::mp("ack_frame_info_out"));
       set_msg_handler(
-        pmt::mp("tx_frame_info_in"),
+        pmt::mp("data_frame_info_in"),
         boost::bind(&timeout_cpp_impl::start_timeout, this, _1)
       );
       set_msg_handler(
-        pmt::mp("ack_info_in"),
+        pmt::mp("ack_frame_info_in"),
         boost::bind(&timeout_cpp_impl::kill_timeout, this, _1)
       );
     }
@@ -71,61 +71,78 @@ namespace gr {
     {
     }
 
-    void timeout_cpp_impl::kill_timeout(pmt::pmt_t ack_info) 
+    void timeout_cpp_impl::kill_timeout(pmt::pmt_t ack_frame_info) 
     {
       if(_develop_mode)
       {
         std::cout << "+++++++++++++   timeout_cpp   ++++++++++++++" << std::endl;
       }
-      if(pmt::is_dict(ack_info))
+      if(pmt::is_dict(ack_frame_info))
       {
+        pmt::pmt_t not_found;
+        // ack frame info
+        int frame_type = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("frame_type"), not_found));
+        int ack_dest = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("destination_address"), not_found));
+        int ack_src = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("source_address"), not_found));
+        int ack_index = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("frame_index"), not_found));
+        // waiting frame info
+        int wait_dest = pmt::to_long(pmt::dict_ref(_waiting_frame_info, pmt::string_to_symbol("destination_address"), not_found));
+        int wait_src = pmt::to_long(pmt::dict_ref(_waiting_frame_info, pmt::string_to_symbol("source_address"), not_found));
+        int wait_index = pmt::to_long(pmt::dict_ref(_waiting_frame_info, pmt::string_to_symbol("frame_index"), not_found));
         if(_in_timeout)
         {
-          pmt::pmt_t not_found;
-          int data_type = pmt::to_long(pmt::dict_ref(ack_info, pmt::string_to_symbol("frame_type"), not_found));
-          if(data_type == 2)
+          if((frame_type == 2) && (ack_dest == wait_src) && (ack_src == wait_dest) && (ack_index == wait_index))
           { 
             _in_timeout = false;
+            message_port_pub(pmt::mp("ack_frame_info_out"), ack_frame_info);
             if(_develop_mode)
               std::cout << "timeout is terminated by correctly received ack frame." << std::endl;
           }
+          else if(frame_type != 2)
+            if(_develop_mode)
+              std::cout << "Not an ack_frame_info dict." << std::endl;
+          else if((ack_dest != wait_src) && (ack_src != wait_dest))
+            if(_develop_mode)
+              std::cout << "address not correct." << std::endl;
           else
-            std::cout << "Not an ack_info dict." << std::endl;
+            if(_develop_mode)
+              std::cout << "expecting the ack of the " << wait_index << "th frame but received the ack of the " << ack_index << "th frame." << std::endl;
         }
         else
           std::cout << "Receive a pmt dict out of timeout interval." << std::endl;
       }
       else
-        std::cout << "ack_info: wrong data type. please check your connection." << std::endl;
+        std::cout << "ack_frame_info: wrong data type. please check your connection." << std::endl;
     }
 
-    void timeout_cpp_impl::start_timeout(pmt::pmt_t tx_frame_info) 
+    void timeout_cpp_impl::start_timeout(pmt::pmt_t data_frame_info) 
     {
       if(_develop_mode)
       {
         std::cout << "+++++++++++++   timeout_cpp   ++++++++++++++" << std::endl;
       }
-      if(pmt::is_dict(tx_frame_info))
+      if(pmt::is_dict(data_frame_info))
       {
         if(!_in_timeout)
         {
           pmt::pmt_t not_found;
-          int data_type = pmt::to_long(pmt::dict_ref(tx_frame_info, pmt::string_to_symbol("frame_type"), not_found));
+          int data_type = pmt::to_long(pmt::dict_ref(data_frame_info, pmt::string_to_symbol("frame_type"), not_found));
           if(data_type == 1)
           {
             _in_timeout = true;
             if(_develop_mode)
               std::cout << "timeout timer is triggered." << std::endl;
+            _waiting_frame_info = data_frame_info;
             boost::thread thrd(&timeout_cpp_impl::countdown_timeout, this);       
           }
           else
-            std::cout << "Not a tx_frame_info dict." << std::endl;
+            std::cout << "Not a data_frame_info dict." << std::endl;
         }
         else
           std::cout << "Cannot trigger the timeout timer before finishing the last one." << std::endl;
       }
       else
-        std::cout << "tx_frame_info: wrong data type. please check your connection." << std::endl;
+        std::cout << "data_frame_info: wrong data type. please check your connection." << std::endl;
     }
 
     void timeout_cpp_impl::countdown_timeout()
@@ -150,7 +167,6 @@ namespace gr {
           std::cout << "Remaining time: " << _timeout_duration_ms / 1000 - (current_time - start_time) << ". And the in_timeout state is: " << _in_timeout << std::endl;
         }
       }
-      message_port_pub(pmt::mp("spark_out"), pmt::from_bool(_in_timeout));
       _in_timeout = false;
     }
   } /* namespace inets */

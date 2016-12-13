@@ -20,7 +20,7 @@
     <name>Timeout duration [ms]</name>
     <key>timeout_duration_ms</key>
     <value>timeout_duration_ms</value>
-    <type>int</type>
+    <type>float</type>
   </param>
   <param>
     <name>System time granularity [us]</name>
@@ -35,11 +35,11 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>tx_frame_info_in</name>
+    <name>ack_frame_info_in</name>
     <type>message</type>
   </sink>
   <sink>
-    <name>ack_info_in</name>
+    <name>data_frame_info_in</name>
     <type>message</type>
   </sink>
 
@@ -49,7 +49,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>spark_out</name>
+    <name>ack_frame_info_out</name>
     <type>message</type>
   </source>
 </block>

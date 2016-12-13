@@ -460,18 +460,6 @@
     </param>
   </block>
   <connection>
-    <source_block_id>blocks_message_strobe_random_0</source_block_id>
-    <sink_block_id>inets_timeout_cpp_0</sink_block_id>
-    <source_key>strobe</source_key>
-    <sink_key>tx_frame_info_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_message_strobe_random_0_0</source_block_id>
-    <sink_block_id>inets_timeout_cpp_0</sink_block_id>
-    <source_key>strobe</source_key>
-    <sink_key>ack_info_in</sink_key>
-  </connection>
-  <connection>
     <source_block_id>inets_decision_cpp_0</source_block_id>
     <sink_block_id>inets_message_tomb_0</sink_block_id>
     <source_key>spark_out_f</source_key>
@@ -482,17 +470,5 @@
     <sink_block_id>blocks_message_debug_0</sink_block_id>
     <source_key>spark_out_t</source_key>
     <sink_key>print</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_timeout_cpp_0</source_block_id>
-    <sink_block_id>inets_decision_cpp_0</sink_block_id>
-    <source_key>spark_out</source_key>
-    <sink_key>spark_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_timeout_cpp_0</source_block_id>
-    <sink_block_id>inets_message_tomb_0</sink_block_id>
-    <source_key>spark_out</source_key>
-    <sink_key>message_in</sink_key>
   </connection>
 </flow_graph>
