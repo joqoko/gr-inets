@@ -132,6 +132,7 @@ namespace gr {
         message_port_pub(pmt::mp("payload_out"), payload);
         frame_info = pmt::dict_delete(frame_info, pmt::string_to_symbol("good_frame"));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"), pmt::from_long(is_good_frame));
+        frame_info = pmt::dict_delete(frame_info, pmt::string_to_symbol("frame_pmt"));
         message_port_pub(pmt::mp("frame_info_out"), frame_info);
       }
       else 

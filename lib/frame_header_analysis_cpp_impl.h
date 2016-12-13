@@ -44,6 +44,7 @@ namespace gr {
       int _len_destination_address; // Bytes
       int _source_address; 
       int _len_source_address; // Bytes
+      int _len_num_transmission;
       int _reserved_field_I;
       int _len_reserved_field_I; // Bytes
       int _reserved_field_II;
@@ -55,7 +56,7 @@ namespace gr {
       int get_frame_header_length();
 
      public:
-      frame_header_analysis_cpp_impl(std::vector<int> _develop_mode_list, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check);
+      frame_header_analysis_cpp_impl(std::vector<int> _develop_mode_list, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_num_transmission, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check);
       ~frame_header_analysis_cpp_impl();
 
     };

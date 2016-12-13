@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle_sendframe
 # Author: PWA
-# Generated: Tue Dec 13 15:12:08 2016
+# Generated: Tue Dec 13 16:23:01 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -80,9 +80,9 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         self.len_frame_type = len_frame_type = 1
         self.len_frame_index = len_frame_index = 1
         self.len_destination_address = len_destination_address = 1
-        self.increase_index = increase_index = 1
+        self.increase_index = increase_index = 0
         self.frame_type = frame_type = 1
-        self.frame_index = frame_index = 2
+        self.frame_index = frame_index = 1
         self.experiment_duration_s = experiment_duration_s = 1000
         self.develop_mode_list = develop_mode_list = [1, 2, 3, 20]
         self.destination_address = destination_address = 3
@@ -118,7 +118,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         self.inets_null_message_source_0 = inets.null_message_source()
         self.inets_message_tomb_0 = inets.message_tomb()
         self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
-        self.frame_info_simulator = blocks.message_strobe_random(self_ack_info, blocks.STROBE_POISSON, 4000, 2000)
+        self.frame_info_simulator = blocks.message_strobe_random(another_ack_info, blocks.STROBE_POISSON, 4000, 2000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
         self.blocks_message_strobe_random_0_0_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 0)
@@ -157,7 +157,6 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
 
     def set_self_ack_info(self, self_ack_info):
         self.self_ack_info = self_ack_info
-        self.frame_info_simulator.set_msg(self.self_ack_info)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -290,6 +289,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
 
     def set_another_ack_info(self, another_ack_info):
         self.another_ack_info = another_ack_info
+        self.frame_info_simulator.set_msg(self.another_ack_info)
 
 
 def main(top_block_cls=Test_idle_sendframe, options=None):

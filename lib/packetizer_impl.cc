@@ -154,7 +154,7 @@ namespace gr {
 
           pmt::pmt_t out_pmt_vector = pmt::init_u8vector(packet.size(), packet);
           pmt::pmt_t meta = pmt::make_dict();
-          //meta = pmt::dict_add(meta, pmt::mp("tx_time"), time_value);
+          meta = pmt::dict_add(meta, pmt::mp("tx_time"), time_value);
           pmt::pmt_t pdu = pmt::cons(meta, out_pmt_vector);
 
           message_port_pub(pmt::mp("packet_out"), pdu);

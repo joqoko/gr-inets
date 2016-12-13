@@ -4,7 +4,7 @@
   <key>inets_frame_header_analysis_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.frame_header_analysis_cpp($develop_mode_list, $len_frame_type, $len_frame_index, $len_destination_address, $len_source_address, $len_reserved_field_I, $len_reserved_field_II, $len_payload_length, $apply_address_check)</make>
+  <make>inets.frame_header_analysis_cpp($develop_mode_list, $len_frame_type, $len_frame_index, $len_destination_address, $len_source_address, $len_num_transmission, $len_reserved_field_I, $len_reserved_field_II, $len_payload_length, $apply_address_check)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -39,6 +39,12 @@
     <name>Length of source address</name>
     <key>len_source_address</key>
     <value>len_source_address</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of num_transmission</name>
+    <key>len_num_transmission</key>
+    <value>len_num_transmission</value>
     <type>int</type>
   </param>
   <param>

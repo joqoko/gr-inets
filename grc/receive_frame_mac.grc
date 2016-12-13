@@ -164,7 +164,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>[0]</value>
+      <value>[13]</value>
     </param>
   </block>
   <block>
@@ -234,11 +234,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(472, 492)</value>
+      <value>(536, 484)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -312,6 +312,10 @@
       <value>len_frame_type</value>
     </param>
     <param>
+      <key>len_num_transmission</key>
+      <value>len_num_transmission</value>
+    </param>
+    <param>
       <key>len_payload_length</key>
       <value>len_payload_length</value>
     </param>
@@ -356,11 +360,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(688, 468)</value>
+      <value>(816, 616)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -399,7 +403,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 744)</value>
+      <value>(1000, 768)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -525,6 +529,49 @@
     <param>
       <key>label</key>
       <value>len_frame_type</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(824, 124)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>len_num_transmission</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>len_num_transmission</value>
     </param>
     <param>
       <key>short_id</key>
@@ -766,7 +813,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(920, 456)</value>
+      <value>(1152, 484)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -851,6 +898,12 @@
     <sink_block_id>inets_frame_verification_cpp_0</sink_block_id>
     <source_key>frame_info_out</source_key>
     <sink_key>frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_address_check_cpp_0</source_block_id>
+    <sink_block_id>rx_frame_info_out</sink_block_id>
+    <source_key>frame_info_out</source_key>
+    <sink_key>in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_header_analysis_cpp_0</source_block_id>

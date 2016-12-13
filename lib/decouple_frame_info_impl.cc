@@ -42,7 +42,7 @@ namespace gr {
       : gr::block("decouple_frame_info",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-        _my_develop_mode(13),
+        _my_develop_mode(16),
         _develop_mode_list(develop_mode_list)
     { 
       _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
