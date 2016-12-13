@@ -298,7 +298,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(384, 140)</value>
+      <value>(304, 180)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -518,6 +518,12 @@
     </param>
   </block>
   <connection>
+    <source_block_id>blocks_message_strobe_random_0_0</source_block_id>
+    <sink_block_id>inets_idle_0</sink_block_id>
+    <source_key>strobe</source_key>
+    <sink_key>reset_idle</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_socket_pdu_0</source_block_id>
     <sink_block_id>inets_idle_0</sink_block_id>
     <source_key>pdus</source_key>
@@ -527,7 +533,7 @@
     <source_block_id>inets_idle_0</source_block_id>
     <sink_block_id>blocks_message_debug_0</sink_block_id>
     <source_key>data_out</source_key>
-    <sink_key>print</sink_key>
+    <sink_key>print_pdu</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_idle_0</source_block_id>

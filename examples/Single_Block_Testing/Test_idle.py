@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle
 # Author: PWA
-# Generated: Tue Dec 13 01:26:17 2016
+# Generated: Tue Dec 13 01:55:40 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -79,8 +79,9 @@ class Test_idle(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.inets_idle_0, 'reset_idle'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_idle_0, 'data_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_idle_0, 'data_out'), (self.blocks_message_debug_0, 'print_pdu'))    
         self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_message_tomb_0, 'message_in'))    
         self.msg_connect((self.inets_null_message_source_0, 'null_message_out'), (self.inets_idle_0, 'reset_idle'))    
 
