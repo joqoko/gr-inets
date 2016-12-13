@@ -1342,6 +1342,45 @@
     </param>
   </block>
   <block>
+    <key>inets_frame_info_selector</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(536, 1016)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_info_selector_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>inets_idle</key>
     <param>
       <key>alias</key>
@@ -2097,6 +2136,18 @@
     <sink_key>data_in</sink_key>
   </connection>
   <connection>
+    <source_block_id>inets_frame_info_selector_0</source_block_id>
+    <sink_block_id>inets_timeout_cpp_0</sink_block_id>
+    <source_key>ack_frame_info_out</source_key>
+    <sink_key>ack_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_info_selector_0</source_block_id>
+    <sink_block_id>inets_idle_0</sink_block_id>
+    <source_key>data_frame_info_out</source_key>
+    <sink_key>data_in</sink_key>
+  </connection>
+  <connection>
     <source_block_id>inets_idle_0</source_block_id>
     <sink_block_id>send_frame_0</sink_block_id>
     <source_key>data_out</source_key>
@@ -2122,9 +2173,9 @@
   </connection>
   <connection>
     <source_block_id>receive_frame_0_0</source_block_id>
-    <sink_block_id>inets_timeout_cpp_0</sink_block_id>
+    <sink_block_id>inets_frame_info_selector_0</sink_block_id>
     <source_key>rx_frame_info_out</source_key>
-    <sink_key>ack_info_in</sink_key>
+    <sink_key>frame_info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>send_frame_0</source_block_id>

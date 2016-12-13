@@ -47,6 +47,7 @@ install(FILES
     counter.h
     null_message_source.h
     idle.h
-    decouple_frame_info.h DESTINATION include/inets
+    decouple_frame_info.h
+    frame_info_selector.h DESTINATION include/inets
 
 )

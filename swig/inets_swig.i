@@ -34,6 +34,7 @@
 #include "inets/null_message_source.h"
 #include "inets/idle.h"
 #include "inets/decouple_frame_info.h"
+#include "inets/frame_info_selector.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -97,3 +98,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, null_message_source);
 GR_SWIG_BLOCK_MAGIC2(inets, idle);
 %include "inets/decouple_frame_info.h"
 GR_SWIG_BLOCK_MAGIC2(inets, decouple_frame_info);
+%include "inets/frame_info_selector.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_info_selector);
