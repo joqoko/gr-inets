@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Test_decision
+# Title: Test_idle
 # Author: PWA
-# Generated: Tue Dec 13 01:30:06 2016
+# Generated: Tue Dec 13 01:26:17 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -30,12 +30,12 @@ import sys
 from gnuradio import qtgui
 
 
-class Test_decision(gr.top_block, Qt.QWidget):
+class Test_idle(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Test_decision")
+        gr.top_block.__init__(self, "Test_idle")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Test_decision")
+        self.setWindowTitle("Test_idle")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -53,36 +53,39 @@ class Test_decision(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Test_decision")
+        self.settings = Qt.QSettings("GNU Radio", "Test_idle")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 320000
-        self.develop_mode_list = develop_mode_list = [1, 3, 4, 14, 21, 22]
+        self.my_address = my_address = 1
+        self.max_num_retransmission = max_num_retransmission = 5
+        self.max_buffer_size = max_buffer_size = 10
+        self.experiment_duration_s = experiment_duration_s = 1000
+        self.develop_mode_list = develop_mode_list = [1, 2, 3]
 
         ##################################################
         # Blocks
         ##################################################
         self.inets_null_message_source_0 = inets.null_message_source()
-        self.inets_decision_cpp_0 = inets.decision_cpp((develop_mode_list), 14)
-        self.inets_counter_0_0 = inets.counter((develop_mode_list), 22)
-        self.inets_counter_0 = inets.counter((develop_mode_list), 21)
-        self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(pmt.from_bool(False), blocks.STROBE_POISSON, 2000, 500)
-        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 3000, 500)
+        self.inets_message_tomb_0 = inets.message_tomb()
+        self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, my_address)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
+        self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 2000)
+        self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))    
-        self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))    
-        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_t'), (self.inets_counter_0, 'message_in'))    
-        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_f'), (self.inets_counter_0_0, 'message_in'))    
-        self.msg_connect((self.inets_null_message_source_0, 'null_message_out'), (self.inets_decision_cpp_0, 'spark_in'))    
+        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
+        self.msg_connect((self.inets_idle_0, 'data_out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.inets_null_message_source_0, 'null_message_out'), (self.inets_idle_0, 'reset_idle'))    
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Test_decision")
+        self.settings = Qt.QSettings("GNU Radio", "Test_idle")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -92,6 +95,30 @@ class Test_decision(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
 
+    def get_my_address(self):
+        return self.my_address
+
+    def set_my_address(self, my_address):
+        self.my_address = my_address
+
+    def get_max_num_retransmission(self):
+        return self.max_num_retransmission
+
+    def set_max_num_retransmission(self, max_num_retransmission):
+        self.max_num_retransmission = max_num_retransmission
+
+    def get_max_buffer_size(self):
+        return self.max_buffer_size
+
+    def set_max_buffer_size(self, max_buffer_size):
+        self.max_buffer_size = max_buffer_size
+
+    def get_experiment_duration_s(self):
+        return self.experiment_duration_s
+
+    def set_experiment_duration_s(self, experiment_duration_s):
+        self.experiment_duration_s = experiment_duration_s
+
     def get_develop_mode_list(self):
         return self.develop_mode_list
 
@@ -99,7 +126,7 @@ class Test_decision(gr.top_block, Qt.QWidget):
         self.develop_mode_list = develop_mode_list
 
 
-def main(top_block_cls=Test_decision, options=None):
+def main(top_block_cls=Test_idle, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

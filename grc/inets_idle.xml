@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<block>
+  <name>idle</name>
+  <key>inets_idle</key>
+  <category>inets_dmf_v1.0</category>
+  <import>import inets</import>
+  <make>inets.idle($develop_mode_list, $experiment_duration_s, $max_num_retransmission, $max_buffer_size, $my_address)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Develop mode list</name>
+    <key>develop_mode_list</key>
+    <value>develop_mode_list</value>
+    <type>int_vector</type>
+  </param>
+  <param>
+    <name>Experiment duration in second</name>
+    <key>experiment_duration_s</key>
+    <value>experiment_duration_s</value>
+    <type>float</type>
+  </param>
+  <param>
+    <name>Maximum number of retransmissions</name>
+    <key>max_num_retransmission</key>
+    <value>max_num_retransmission</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Maximum buffer size</name>
+    <key>max_buffer_size</key>
+    <value>max_buffer_size</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>My address</name>
+    <key>my_address</key>
+    <value>my_address</value>
+    <type>int</type>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>data_in</name>
+    <type>message</type>
+  </sink>
+  <sink>
+    <name>reset_idle</name>
+    <type>message</type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>data_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>successful_transmission</name>
+    <type>message</type>
+  </source>
+</block>

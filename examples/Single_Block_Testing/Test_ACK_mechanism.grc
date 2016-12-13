@@ -700,7 +700,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1408, 856)</value>
+      <value>(1416, 856)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1114,11 +1114,11 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(392, 484)</value>
+      <value>(400, 604)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>0</value>
+      <value>180</value>
     </param>
     <param>
       <key>id</key>
@@ -2086,7 +2086,7 @@
   <connection>
     <source_block_id>receive_frame_0</source_block_id>
     <sink_block_id>blocks_message_debug_0_0</sink_block_id>
-    <source_key>is_good_frame_out</source_key>
+    <source_key>rx_frame_info_out</source_key>
     <sink_key>print</sink_key>
   </connection>
   <connection>
