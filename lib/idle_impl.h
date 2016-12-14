@@ -32,11 +32,10 @@ namespace gr {
     class idle_impl : public idle
     {
      private:
-      std::vector<int> _develop_mode_list;
       float _experiment_duration_s;
       int _max_buffer_size; 
       int _develop_mode; 
-      int _my_develop_mode; 
+      int _block_id; 
       bool _experiment_running;
       bool _in_idle;
       std::queue<pmt::pmt_t> _tx_buff;
@@ -74,7 +73,7 @@ namespace gr {
       void send_data_frame_to_send_frame();
 
      public:
-      idle_impl(std::vector<int> develop_mode_list, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission);
+      idle_impl(int develop_mode, int block_id, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission);
       ~idle_impl();
 
     };

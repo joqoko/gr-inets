@@ -1407,6 +1407,10 @@
       <value></value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -1419,8 +1423,8 @@
       <value>destination_address</value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
+      <key>develop_mode</key>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1449,6 +1453,125 @@
     <param>
       <key>id</key>
       <value>inets_idle_0</value>
+    </param>
+    <param>
+      <key>increase_index</key>
+      <value>increase_index</value>
+    </param>
+    <param>
+      <key>len_destination_address</key>
+      <value>len_destination_address</value>
+    </param>
+    <param>
+      <key>len_frame_index</key>
+      <value>len_frame_index</value>
+    </param>
+    <param>
+      <key>len_frame_type</key>
+      <value>len_frame_type</value>
+    </param>
+    <param>
+      <key>len_num_transmission</key>
+      <value>len_num_transmission</value>
+    </param>
+    <param>
+      <key>len_payload_length</key>
+      <value>len_payload_length</value>
+    </param>
+    <param>
+      <key>len_reserved_field_I</key>
+      <value>len_reserved_field_I</value>
+    </param>
+    <param>
+      <key>len_reserved_field_II</key>
+      <value>len_reserved_field_II</value>
+    </param>
+    <param>
+      <key>len_source_address</key>
+      <value>len_source_address</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>max_buffer_size</key>
+      <value>max_buffer_size</value>
+    </param>
+    <param>
+      <key>max_num_retransmission</key>
+      <value>max_num_retransmission</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>reserved_field_I</key>
+      <value>reserved_field_I</value>
+    </param>
+    <param>
+      <key>reserved_field_II</key>
+      <value>reserved_field_II</value>
+    </param>
+    <param>
+      <key>source_address</key>
+      <value>source_address</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_idle</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>destination_address</key>
+      <value>destination_address</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>develop_mode</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>experiment_duration_s</key>
+      <value>experiment_duration_s</value>
+    </param>
+    <param>
+      <key>frame_index</key>
+      <value>frame_index</value>
+    </param>
+    <param>
+      <key>frame_type</key>
+      <value>frame_type</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(344, 512)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_idle_1</value>
     </param>
     <param>
       <key>increase_index</key>

@@ -33,21 +33,21 @@ namespace gr {
   namespace inets {
 
     idle::sptr
-    idle::make(std::vector<int> develop_mode_list, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission)
+    idle::make(int develop_mode, int block_id, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission)
     {
       return gnuradio::get_initial_sptr
-        (new idle_impl(develop_mode_list, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission));
+        (new idle_impl(develop_mode, block_id, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission));
     }
 
     /*
      * The private constructor
      */
-    idle_impl::idle_impl(std::vector<int> develop_mode_list, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission)
+    idle_impl::idle_impl(int develop_mode, int block_id, float experiment_duration_s, int max_num_retransmission, int max_buffer_size, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission)
       : gr::block("idle",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-        _develop_mode_list(develop_mode_list),
-        _my_develop_mode(1),
+        _develop_mode(develop_mode),
+        _block_id(block_id),
         _experiment_duration_s(experiment_duration_s),
         _max_buffer_size(max_buffer_size),
         _experiment_running(true),
@@ -69,7 +69,6 @@ namespace gr {
         _increase_index(increase_index),
         _max_num_retransmission(max_num_retransmission)
     {
-      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
         std::cout << "develop_mode of idle is activated." << std::endl;
       message_port_register_in(pmt::mp("data_in"));
@@ -128,7 +127,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "++++++++++++ node " << _source_address << " - idle  +++++++++++++++++" << std::endl;
+        std::cout << "++++++++++++ block " << _block_id << " - idle  +++++++++++++++++" << std::endl;
       }
       /*
        * get frame payload 
