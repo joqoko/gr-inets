@@ -29,12 +29,11 @@ namespace gr {
     class decouple_frame_info_impl : public decouple_frame_info
     {
      private:
-      std::vector<int> _develop_mode_list;
-      int _my_develop_mode;
       int _develop_mode;
+      int _block_id;
       void decoupling(pmt::pmt_t frame_cluster);
      public:
-      decouple_frame_info_impl(std::vector<int> develop_mode_list);
+      decouple_frame_info_impl(int develop_mode, int block_id);
       ~decouple_frame_info_impl();
 
     };

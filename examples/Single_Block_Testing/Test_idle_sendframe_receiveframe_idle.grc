@@ -1426,6 +1426,10 @@
       <value></value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -1438,8 +1442,8 @@
       <value>destination_address</value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
+      <key>develop_mode</key>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1541,6 +1545,10 @@
       <value></value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -1553,8 +1561,8 @@
       <value>source_address</value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
+      <key>develop_mode</key>
+      <value>off</value>
     </param>
     <param>
       <key>_enabled</key>

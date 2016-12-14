@@ -26,11 +26,11 @@ How to use develop_mode to debug:
 
 Index		block name
  1		idle_cpp
- 2		framing_cpp
+ 2		decouple_frame_info
  3		packetizer
  4		t_control_tx_cc
  5		pending_tx_finish
- 6		tx_buffer
+ 6		
  7		wait_cpp
  8		wait_frame_transmission_c (deleted. Refer to t_control_tx_cc and pending_tx_finish)
  9		message_tomb (not necessary to provide develop mode)

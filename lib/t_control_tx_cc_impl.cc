@@ -31,27 +31,26 @@ namespace gr {
   namespace inets {
 
     t_control_tx_cc::sptr
-    t_control_tx_cc::make(std::vector<int> develop_mode_list, double bps)
+    t_control_tx_cc::make(int develop_mode, int block_id, double bps)
     {
       return gnuradio::get_initial_sptr
-        (new t_control_tx_cc_impl(develop_mode_list, bps));
+        (new t_control_tx_cc_impl(develop_mode, block_id, bps));
     }
 
     /*
      * The private constructor
      */
-    t_control_tx_cc_impl::t_control_tx_cc_impl(std::vector<int> develop_mode_list, double bps)
+    t_control_tx_cc_impl::t_control_tx_cc_impl(int develop_mode, int block_id, double bps)
       : gr::block("t_control_tx_cc",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex))),
-        _develop_mode_list(develop_mode_list),
-        _my_develop_mode(4),
+        _develop_mode(develop_mode),
+        _block_id(block_id),
         _last_tx_time(0),
         _bps(bps)
     {
-      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
-        std::cout << "develop_mode of framing_cpp is activated." << std::endl;
+        std::cout << "develop_mode of framing_cpp ID: " << _block_id << " is activated." << std::endl;
     }
 
     /*
@@ -92,7 +91,7 @@ namespace gr {
       {
         if(_develop_mode)
         {
-          std::cout << "++++++++++++   t_control_tx_cc  ++++++++++++" << std::endl;
+          std::cout << "++++++++++   t_control_tx_cc ID: " << _block_id << "  ++++++++++" << std::endl;
         }
         /*
           JUA parketizer code starts 

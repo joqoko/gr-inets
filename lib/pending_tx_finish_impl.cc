@@ -29,28 +29,27 @@ namespace gr {
   namespace inets {
 
     pending_tx_finish::sptr
-    pending_tx_finish::make(std::vector<int> develop_mode_list, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
+    pending_tx_finish::make(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
     {
       return gnuradio::get_initial_sptr
-        (new pending_tx_finish_impl(develop_mode_list, system_time_granularity_us, sample_rate, lengthtagname));
+        (new pending_tx_finish_impl(develop_mode, block_id, system_time_granularity_us, sample_rate, lengthtagname));
     }
 
     /*
      * The private constructor
      */
-    pending_tx_finish_impl::pending_tx_finish_impl(std::vector<int> develop_mode_list, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
+    pending_tx_finish_impl::pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
       : gr::sync_block("pending_tx_finish",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(0, 0, 0)),
         _sample_rate(sample_rate),
         _d_lengthtagname(pmt::string_to_symbol(lengthtagname)),
-        _develop_mode_list(develop_mode_list),
-        _my_develop_mode(5),
+        _develop_mode(develop_mode),
+        _block_id(block_id),
         _system_time_granularity_us(system_time_granularity_us)
     {
-      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
-        std::cout << "develop_mode of pending_tx_finish is activated." << std::endl;
+        std::cout << "develop_mode of pending_tx_finish ID: " << _block_id << " is activated." << std::endl;
       _wait_time = 0;
       message_port_register_in(pmt::mp("tx_frame_info_in"));
       message_port_register_out(pmt::mp("tx_frame_info_out"));
@@ -101,7 +100,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "+++++++++++  pending_tx_finish  ++++++++++++" << std::endl;
+        std::cout << "+++++++++  pending_tx_finish ID: " << _block_id << "  ++++++++++" << std::endl;
         std::cout << "Number of tags: " << tags.size() << std::endl;
       }
       if(tags.size() > 0)

@@ -127,7 +127,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "++++++++++++ block " << _block_id << " - idle  +++++++++++++++++" << std::endl;
+        std::cout << "++++++++++++  idle ID: " << _block_id << "  +++++++++++++++++" << std::endl;
       }
       /*
        * get frame payload 
@@ -263,7 +263,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "       +++++  data_frame framing  +++++      " << std::endl;
+        std::cout << "  data_frame framing  " << std::endl;
       }
       /*
        * Generate a data frame
@@ -314,7 +314,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "       +++++  ack_frame framing  +++++      " << std::endl;
+        std::cout << "    ack_frame framing     " << std::endl;
       }
       /*
        * Generate an ack frame

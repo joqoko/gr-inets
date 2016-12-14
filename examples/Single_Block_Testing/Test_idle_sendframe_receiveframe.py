@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle_sendframe_receiveframe
 # Author: PWA
-# Generated: Wed Dec 14 03:04:27 2016
+# Generated: Wed Dec 14 10:32:23 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -112,7 +112,7 @@ class Test_idle_sendframe_receiveframe(gr.top_block, Qt.QWidget):
         self.send_frame_0 = send_frame(
             constellation=gnuradio.digital.constellation_qpsk().base(),
             destination_address=destination_address,
-            develop_mode_list=develop_mode_list,
+            develop_mode=1,
             frame_index=frame_index,
             frame_type=frame_type,
             increase_index=increase_index,
@@ -209,7 +209,7 @@ class Test_idle_sendframe_receiveframe(gr.top_block, Qt.QWidget):
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
         self.inets_message_tomb_0 = inets.message_tomb()
-        self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_idle_0 = inets.idle(1, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.frame_info_simulator = blocks.message_strobe_random(another_ack_info, blocks.STROBE_POISSON, 4000, 2000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_0_0_0_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 1000, 0)
@@ -448,7 +448,6 @@ class Test_idle_sendframe_receiveframe(gr.top_block, Qt.QWidget):
 
     def set_develop_mode_list(self, develop_mode_list):
         self.develop_mode_list = develop_mode_list
-        self.send_frame_0.set_develop_mode_list(self.develop_mode_list)
         self.receive_frame_0.set_develop_mode_list(self.develop_mode_list)
 
     def get_destination_address(self):

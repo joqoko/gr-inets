@@ -42,27 +42,26 @@ namespace gr {
     };
         
     packetizer::sptr
-    packetizer::make(std::vector<int> develop_mode_list, const std::vector<unsigned char> &preamble, int padding, double bps)
+    packetizer::make(int develop_mode, int block_id, const std::vector<unsigned char> &preamble, int padding, double bps)
     {
       return gnuradio::get_initial_sptr
-        (new packetizer_impl(develop_mode_list, preamble, padding, bps));
+        (new packetizer_impl(develop_mode, block_id, preamble, padding, bps));
     }
 
     /*
      * The private constructor
      */
-    packetizer_impl::packetizer_impl(std::vector<int> develop_mode_list, const std::vector<unsigned char> &preamble, int padding, double bps)
+    packetizer_impl::packetizer_impl(int develop_mode, int block_id, const std::vector<unsigned char> &preamble, int padding, double bps)
       : gr::block("packetizer",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)), 
         _header_generator(gr::digital::packet_header_default::make(32, "packet_len", "packet_num", 1)),
         _preamble(preamble), _padding(padding), _last_tx_time(0), _bps(bps),
-        _develop_mode_list(develop_mode_list),
-        _my_develop_mode(3)
+        _develop_mode(develop_mode),
+        _block_id(block_id)
     {
-      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
-        std::cout << "develop_mode of packetizer is activated." << std::endl;
+        std::cout << "develop_mode of packetizer ID: " << _block_id << " is activated." << std::endl;
         _random = std::vector<unsigned char>(_random_array, _random_array + 64);
 
         message_port_register_in(pmt::mp("payload_in"));
@@ -91,7 +90,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "++++++++++++++   packetizer   ++++++++++++++" << std::endl;
+        std::cout << "++++++++++++   packetizer ID: " << _block_id << "   ++++++++++++" << std::endl;
       }
       if(pmt::is_pair(msg)) 
       {

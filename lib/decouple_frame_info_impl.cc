@@ -29,25 +29,24 @@ namespace gr {
   namespace inets {
 
     decouple_frame_info::sptr
-    decouple_frame_info::make(std::vector<int> develop_mode_list)
+    decouple_frame_info::make(int develop_mode, int block_id)
     {
       return gnuradio::get_initial_sptr
-        (new decouple_frame_info_impl(develop_mode_list));
+        (new decouple_frame_info_impl(develop_mode, block_id));
     }
 
     /*
      * The private constructor
      */
-    decouple_frame_info_impl::decouple_frame_info_impl(std::vector<int> develop_mode_list)
+    decouple_frame_info_impl::decouple_frame_info_impl(int develop_mode, int block_id)
       : gr::block("decouple_frame_info",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-        _my_develop_mode(16),
-        _develop_mode_list(develop_mode_list)
+        _develop_mode(develop_mode),
+        _block_id(block_id)
     { 
-      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
-        std::cout << "develop_mode of decouple_frame_info is activated." << std::endl;
+        std::cout << "develop_mode of decouple_frame_info ID " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_cluster_in"));
       message_port_register_out(pmt::mp("frame_pmt_out"));
       message_port_register_out(pmt::mp("frame_info_out"));
@@ -69,7 +68,7 @@ namespace gr {
       std::cout << "decoupling at time " << current_time << std::endl;
 
       if(_develop_mode)
-        std::cout << "++++++++++++  decouple_frame_info  +++++++++++++++++" << std::endl;
+        std::cout << "++++++++  decouple_frame_info ID: " << _block_id << "  +++++++++++++" << std::endl;
       pmt::pmt_t not_found;
       if(_develop_mode)
         pmt::print(frame_cluster);

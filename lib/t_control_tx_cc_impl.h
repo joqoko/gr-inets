@@ -31,8 +31,7 @@ namespace gr {
      private:
       // Nothing to declare in this block.
       int _develop_mode;
-      std::vector<int> _develop_mode_list;
-      int _my_develop_mode;
+      int _block_id;
       double _last_tx_time;
       double _bps;
       tag_t _packet_len_tag;
@@ -40,7 +39,7 @@ namespace gr {
 
 
      public:
-      t_control_tx_cc_impl(std::vector<int> develop_mode_list, double bps);
+      t_control_tx_cc_impl(int develop_mode, int block_id, double bps);
       ~t_control_tx_cc_impl();
 
       // Where all the action really happens

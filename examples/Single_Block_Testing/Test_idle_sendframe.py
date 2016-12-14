@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle_sendframe
 # Author: PWA
-# Generated: Tue Dec 13 16:23:01 2016
+# Generated: Wed Dec 14 10:22:00 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -96,7 +96,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         self.send_frame_0 = send_frame(
             constellation=gnuradio.digital.constellation_qpsk().base(),
             destination_address=3,
-            develop_mode_list=[0, 1],
+            develop_mode=1,
             frame_index=2,
             frame_type=1,
             increase_index=1,
@@ -117,7 +117,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         )
         self.inets_null_message_source_0 = inets.null_message_source()
         self.inets_message_tomb_0 = inets.message_tomb()
-        self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_idle_0 = inets.idle(1, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.frame_info_simulator = blocks.message_strobe_random(another_ack_info, blocks.STROBE_POISSON, 4000, 2000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
