@@ -63,7 +63,16 @@ namespace gr {
 
     void decouple_frame_info_impl::decoupling(pmt::pmt_t frame_cluster)
     {
+      struct timeval t; 
+      gettimeofday(&t, NULL);
+      double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+      std::cout << "decoupling at time " << current_time << std::endl;
+
+      if(_develop_mode)
+        std::cout << "++++++++++++  decouple_frame_info  +++++++++++++++++" << std::endl;
       pmt::pmt_t not_found;
+      if(_develop_mode)
+        pmt::print(frame_cluster);
       if(pmt::is_dict(frame_cluster))
       {
         if(pmt::dict_has_key(frame_cluster, pmt::string_to_symbol("frame_pmt")))

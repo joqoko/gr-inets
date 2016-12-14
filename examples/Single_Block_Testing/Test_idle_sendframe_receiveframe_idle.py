@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle_sendframe_receiveframe_idle
 # Author: PWA
-# Generated: Wed Dec 14 00:02:12 2016
+# Generated: Wed Dec 14 03:07:21 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -69,7 +69,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 25
         self.range_mu = range_mu = 0.6
-        self.timeout_duration_ms = timeout_duration_ms = 500
+        self.timeout_duration_ms = timeout_duration_ms = 5000
         self.system_time_granularity_us = system_time_granularity_us = 10000
         self.source_address = source_address = 1
         self.self_data_info = self_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
@@ -200,31 +200,23 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_timeout_cpp_0 = inets.timeout_cpp((develop_mode_list), timeout_duration_ms, system_time_granularity_us)
+        self.inets_message_tomb_0 = inets.message_tomb()
         self.inets_idle_0_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, source_address, len_destination_address, destination_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
-        self.inets_frame_info_selector_0_0 = inets.frame_info_selector()
-        self.inets_frame_info_selector_0 = inets.frame_info_selector()
         self.frame_info_simulator = blocks.message_strobe_random(pmt.to_pmt({'good_frame' : 1, 'address_check' : 1, 'header_length' : 9, 'payload_length' : 0, 'reserved_field_II' : 6, 'reserved_field_I' : 5, 'num_transmission' : 0, 'source_address' : 1, 'destination_address': 3, 'frame_index' : 22, 'frame_type' : 1}), blocks.STROBE_POISSON, 2000, 1000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_1 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 100, 5)
-        self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_random_1, 'strobe'), (self.inets_idle_0, 'reset_idle'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_frame_info_selector_0, 'ack_frame_info_out'), (self.blocks_message_debug_0, 'print'))    
-        self.msg_connect((self.inets_frame_info_selector_0, 'data_frame_info_out'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_frame_info_selector_0, 'ack_frame_info_out'), (self.inets_timeout_cpp_0, 'ack_frame_info_in'))    
-        self.msg_connect((self.inets_frame_info_selector_0_0, 'data_frame_info_out'), (self.inets_timeout_cpp_0, 'data_frame_info_in'))    
         self.msg_connect((self.inets_idle_0, 'data_out'), (self.send_frame_0, 'in'))    
         self.msg_connect((self.inets_idle_0_0, 'data_out'), (self.send_frame_0_0, 'in'))    
-        self.msg_connect((self.inets_timeout_cpp_0, 'ack_frame_info_out'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.receive_frame_0, 'rx_frame_info_out'), (self.inets_idle_0_0, 'data_in'))    
-        self.msg_connect((self.receive_frame_0_0, 'rx_frame_info_out'), (self.inets_frame_info_selector_0, 'frame_info_in'))    
-        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_frame_info_selector_0_0, 'frame_info_in'))    
+        self.msg_connect((self.receive_frame_0_0, 'rx_frame_info_out'), (self.inets_idle_0, 'data_in'))    
+        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_message_tomb_0, 'message_in'))    
         self.connect((self.send_frame_0, 0), (self.receive_frame_0, 0))    
         self.connect((self.send_frame_0_0, 0), (self.receive_frame_0_0, 0))    
 

@@ -67,8 +67,7 @@ namespace gr {
         _len_payload_length(len_payload_length), // Bytes
         _frame_type(frame_type),
         _increase_index(increase_index),
-        _max_num_retransmission(max_num_retransmission),
-        _last_frame_index(0)
+        _max_num_retransmission(max_num_retransmission)
     {
       _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
@@ -93,12 +92,18 @@ namespace gr {
     idle_impl::send_data_frame_to_send_frame()
     {
       pmt::pmt_t not_found;
-      _last_frame_index = pmt::to_long(pmt::dict_ref(_tx_buff.front(), pmt::string_to_symbol("frame_index"), not_found));
-      message_port_pub(pmt::mp("data_out"), _tx_buff.front());
+      _sending_data_frame = _tx_buff.front();
+      message_port_pub(pmt::mp("data_out"), _sending_data_frame);
       _tx_buff.pop();
+
+      struct timeval t; 
+      gettimeofday(&t, NULL);
+      double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+      std::cout << "idle node " << _source_address << " at time " << current_time << std::endl;
+
       _in_idle = false;
       if(_develop_mode)
-        std::cout << "in idle, send the " << _last_frame_index << "th frame to send_frame. there are " << _tx_buff.size() << " frames in the tx buffer." << std::endl;
+        std::cout << "send the " << pmt::dict_ref(_sending_data_frame, pmt::string_to_symbol("frame_index"), not_found) << "th frame to send_frame. " << _tx_buff.size() << " frames in buffer." << std::endl;
     }
 
     void
@@ -142,7 +147,7 @@ namespace gr {
           _tx_buff.push(data_frame);
           if(_in_idle)
           {
-            send_data_frame_to_send_frame();
+            idle_impl::send_data_frame_to_send_frame();
           }
           else
             if(_develop_mode)
@@ -202,9 +207,9 @@ namespace gr {
               num_transmission++;
               if(_develop_mode)
                 std::cout << "transmission the data frame. current number of transmission is: " << num_transmission << std::endl;
-              data = pmt::dict_delete(data, pmt::string_to_symbol("num_transmission"));
-              data = pmt::dict_add(data, pmt::string_to_symbol("num_transmission"), pmt::from_long(num_transmission));
-              message_port_pub(pmt::mp("data_out"), data);
+              _sending_data_frame = pmt::dict_delete(_sending_data_frame, pmt::string_to_symbol("num_transmission"));
+              _sending_data_frame = pmt::dict_add(_sending_data_frame, pmt::string_to_symbol("num_transmission"), pmt::from_long(num_transmission));
+              message_port_pub(pmt::mp("data_out"), _sending_data_frame);
             }
           }     
           else
@@ -219,9 +224,9 @@ namespace gr {
             // if it is an ACK frame. Note that we need to compare the frame index to the frame index of the last send data frame. 
             if(frame_type == 2)
             {
-              int frame_index = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_index"), not_found));
-              if(frame_index == _last_frame_index)
-              { 
+              //int frame_index = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_index"), not_found));
+             // if(frame_index == _last_frame_index)
+              //{ 
                 _in_idle = true;
                 message_port_pub(pmt::mp("successful_transmission"), pmt::from_bool(true));
                 if(_develop_mode)
@@ -230,11 +235,9 @@ namespace gr {
                 {
                   send_data_frame_to_send_frame();
                 }
-              }
-              else
-              {
-                std::cout << "Received an ack of the " << frame_index << "th frame, but we are expecting the ack of the " << _last_frame_index << "th frame. please check your setup." << std::endl;
-              }
+              //}
+             // else
+             //     std::cout << "Received an ack of the " << frame_index << "th frame, but we are expecting the ack of the " << _last_frame_index << "th frame. please check your setup." << std::endl;
             }
             // if it is a data frame, we need to set idle state to false and transmission ack back.
             else if(frame_type == 1)

@@ -49,7 +49,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>ack_frame_info_out</name>
+    <name>frame_info_out</name>
     <type>message</type>
   </source>
 </block>

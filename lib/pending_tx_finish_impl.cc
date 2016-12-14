@@ -163,6 +163,10 @@ namespace gr {
         std::cout << "Count is: " << count << std::endl;
       _wait_time = 0;
       message_port_pub(pmt::mp("tx_frame_info_out"), _tx_frame_info);
+
+      gettimeofday(&t, NULL);
+      current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+      std::cout << "after pending tx at time " << current_time << std::endl;
     }
 
 

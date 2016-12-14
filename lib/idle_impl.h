@@ -61,6 +61,7 @@ namespace gr {
       int _len_payload_length; // Bytes
       int _increase_index;
       int _last_frame_index;
+      pmt::pmt_t _sending_data_frame;
       boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       void reset_idle(pmt::pmt_t data);
       void state_transition(pmt::pmt_t data);
