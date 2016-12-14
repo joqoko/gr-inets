@@ -29,28 +29,27 @@ namespace gr {
   namespace inets {
 
     timeout_cpp::sptr
-    timeout_cpp::make(std::vector<int> develop_mode_list, float timeout_duration_ms, int system_time_granularity_us)
+    timeout_cpp::make(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us)
     {
       return gnuradio::get_initial_sptr
-        (new timeout_cpp_impl(develop_mode_list, timeout_duration_ms, system_time_granularity_us));
+        (new timeout_cpp_impl(develop_mode, block_id, timeout_duration_ms, system_time_granularity_us));
     }
 
     /*
      * The private constructor
      */
-    timeout_cpp_impl::timeout_cpp_impl(std::vector<int> develop_mode_list, float timeout_duration_ms, int system_time_granularity_us)
+    timeout_cpp_impl::timeout_cpp_impl(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us)
       : gr::block("timeout_cpp",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-        _develop_mode_list(develop_mode_list),
-        _my_develop_mode(17),
+        _develop_mode(develop_mode),
+        _block_id(block_id),
         _timeout_duration_ms(float(timeout_duration_ms)),
         _in_timeout(false),
         _system_time_granularity_us(system_time_granularity_us)
     {
-      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
-        std::cout << "develop_mode of timeout_cpp is activated." << std::endl;
+        std::cout << "develop_mode of timeout_cpp ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("data_frame_info_in"));
       message_port_register_in(pmt::mp("ack_frame_info_in"));
       message_port_register_out(pmt::mp("frame_info_out"));
@@ -75,7 +74,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-        std::cout << "+++++++++++++   timeout_cpp   ++++++++++++++" << std::endl;
+        std::cout << "++++++++++++  timeout_cpp ID: " << _block_id << "  +++++++++++++" << std::endl;
       }
       if(pmt::is_dict(ack_frame_info))
       {

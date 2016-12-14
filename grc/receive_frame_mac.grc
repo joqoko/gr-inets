@@ -148,11 +148,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>develop_mode_list</value>
+      <value>develop_mode</value>
     </param>
     <param>
       <key>label</key>
-      <value>develop_mode_list</value>
+      <value>develop_mode</value>
     </param>
     <param>
       <key>short_id</key>
@@ -164,7 +164,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>[13]</value>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -221,6 +221,10 @@
       <value></value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>8</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -229,8 +233,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
+      <key>develop_mode</key>
+      <value>develop_mode</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -272,6 +276,10 @@
       <value></value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>7</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -280,8 +288,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
+      <key>develop_mode</key>
+      <value>develop_mode</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -360,7 +368,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>

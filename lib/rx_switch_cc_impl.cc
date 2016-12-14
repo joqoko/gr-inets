@@ -29,26 +29,25 @@ namespace gr {
   namespace inets {
 
     rx_switch_cc::sptr
-    rx_switch_cc::make(std::vector<int> develop_mode_list)
+    rx_switch_cc::make(int develop_mode, int block_id)
     {
       return gnuradio::get_initial_sptr
-        (new rx_switch_cc_impl(develop_mode_list));
+        (new rx_switch_cc_impl(develop_mode, block_id));
     }
 
     /*
      * The private constructor
      */
-    rx_switch_cc_impl::rx_switch_cc_impl(std::vector<int> develop_mode_list)
+    rx_switch_cc_impl::rx_switch_cc_impl(int develop_mode, int block_id)
       : gr::sync_block("rx_switch_cc",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex))),
-        _my_develop_mode(10),
-        _develop_mode_list(develop_mode_list),
+        _block_id(block_id),
+        _develop_mode(develop_mode),
         _is_receiving(1)
     {
-      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
-        std::cout << "develop_mode of rx_switch_cc is activated." << std::endl;
+        std::cout << "develop_mode of rx_switch_cc ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("spark_in"));
       set_msg_handler(pmt::mp("spark_in"), boost::bind(&rx_switch_cc_impl::kai_guan, this, _1 ));
     }
@@ -95,7 +94,7 @@ namespace gr {
     {
       if(_develop_mode)
       {
-	std::cout << "+++++++++++++  rx_switch_cc  +++++++++++++++" << std::endl;
+	std::cout << "+++++++++++  rx_switch_cc ID: " << _block_id << "  +++++++++++++" << std::endl;
       }
       // std::cout << "received a message" << std::endl;
       if(pmt::is_bool(spark))

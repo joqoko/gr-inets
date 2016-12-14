@@ -236,11 +236,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>develop_mode_list</value>
+      <value>develop_mode</value>
     </param>
     <param>
       <key>value</key>
-      <value>[13, 12]</value>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1424,7 +1424,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1932,10 +1932,6 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
-    </param>
-    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
@@ -1982,6 +1978,10 @@
     <param>
       <key>apply_address_check</key>
       <value>apply_address_check</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>[11]</value>
     </param>
     <param>
       <key>len_destination_address</key>

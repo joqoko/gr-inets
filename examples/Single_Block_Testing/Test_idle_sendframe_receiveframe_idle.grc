@@ -1396,7 +1396,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1695,6 +1695,10 @@
       <value></value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>10</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -1703,12 +1707,12 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
+      <key>develop_mode</key>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1758,10 +1762,6 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
-    </param>
-    <param>
       <key>_enabled</key>
       <value>1</value>
     </param>
@@ -1808,6 +1808,10 @@
     <param>
       <key>apply_address_check</key>
       <value>apply_address_check</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>[11]</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -1873,10 +1877,6 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
-    </param>
-    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
@@ -1923,6 +1923,10 @@
     <param>
       <key>apply_address_check</key>
       <value>apply_address_check</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>[11]</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -2024,8 +2028,8 @@
       <value>destination_address</value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
+      <key>develop_mode</key>
+      <value>1</value>
     </param>
     <param>
       <key>frame_index</key>
@@ -2143,8 +2147,8 @@
       <value>source_address</value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
+      <key>develop_mode</key>
+      <value>1</value>
     </param>
     <param>
       <key>frame_index</key>

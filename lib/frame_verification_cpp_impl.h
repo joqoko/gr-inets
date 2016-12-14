@@ -32,15 +32,14 @@ namespace gr {
     {
      private:
       int _develop_mode;
-      int _my_develop_mode;
-      std::vector<int>_develop_mode_list;
+      int _block_id;
       int _frame_type; 
       boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
       void check_frame(pmt::pmt_t frame_info);
       void check_frame_v0(pmt::pmt_t rx_frame);
      public:
-      frame_verification_cpp_impl(std::vector<int>_develop_mode_list);
+      frame_verification_cpp_impl(int develop_mode, int block_id);
       ~frame_verification_cpp_impl();
 
     };

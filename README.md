@@ -30,15 +30,14 @@ Index		block name
  3		packetizer
  4		t_control_tx_cc
  5		pending_tx_finish
- 6		
- 7		wait_cpp
- 8		wait_frame_transmission_c (deleted. Refer to t_control_tx_cc and pending_tx_finish)
- 9		message_tomb (not necessary to provide develop mode)
- 10		rx_switch_cc
- 11		frame_header_analysis_cpp
- 12		frame_verification_cpp
- 13		address_check_cpp
+ 6		rx_switch_cc
+ 7		frame_header_analysis_cpp
+ 8		address_check_cpp
+ 9		frame_verification_cpp
+ 10		timeout_cpp
+ 11
+ 12		
+ 13		
  14		decision_cpp
  15     	exponential_backoff_cpp
  16             decouple_frame_info
- 17             timeout_cpp

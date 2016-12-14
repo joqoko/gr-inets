@@ -755,7 +755,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>develop_mode</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -806,7 +806,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>develop_mode</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -848,6 +848,10 @@
       <value></value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>5</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -856,8 +860,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode</value>
+      <key>develop_mode</key>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -903,6 +907,10 @@
       <value></value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>4</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -911,8 +919,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode</value>
+      <key>develop_mode</key>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>

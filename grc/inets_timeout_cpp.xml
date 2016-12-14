@@ -4,17 +4,31 @@
   <key>inets_timeout_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.timeout_cpp($develop_mode_list, $timeout_duration_ms, $system_time_granularity_us)</make>
+  <make>inets.timeout_cpp($develop_mode, $block_id, $timeout_duration_ms, $system_time_granularity_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>Develop mode list</name>
-    <key>develop_mode_list</key>
-    <value>develop_mode_list</value>
-    <type>int_vector</type>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <value>develop_mode</value>
+    <type>int</type>
+    <option>
+      <name>on</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>off</name>
+      <key>0</key>
+    </option>
+  </param>
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>10</value>
+    <type>int</type>
   </param>
   <param>
     <name>Timeout duration [ms]</name>

@@ -512,11 +512,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>develop_mode_list</value>
+      <value>develop_mode</value>
     </param>
     <param>
       <key>label</key>
-      <value>Develop mode list</value>
+      <value>Develop mode</value>
     </param>
     <param>
       <key>short_id</key>
@@ -528,7 +528,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>[0, 1]</value>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1036,6 +1036,10 @@
       <value></value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>6</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -1044,8 +1048,8 @@
       <value></value>
     </param>
     <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
+      <key>develop_mode</key>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1514,7 +1518,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 336)</value>
+      <value>(8, 380)</value>
     </param>
     <param>
       <key>_rotation</key>

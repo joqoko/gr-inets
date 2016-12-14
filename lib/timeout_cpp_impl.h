@@ -29,9 +29,8 @@ namespace gr {
     class timeout_cpp_impl : public timeout_cpp
     {
      private:
-      std::vector<int> _develop_mode_list;
-      int _my_develop_mode;
       int _develop_mode;
+      int _block_id;
       int _in_timeout;
       float _timeout_duration_ms;
       int _system_time_granularity_us;
@@ -41,7 +40,7 @@ namespace gr {
       void countdown_timeout();
 
      public:
-      timeout_cpp_impl(std::vector<int> develop_mode_list, float timeout_duration_ms, int system_time_granularity_us);
+      timeout_cpp_impl(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us);
       ~timeout_cpp_impl();
 
     };
