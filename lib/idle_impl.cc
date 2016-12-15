@@ -69,7 +69,7 @@ namespace gr {
         _increase_index(increase_index),
         _max_num_retransmission(max_num_retransmission)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "develop_mode of idle is activated." << std::endl;
       message_port_register_in(pmt::mp("data_in"));
       message_port_register_in(pmt::mp("reset_idle"));
@@ -92,16 +92,19 @@ namespace gr {
     {
       pmt::pmt_t not_found;
       _sending_data_frame = _tx_buff.front();
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        std::cout << "* idle ID: " << _block_id << ", " << pmt::dict_ref(_sending_data_frame, pmt::string_to_symbol("num_transmission"), not_found) << "th time send frame " << pmt::dict_ref(_sending_data_frame, pmt::string_to_symbol("frame_index"), not_found) << " at time " << current_time << " s" << std::endl;
+      }
       message_port_pub(pmt::mp("data_out"), _sending_data_frame);
       _tx_buff.pop();
 
-      struct timeval t; 
-      gettimeofday(&t, NULL);
-      double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-      std::cout << "idle node " << _source_address << " at time " << current_time << std::endl;
 
       _in_idle = false;
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "send the " << pmt::dict_ref(_sending_data_frame, pmt::string_to_symbol("frame_index"), not_found) << "th frame to send_frame. " << _tx_buff.size() << " frames in buffer." << std::endl;
     }
 
@@ -111,7 +114,7 @@ namespace gr {
       if(pmt::to_bool(data))
       {
         _in_idle = true;
-        if(_develop_mode)
+        if(_develop_mode == 1)
           std::cout << "reset idle at node " << _source_address << " to true." << std::endl;
         if(_tx_buff.size())
         {
@@ -125,7 +128,7 @@ namespace gr {
     void
     idle_impl::state_transition(pmt::pmt_t data)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
       {
         std::cout << "++++++++++++  idle ID: " << _block_id << "  +++++++++++++++++" << std::endl;
       }
@@ -138,7 +141,14 @@ namespace gr {
       if(pmt::is_u8vector(data_pmt))
       {
         // we first check whether the queue is full. if we enqueue the data frame, we need to check the _in_idle state. If true, then we transmission the frame and set _in_idle to false.
-        if(_develop_mode)
+        if(_develop_mode == 2)
+        {
+          struct timeval t; 
+          gettimeofday(&t, NULL);
+          double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+          std::cout << "* idle ID: " << _block_id << " get a payload from source at time " << current_time << " s" << std::endl;
+        }
+        if(_develop_mode == 1)
           std::cout << "payload comes. " << std::endl;
         if(_tx_buff.size() < _max_buffer_size)
         {
@@ -149,11 +159,11 @@ namespace gr {
             idle_impl::send_data_frame_to_send_frame();
           }
           else
-            if(_develop_mode)
+            if(_develop_mode == 1)
               std::cout << "payload comes but not in idle. there are " << _tx_buff.size() << " frames in the tx buffer."<< std::endl;
         }
         else
-          if(_develop_mode)
+          if(_develop_mode == 1)
             std::cout << "payload comes. However the tx buffer is full, discard the payload." << std::endl;
       }
       /*
@@ -161,10 +171,11 @@ namespace gr {
        */
       else if(pmt::dict_has_key(data, pmt::string_to_symbol("frame_type")))
       {
-        if(_develop_mode)
+        if(_develop_mode == 1)
           std::cout << "get a frame info dict." << std::endl;
         pmt::pmt_t not_found;
         int frame_type = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_type"), not_found));
+        int ack_index = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_index"), not_found));
         int destination_address = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("destination_address"), not_found));
         int src_address = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("source_address"), not_found));
         // if the frame is sent by me
@@ -175,7 +186,7 @@ namespace gr {
           {
             std::cout << "Warning: get frame info of an ack sent by me. please check your connection." << std::endl;
             // activate _in_idle state
-          //  if(_develop_mode)
+          //  if(_develop_mode == 1)
           //    std::cout << "get info of the ACK sent by me, state to idle." << std::endl;
          //   _in_idle = true;
          //   if(_tx_buff.size())
@@ -187,12 +198,19 @@ namespace gr {
           else if(frame_type == 1)
           {
             // check the number of transmission. If maximum retransmission reached, then reset idle and check the buffer. Otherwise simply forward the frame info to transmission frame and there the transmission will be add one.
+            if(_develop_mode == 2)
+            {
+              struct timeval t; 
+              gettimeofday(&t, NULL);
+              double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+              std::cout << "* idle ID: " << _block_id << " get self data frame info at time " << current_time << " s" << std::endl;
+            }
             int num_transmission = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("num_transmission"), not_found));
-            if(_develop_mode)
+            if(_develop_mode == 1)
               std::cout << "get info of the data frame sent by me, number of retransmission is: " << num_transmission << std::endl;
             if(num_transmission >= _max_num_retransmission)
             {
-              if(_develop_mode)
+              if(_develop_mode == 1)
                 std::cout << "maximum retransmission reached. reset _in_idle." << std::endl;
               _in_idle = true;
               if(_tx_buff.size())
@@ -204,7 +222,7 @@ namespace gr {
             else
             {
               num_transmission++;
-              if(_develop_mode)
+              if(_develop_mode == 1)
                 std::cout << "transmission the data frame. current number of transmission is: " << num_transmission << std::endl;
               _sending_data_frame = pmt::dict_delete(_sending_data_frame, pmt::string_to_symbol("num_transmission"));
               _sending_data_frame = pmt::dict_add(_sending_data_frame, pmt::string_to_symbol("num_transmission"), pmt::from_long(num_transmission));
@@ -226,14 +244,21 @@ namespace gr {
               //int frame_index = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_index"), not_found));
              // if(frame_index == _last_frame_index)
               //{ 
-                _in_idle = true;
-                message_port_pub(pmt::mp("successful_transmission"), pmt::from_bool(true));
-                if(_develop_mode)
-                  std::cout << "successfully sent one frame. back to idle. next one!" << std::endl;
-                if(_tx_buff.size())
-                {
-                  send_data_frame_to_send_frame();
-                }
+              if(_develop_mode == 2)
+              {
+                struct timeval t; 
+                gettimeofday(&t, NULL);
+                double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+                std::cout << "* idle ID: " << _block_id << " gets ack from node " << src_address << " with index " << ack_index << " at time " << current_time << " s" << std::endl;
+              }
+              _in_idle = true;
+              message_port_pub(pmt::mp("successful_transmission"), pmt::from_bool(true));
+              if(_develop_mode == 1)
+                std::cout << "successfully sent one frame. back to idle. next one!" << std::endl;
+              if(_tx_buff.size())
+              {
+                send_data_frame_to_send_frame();
+              }
               //}
              // else
              //     std::cout << "Received an ack of the " << frame_index << "th frame, but we are expecting the ack of the " << _last_frame_index << "th frame. please check your setup." << std::endl;
@@ -241,7 +266,14 @@ namespace gr {
             // if it is a data frame, we need to set idle state to false and transmission ack back.
             else if(frame_type == 1)
             {
-              if(_develop_mode)
+              if(_develop_mode == 2)
+              {
+                struct timeval t; 
+                gettimeofday(&t, NULL);
+                double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+                std::cout << "* idle ID: " << _block_id << " get other's data info at time       " << current_time << " s" << std::endl;
+              }
+              if(_develop_mode == 1)
                 std::cout << "received a data frame. let the transmissioner know now!" << std::endl;
               _in_idle = false;
               pmt::pmt_t ack_frame = ack_frame_framing(data);
@@ -261,7 +293,7 @@ namespace gr {
     pmt::pmt_t
     idle_impl::data_frame_framing(pmt::pmt_t rx_payload)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
       {
         std::cout << "  data_frame framing  " << std::endl;
       }
@@ -282,13 +314,13 @@ namespace gr {
           std::vector<unsigned char> frame_header;
           if(_increase_index)
             _frame_index++;
-          frame_info = frame_header_formation(&frame_header, 1, _frame_index, _destination_address, _source_address, _reserved_field_I, _reserved_field_II, _payload_length);
+          frame_info = frame_header_formation(&frame_header, 1, _frame_index, _destination_address, _source_address, _reserved_field_I, _reserved_field_II, _payload_length, 1);
           std::vector<unsigned char> frame;
           frame.insert(frame.end(), frame_header.begin(), frame_header.end());
-          if(_develop_mode)
+          if(_develop_mode == 1)
             std::cout << "frame header, length " << frame.size() << std::endl;
           frame.insert(frame.end(), payload_array.begin(), payload_array.end());
-          if(_develop_mode)
+          if(_develop_mode == 1)
             std::cout << "frame header with payload, length " << frame.size() << std::endl;
           // crc
           // crc32_bb_calc(&frame);
@@ -298,7 +330,7 @@ namespace gr {
           pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
           frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_after_crc);
           std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
-          if(_develop_mode)
+          if(_develop_mode == 1)
             std::cout << "frame header with payload with crc, length " << frame_after_crc_vector.size() << std::endl;
         }
         else
@@ -312,7 +344,7 @@ namespace gr {
     pmt::pmt_t
     idle_impl::ack_frame_framing(pmt::pmt_t rx_payload)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
       {
         std::cout << "    ack_frame framing     " << std::endl;
       }
@@ -328,11 +360,12 @@ namespace gr {
         int ack_address = pmt::to_long(pmt::dict_ref(rx_payload, pmt::string_to_symbol("source_address"), not_found));
         //int src_address = pmt::to_long(pmt::dict_ref(rx_payload, pmt::string_to_symbol("destination_address"), not_found));
         int ack_index = pmt::to_long(pmt::dict_ref(rx_payload, pmt::string_to_symbol("frame_index"), not_found));
+        int ack_num_transmission = pmt::to_long(pmt::dict_ref(rx_payload, pmt::string_to_symbol("num_transmission"), not_found));
         std::vector<unsigned char> frame_header;
-        frame_info = frame_header_formation(&frame_header, 2, ack_index, ack_address, _source_address, _reserved_field_I, _reserved_field_II, 0);
+        frame_info = frame_header_formation(&frame_header, 2, ack_index, ack_address, _source_address, _reserved_field_I, _reserved_field_II, 0, ack_num_transmission);
         std::vector<unsigned char> frame;
         frame.insert(frame.end(), frame_header.begin(), frame_header.end());
-        if(_develop_mode)
+        if(_develop_mode == 1)
           std::cout << "frame header, length " << frame.size() << std::endl;
         // crc
         // crc32_bb_calc(&frame);
@@ -342,7 +375,7 @@ namespace gr {
         pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_after_crc);
         std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
-        if(_develop_mode)
+        if(_develop_mode == 1)
           std::cout << "ack frame with crc (no payload), length " << frame_after_crc_vector.size() << std::endl;
       }
       else 
@@ -351,7 +384,7 @@ namespace gr {
     }
 
     pmt::pmt_t
-    idle_impl::frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length)
+    idle_impl::frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission)
     {
       std::vector< unsigned char > vec_frame_header;
       std::vector< unsigned char > vec_frame_type;
@@ -381,8 +414,8 @@ namespace gr {
       intToByte(payload_length, &vec_payload_length, _len_payload_length);
       // Source address
       intToByte(source_address, &vec_source_address, _len_source_address);
-      // num_Retransmission 
-      intToByte(0, &vec_transmission, _len_num_transmission);
+      // num_transmission 
+      intToByte(num_transmission, &vec_transmission, _len_num_transmission);
       // Reserved field I
       intToByte(reserved_field_I, &vec_reserved_field_I, _len_reserved_field_I);
       // Reserved field II
@@ -410,7 +443,7 @@ namespace gr {
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_index"), pmt::from_long(frame_index));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("destination_address"), pmt::from_long(destination_address));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("source_address"), pmt::from_long(source_address));
-      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("num_transmission"), pmt::from_long(0));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("num_transmission"), pmt::from_long(1));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_I"), pmt::from_long(reserved_field_I));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_II"), pmt::from_long(reserved_field_II));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(payload_length));

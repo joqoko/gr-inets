@@ -21,7 +21,7 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>3</value>
+    <value>block_id</value>
     <type>int</type>
   </param>
   <param>

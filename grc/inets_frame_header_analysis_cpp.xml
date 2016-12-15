@@ -24,11 +24,15 @@
       <name>off</name>
       <key>0</key>
     </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+    </option>
   </param>
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>7</value>
+    <value>block_id</value>
     <type>int</type>
   </param>
   <param>
@@ -128,10 +132,11 @@
   <source>
     <name>frame_info_out</name>
     <type>message</type>
+    <optional>1</optional>
   </source>
   <source>
-
     <name>frame_out</name>
     <type>message</type>
+    <optional>1</optional>
   </source>
 </block>

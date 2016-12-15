@@ -49,7 +49,7 @@ namespace gr {
         _last_tx_time(0),
         _bps(bps)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "develop_mode of framing_cpp ID: " << _block_id << " is activated." << std::endl;
     }
 
@@ -89,7 +89,7 @@ namespace gr {
 
       if(process_tags_info(tags))
       {
-        if(_develop_mode)
+        if(_develop_mode == 1)
         {
           std::cout << "++++++++++   t_control_tx_cc ID: " << _block_id << "  ++++++++++" << std::endl;
         }
@@ -142,7 +142,7 @@ namespace gr {
       int tag_detected = 0; 
       for(int i = 0; i < tags.size(); i++)
       {
-        if(_develop_mode)
+        if(_develop_mode == 1)
         {
           std::cout << "Index of tags: " << i << std::endl;
           std::cout << "Offset: " << tags[i].offset << std::endl;
@@ -156,9 +156,16 @@ namespace gr {
         {
           _packet_len_tag = tags[i];          
           tag_detected = 1;
-          if(_develop_mode > 0)
+          if(_develop_mode == 1)
           {
             std::cout << "packet_len tag found." << std::endl;
+          }
+          if(_develop_mode == 2)
+          {
+            struct timeval t; 
+            gettimeofday(&t, NULL);
+            double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+            std::cout << "* t_control ID: " << _block_id << " finds packet_len tag at time " << current_time << " s" << std::endl;
           }
           break;
         }

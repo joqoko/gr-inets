@@ -23,6 +23,10 @@
       <name>off</name>
       <key>0</key>
     </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+    </option>
   </param>
   <param>
     <name>Block id</name>
@@ -161,6 +165,7 @@
   <source>
     <name>data_out</name>
     <type>message</type>
+    <optional>1</optional>
   </source>
   <source>
     <name>successful_transmission</name>

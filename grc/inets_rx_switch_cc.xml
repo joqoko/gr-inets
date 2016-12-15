@@ -23,6 +23,10 @@
       <name>off</name>
       <key>0</key>
     </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+    </option>
   </param>
   <param>
     <name>Block id</name>

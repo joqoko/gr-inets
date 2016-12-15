@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle
 # Author: PWA
-# Generated: Wed Dec 14 09:09:52 2016
+# Generated: Wed Dec 14 13:32:04 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -78,7 +78,7 @@ class Test_idle(gr.top_block, Qt.QWidget):
         self.frame_type = frame_type = 1
         self.frame_index = frame_index = 0
         self.experiment_duration_s = experiment_duration_s = 1000
-        self.develop_mode = develop_mode = 1
+        self.develop_mode = develop_mode = 2
         self.destination_address = destination_address = 3
         self.another_data_info = another_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 1, 'source_address': 2, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
         self.another_ack_info = another_ack_info = pmt.to_pmt({'frame_type': 2, 'frame_index': 1, 'destination_address': 1, 'source_address': 2, 'num_resend': 0, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 0})
@@ -88,7 +88,7 @@ class Test_idle(gr.top_block, Qt.QWidget):
         ##################################################
         self.inets_null_message_source_0 = inets.null_message_source()
         self.inets_message_tomb_0 = inets.message_tomb()
-        self.inets_idle_0 = inets.idle(0, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_idle_0 = inets.idle(2, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_0_0_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 0)
         self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(another_ack_info, blocks.STROBE_POISSON, 2000, 0)
@@ -97,7 +97,6 @@ class Test_idle(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.inets_idle_0, 'data_out'), (self.blocks_message_debug_0, 'print'))    
         self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_message_tomb_0, 'message_in'))    

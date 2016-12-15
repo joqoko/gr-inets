@@ -57,7 +57,7 @@ namespace gr {
         _len_payload_length(len_payload_length), // Bytes
         _apply_address_check(apply_address_check)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "develop_mode of frame_header_analysis_cpp ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_in"));
       message_port_register_out(pmt::mp("frame_info_out"));
@@ -74,14 +74,10 @@ namespace gr {
 
     void frame_header_analysis_cpp_impl::frame_analysis(pmt::pmt_t rx_frame)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
       {
         std::cout << "++++++++  frame_header_analysis_cpp ID: " << _block_id << "  +++++++" << std::endl;
       }
-      struct timeval t; 
-      gettimeofday(&t, NULL);
-      double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-      std::cout << "start analyze header at time " << current_time << std::endl;
       if(pmt::is_pair(rx_frame)) 
       {
         bool good_frame;
@@ -133,7 +129,7 @@ namespace gr {
           frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(is_good_frame));
 
           frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_pmt);
-          if(_develop_mode)
+          if(_develop_mode == 1)
           {
             std::cout << "length of frame_header_array is: " << frame_header_array.size() << std::endl;
             std::cout << "frame type is: " << frame_type << std::endl;
@@ -147,6 +143,16 @@ namespace gr {
             std::cout << "frame header length is: " << _header_length << std::endl;
             std::cout << "address check is initialized to: " << address_check << std::endl;
             std::cout << "frame verification (good_frame) is initialized to: " << is_good_frame << std::endl;
+          }
+          if(_develop_mode == 2)
+          {
+            struct timeval t; 
+            gettimeofday(&t, NULL);
+            double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+            if(frame_type == 1)
+              std::cout << "* header analysis ID: " << _block_id << " get the " << num_transmission <<"th transmission of data frame "<< frame_index << " at time " << current_time << " s" << std::endl;
+            else
+              std::cout << "* header analysis ID: " << _block_id << " get the ack frame of the " << num_transmission <<"th transmission of data frame "<< frame_index << " at time " << current_time << " s" << std::endl;
           }
           message_port_pub(pmt::mp("frame_info_out"), frame_info);
           message_port_pub(pmt::mp("frame_out"), rx_frame);

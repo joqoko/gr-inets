@@ -45,7 +45,7 @@ namespace gr {
         _develop_mode(develop_mode),
         _block_id(block_id)
     { 
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "develop_mode of decouple_frame_info ID " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_cluster_in"));
       message_port_register_out(pmt::mp("frame_pmt_out"));
@@ -62,20 +62,23 @@ namespace gr {
 
     void decouple_frame_info_impl::decoupling(pmt::pmt_t frame_cluster)
     {
-      struct timeval t; 
-      gettimeofday(&t, NULL);
-      double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-      std::cout << "decoupling at time " << current_time << std::endl;
 
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "++++++++  decouple_frame_info ID: " << _block_id << "  +++++++++++++" << std::endl;
       pmt::pmt_t not_found;
-      if(_develop_mode)
+      if(_develop_mode == 1)
         pmt::print(frame_cluster);
       if(pmt::is_dict(frame_cluster))
       {
         if(pmt::dict_has_key(frame_cluster, pmt::string_to_symbol("frame_pmt")))
         { 
+          if(_develop_mode == 2)
+          {
+            struct timeval t; 
+            gettimeofday(&t, NULL);
+            double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+            std::cout << "* decouple ID: " << _block_id << " receives data frame at time " << current_time << " s" << std::endl;
+          }
           pmt::pmt_t frame_pmt = pmt::dict_ref(frame_cluster, pmt::string_to_symbol("frame_pmt"), not_found);
           pmt::pmt_t frame_info = pmt::dict_delete(frame_cluster, pmt::string_to_symbol("frame_pmt"));
           message_port_pub(pmt::mp("frame_pmt_out"), frame_pmt);

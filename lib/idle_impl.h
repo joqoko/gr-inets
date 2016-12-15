@@ -66,7 +66,7 @@ namespace gr {
       void state_transition(pmt::pmt_t data);
       pmt::pmt_t data_frame_framing(pmt::pmt_t rx_payload);
       pmt::pmt_t ack_frame_framing(pmt::pmt_t rx_payload);
-      pmt::pmt_t frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length);
+      pmt::pmt_t frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
       int get_frame_header_length();

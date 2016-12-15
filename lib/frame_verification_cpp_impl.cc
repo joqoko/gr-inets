@@ -48,7 +48,7 @@ namespace gr {
        _block_id(block_id),
        _develop_mode(develop_mode)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "develop_mode of frame_verification_cpp ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in"));
       message_port_register_out(pmt::mp("good_frame"));
@@ -67,7 +67,7 @@ namespace gr {
     void 
     frame_verification_cpp_impl::check_frame(pmt::pmt_t frame_info)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
       {
         std::cout << "++++++  frame_verification_cpp ID: " << _block_id << "  ++++++++" << std::endl;
       }
@@ -114,7 +114,14 @@ namespace gr {
         std::vector<unsigned char> frame_after_recrc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_recrc_pmt));
         is_good_frame = (frame_after_recrc_vector == frame_array) && rx_frame_address_check;
 
-        if(_develop_mode)
+        if(_develop_mode == 2)
+        {
+          struct timeval t; 
+          gettimeofday(&t, NULL);
+          double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+          std::cout << "* frame verification ID: " << _block_id << " verifies frame at time " << current_time << " s" << std::endl;
+        }
+        if(_develop_mode == 1)
         {
           std::cout << "dict has key frame_type: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_type")) << " with value: " << frame_type << std::endl;
           std::cout << "dict has key frame_index: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_index")) << " with value: " << frame_index << std::endl;
@@ -133,10 +140,6 @@ namespace gr {
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"), pmt::from_long(is_good_frame));
         frame_info = pmt::dict_delete(frame_info, pmt::string_to_symbol("frame_pmt"));
         message_port_pub(pmt::mp("frame_info_out"), frame_info);
-      struct timeval t; 
-      gettimeofday(&t, NULL);
-      double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-      std::cout << "after verifying at time " << current_time << std::endl;
       }
       else 
         std::cout << "pmt is not a dict" << std::endl;

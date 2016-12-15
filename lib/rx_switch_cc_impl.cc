@@ -46,7 +46,7 @@ namespace gr {
         _develop_mode(develop_mode),
         _is_receiving(1)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "develop_mode of rx_switch_cc ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("spark_in"));
       set_msg_handler(pmt::mp("spark_in"), boost::bind(&rx_switch_cc_impl::kai_guan, this, _1 ));
@@ -73,6 +73,14 @@ namespace gr {
        */
       if(_is_receiving)
       {
+        if(_develop_mode == 2)
+        {
+          struct timeval t; 
+          gettimeofday(&t, NULL);
+          double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+          std::cout << "rx_switch_cc ID: " << _block_id << " received " << noutput_items << " at time " << current_time << " s" << std::endl;
+        }
+        //std::cout << "noutput_items" << noutput_items << std::endl;
         for(int i = 0; i < noutput_items; i++)
         {
           out[i] = in[i];
@@ -92,7 +100,7 @@ namespace gr {
     void
     rx_switch_cc_impl::kai_guan(pmt::pmt_t spark)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
       {
 	std::cout << "+++++++++++  rx_switch_cc ID: " << _block_id << "  +++++++++++++" << std::endl;
       }
@@ -102,7 +110,7 @@ namespace gr {
         // std::cout << "received a pmt bool" << std::endl;
         if(pmt::to_bool(spark))
         {
-          if(_develop_mode)
+          if(_develop_mode == 1)
           {
             if(_is_receiving)
               std::cout << "Continue receiving." << std::endl;
@@ -113,7 +121,7 @@ namespace gr {
         }
         else
         {
-          if(_develop_mode)
+          if(_develop_mode == 1)
           {
             if(_is_receiving)
               std::cout << "Stop receiving." << std::endl;
@@ -126,7 +134,7 @@ namespace gr {
       else
       {
         // not a boolean pmt, most likely an import error
-        if(_develop_mode)
+        if(_develop_mode == 1)
           std::cout << "not a spark signal" << std::endl;
       }
     }

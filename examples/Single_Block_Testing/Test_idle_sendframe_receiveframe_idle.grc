@@ -1138,7 +1138,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>5000</value>
+      <value>500</value>
     </param>
   </block>
   <block>
@@ -1181,7 +1181,7 @@
     </param>
     <param>
       <key>mean</key>
-      <value>100</value>
+      <value>2000</value>
     </param>
     <param>
       <key>msg</key>
@@ -1361,7 +1361,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(464, 1024)</value>
+      <value>(464, 1048)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1396,7 +1396,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1443,7 +1443,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1562,11 +1562,11 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>off</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>experiment_duration_s</key>
@@ -1658,37 +1658,6 @@
     </param>
   </block>
   <block>
-    <key>inets_message_tomb</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1080, 760)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_message_tomb_0</value>
-    </param>
-  </block>
-  <block>
     <key>inets_timeout_cpp</key>
     <param>
       <key>alias</key>
@@ -1708,15 +1677,15 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(728, 908)</value>
+      <value>(728, 932)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1810,6 +1779,10 @@
       <value>apply_address_check</value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>3</value>
+    </param>
+    <param>
       <key>develop_mode</key>
       <value>[11]</value>
     </param>
@@ -1878,11 +1851,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(728, 1012)</value>
+      <value>(720, 1092)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1923,6 +1896,10 @@
     <param>
       <key>apply_address_check</key>
       <value>apply_address_check</value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>3</value>
     </param>
     <param>
       <key>develop_mode</key>
@@ -2024,6 +2001,10 @@
       <value>sps</value>
     </param>
     <param>
+      <key>block_id</key>
+      <value>4</value>
+    </param>
+    <param>
       <key>destination_address</key>
       <value>destination_address</value>
     </param>
@@ -2112,7 +2093,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2141,6 +2122,10 @@
     <param>
       <key>sps</key>
       <value>sps</value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>4</value>
     </param>
     <param>
       <key>destination_address</key>
@@ -2272,12 +2257,6 @@
     <sink_key>frame_info_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>receive_frame_0_0</source_block_id>
-    <sink_block_id>inets_idle_0</sink_block_id>
-    <source_key>rx_frame_info_out</source_key>
-    <sink_key>data_in</sink_key>
-  </connection>
-  <connection>
     <source_block_id>send_frame_0</source_block_id>
     <sink_block_id>receive_frame_0</sink_block_id>
     <source_key>0</source_key>
@@ -2288,12 +2267,6 @@
     <sink_block_id>inets_frame_info_selector_0_0</sink_block_id>
     <source_key>tx_frame_info_out</source_key>
     <sink_key>frame_info_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>send_frame_0</source_block_id>
-    <sink_block_id>inets_message_tomb_0</sink_block_id>
-    <source_key>tx_frame_info_out</source_key>
-    <sink_key>message_in</sink_key>
   </connection>
   <connection>
     <source_block_id>send_frame_0_0</source_block_id>

@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle_sendframe
 # Author: PWA
-# Generated: Wed Dec 14 10:22:00 2016
+# Generated: Wed Dec 14 15:55:07 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -84,7 +84,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         self.frame_type = frame_type = 1
         self.frame_index = frame_index = 1
         self.experiment_duration_s = experiment_duration_s = 1000
-        self.develop_mode_list = develop_mode_list = [1, 2, 3, 20]
+        self.develop_mode_list = develop_mode_list = [0]
         self.destination_address = destination_address = 3
         self.counter_id = counter_id = 20
         self.another_data_info = another_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 1, 'source_address': 2, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
@@ -94,6 +94,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         self.send_frame_0 = send_frame(
+            block_id=2,
             constellation=gnuradio.digital.constellation_qpsk().base(),
             destination_address=3,
             develop_mode=1,
@@ -113,26 +114,22 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
             samp_rate=4e6,
             source_address=4,
             sps=4,
-            system_time_granularity_us=5,
+            system_time_granularity_us=10,
         )
-        self.inets_null_message_source_0 = inets.null_message_source()
         self.inets_message_tomb_0 = inets.message_tomb()
-        self.inets_idle_0 = inets.idle(1, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_idle_0 = inets.idle(2, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.frame_info_simulator = blocks.message_strobe_random(another_ack_info, blocks.STROBE_POISSON, 4000, 2000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
         self.blocks_message_strobe_random_0_0_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 0)
-        self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.blocks_message_strobe_random_0_0_0, 'strobe'), (self.inets_idle_0, 'reset_idle'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.frame_info_simulator, 'strobe'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_message_tomb_0, 'message_in'))    
         self.msg_connect((self.inets_idle_0, 'data_out'), (self.send_frame_0, 'in'))    
-        self.msg_connect((self.inets_null_message_source_0, 'null_message_out'), (self.inets_idle_0, 'reset_idle'))    
-        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.blocks_message_debug_0, 'print'))    
         self.connect((self.send_frame_0, 0), (self.blocks_null_sink_0, 0))    
 
     def closeEvent(self, event):

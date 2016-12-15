@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle_sendframe_receiveframe_idle
 # Author: PWA
-# Generated: Wed Dec 14 03:07:21 2016
+# Generated: Thu Dec 15 11:35:16 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -69,7 +69,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 25
         self.range_mu = range_mu = 0.6
-        self.timeout_duration_ms = timeout_duration_ms = 5000
+        self.timeout_duration_ms = timeout_duration_ms = 500
         self.system_time_granularity_us = system_time_granularity_us = 10000
         self.source_address = source_address = 1
         self.self_data_info = self_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
@@ -108,32 +108,11 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.send_frame_0_0 = send_frame(
-            constellation=gnuradio.digital.constellation_qpsk().base(),
-            destination_address=source_address,
-            develop_mode_list=develop_mode_list,
-            frame_index=frame_index,
-            frame_type=frame_type,
-            increase_index=increase_index,
-            len_destination_address=len_destination_address,
-            len_frame_index=len_frame_index,
-            len_frame_type=len_frame_type,
-            len_payload_length=len_payload_length,
-            len_reserved_field_I=len_reserved_field_I,
-            len_reserved_field_II=len_reserved_field_II,
-            len_source_address=len_source_address,
-            preamble=diff_preamble_128,
-            reserved_field_I=reserved_field_I,
-            reserved_field_II=reserved_field_II,
-            samp_rate=samp_rate,
-            source_address=destination_address,
-            sps=sps,
-            system_time_granularity_us=system_time_granularity_us,
-        )
         self.send_frame_0 = send_frame(
+            block_id=4,
             constellation=gnuradio.digital.constellation_qpsk().base(),
             destination_address=destination_address,
-            develop_mode_list=develop_mode_list,
+            develop_mode=1,
             frame_index=frame_index,
             frame_type=frame_type,
             increase_index=increase_index,
@@ -152,31 +131,11 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
             sps=sps,
             system_time_granularity_us=system_time_granularity_us,
         )
-        self.receive_frame_0_0 = receive_frame(
-            apply_address_check=apply_address_check,
-            constellation=gnuradio.digital.constellation_qpsk().base(),
-            develop_mode_list=develop_mode_list,
-            len_destination_address=len_destination_address,
-            len_frame_index=len_frame_index,
-            len_frame_type=len_frame_type,
-            len_num_transmission=len_num_transmission,
-            len_payload_length=len_payload_length,
-            len_reserved_field_I=len_reserved_field_I,
-            len_reserved_field_II=len_reserved_field_II,
-            len_source_address=len_source_address,
-            matched_filter_coeff=rrc,
-            mu=mu,
-            my_address=source_address,
-            preamble=diff_preamble_128,
-            rx_gain=rx_gain,
-            samp_rate=samp_rate,
-            sps=sps,
-            threshold=preamble_detector_threshold,
-        )
         self.receive_frame_0 = receive_frame(
             apply_address_check=apply_address_check,
+            block_id=3,
             constellation=gnuradio.digital.constellation_qpsk().base(),
-            develop_mode_list=develop_mode_list,
+            develop_mode=[11],
             len_destination_address=len_destination_address,
             len_frame_index=len_frame_index,
             len_frame_type=len_frame_type,
@@ -200,12 +159,10 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_message_tomb_0 = inets.message_tomb()
-        self.inets_idle_0_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, source_address, len_destination_address, destination_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
-        self.inets_idle_0 = inets.idle((develop_mode_list), experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_idle_0 = inets.idle(2, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.frame_info_simulator = blocks.message_strobe_random(pmt.to_pmt({'good_frame' : 1, 'address_check' : 1, 'header_length' : 9, 'payload_length' : 0, 'reserved_field_II' : 6, 'reserved_field_I' : 5, 'num_transmission' : 0, 'source_address' : 1, 'destination_address': 3, 'frame_index' : 22, 'frame_type' : 1}), blocks.STROBE_POISSON, 2000, 1000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
-        self.blocks_message_strobe_random_1 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 100, 5)
+        self.blocks_message_strobe_random_1 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 5)
 
         ##################################################
         # Connections
@@ -213,12 +170,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.msg_connect((self.blocks_message_strobe_random_1, 'strobe'), (self.inets_idle_0, 'reset_idle'))    
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.inets_idle_0, 'data_out'), (self.send_frame_0, 'in'))    
-        self.msg_connect((self.inets_idle_0_0, 'data_out'), (self.send_frame_0_0, 'in'))    
-        self.msg_connect((self.receive_frame_0, 'rx_frame_info_out'), (self.inets_idle_0_0, 'data_in'))    
-        self.msg_connect((self.receive_frame_0_0, 'rx_frame_info_out'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_message_tomb_0, 'message_in'))    
         self.connect((self.send_frame_0, 0), (self.receive_frame_0, 0))    
-        self.connect((self.send_frame_0_0, 0), (self.receive_frame_0_0, 0))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_idle_sendframe_receiveframe_idle")
@@ -230,9 +182,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_sps(self, sps):
         self.sps = sps
-        self.send_frame_0_0.set_sps(self.sps)
         self.send_frame_0.set_sps(self.sps)
-        self.receive_frame_0_0.set_sps(self.sps)
         self.receive_frame_0.set_sps(self.sps)
 
     def get_range_rx_gain(self):
@@ -260,7 +210,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_system_time_granularity_us(self, system_time_granularity_us):
         self.system_time_granularity_us = system_time_granularity_us
-        self.send_frame_0_0.set_system_time_granularity_us(self.system_time_granularity_us)
         self.send_frame_0.set_system_time_granularity_us(self.system_time_granularity_us)
 
     def get_source_address(self):
@@ -268,9 +217,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_source_address(self, source_address):
         self.source_address = source_address
-        self.send_frame_0_0.set_destination_address(self.source_address)
         self.send_frame_0.set_source_address(self.source_address)
-        self.receive_frame_0_0.set_my_address(self.source_address)
 
     def get_self_data_info(self):
         return self.self_data_info
@@ -289,9 +236,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.send_frame_0_0.set_samp_rate(self.samp_rate)
         self.send_frame_0.set_samp_rate(self.samp_rate)
-        self.receive_frame_0_0.set_samp_rate(self.samp_rate)
         self.receive_frame_0.set_samp_rate(self.samp_rate)
 
     def get_rx_gain(self):
@@ -299,7 +244,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_rx_gain(self, rx_gain):
         self.rx_gain = rx_gain
-        self.receive_frame_0_0.set_rx_gain(self.rx_gain)
         self.receive_frame_0.set_rx_gain(self.rx_gain)
 
     def get_rrc(self):
@@ -307,7 +251,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_rrc(self, rrc):
         self.rrc = rrc
-        self.receive_frame_0_0.set_matched_filter_coeff(self.rrc)
         self.receive_frame_0.set_matched_filter_coeff(self.rrc)
 
     def get_reserved_field_II(self):
@@ -315,7 +258,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_reserved_field_II(self, reserved_field_II):
         self.reserved_field_II = reserved_field_II
-        self.send_frame_0_0.set_reserved_field_II(self.reserved_field_II)
         self.send_frame_0.set_reserved_field_II(self.reserved_field_II)
 
     def get_reserved_field_I(self):
@@ -323,7 +265,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_reserved_field_I(self, reserved_field_I):
         self.reserved_field_I = reserved_field_I
-        self.send_frame_0_0.set_reserved_field_I(self.reserved_field_I)
         self.send_frame_0.set_reserved_field_I(self.reserved_field_I)
 
     def get_preamble_detector_threshold(self):
@@ -331,7 +272,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_preamble_detector_threshold(self, preamble_detector_threshold):
         self.preamble_detector_threshold = preamble_detector_threshold
-        self.receive_frame_0_0.set_threshold(self.preamble_detector_threshold)
         self.receive_frame_0.set_threshold(self.preamble_detector_threshold)
 
     def get_mu(self):
@@ -339,7 +279,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_mu(self, mu):
         self.mu = mu
-        self.receive_frame_0_0.set_mu(self.mu)
         self.receive_frame_0.set_mu(self.mu)
 
     def get_max_num_retransmission(self):
@@ -359,9 +298,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_len_source_address(self, len_source_address):
         self.len_source_address = len_source_address
-        self.send_frame_0_0.set_len_source_address(self.len_source_address)
         self.send_frame_0.set_len_source_address(self.len_source_address)
-        self.receive_frame_0_0.set_len_source_address(self.len_source_address)
         self.receive_frame_0.set_len_source_address(self.len_source_address)
 
     def get_len_reserved_field_II(self):
@@ -369,9 +306,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_len_reserved_field_II(self, len_reserved_field_II):
         self.len_reserved_field_II = len_reserved_field_II
-        self.send_frame_0_0.set_len_reserved_field_II(self.len_reserved_field_II)
         self.send_frame_0.set_len_reserved_field_II(self.len_reserved_field_II)
-        self.receive_frame_0_0.set_len_reserved_field_II(self.len_reserved_field_II)
         self.receive_frame_0.set_len_reserved_field_II(self.len_reserved_field_II)
 
     def get_len_reserved_field_I(self):
@@ -379,9 +314,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_len_reserved_field_I(self, len_reserved_field_I):
         self.len_reserved_field_I = len_reserved_field_I
-        self.send_frame_0_0.set_len_reserved_field_I(self.len_reserved_field_I)
         self.send_frame_0.set_len_reserved_field_I(self.len_reserved_field_I)
-        self.receive_frame_0_0.set_len_reserved_field_I(self.len_reserved_field_I)
         self.receive_frame_0.set_len_reserved_field_I(self.len_reserved_field_I)
 
     def get_len_payload_length(self):
@@ -389,9 +322,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_len_payload_length(self, len_payload_length):
         self.len_payload_length = len_payload_length
-        self.send_frame_0_0.set_len_payload_length(self.len_payload_length)
         self.send_frame_0.set_len_payload_length(self.len_payload_length)
-        self.receive_frame_0_0.set_len_payload_length(self.len_payload_length)
         self.receive_frame_0.set_len_payload_length(self.len_payload_length)
 
     def get_len_num_transmission(self):
@@ -399,7 +330,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_len_num_transmission(self, len_num_transmission):
         self.len_num_transmission = len_num_transmission
-        self.receive_frame_0_0.set_len_num_transmission(self.len_num_transmission)
         self.receive_frame_0.set_len_num_transmission(self.len_num_transmission)
 
     def get_len_frame_type(self):
@@ -407,9 +337,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_len_frame_type(self, len_frame_type):
         self.len_frame_type = len_frame_type
-        self.send_frame_0_0.set_len_frame_type(self.len_frame_type)
         self.send_frame_0.set_len_frame_type(self.len_frame_type)
-        self.receive_frame_0_0.set_len_frame_type(self.len_frame_type)
         self.receive_frame_0.set_len_frame_type(self.len_frame_type)
 
     def get_len_frame_index(self):
@@ -417,9 +345,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_len_frame_index(self, len_frame_index):
         self.len_frame_index = len_frame_index
-        self.send_frame_0_0.set_len_frame_index(self.len_frame_index)
         self.send_frame_0.set_len_frame_index(self.len_frame_index)
-        self.receive_frame_0_0.set_len_frame_index(self.len_frame_index)
         self.receive_frame_0.set_len_frame_index(self.len_frame_index)
 
     def get_len_destination_address(self):
@@ -427,9 +353,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_len_destination_address(self, len_destination_address):
         self.len_destination_address = len_destination_address
-        self.send_frame_0_0.set_len_destination_address(self.len_destination_address)
         self.send_frame_0.set_len_destination_address(self.len_destination_address)
-        self.receive_frame_0_0.set_len_destination_address(self.len_destination_address)
         self.receive_frame_0.set_len_destination_address(self.len_destination_address)
 
     def get_increase_index(self):
@@ -437,7 +361,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_increase_index(self, increase_index):
         self.increase_index = increase_index
-        self.send_frame_0_0.set_increase_index(self.increase_index)
         self.send_frame_0.set_increase_index(self.increase_index)
 
     def get_frame_type(self):
@@ -445,7 +368,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_frame_type(self, frame_type):
         self.frame_type = frame_type
-        self.send_frame_0_0.set_frame_type(self.frame_type)
         self.send_frame_0.set_frame_type(self.frame_type)
 
     def get_frame_index(self):
@@ -453,7 +375,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_frame_index(self, frame_index):
         self.frame_index = frame_index
-        self.send_frame_0_0.set_frame_index(self.frame_index)
         self.send_frame_0.set_frame_index(self.frame_index)
 
     def get_experiment_duration_s(self):
@@ -467,9 +388,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_diff_preamble_128(self, diff_preamble_128):
         self.diff_preamble_128 = diff_preamble_128
-        self.send_frame_0_0.set_preamble(self.diff_preamble_128)
         self.send_frame_0.set_preamble(self.diff_preamble_128)
-        self.receive_frame_0_0.set_preamble(self.diff_preamble_128)
         self.receive_frame_0.set_preamble(self.diff_preamble_128)
 
     def get_develop_mode_list(self):
@@ -477,17 +396,12 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_develop_mode_list(self, develop_mode_list):
         self.develop_mode_list = develop_mode_list
-        self.send_frame_0_0.set_develop_mode_list(self.develop_mode_list)
-        self.send_frame_0.set_develop_mode_list(self.develop_mode_list)
-        self.receive_frame_0_0.set_develop_mode_list(self.develop_mode_list)
-        self.receive_frame_0.set_develop_mode_list(self.develop_mode_list)
 
     def get_destination_address(self):
         return self.destination_address
 
     def set_destination_address(self, destination_address):
         self.destination_address = destination_address
-        self.send_frame_0_0.set_source_address(self.destination_address)
         self.send_frame_0.set_destination_address(self.destination_address)
         self.receive_frame_0.set_my_address(self.destination_address)
 
@@ -502,7 +416,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_apply_address_check(self, apply_address_check):
         self.apply_address_check = apply_address_check
-        self.receive_frame_0_0.set_apply_address_check(self.apply_address_check)
         self.receive_frame_0.set_apply_address_check(self.apply_address_check)
 
     def get_another_data_info(self):

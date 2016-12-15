@@ -48,7 +48,7 @@ namespace gr {
         _in_timeout(false),
         _system_time_granularity_us(system_time_granularity_us)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "develop_mode of timeout_cpp ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("data_frame_info_in"));
       message_port_register_in(pmt::mp("ack_frame_info_in"));
@@ -72,9 +72,16 @@ namespace gr {
 
     void timeout_cpp_impl::kill_timeout(pmt::pmt_t ack_frame_info) 
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
       {
         std::cout << "++++++++++++  timeout_cpp ID: " << _block_id << "  +++++++++++++" << std::endl;
+      }
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        std::cout << "* timeout ID: " << _block_id << " start killing the timer at time " << current_time << " s" << std::endl;
       }
       if(pmt::is_dict(ack_frame_info))
       {
@@ -94,17 +101,17 @@ namespace gr {
           { 
             _in_timeout = false;
             message_port_pub(pmt::mp("frame_info_out"), ack_frame_info);
-            if(_develop_mode)
+            if(_develop_mode == 1)
               std::cout << "timeout is terminated by correctly received ack frame." << std::endl;
           }
           else if(frame_type != 2)
-            if(_develop_mode)
+            if(_develop_mode == 1)
               std::cout << "Not an ack_frame_info dict." << std::endl;
           else if((ack_dest != wait_src) && (ack_src != wait_dest))
-            if(_develop_mode)
+            if(_develop_mode == 1)
               std::cout << "address not correct." << std::endl;
           else
-            if(_develop_mode)
+            if(_develop_mode == 1)
               std::cout << "expecting the ack of the " << wait_index << "th frame but received the ack of the " << ack_index << "th frame." << std::endl;
         }
         else
@@ -117,11 +124,14 @@ namespace gr {
     void timeout_cpp_impl::start_timeout(pmt::pmt_t data_frame_info) 
     {
     
-      struct timeval t; 
-      gettimeofday(&t, NULL);
-      double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-      std::cout << "start timeout at time " << current_time << std::endl;
-      if(_develop_mode)
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        std::cout << "* timeout ID: " << _block_id << " timeout timer is triggered at time " << current_time << " s" << std::endl;
+      }
+      if(_develop_mode == 1)
       {
         std::cout << "+++++++++++++   timeout_cpp   ++++++++++++++" << std::endl;
       }
@@ -134,7 +144,7 @@ namespace gr {
           if(data_type == 1)
           {
             _in_timeout = true;
-            if(_develop_mode)
+            if(_develop_mode == 1)
               std::cout << "timeout timer is triggered." << std::endl;
             _waiting_frame_info = data_frame_info;
             boost::thread thrd(&timeout_cpp_impl::countdown_timeout, this);       
@@ -155,7 +165,7 @@ namespace gr {
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
-      if(_develop_mode)
+      if(_develop_mode == 1)
       {
         std::cout << "timeout timer start time: " << start_time << std::endl;
         std::cout << "timeout wait time: " << _timeout_duration_ms/1000 << std::endl;
@@ -166,20 +176,22 @@ namespace gr {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
-        if(_develop_mode)
+        if(_develop_mode == 1)
         {
           //std::cout << "Remaining time: " << _timeout_duration_ms / 1000 - (current_time - start_time) << ". And the in_timeout state is: " << _in_timeout << std::endl;
         }
       }
-      if(_in_timeout)
-        std::cout << "timeout timer expired." << std::endl;
-      else
-        std::cout << "timeout timer killed." << std::endl;
+      if(_develop_mode == 2)
+      {
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        if(_in_timeout)
+        std::cout << "* timeout ID: " << _block_id << " timeout timer is expired at time " << current_time << " s" << std::endl;
+        else
+        std::cout << "* timeout ID: " << _block_id << " timeout timer is killed  at time " << current_time << " s" << std::endl;
+      }
       _in_timeout = false;
       message_port_pub(pmt::mp("frame_info_out"), _waiting_frame_info);
-      gettimeofday(&t, NULL);
-      current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-      std::cout << "end timeout at time " << current_time << std::endl;
     }
   } /* namespace inets */
 } /* namespace gr */

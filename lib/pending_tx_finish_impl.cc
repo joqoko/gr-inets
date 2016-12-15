@@ -48,7 +48,7 @@ namespace gr {
         _block_id(block_id),
         _system_time_granularity_us(system_time_granularity_us)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "develop_mode of pending_tx_finish ID: " << _block_id << " is activated." << std::endl;
       _wait_time = 0;
       message_port_register_in(pmt::mp("tx_frame_info_in"));
@@ -88,7 +88,7 @@ namespace gr {
       if(pmt::is_dict(tx_frame_info))
       {
         _tx_frame_info = tx_frame_info;
-        if(_develop_mode)
+        if(_develop_mode == 1)
           std::cout << "tx_frame_info received." << std::endl;
       }
       else
@@ -98,7 +98,7 @@ namespace gr {
     int
     pending_tx_finish_impl::process_tags_info(std::vector <tag_t> tags)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
       {
         std::cout << "+++++++++  pending_tx_finish ID: " << _block_id << "  ++++++++++" << std::endl;
         std::cout << "Number of tags: " << tags.size() << std::endl;
@@ -107,7 +107,7 @@ namespace gr {
       {
         for(int i = 0; i < tags.size(); i++)
         {
-          if(_develop_mode)
+          if(_develop_mode == 1)
           {
             std::cout << "Index of tags: " << i << std::endl;
             std::cout << "Offset: " << tags[i].offset << std::endl;
@@ -120,7 +120,7 @@ namespace gr {
           if(pmt::symbol_to_string(tags[i].key) == "packet_len")
           {
             _wait_time = pmt::to_double(tags[i].value) / _sample_rate;     
-            if(_develop_mode)
+            if(_develop_mode == 1)
             {
               std::cout << "Frame transmission time is: " << _wait_time << std::endl;
             }
@@ -141,7 +141,7 @@ namespace gr {
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
 
-      if(_develop_mode)
+      if(_develop_mode == 1)
       {
         std::cout << "Start time: " << start_time << std::endl;
         std::cout << "wait time: " << _wait_time << std::endl;
@@ -152,21 +152,28 @@ namespace gr {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
-        if(_develop_mode)
+        if(_develop_mode == 1)
         {
         //  std::cout << "Remaining time: " << _wait_time - (current_time - start_time) << "Count is: "<< count << std::endl;
           count = count + 1; 
         }
       }
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "Count is: " << count << std::endl;
       _wait_time = 0;
       message_port_pub(pmt::mp("tx_frame_info_out"), _tx_frame_info);
 
       gettimeofday(&t, NULL);
       current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-      std::cout << "after pending tx at time " << current_time << std::endl;
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        std::cout << "* pending ID: " << _block_id << " finishes wait tx frame at time " << current_time << " s" << std::endl;
+      }
     }
+
 
 
   } /* namespace inets */

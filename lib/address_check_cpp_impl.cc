@@ -47,7 +47,7 @@ namespace gr {
         _my_address(my_address),
         _apply_address_check(apply_address_check)
     {
-      if(_develop_mode)
+      if(_develop_mode == 1)
         std::cout << "develop_mode of address_check_cpp ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in"));
       message_port_register_out(pmt::mp("frame_info_out"));
@@ -66,22 +66,29 @@ namespace gr {
     {
       if(_apply_address_check)
       {
-        if(_develop_mode)
+        if(_develop_mode == 1)
         {
           std::cout << "++++++++   address_check_cpp ID: " << _block_id << "   +++++++++" << std::endl;
         }
         pmt::pmt_t not_found;
         int received_frame_address = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found));
         int is_my_address = (_my_address == received_frame_address);
-        if(_develop_mode)
+        if(_develop_mode == 1)
           std::cout << "My address is " << _my_address << " and rx frame address is " << received_frame_address << ". Frame check is: " << is_my_address << std::endl;
         frame_info = pmt::dict_delete(frame_info, pmt::string_to_symbol("address_check"));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"), pmt::from_long(is_my_address));
       }
       else
-        if(_develop_mode)
+        if(_develop_mode == 1)
           std::cout << "+++++++   address_check_cpp ID: " << _block_id << " is off   +++++++" << std::endl;
       message_port_pub(pmt::mp("frame_info_out"), frame_info);
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        std::cout << "* address check ID: " << _block_id << " finish header analysis at time " << current_time << " s" << std::endl;
+      }
     }
 
   } /* namespace inets */

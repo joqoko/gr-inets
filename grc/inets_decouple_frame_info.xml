@@ -23,11 +23,15 @@
       <name>off</name>
       <key>0</key>
     </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+    </option>
   </param>
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>2</value>
+    <value>block_id</value>
     <type>int</type>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
