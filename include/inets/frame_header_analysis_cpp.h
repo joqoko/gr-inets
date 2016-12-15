@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::frame_header_analysis_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_num_transmission, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check);
+      static sptr make(int develop_mode, int block_id, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_num_transmission, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check, int my_address);
     };
 
   } // namespace inets

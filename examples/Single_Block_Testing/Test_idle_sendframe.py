@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle_sendframe
 # Author: PWA
-# Generated: Wed Dec 14 15:55:07 2016
+# Generated: Thu Dec 15 12:45:54 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -25,6 +25,7 @@ from PyQt4 import Qt
 from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import gr
+from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
@@ -32,7 +33,7 @@ from send_frame import send_frame  # grc-generated hier_block
 import gnuradio
 import inets
 import pmt
-from gnuradio import qtgui
+import time
 
 
 class Test_idle_sendframe(gr.top_block, Qt.QWidget):
@@ -41,7 +42,6 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         gr.top_block.__init__(self, "Test_idle_sendframe")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Test_idle_sendframe")
-        qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
         except:
@@ -67,7 +67,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         self.source_address = source_address = 1
         self.self_data_info = self_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
         self.self_ack_info = self_ack_info = pmt.to_pmt({'frame_type': 2, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 0, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 0})
-        self.samp_rate = samp_rate = 320000
+        self.samp_rate = samp_rate = 1000000
         self.reserved_field_II = reserved_field_II = 6
         self.reserved_field_I = reserved_field_I = 5
         self.max_num_retransmission = max_num_retransmission = 5
@@ -93,6 +93,18 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.uhd_usrp_sink_0_0 = uhd.usrp_sink(
+        	",".join(("addr=10.0.0.13", "")),
+        	uhd.stream_args(
+        		cpu_format="fc32",
+        		channels=range(1),
+        	),
+        	"packet_len",
+        )
+        self.uhd_usrp_sink_0_0.set_time_now(uhd.time_spec(time.time()), uhd.ALL_MBOARDS)
+        self.uhd_usrp_sink_0_0.set_samp_rate(samp_rate)
+        self.uhd_usrp_sink_0_0.set_center_freq(4e8, 0)
+        self.uhd_usrp_sink_0_0.set_gain(0, 0)
         self.send_frame_0 = send_frame(
             block_id=2,
             constellation=gnuradio.digital.constellation_qpsk().base(),
@@ -119,8 +131,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         self.inets_message_tomb_0 = inets.message_tomb()
         self.inets_idle_0 = inets.idle(2, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.frame_info_simulator = blocks.message_strobe_random(another_ack_info, blocks.STROBE_POISSON, 4000, 2000)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
-        self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", "localhost", "52001", 10000, False)
         self.blocks_message_strobe_random_0_0_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 0)
 
         ##################################################
@@ -130,7 +141,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_message_tomb_0, 'message_in'))    
         self.msg_connect((self.inets_idle_0, 'data_out'), (self.send_frame_0, 'in'))    
-        self.connect((self.send_frame_0, 0), (self.blocks_null_sink_0, 0))    
+        self.connect((self.send_frame_0, 0), (self.uhd_usrp_sink_0_0, 0))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_idle_sendframe")
@@ -160,6 +171,7 @@ class Test_idle_sendframe(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.uhd_usrp_sink_0_0.set_samp_rate(self.samp_rate)
 
     def get_reserved_field_II(self):
         return self.reserved_field_II

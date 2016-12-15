@@ -73,13 +73,13 @@ namespace gr {
        */
       if(_is_receiving)
       {
-        if(_develop_mode == 2)
-        {
-          struct timeval t; 
-          gettimeofday(&t, NULL);
-          double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-          std::cout << "rx_switch_cc ID: " << _block_id << " received " << noutput_items << " at time " << current_time << " s" << std::endl;
-        }
+     //   if(_develop_mode == 2)
+     //   {
+     //     struct timeval t; 
+     //     gettimeofday(&t, NULL);
+     //     double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+     //     std::cout << "rx_switch_cc ID: " << _block_id << " received " << noutput_items << " at time " << current_time << " s" << std::endl;
+     //   }
         //std::cout << "noutput_items" << noutput_items << std::endl;
         for(int i = 0; i < noutput_items; i++)
         {

@@ -4,7 +4,7 @@
   <key>inets_frame_header_analysis_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.frame_header_analysis_cpp($develop_mode, $block_id, $len_frame_type, $len_frame_index, $len_destination_address, $len_source_address, $len_num_transmission, $len_reserved_field_I, $len_reserved_field_II, $len_payload_length, $apply_address_check)</make>
+  <make>inets.frame_header_analysis_cpp($develop_mode, $block_id, $len_frame_type, $len_frame_index, $len_destination_address, $len_source_address, $len_num_transmission, $len_reserved_field_I, $len_reserved_field_II, $len_payload_length, $apply_address_check, $my_address)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -87,6 +87,12 @@
     <name>Apply address check?</name>
     <key>apply_address_check</key>
     <value>apply_address_check</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>My address</name>
+    <key>my_address</key>
+    <value>my_address</value>
     <type>int</type>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:

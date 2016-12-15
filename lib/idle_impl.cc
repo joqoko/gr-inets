@@ -450,6 +450,8 @@ namespace gr {
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("header_length"), pmt::from_long(get_frame_header_length()));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"),pmt::from_long(0));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(0));
+      if(_develop_mode == 1)
+        std::cout << "block id: " << _block_id << "destination address: " << destination_address << ", source_address: " << source_address << std::endl;
       return frame_info;
     }
 

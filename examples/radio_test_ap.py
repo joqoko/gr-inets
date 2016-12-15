@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Radio Test AP
 # Author: Julian Arnold
-# Generated: Tue Dec  6 11:58:19 2016
+# Generated: Thu Dec 15 13:19:56 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -38,7 +38,6 @@ import inets
 import numpy
 import sip
 import time
-from gnuradio import qtgui
 
 
 class radio_test_ap(gr.top_block, Qt.QWidget):
@@ -47,7 +46,6 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
         gr.top_block.__init__(self, "Radio Test AP")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Radio Test AP")
-        qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
         except:
@@ -74,7 +72,7 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
         self.range_rx_gain = range_rx_gain = 15
         self.range_mu = range_mu = 0.6
         self.threshold = threshold = 40
-        self.samp_rate = samp_rate = 4e6
+        self.samp_rate = samp_rate = 1e6
         self.rx_gain = rx_gain = range_rx_gain
         
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
@@ -95,49 +93,49 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
         self.tab_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab_widget_0)
         self.tab_grid_layout_0 = Qt.QGridLayout()
         self.tab_layout_0.addLayout(self.tab_grid_layout_0)
-        self.tab.addTab(self.tab_widget_0, 'TX')
+        self.tab.addTab(self.tab_widget_0, "TX")
         self.tab_widget_1 = Qt.QWidget()
         self.tab_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab_widget_1)
         self.tab_grid_layout_1 = Qt.QGridLayout()
         self.tab_layout_1.addLayout(self.tab_grid_layout_1)
-        self.tab.addTab(self.tab_widget_1, 'RX')
+        self.tab.addTab(self.tab_widget_1, "RX")
         self.tab_widget_2 = Qt.QWidget()
         self.tab_layout_2 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tab_widget_2)
         self.tab_grid_layout_2 = Qt.QGridLayout()
         self.tab_layout_2.addLayout(self.tab_grid_layout_2)
-        self.tab.addTab(self.tab_widget_2, 'Demod')
+        self.tab.addTab(self.tab_widget_2, "Demod")
         self.top_layout.addWidget(self.tab)
         self._range_noise_range = Range(0, 0.01, 0.00001, 0, 200)
-        self._range_noise_win = RangeWidget(self._range_noise_range, self.set_range_noise, 'noise', "counter_slider", float)
+        self._range_noise_win = RangeWidget(self._range_noise_range, self.set_range_noise, "noise", "counter_slider", float)
         self.top_layout.addWidget(self._range_noise_win)
         self.uhd_usrp_source_0 = uhd.usrp_source(
-        	",".join(("addr=192.168.10.2", "")),
+        	",".join(("addr=10.0.0.13", "")),
         	uhd.stream_args(
         		cpu_format="fc32",
         		channels=range(1),
         	),
         )
-        self.uhd_usrp_source_0.set_samp_rate(samp_rate)
         self.uhd_usrp_source_0.set_time_now(uhd.time_spec(time.time()), uhd.ALL_MBOARDS)
-        self.uhd_usrp_source_0.set_center_freq(1.5e9, 0)
+        self.uhd_usrp_source_0.set_samp_rate(samp_rate)
+        self.uhd_usrp_source_0.set_center_freq(4e8, 0)
         self.uhd_usrp_source_0.set_gain(rx_gain, 0)
         self.uhd_usrp_sink_0 = uhd.usrp_sink(
-        	",".join(("addr=192.168.10.2", "")),
+        	",".join(("addr=10.0.0.13", "")),
         	uhd.stream_args(
         		cpu_format="fc32",
         		channels=range(1),
         	),
         	"packet_len",
         )
-        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
         self.uhd_usrp_sink_0.set_time_now(uhd.time_spec(time.time()), uhd.ALL_MBOARDS)
-        self.uhd_usrp_sink_0.set_center_freq(2e9, 0)
+        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
+        self.uhd_usrp_sink_0.set_center_freq(4e8, 0)
         self.uhd_usrp_sink_0.set_gain(0, 0)
         self._range_rx_gain_range = Range(0, 60, 1, 15, 200)
-        self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, 'Rx Gain', "counter_slider", float)
+        self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, "Rx Gain", "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_rx_gain_win, 1,0,1,1)
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
-        self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
+        self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, "BB Derotation Gain", "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.qtgui_time_sink_x_0_0 = qtgui.time_sink_f(
         	256, #size
@@ -148,7 +146,7 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0_0.set_update_time(0.10)
         self.qtgui_time_sink_x_0_0.set_y_axis(-1, 1)
         
-        self.qtgui_time_sink_x_0_0.set_y_label('Amplitude', "")
+        self.qtgui_time_sink_x_0_0.set_y_label("Amplitude", "")
         
         self.qtgui_time_sink_x_0_0.enable_tags(-1, True)
         self.qtgui_time_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 1, 0, 0, "")
@@ -160,8 +158,8 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
         if not True:
           self.qtgui_time_sink_x_0_0.disable_legend()
         
-        labels = ['', '', '', '', '',
-                  '', '', '', '', '']
+        labels = ["", "", "", "", "",
+                  "", "", "", "", ""]
         widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]
         colors = ["blue", "red", "green", "black", "cyan",
@@ -195,7 +193,7 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0.set_update_time(0.10)
         self.qtgui_time_sink_x_0.set_y_axis(-1, 200)
         
-        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
+        self.qtgui_time_sink_x_0.set_y_label("Amplitude", "")
         
         self.qtgui_time_sink_x_0.enable_tags(-1, True)
         self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_NORM, qtgui.TRIG_SLOPE_POS, 20, 0, 1, "")
@@ -207,8 +205,8 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
         if not True:
           self.qtgui_time_sink_x_0.disable_legend()
         
-        labels = ['', '', '', '', '',
-                  '', '', '', '', '']
+        labels = ["", "", "", "", "",
+                  "", "", "", "", ""]
         widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]
         colors = ["blue", "red", "green", "black", "cyan",
@@ -249,8 +247,8 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
         if not True:
           self.qtgui_const_sink_x_0_0.disable_legend()
         
-        labels = ['', '', '', '', '',
-                  '', '', '', '', '']
+        labels = ["", "", "", "", "",
+                  "", "", "", "", ""]
         widths = [1, 1, 1, 1, 1,
                   1, 1, 1, 1, 1]
         colors = ["blue", "red", "red", "red", "red",
@@ -284,7 +282,7 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
             threshold=threshold,
         )
         self.inets_per_logger_0 = inets.per_logger()
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", "localhost", "52001", 10000, False)
         self.blocks_null_sink_0_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_char*1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((range_noise, ))
@@ -351,10 +349,10 @@ class radio_test_ap(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
-        self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.inets_radio_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
+        self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
 
     def get_rx_gain(self):
         return self.rx_gain
