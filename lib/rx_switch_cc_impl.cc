@@ -24,31 +24,35 @@
 
 #include <gnuradio/io_signature.h>
 #include "rx_switch_cc_impl.h"
+#include <numeric>
 
 namespace gr {
   namespace inets {
 
     rx_switch_cc::sptr
-    rx_switch_cc::make(int develop_mode, int block_id)
+    rx_switch_cc::make(int develop_mode, int block_id, int switch_carrier_sensing)
     {
       return gnuradio::get_initial_sptr
-        (new rx_switch_cc_impl(develop_mode, block_id));
+        (new rx_switch_cc_impl(develop_mode, block_id, switch_carrier_sensing));
     }
 
     /*
      * The private constructor
      */
-    rx_switch_cc_impl::rx_switch_cc_impl(int develop_mode, int block_id)
+    rx_switch_cc_impl::rx_switch_cc_impl(int develop_mode, int block_id, int switch_carrier_sensing)
       : gr::sync_block("rx_switch_cc",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex))),
+        _switch_carrier_sensing(switch_carrier_sensing),
         _block_id(block_id),
         _develop_mode(develop_mode),
+        _num_fetch_per_cs(10),
         _is_receiving(1)
     {
       if(_develop_mode == 1)
         std::cout << "develop_mode of rx_switch_cc ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("spark_in"));
+      message_port_register_out(pmt::mp("power_out"));
       set_msg_handler(pmt::mp("spark_in"), boost::bind(&rx_switch_cc_impl::kai_guan, this, _1 ));
     }
 
@@ -81,9 +85,11 @@ namespace gr {
      //     std::cout << "rx_switch_cc ID: " << _block_id << " received " << noutput_items << " at time " << current_time << " s" << std::endl;
      //   }
         //std::cout << "noutput_items" << noutput_items << std::endl;
+        double pow_sum = 0;
         for(int i = 0; i < noutput_items; i++)
         {
           out[i] = in[i];
+          pow_sum = pow_sum + abs(out[i]);
         }
       }
       else
@@ -92,6 +98,13 @@ namespace gr {
         {
           out[i] = complex_zero;
         }
+      }
+      _vec_average_pow.push(pow_sum / noutput_items);
+      if(_vec_average_pow.size() > _num_fetch_per_cs)
+      {
+        double pow_average_all_fetch = std::accumulate(_vec_average_pow.begin(), _vec_average_pow.end(), 0.0) / _num_fetch_per_cs;
+        message_port_pub(pmt::mp("power_out"), pmt::from_double(pow_average_all_fetch);
+        _vec_average_pow.clear();
       }
       // Tell runtime system how many output items we produced.
       return noutput_items;

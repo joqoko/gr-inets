@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Test_idle_sendframe_receiveframe_idle
+# Title: aloha
 # Author: PWA
-# Generated: Fri Dec 16 02:47:41 2016
+# Generated: Fri Dec 16 19:00:19 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -36,12 +36,12 @@ import inets
 import pmt
 
 
-class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
+class aloha(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Test_idle_sendframe_receiveframe_idle")
+        gr.top_block.__init__(self, "aloha")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Test_idle_sendframe_receiveframe_idle")
+        self.setWindowTitle("aloha")
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
         except:
@@ -58,7 +58,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Test_idle_sendframe_receiveframe_idle")
+        self.settings = Qt.QSettings("GNU Radio", "aloha")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -100,6 +100,8 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
         self.develop_mode_list = develop_mode_list = [0]
         self.destination_address = destination_address = 2
+        self.cs_threshold = cs_threshold = 200
+        self.cs_duration = cs_duration = 200
         self.counter_id = counter_id = 20
         self.backoff_time_unit_ms = backoff_time_unit_ms = 50
         self.apply_address_check = apply_address_check = 1
@@ -162,8 +164,8 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, "BB Derotation Gain", "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_timeout_cpp_0 = inets.timeout_cpp(0, 10, timeout_duration_ms, system_time_granularity_us)
-        self.inets_idle_0 = inets.idle(0, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_timeout_cpp_0 = inets.timeout_cpp(1, 10, timeout_duration_ms, system_time_granularity_us)
+        self.inets_idle_0 = inets.idle(1, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.inets_frame_info_selector_0_0_0 = inets.frame_info_selector()
         self.inets_frame_info_selector_0_0 = inets.frame_info_selector()
         self.inets_frame_info_selector_0 = inets.frame_info_selector()
@@ -190,7 +192,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_frame_info_selector_0_0, 'frame_info_in'))    
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Test_idle_sendframe_receiveframe_idle")
+        self.settings = Qt.QSettings("GNU Radio", "aloha")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -436,6 +438,18 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.destination_address = destination_address
         self.send_frame_0.set_destination_address(self.destination_address)
 
+    def get_cs_threshold(self):
+        return self.cs_threshold
+
+    def set_cs_threshold(self, cs_threshold):
+        self.cs_threshold = cs_threshold
+
+    def get_cs_duration(self):
+        return self.cs_duration
+
+    def set_cs_duration(self, cs_duration):
+        self.cs_duration = cs_duration
+
     def get_counter_id(self):
         return self.counter_id
 
@@ -468,7 +482,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.another_ack_info = another_ack_info
 
 
-def main(top_block_cls=Test_idle_sendframe_receiveframe_idle, options=None):
+def main(top_block_cls=aloha, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

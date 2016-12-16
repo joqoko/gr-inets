@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>Test_idle_sendframe_receiveframe_idle</value>
+      <value>aloha</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>Test_idle_sendframe_receiveframe_idle</value>
+      <value>aloha</value>
     </param>
   </block>
   <block>
@@ -826,7 +826,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(176, 948)</value>
+      <value>(1504, 617)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1351,7 +1351,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 967)</value>
+      <value>(376, 943)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1477,61 +1477,6 @@
     </param>
   </block>
   <block>
-    <key>inets_carrier_sensing_cpp_cc</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>11</value>
-    </param>
-    <param>
-      <key>cs_duration</key>
-      <value>cs_duration</value>
-    </param>
-    <param>
-      <key>cs_threshold</key>
-      <value>cs_threshold</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(552, 391)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_carrier_sensing_cpp_cc_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>inets_counter</key>
     <param>
       <key>alias</key>
@@ -1559,7 +1504,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(144, 797)</value>
+      <value>(256, 749)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1602,7 +1547,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(808, 672)</value>
+      <value>(800, 672)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1649,11 +1594,11 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(816, 849)</value>
+      <value>(840, 785)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>180</value>
+      <value>0</value>
     </param>
     <param>
       <key>id</key>
@@ -1688,11 +1633,11 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1368, 553)</value>
+      <value>(1313, 560)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>180</value>
+      <value>270</value>
     </param>
     <param>
       <key>id</key>
@@ -1727,7 +1672,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(808, 521)</value>
+      <value>(800, 561)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1770,7 +1715,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1790,7 +1735,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(352, 607)</value>
+      <value>(440, 607)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1885,7 +1830,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1893,7 +1838,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1096, 727)</value>
+      <value>(1080, 727)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1944,7 +1889,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 840)</value>
+      <value>(1024, 848)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2067,7 +2012,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1104, 337)</value>
+      <value>(1080, 353)</value>
     </param>
     <param>
       <key>_rotation</key>
