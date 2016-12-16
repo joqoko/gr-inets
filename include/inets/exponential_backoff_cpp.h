@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::exponential_backoff_cpp::make is the public interface for
        * creating new instances.
        */
-      static sptr make(std::vector<int> develop_mode_list, int backoff_time_unit, int max_n_backoff, int min_backoff);
+      static sptr make(int develop_mode, int block_id, int backoff_time_unit_ms, int max_n_backoff, int min_backoff_ms);
     };
 
   } // namespace inets

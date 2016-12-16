@@ -4,31 +4,52 @@
   <key>inets_exponential_backoff_cpp</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.exponential_backoff_cpp($develop_mode_list, $backoff_time_unit, $max_n_backoff, $min_backoff)</make>
+  <make>inets.exponential_backoff_cpp($develop_mode, $block_id, $backoff_time_unit_ms, $max_n_backoff, $min_backoff_ms)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>Develop mode list</name>
-    <key>develop_mode_list</key>
-    <value>develop_mode_list</value>
-    <type>int_vector</type>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <value>develop_mode</value>
+    <type>int</type>
+    <option>
+      <name>on</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>off</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+    </option>
+  </param>
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>11</value>
+    <type>int</type>
   </param>
   <param>
     <name>Backoff time unit [ms]</name>
-    <key>backoff_time_unit</key>
+    <key>backoff_time_unit_ms</key>
+    <value>backoff_time_unit_ms</value>
     <type>int</type>
   </param>
   <param>
     <name>Max. number of backoff</name>
     <key>max_n_backoff</key>
+    <value>max_n_backoff</value>
     <type>int</type>
   </param>
   <param>
     <name>Min. backoff time [ms]</name>
-    <key>min_backoff</key>
+    <key>min_backoff_ms</key>
+    <value>min_backoff_ms</value>
     <type>int</type>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -37,8 +58,9 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>spark_in</name>
+    <name>frame_info_trigger_in</name>
     <type>message</type>
+    <optional>1</optional>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -47,7 +69,8 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>spark_out</name>
+    <name>frame_info_out</name>
     <type>message</type>
+    <optional>1</optional>
   </source>
 </block>

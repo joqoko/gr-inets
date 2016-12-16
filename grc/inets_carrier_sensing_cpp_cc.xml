@@ -4,20 +4,46 @@
   <key>inets_carrier_sensing_cpp_cc</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.carrier_sensing_cpp_cc($cs_duration, $cs_threshold)</make>
+  <make>inets.carrier_sensing_cpp_cc($develop_mode, $block_id, $cs_duration, $cs_threshold)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <value>develop_mode</value>
+    <type>int</type>
+    <option>
+      <name>on</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>off</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+    </option>
+  </param>
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>11</value>
+    <type>int</type>
+  </param>
+  <param>
     <name>Carrier sensing duration</name>
     <key>cs_duration</key>
+    <value>cs_duration</value>
     <type>float</type>
   </param>
   <param>
     <name>Carrier sensing threshold</name>
     <key>cs_threshold</key>
+    <value>cs_threshold</value>
     <type>float</type>
   </param>
 
@@ -31,7 +57,7 @@
     <type>complex</type>
   </sink>
   <sink>
-    <name>spark_in</name>
+    <name>frame_info_in</name>
     <type>message</type>
   </sink>
 
@@ -45,7 +71,7 @@
     <type>complex</type>
   </source>
   <source>
-    <name>spark_out</name>
+    <name>frame_info_out</name>
     <type>message</type>
   </source>
 </block>

@@ -35,9 +35,7 @@ Index		block name
  8		address_check_cpp
  9		frame_verification_cpp
  10		timeout_cpp
- 11
- 12		
+ 11		exponential_backoff_cpp
+ 12		carrier_sensing_cppi_cc
  13		
  14		decision_cpp
- 15     	exponential_backoff_cpp
- 16             decouple_frame_info

@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_idle_sendframe_receiveframe_idle
 # Author: PWA
-# Generated: Thu Dec 15 23:33:02 2016
+# Generated: Fri Dec 16 02:47:41 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -25,7 +25,6 @@ from PyQt4 import Qt
 from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import gr
-from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from gnuradio.qtgui import Range, RangeWidget
@@ -35,7 +34,6 @@ from send_frame import send_frame  # grc-generated hier_block
 import gnuradio
 import inets
 import pmt
-import time
 
 
 class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
@@ -69,8 +67,9 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 5
         self.range_mu = range_mu = 0.6
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
         self.timeout_duration_ms = timeout_duration_ms = 500
-        self.system_time_granularity_us = system_time_granularity_us = 10000
+        self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 1
         self.self_data_info = self_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
         self.self_ack_info = self_ack_info = pmt.to_pmt({'frame_type': 2, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 0, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 0})
@@ -83,6 +82,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.reserved_field_I = reserved_field_I = 5
         self.preamble_detector_threshold = preamble_detector_threshold = 30
         self.mu = mu = range_mu
+        self.min_backoff_ms = min_backoff_ms = 50
         self.max_num_retransmission = max_num_retransmission = 5
         self.max_buffer_size = max_buffer_size = 10
         self.len_source_address = len_source_address = 1
@@ -99,8 +99,9 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self.experiment_duration_s = experiment_duration_s = 1000
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
         self.develop_mode_list = develop_mode_list = [0]
-        self.destination_address = destination_address = 3
+        self.destination_address = destination_address = 2
         self.counter_id = counter_id = 20
+        self.backoff_time_unit_ms = backoff_time_unit_ms = 50
         self.apply_address_check = apply_address_check = 1
         self.another_data_info = another_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 1, 'source_address': 2, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
         self.another_ack_info = another_ack_info = pmt.to_pmt({'good_frame' : 1, 'address_check' : 1, 'header_length' : 9, 'payload_length' : 0, 'reserved_field_II' : 6, 'reserved_field_I' : 5, 'num_transmission' : 0, 'source_address' : 1, 'destination_address': 3, 'frame_index' : 22, 'frame_type' : 1})
@@ -108,29 +109,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.uhd_usrp_source_0_0 = uhd.usrp_source(
-        	",".join(("addr=10.0.0.6", "")),
-        	uhd.stream_args(
-        		cpu_format="fc32",
-        		channels=range(1),
-        	),
-        )
-        self.uhd_usrp_source_0_0.set_time_now(uhd.time_spec(time.time()), uhd.ALL_MBOARDS)
-        self.uhd_usrp_source_0_0.set_samp_rate(samp_rate)
-        self.uhd_usrp_source_0_0.set_center_freq(4e8, 0)
-        self.uhd_usrp_source_0_0.set_gain(rx_gain, 0)
-        self.uhd_usrp_sink_0 = uhd.usrp_sink(
-        	",".join(("addr=10.0.0.6", "")),
-        	uhd.stream_args(
-        		cpu_format="fc32",
-        		channels=range(1),
-        	),
-        	"packet_len",
-        )
-        self.uhd_usrp_sink_0.set_time_now(uhd.time_spec(time.time()), uhd.ALL_MBOARDS)
-        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
-        self.uhd_usrp_sink_0.set_center_freq(4e8, 0)
-        self.uhd_usrp_sink_0.set_gain(0, 0)
         self.send_frame_0 = send_frame(
             block_id=2,
             constellation=gnuradio.digital.constellation_qpsk().base(),
@@ -153,6 +131,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
             source_address=source_address,
             sps=sps,
             system_time_granularity_us=system_time_granularity_us,
+            usrp_device_address=usrp_device_address,
         )
         self.receive_frame_0_0 = receive_frame(
             apply_address_check=apply_address_check,
@@ -175,6 +154,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
             samp_rate=samp_rate,
             sps=sps,
             threshold=preamble_detector_threshold,
+            usrp_device_address=usrp_device_address,
         )
         self._range_rx_gain_range = Range(0, 60, 1, 5, 200)
         self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, "Rx Gain", "counter_slider", float)
@@ -182,8 +162,13 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, "BB Derotation Gain", "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_idle_0 = inets.idle(2, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_timeout_cpp_0 = inets.timeout_cpp(0, 10, timeout_duration_ms, system_time_granularity_us)
+        self.inets_idle_0 = inets.idle(0, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_frame_info_selector_0_0_0 = inets.frame_info_selector()
+        self.inets_frame_info_selector_0_0 = inets.frame_info_selector()
         self.inets_frame_info_selector_0 = inets.frame_info_selector()
+        self.inets_exponential_backoff_cpp_0 = inets.exponential_backoff_cpp(1, 11, backoff_time_unit_ms, max_num_retransmission, min_backoff_ms)
+        self.inets_counter_0_1 = inets.counter(([22]), 22)
         self.frame_info_simulator = blocks.message_strobe_random(pmt.to_pmt({'good_frame' : 1, 'address_check' : 1, 'header_length' : 9, 'payload_length' : 0, 'reserved_field_II' : 6, 'reserved_field_I' : 5, 'num_transmission' : 0, 'source_address' : 1, 'destination_address': 3, 'frame_index' : 22, 'frame_type' : 1}), blocks.STROBE_POISSON, 2000, 1000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", "localhost", "52001", 10000, False)
         self.blocks_message_strobe_random_1 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 5)
@@ -192,11 +177,17 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
+        self.msg_connect((self.inets_exponential_backoff_cpp_0, 'frame_info_out'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.inets_frame_info_selector_0, 'data_frame_info_out'), (self.inets_idle_0, 'data_in'))    
+        self.msg_connect((self.inets_frame_info_selector_0, 'ack_frame_info_out'), (self.inets_timeout_cpp_0, 'ack_frame_info_in'))    
+        self.msg_connect((self.inets_frame_info_selector_0_0, 'data_frame_info_out'), (self.inets_timeout_cpp_0, 'data_frame_info_in'))    
+        self.msg_connect((self.inets_frame_info_selector_0_0_0, 'data_frame_info_out'), (self.inets_exponential_backoff_cpp_0, 'frame_info_trigger_in'))    
+        self.msg_connect((self.inets_frame_info_selector_0_0_0, 'ack_frame_info_out'), (self.inets_idle_0, 'data_in'))    
+        self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_counter_0_1, 'message_in'))    
         self.msg_connect((self.inets_idle_0, 'data_out'), (self.send_frame_0, 'in'))    
+        self.msg_connect((self.inets_timeout_cpp_0, 'frame_info_out'), (self.inets_frame_info_selector_0_0_0, 'frame_info_in'))    
         self.msg_connect((self.receive_frame_0_0, 'rx_frame_info_out'), (self.inets_frame_info_selector_0, 'frame_info_in'))    
-        self.connect((self.send_frame_0, 0), (self.uhd_usrp_sink_0, 0))    
-        self.connect((self.uhd_usrp_source_0_0, 0), (self.receive_frame_0_0, 0))    
+        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_frame_info_selector_0_0, 'frame_info_in'))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_idle_sendframe_receiveframe_idle")
@@ -224,6 +215,14 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
     def set_range_mu(self, range_mu):
         self.range_mu = range_mu
         self.set_mu(self.range_mu)
+
+    def get_usrp_device_address(self):
+        return self.usrp_device_address
+
+    def set_usrp_device_address(self, usrp_device_address):
+        self.usrp_device_address = usrp_device_address
+        self.receive_frame_0_0.set_usrp_device_address(self.usrp_device_address)
+        self.send_frame_0.set_usrp_device_address(self.usrp_device_address)
 
     def get_timeout_duration_ms(self):
         return self.timeout_duration_ms
@@ -263,9 +262,7 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.uhd_usrp_source_0_0.set_samp_rate(self.samp_rate)
         self.receive_frame_0_0.set_samp_rate(self.samp_rate)
-        self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
         self.send_frame_0.set_samp_rate(self.samp_rate)
 
     def get_rx_gain(self):
@@ -273,8 +270,6 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_rx_gain(self, rx_gain):
         self.rx_gain = rx_gain
-        self.uhd_usrp_source_0_0.set_gain(self.rx_gain, 0)
-        	
         self.receive_frame_0_0.set_rx_gain(self.rx_gain)
 
     def get_rrc(self):
@@ -311,6 +306,12 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
     def set_mu(self, mu):
         self.mu = mu
         self.receive_frame_0_0.set_mu(self.mu)
+
+    def get_min_backoff_ms(self):
+        return self.min_backoff_ms
+
+    def set_min_backoff_ms(self, min_backoff_ms):
+        self.min_backoff_ms = min_backoff_ms
 
     def get_max_num_retransmission(self):
         return self.max_num_retransmission
@@ -440,6 +441,12 @@ class Test_idle_sendframe_receiveframe_idle(gr.top_block, Qt.QWidget):
 
     def set_counter_id(self, counter_id):
         self.counter_id = counter_id
+
+    def get_backoff_time_unit_ms(self):
+        return self.backoff_time_unit_ms
+
+    def set_backoff_time_unit_ms(self, backoff_time_unit_ms):
+        self.backoff_time_unit_ms = backoff_time_unit_ms
 
     def get_apply_address_check(self):
         return self.apply_address_check

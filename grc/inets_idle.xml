@@ -163,12 +163,12 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>data_out</name>
+    <name>successful_transmission</name>
     <type>message</type>
     <optional>1</optional>
   </source>
   <source>
-    <name>successful_transmission</name>
+    <name>data_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>

@@ -29,19 +29,18 @@ namespace gr {
     class exponential_backoff_cpp_impl : public exponential_backoff_cpp
     {
      private:
-       int _backoff_time_unit;
+       int _backoff_time_unit_ms;
        int _max_n_backoff;
-       int _my_develop_mode;
        int _develop_mode;
-       std::vector<int> _develop_mode_list;
-       bool _backoff_increase;
-       int _min_backoff;
+       int _block_id;
+       int _min_backoff_ms;
+       pmt::pmt_t _frame_info;
        int _n_backoff;
-       void start_backoff(pmt::pmt_t msg);
+       void start_backoff(pmt::pmt_t frame_info);
        void countdown_backoff();
 
      public:
-      exponential_backoff_cpp_impl(std::vector<int> develop_mode_list, int backoff_time_unit, int max_n_backoff, int min_backoff);
+      exponential_backoff_cpp_impl(int develop_mode, int block_id, int backoff_time_unit_ms, int max_n_backoff, int min_backoff_ms);
       ~exponential_backoff_cpp_impl();
 
     };

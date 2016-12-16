@@ -30,21 +30,24 @@ namespace gr {
     {
      private:
       // Nothing to declare in this block.
+      int _develop_mode;
+      int _block_id;
       bool _in_cca;
       float _cs_duration;
       double _cs_time; 
+      pmt::pmt_t _frame_info;
       float _cs_threshold;
+      void start_sensing(pmt::pmt_t frame_info);
+      void countdown_sensing();
 
      public:
-      carrier_sensing_cpp_cc_impl(float cs_duration, float cs_threshold);
+      carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, float cs_duration, float cs_threshold);
       ~carrier_sensing_cpp_cc_impl();
 
       // Where all the action really happens
       int work(int noutput_items,
 	 gr_vector_const_void_star &input_items,
 	 gr_vector_void_star &output_items);
-      void start_sensing(pmt::pmt_t msg);
-      void countdown_sensing();
     };
 
 

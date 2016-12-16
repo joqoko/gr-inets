@@ -98,21 +98,21 @@ namespace gr {
 
             int frame_type = frame_header_array[0];
             int index_pos = _len_frame_type;
-            int frame_index = frame_header_array[1];
+            int frame_index = frame_header_array[index_pos];
             int dest_pos = index_pos + _len_frame_type;
-            int destination_address = frame_header_array[2];
+            int destination_address = frame_header_array[dest_pos];
             int src_pos = dest_pos + _len_destination_address;
-            int source_address = frame_header_array[3];
+            int source_address = frame_header_array[src_pos];
             int ntr_pos = src_pos + _len_source_address;
-            int num_transmission = frame_header_array[4];
+            int num_transmission = frame_header_array[ntr_pos];
             int re_I_pos = src_pos + _len_num_transmission;
-            int reserved_field_I = frame_header_array[5]+frame_header_array[5+ 1];
+            int reserved_field_I = frame_header_array[re_I_pos]+frame_header_array[re_I_pos + 1];
             int re_II_pos = re_I_pos + _len_reserved_field_I;
-            int reserved_field_II = frame_header_array[7]+frame_header_array[7+ 1];
+            int reserved_field_II = frame_header_array[re_II_pos]+frame_header_array[re_II_pos + 1];
             int plen_pos = re_II_pos + _len_reserved_field_II;
-            int payload_length = frame_header_array[9];
+            int payload_length = frame_header_array[plen_pos];
             int address_check = !(_apply_address_check);
-          std::cout << "block_id: " << _block_id << ", my address: " << _my_address << ", source_address: " << source_address << ", frame_index: " << frame_index <<  ", frame_type: " << frame_type <<  ", destination_address: " << destination_address <<  std::endl;
+         // std::cout << "block_id: " << _block_id << ", my address: " << _my_address << ", source_address: " << source_address << ", frame_index: " << frame_index <<  ", frame_type: " << frame_type <<  ", destination_address: " << destination_address <<  std::endl;
           if(source_address != _my_address)
           {
             pmt::pmt_t frame_header_array_u8vector = pmt::init_u8vector(_header_length, frame_header_array);

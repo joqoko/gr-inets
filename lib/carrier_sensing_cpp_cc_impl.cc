@@ -31,28 +31,31 @@ namespace gr {
   namespace inets {
 
     carrier_sensing_cpp_cc::sptr
-    carrier_sensing_cpp_cc::make(float cs_duration, float cs_threshold)
+    carrier_sensing_cpp_cc::make(int develop_mode, int block_id, float cs_duration, float cs_threshold)
     {
       return gnuradio::get_initial_sptr
-        (new carrier_sensing_cpp_cc_impl(cs_duration, cs_threshold));
+        (new carrier_sensing_cpp_cc_impl(develop_mode, block_id, cs_duration, cs_threshold));
     }
 
     /*
      * the private constructor
      */
-    carrier_sensing_cpp_cc_impl::carrier_sensing_cpp_cc_impl(float cs_duration, float cs_threshold)
+    carrier_sensing_cpp_cc_impl::carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, float cs_duration, float cs_threshold)
       : gr::sync_block("carrier_sensing_cpp_cc",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex))),
+        _develop_mode(develop_mode),
+        _block_id(block_id),
         _cs_duration(cs_duration),
         _cs_threshold(cs_threshold)
     {
       _in_cca = false;
       _cs_time = 0;
-      message_port_register_in(pmt::mp("spark_in"));
-      message_port_register_out(pmt::mp("spark_out"));
+      message_port_register_in(pmt::mp("frame_info_in"));
+      message_port_register_out(pmt::mp("frame_info_fail_out"));
+      message_port_register_out(pmt::mp("frame_info_pass_out"));
       set_msg_handler(
-        pmt::mp("spark_in"),
+        pmt::mp("frame_info_in"),
         boost::bind(&carrier_sensing_cpp_cc_impl::start_sensing, this, _1)
       );
     }
@@ -102,34 +105,32 @@ namespace gr {
           /*
            * spark_out message is sent if cca false
            */
+          message_port_pub(pmt::mp("frame_info_pass_out"), _frame_info);
           _in_cca = false;
-          std::cout << "Signal detected at power: " << avg_pow << std::endl; 
+          if(_develop_mode == 2)
+            std::cout << "Signal detected at power: " << avg_pow << "so carrier sensing failed." << std::endl; 
         }
       }
       // tell runtime system how many output items we produced.
       return noutput_items;
     }
 
-    void carrier_sensing_cpp_cc_impl::start_sensing(pmt::pmt_t msg)
+    void carrier_sensing_cpp_cc_impl::start_sensing(pmt::pmt_t frame_info)
     {
       // std::cout << "received a message" << std::endl;
-      if(pmt::is_bool(msg))
+      if(pmt::is_dict(frame_info))
       {
-        // std::cout << "received a pmt bool" << std::endl;
-        if(pmt::to_bool(msg))
-        {
-          // this function is fired
-          // std::cout << "start sensing" << std::endl;
-          _in_cca = true;
-          std::cout << "start sensing" << std::endl;
-          boost::thread thrd(&carrier_sensing_cpp_cc_impl::countdown_sensing, this);
-          // thrd.join();
-        }
+        // this function is fired
+        // std::cout << "start sensing" << std::endl;
+        _frame_info = frame_info;
+        _in_cca = true;
+        std::cout << "start sensing" << std::endl;
+        boost::thread thrd(&carrier_sensing_cpp_cc_impl::countdown_sensing, this);
       }
       else
       {
-        // not a boolean pmt, most likely an import error
-        std::cout << "not a spark signal" << std::endl;
+        // not a dict pmt, most likely an import error
+        std::cout << "Warning: is not a frame_info. Please check your connections." << std::endl;
       }
     }
 
@@ -155,7 +156,12 @@ namespace gr {
         // std::cout << "sensing status is: " << _in_cca << std::endl;
         // std::cout << "in sensing " << start_time + _cs_duration / 1000 - current_time << std::endl;
       }
-      message_port_pub(pmt::mp("spark_out"), pmt::from_bool(_in_cca));
+      if(_in_cca)
+      {
+        message_port_pub(pmt::mp("frame_info_pass_out"), _frame_info);
+        if(_develop_mode == 2)
+          std::cout << "Carrier sensing passed. " << std::endl;
+      }
       _in_cca = false;
       _cs_time = current_time - start_time;
     }

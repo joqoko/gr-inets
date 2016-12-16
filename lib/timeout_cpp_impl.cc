@@ -173,9 +173,9 @@ namespace gr {
       }
       while((current_time < start_time + _timeout_duration_ms / 1000) && _in_timeout)
       {
-        boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
+        boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
         if(_develop_mode == 1)
         {
           //std::cout << "Remaining time: " << _timeout_duration_ms / 1000 - (current_time - start_time) << ". And the in_timeout state is: " << _in_timeout << std::endl;
@@ -190,8 +190,9 @@ namespace gr {
         else
         std::cout << "* timeout ID: " << _block_id << " timeout timer is killed  at time " << current_time << " s" << std::endl;
       }
+      if(_in_timeout)
+        message_port_pub(pmt::mp("frame_info_out"), _waiting_frame_info);
       _in_timeout = false;
-      message_port_pub(pmt::mp("frame_info_out"), _waiting_frame_info);
     }
   } /* namespace inets */
 } /* namespace gr */
