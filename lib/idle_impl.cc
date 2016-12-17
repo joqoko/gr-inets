@@ -281,7 +281,8 @@ namespace gr {
                 std::cout << "Warning: unknown frame_type. Please check your connections." << std::endl;
             }
             else
-              std::cout << "Both source and destination address are not me. whos frame?" << std::endl;
+              if(_develop_mode == 1)
+                std::cout << "Both source and destination address are not me. whos frame?" << std::endl;
           }
         }
         else 

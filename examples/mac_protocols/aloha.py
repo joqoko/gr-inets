@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: aloha
 # Author: PWA
-# Generated: Sat Dec 17 18:11:07 2016
+# Generated: Sat Dec 17 18:21:25 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -100,8 +100,8 @@ class aloha(gr.top_block, Qt.QWidget):
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
         self.develop_mode_list = develop_mode_list = [0]
         self.destination_address = destination_address = 2
-        self.cs_threshold = cs_threshold = 200
-        self.cs_duration = cs_duration = 200
+        self.cs_threshold = cs_threshold = 0.005
+        self.cs_duration = cs_duration = 1000
         self.counter_id = counter_id = 20
         self.backoff_time_unit_ms = backoff_time_unit_ms = 50
         self.apply_address_check = apply_address_check = 1
@@ -165,7 +165,7 @@ class aloha(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, "BB Derotation Gain", "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_timeout_cpp_0 = inets.timeout_cpp(1, 10, timeout_duration_ms, system_time_granularity_us)
-        self.inets_idle_0 = inets.idle(1, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_idle_0 = inets.idle(0, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.inets_frame_info_selector_0_0_0 = inets.frame_info_selector()
         self.inets_frame_info_selector_0_0 = inets.frame_info_selector()
         self.inets_frame_info_selector_0 = inets.frame_info_selector()

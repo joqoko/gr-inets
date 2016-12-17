@@ -82,14 +82,14 @@ namespace gr {
       else if(pmt::is_real(info_in))
       {
         double power = pmt::to_double(info_in);
-        if(_develop_mode == 1)
+        _in_cca = (_cs_threshold > power);
+        if(_develop_mode == 1 && !_in_cca)
         {
           struct timeval t;
           gettimeofday(&t, NULL);
           double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
           std::cout << "in carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
         }
-        _in_cca = (_cs_threshold > power);
       }
       else
       {
@@ -122,15 +122,15 @@ namespace gr {
       }
       if(_in_cca)
       {
-        message_port_pub(pmt::mp("carrier_sensing_pass_out"), _frame_info);
         if(_develop_mode == 1)
           std::cout << "Carrier sensing passed. " << std::endl;
+        message_port_pub(pmt::mp("frame_info_pass_out"), _frame_info);
       }
       else
       {
-        message_port_pub(pmt::mp("carrier_sensing_fail_out"), _frame_info);
         if(_develop_mode == 1)
           std::cout << "Carrier sensing failed. " << std::endl;
+        message_port_pub(pmt::mp("frame_info_fail_out"), _frame_info);
       }
       _in_cca = false;
       _cs_time = current_time - start_time;
