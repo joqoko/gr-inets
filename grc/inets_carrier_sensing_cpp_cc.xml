@@ -53,11 +53,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>in</name>
-    <type>complex</type>
-  </sink>
-  <sink>
-    <name>frame_info_in</name>
+    <name>info_in</name>
     <type>message</type>
   </sink>
 
@@ -67,11 +63,11 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
-    <type>complex</type>
+    <name>frame_info_pass_out</name>
+    <type>message</type>
   </source>
   <source>
-    <name>frame_info_out</name>
+    <name>frame_info_fail_out</name>
     <type>message</type>
   </source>
 </block>

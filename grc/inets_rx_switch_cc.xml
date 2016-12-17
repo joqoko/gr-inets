@@ -41,12 +41,12 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>in</name>
+    <name>rx_signal_in</name>
     <type>complex</type>
   </sink>
 
   <sink>
-    <name>spark_in</name>
+    <name>rx_switch_in</name>
     <type>message</type>
   </sink>
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -55,7 +55,11 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
+    <name>rx_singal_out</name>
     <type>complex</type>
+  </source>
+  <source>
+    <name>power_out</name>
+    <type>message</type>
   </source>
 </block>

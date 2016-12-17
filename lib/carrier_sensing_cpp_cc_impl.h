@@ -38,16 +38,13 @@ namespace gr {
       pmt::pmt_t _frame_info;
       float _cs_threshold;
       void start_sensing(pmt::pmt_t frame_info);
+      void kill_sensing(pmt::pmt_t power_info);
       void countdown_sensing();
 
      public:
       carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, float cs_duration, float cs_threshold);
       ~carrier_sensing_cpp_cc_impl();
 
-      // Where all the action really happens
-      int work(int noutput_items,
-	 gr_vector_const_void_star &input_items,
-	 gr_vector_void_star &output_items);
     };
 
 

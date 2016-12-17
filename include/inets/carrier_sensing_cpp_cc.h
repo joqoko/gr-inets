@@ -24,7 +24,7 @@
 #define INCLUDED_INETS_CARRIER_SENSING_CPP_CC_H
 
 #include <inets/api.h>
-#include <gnuradio/sync_block.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace inets {
@@ -34,7 +34,7 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API carrier_sensing_cpp_cc : virtual public gr::sync_block
+    class INETS_API carrier_sensing_cpp_cc : virtual public gr::block
     {
      public:
       typedef boost::shared_ptr<carrier_sensing_cpp_cc> sptr;

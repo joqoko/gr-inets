@@ -32,13 +32,12 @@ namespace gr {
      int _develop_mode;
      int _block_id;
      int _is_receiving;
-     int _switch_carrier_sensing;
      int _num_fetch_per_cs;
      std::vector<double> _vec_average_pow;
      void kai_guan(pmt::pmt_t spark);
 
      public:
-      rx_switch_cc_impl(int develop_mode, int block_id, int switch_carrier_sensing);
+      rx_switch_cc_impl(int develop_mode, int block_id);
       ~rx_switch_cc_impl();
 
       // Where all the action really happens

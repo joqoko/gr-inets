@@ -72,11 +72,9 @@ namespace gr {
       if(_develop_mode == 1)
         std::cout << "develop_mode of idle is activated." << std::endl;
       message_port_register_in(pmt::mp("data_in"));
-      message_port_register_in(pmt::mp("reset_idle"));
       message_port_register_out(pmt::mp("data_out"));
       message_port_register_out(pmt::mp("successful_transmission"));
       set_msg_handler(pmt::mp("data_in"), boost::bind(&idle_impl::state_transition, this, _1 ));
-      set_msg_handler(pmt::mp("reset_idle"), boost::bind(&idle_impl::reset_idle, this, _1 ));
     }
 
     /*
@@ -109,185 +107,186 @@ namespace gr {
     }
 
     void
-    idle_impl::reset_idle(pmt::pmt_t data)
-    {
-      if(pmt::to_bool(data))
-      {
-        _in_idle = true;
-        if(_develop_mode == 1)
-          std::cout << "reset idle at node " << _source_address << " to true." << std::endl;
-        if(_tx_buff.size())
-        {
-          send_data_frame_to_send_frame();
-        }
-      }
-      else
-        std::cout << "Warning: you cannot use false to reset idle to true." << std::endl;
-    }
-
-    void
     idle_impl::state_transition(pmt::pmt_t data)
     {
       if(_develop_mode == 1)
       {
         std::cout << "++++++++++++  idle ID: " << _block_id << "  +++++++++++++++++" << std::endl;
       }
-      /*
-       * get frame payload 
-       */
-      pmt::pmt_t meta = pmt::car(data);
-      pmt::pmt_t data_pmt = pmt::cdr(data);
-      // early debugging code -> std::cout << "Test pair, dict and u8vector. is pair" << pmt::is_pair(data) << "is dict:" << pmt::is_dict(data)  << "is u8:" << pmt::is_u8vector(data_pmt) << "dict has key: " << pmt::dict_has_key(data, pmt::string_to_symbol("frame_type")) << std::endl;
-      if(pmt::is_u8vector(data_pmt))
+      if(pmt::is_bool(data))
       {
-        // we first check whether the queue is full. if we enqueue the data frame, we need to check the _in_idle state. If true, then we transmission the frame and set _in_idle to false.
-        if(_develop_mode == 2)
+        if(pmt::to_bool(data))
         {
-          struct timeval t; 
-          gettimeofday(&t, NULL);
-          double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-          std::cout << "* idle ID: " << _block_id << " get a payload from source at time " << current_time << " s" << std::endl;
-        }
-        if(_develop_mode == 1)
-          std::cout << "payload comes. " << std::endl;
-        if(_tx_buff.size() < _max_buffer_size)
-        {
-          pmt::pmt_t data_frame = data_frame_framing(data);
-          _tx_buff.push(data_frame);
-          if(_in_idle)
-          {
-            idle_impl::send_data_frame_to_send_frame();
-          }
-          else
-            if(_develop_mode == 1)
-              std::cout << "payload comes but not in idle. there are " << _tx_buff.size() << " frames in the tx buffer."<< std::endl;
-        }
-        else
+          _in_idle = true;
           if(_develop_mode == 1)
-            std::cout << "payload comes. However the tx buffer is full, discard the payload." << std::endl;
-      }
-      /*
-       * get a frame info 
-       */
-      else if(pmt::dict_has_key(data, pmt::string_to_symbol("frame_type")))
-      {
-        if(_develop_mode == 1)
-          std::cout << "get a frame info dict." << std::endl;
-        pmt::pmt_t not_found;
-        int frame_type = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_type"), not_found));
-        int ack_index = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_index"), not_found));
-        int destination_address = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("destination_address"), not_found));
-        int src_address = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("source_address"), not_found));
-        // if the frame is sent by me
-        if(src_address == _source_address)
-        {
-          // if I sent an ACK frame. QUESTION MARK HERE. I should not get the ack information which is sent by me. So do nothing here.
-          if(frame_type == 2) 
+            std::cout << "reset idle at node " << _source_address << " to true." << std::endl;
+          if(_tx_buff.size())
           {
-            std::cout << "Warning: get frame info of an ack sent by me. please check your connection." << std::endl;
-            // activate _in_idle state
-          //  if(_develop_mode == 1)
-          //    std::cout << "get info of the ACK sent by me, state to idle." << std::endl;
-         //   _in_idle = true;
-         //   if(_tx_buff.size())
-         //   {
-        //      send_data_frame_to_send_frame();
-         //   }
+            send_data_frame_to_send_frame();
           }
-          // if the data frame is sent by me
-          else if(frame_type == 1)
-          {
-            // check the number of transmission. If maximum retransmission reached, then reset idle and check the buffer. Otherwise simply forward the frame info to transmission frame and there the transmission will be add one.
-            if(_develop_mode == 2)
-            {
-              struct timeval t; 
-              gettimeofday(&t, NULL);
-              double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-              std::cout << "* idle ID: " << _block_id << " get self data frame info at time " << current_time << " s" << std::endl;
-            }
-            int num_transmission = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("num_transmission"), not_found));
-            if(_develop_mode == 1)
-              std::cout << "get info of the data frame sent by me, number of retransmission is: " << num_transmission << std::endl;
-            if(num_transmission >= _max_num_retransmission)
-            {
-              if(_develop_mode == 1)
-                std::cout << "maximum retransmission reached. reset _in_idle." << std::endl;
-              _in_idle = true;
-              if(_tx_buff.size())
-              {
-                send_data_frame_to_send_frame();
-              }
-            }
-            // 
-            else
-            {
-              num_transmission++;
-              if(_develop_mode == 1)
-                std::cout << "transmission the data frame. current number of transmission is: " << num_transmission << std::endl;
-              _sending_data_frame = pmt::dict_delete(_sending_data_frame, pmt::string_to_symbol("num_transmission"));
-              _sending_data_frame = pmt::dict_add(_sending_data_frame, pmt::string_to_symbol("num_transmission"), pmt::from_long(num_transmission));
-              message_port_pub(pmt::mp("data_out"), _sending_data_frame);
-            }
-          }     
-          else
-            std::cout << "Warning: unknown frame_type. Please check your connections." << std::endl;
-        }    
-        // if the frame is not sent by me
+        }
         else
+          std::cout << "Warning: you cannot use false to reset idle to true." << std::endl;
+      }
+      else
+      {
+        /*
+         * get frame payload 
+         */
+        pmt::pmt_t meta = pmt::car(data);
+        pmt::pmt_t data_pmt = pmt::cdr(data);
+        // early debugging code -> std::cout << "Test pair, dict and u8vector. is pair" << pmt::is_pair(data) << "is dict:" << pmt::is_dict(data)  << "is u8:" << pmt::is_u8vector(data_pmt) << "dict has key: " << pmt::dict_has_key(data, pmt::string_to_symbol("frame_type")) << std::endl;
+        if(pmt::is_u8vector(data_pmt))
         {
-          // if I am the destined node
-          if(destination_address == _source_address)
+          // we first check whether the queue is full. if we enqueue the data frame, we need to check the _in_idle state. If true, then we transmission the frame and set _in_idle to false.
+          if(_develop_mode == 2)
           {
-            // if it is an ACK frame. Note that we need to compare the frame index to the frame index of the last send data frame. 
-            if(frame_type == 2)
+            struct timeval t; 
+            gettimeofday(&t, NULL);
+            double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+            std::cout << "* idle ID: " << _block_id << " get a payload from source at time " << current_time << " s" << std::endl;
+          }
+          if(_develop_mode == 1)
+            std::cout << "payload comes. " << std::endl;
+          if(_tx_buff.size() < _max_buffer_size)
+          {
+            pmt::pmt_t data_frame = data_frame_framing(data);
+            _tx_buff.push(data_frame);
+            if(_in_idle)
             {
-              //int frame_index = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_index"), not_found));
-             // if(frame_index == _last_frame_index)
-              //{ 
-              if(_develop_mode == 2)
-              {
-                struct timeval t; 
-                gettimeofday(&t, NULL);
-                double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-                std::cout << "* idle ID: " << _block_id << " gets ack from node " << src_address << " with index " << ack_index << " at time " << current_time << " s" << std::endl;
-              }
-              _in_idle = true;
-              message_port_pub(pmt::mp("successful_transmission"), pmt::from_bool(true));
-              if(_develop_mode == 1)
-                std::cout << "successfully sent one frame. back to idle. next one!" << std::endl;
-              if(_tx_buff.size())
-              {
-                send_data_frame_to_send_frame();
-              }
-              //}
-             // else
-             //     std::cout << "Received an ack of the " << frame_index << "th frame, but we are expecting the ack of the " << _last_frame_index << "th frame. please check your setup." << std::endl;
+              idle_impl::send_data_frame_to_send_frame();
             }
-            // if it is a data frame, we need to set idle state to false and transmission ack back.
+            else
+              if(_develop_mode == 1)
+                std::cout << "payload comes but not in idle. there are " << _tx_buff.size() << " frames in the tx buffer."<< std::endl;
+          }
+          else
+            if(_develop_mode == 1)
+              std::cout << "payload comes. However the tx buffer is full, discard the payload." << std::endl;
+        }
+        /*
+         * get a frame info 
+         */
+        else if(pmt::dict_has_key(data, pmt::string_to_symbol("frame_type")))
+        {
+          if(_develop_mode == 1)
+            std::cout << "get a frame info dict." << std::endl;
+          pmt::pmt_t not_found;
+          int frame_type = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_type"), not_found));
+          int ack_index = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_index"), not_found));
+          int destination_address = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("destination_address"), not_found));
+          int src_address = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("source_address"), not_found));
+          // if the frame is sent by me
+          if(src_address == _source_address)
+          {
+            // if I sent an ACK frame. QUESTION MARK HERE. I should not get the ack information which is sent by me. So do nothing here.
+            if(frame_type == 2) 
+            {
+              std::cout << "Warning: get frame info of an ack sent by me. please check your connection." << std::endl;
+              // activate _in_idle state
+            //  if(_develop_mode == 1)
+            //    std::cout << "get info of the ACK sent by me, state to idle." << std::endl;
+           //   _in_idle = true;
+           //   if(_tx_buff.size())
+           //   {
+          //      send_data_frame_to_send_frame();
+           //   }
+            }
+            // if the data frame is sent by me
             else if(frame_type == 1)
             {
+              // check the number of transmission. If maximum retransmission reached, then reset idle and check the buffer. Otherwise simply forward the frame info to transmission frame and there the transmission will be add one.
               if(_develop_mode == 2)
               {
                 struct timeval t; 
                 gettimeofday(&t, NULL);
                 double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-                std::cout << "* idle ID: " << _block_id << " get other's data info at time       " << current_time << " s" << std::endl;
+                std::cout << "* idle ID: " << _block_id << " get self data frame info at time " << current_time << " s" << std::endl;
               }
+              int num_transmission = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("num_transmission"), not_found));
               if(_develop_mode == 1)
-                std::cout << "received a data frame. let the transmissioner know now!" << std::endl;
-              _in_idle = false;
-              pmt::pmt_t ack_frame = ack_frame_framing(data);
-              message_port_pub(pmt::mp("data_out"), ack_frame);
-            }
+                std::cout << "get info of the data frame sent by me, number of retransmission is: " << num_transmission << std::endl;
+              if(num_transmission >= _max_num_retransmission)
+              {
+                if(_develop_mode == 1)
+                  std::cout << "maximum retransmission reached. reset _in_idle." << std::endl;
+                _in_idle = true;
+                if(_tx_buff.size())
+                {
+                  send_data_frame_to_send_frame();
+                }
+              }
+              // 
+              else
+              {
+                num_transmission++;
+                if(_develop_mode == 1)
+                  std::cout << "transmission the data frame. current number of transmission is: " << num_transmission << std::endl;
+                _sending_data_frame = pmt::dict_delete(_sending_data_frame, pmt::string_to_symbol("num_transmission"));
+                _sending_data_frame = pmt::dict_add(_sending_data_frame, pmt::string_to_symbol("num_transmission"), pmt::from_long(num_transmission));
+                message_port_pub(pmt::mp("data_out"), _sending_data_frame);
+              }
+            }     
             else
               std::cout << "Warning: unknown frame_type. Please check your connections." << std::endl;
-          }
+          }    
+          // if the frame is not sent by me
           else
-            std::cout << "Both source and destination address are not me. whos frame?" << std::endl;
+          {
+            // if I am the destined node
+            if(destination_address == _source_address)
+            {
+              // if it is an ACK frame. Note that we need to compare the frame index to the frame index of the last send data frame. 
+              if(frame_type == 2)
+              {
+                //int frame_index = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("frame_index"), not_found));
+               // if(frame_index == _last_frame_index)
+                //{ 
+                if(_develop_mode == 2)
+                {
+                  struct timeval t; 
+                  gettimeofday(&t, NULL);
+                  double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+                  std::cout << "* idle ID: " << _block_id << " gets ack from node " << src_address << " with index " << ack_index << " at time " << current_time << " s" << std::endl;
+                }
+                _in_idle = true;
+                message_port_pub(pmt::mp("successful_transmission"), pmt::from_bool(true));
+                if(_develop_mode == 1)
+                  std::cout << "successfully sent one frame. back to idle. next one!" << std::endl;
+                if(_tx_buff.size())
+                {
+                  send_data_frame_to_send_frame();
+                }
+                //}
+               // else
+               //     std::cout << "Received an ack of the " << frame_index << "th frame, but we are expecting the ack of the " << _last_frame_index << "th frame. please check your setup." << std::endl;
+              }
+              // if it is a data frame, we need to set idle state to false and transmission ack back.
+              else if(frame_type == 1)
+              {
+                if(_develop_mode == 2)
+                {
+                  struct timeval t; 
+                  gettimeofday(&t, NULL);
+                  double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+                  std::cout << "* idle ID: " << _block_id << " get other's data info at time       " << current_time << " s" << std::endl;
+                }
+                if(_develop_mode == 1)
+                  std::cout << "received a data frame. let the transmissioner know now!" << std::endl;
+                _in_idle = false;
+                pmt::pmt_t ack_frame = ack_frame_framing(data);
+                message_port_pub(pmt::mp("data_out"), ack_frame);
+              }
+              else
+                std::cout << "Warning: unknown frame_type. Please check your connections." << std::endl;
+            }
+            else
+              std::cout << "Both source and destination address are not me. whos frame?" << std::endl;
+          }
         }
+        else 
+          std::cout << "Warning: unknown message type. Please check your connection." << std::endl;
       }
-      else 
-        std::cout << "Warning: unknown message type. Please check your connection." << std::endl;
     }
 
     pmt::pmt_t
