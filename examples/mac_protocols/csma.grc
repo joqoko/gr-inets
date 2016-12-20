@@ -240,7 +240,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1000</value>
+      <value>50</value>
     </param>
   </block>
   <block>
@@ -294,7 +294,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>3</value>
+      <value>2</value>
     </param>
   </block>
   <block>
@@ -1504,11 +1504,11 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>2</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1575,123 +1575,6 @@
     </param>
   </block>
   <block>
-    <key>inets_counter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>counter_id</key>
-      <value>23</value>
-    </param>
-    <param>
-      <key>develop_mode_list</key>
-      <value>[23]</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(744, 437)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>180</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_counter_0_1_0</value>
-    </param>
-  </block>
-  <block>
-    <key>inets_counter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>counter_id</key>
-      <value>24</value>
-    </param>
-    <param>
-      <key>develop_mode_list</key>
-      <value>[24]</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(216, 581)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>180</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_counter_0_1_0_0</value>
-    </param>
-  </block>
-  <block>
-    <key>inets_counter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>counter_id</key>
-      <value>25</value>
-    </param>
-    <param>
-      <key>develop_mode_list</key>
-      <value>[25]</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1296, 869)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>180</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_counter_0_1_0_0_0</value>
-    </param>
-  </block>
-  <block>
     <key>inets_exponential_backoff_cpp</key>
     <param>
       <key>backoff_time_unit_ms</key>
@@ -1715,7 +1598,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1891,7 +1774,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -2006,7 +1889,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>2</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -2305,12 +2188,6 @@
   </connection>
   <connection>
     <source_block_id>inets_carrier_sensing_cpp_cc_0</source_block_id>
-    <sink_block_id>inets_counter_0_1_0</sink_block_id>
-    <source_key>frame_info_pass_out</source_key>
-    <sink_key>message_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_carrier_sensing_cpp_cc_0</source_block_id>
     <sink_block_id>send_frame_0</sink_block_id>
     <source_key>frame_info_pass_out</source_key>
     <sink_key>in</sink_key>
@@ -2359,12 +2236,6 @@
   </connection>
   <connection>
     <source_block_id>inets_idle_0</source_block_id>
-    <sink_block_id>inets_counter_0_1_0_0</sink_block_id>
-    <source_key>data_out</source_key>
-    <sink_key>message_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_idle_0</source_block_id>
     <sink_block_id>inets_counter_0_1</sink_block_id>
     <source_key>successful_transmission</source_key>
     <sink_key>message_in</sink_key>
@@ -2386,12 +2257,6 @@
     <sink_block_id>inets_carrier_sensing_cpp_cc_0</sink_block_id>
     <source_key>rx_power_out</source_key>
     <sink_key>info_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>send_frame_0</source_block_id>
-    <sink_block_id>inets_counter_0_1_0_0_0</sink_block_id>
-    <source_key>tx_frame_info_out</source_key>
-    <sink_key>message_in</sink_key>
   </connection>
   <connection>
     <source_block_id>send_frame_0</source_block_id>

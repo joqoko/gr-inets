@@ -38,7 +38,7 @@
     <name>Carrier sensing duration</name>
     <key>cs_duration</key>
     <value>cs_duration</value>
-    <type>float</type>
+    <type>real</type>
   </param>
   <param>
     <name>Carrier sensing threshold</name>

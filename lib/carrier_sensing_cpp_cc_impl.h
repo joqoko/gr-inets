@@ -34,7 +34,7 @@ namespace gr {
       int _block_id;
       int _system_time_granularity_us;
       bool _in_cca;
-      float _cs_duration;
+      double _cs_duration;
       double _cs_time; 
       pmt::pmt_t _frame_info;
       float _cs_threshold;
@@ -43,7 +43,7 @@ namespace gr {
       void countdown_sensing();
 
      public:
-      carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, float cs_duration, float cs_threshold, int system_time_granularity_us);
+      carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, double cs_duration, float cs_threshold, int system_time_granularity_us);
       ~carrier_sensing_cpp_cc_impl();
 
     };
