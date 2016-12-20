@@ -4,7 +4,7 @@
   <key>inets_carrier_sensing_cpp_cc</key>
   <category>inets_dmf_v1.0</category>
   <import>import inets</import>
-  <make>inets.carrier_sensing_cpp_cc($develop_mode, $block_id, $cs_duration, $cs_threshold)</make>
+  <make>inets.carrier_sensing_cpp_cc($develop_mode, $block_id, $cs_duration, $cs_threshold, $system_time_granularity_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -45,6 +45,12 @@
     <key>cs_threshold</key>
     <value>cs_threshold</value>
     <type>float</type>
+  </param>
+  <param>
+    <name>System time granularity [us]</name>
+    <key>system_time_granularity_us</key>
+    <value>system_time_granularity_us</value>
+    <type>int</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

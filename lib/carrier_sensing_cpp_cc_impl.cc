@@ -31,22 +31,23 @@ namespace gr {
   namespace inets {
 
     carrier_sensing_cpp_cc::sptr
-    carrier_sensing_cpp_cc::make(int develop_mode, int block_id, float cs_duration, float cs_threshold)
+    carrier_sensing_cpp_cc::make(int develop_mode, int block_id, float cs_duration, float cs_threshold, int system_time_granularity_us)
     {
       return gnuradio::get_initial_sptr
-        (new carrier_sensing_cpp_cc_impl(develop_mode, block_id, cs_duration, cs_threshold));
+        (new carrier_sensing_cpp_cc_impl(develop_mode, block_id, cs_duration, cs_threshold, system_time_granularity_us));
     }
 
     /*
      * the private constructor
      */
-    carrier_sensing_cpp_cc_impl::carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, float cs_duration, float cs_threshold)
+    carrier_sensing_cpp_cc_impl::carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, float cs_duration, float cs_threshold, int system_time_granularity_us)
       : gr::block("carrier_sensing_cpp_cc",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
         _cs_duration(cs_duration),
+        _system_time_granularity_us(system_time_granularity_us),
         _cs_threshold(cs_threshold)
     {
       _in_cca = false;
@@ -73,7 +74,7 @@ namespace gr {
       if(pmt::is_dict(info_in))
       {
         // this function is fired
-        // std::cout << "start sensing" << std::endl;
+        std::cout << "start sensing" << std::endl;
         _frame_info = info_in;
         _in_cca = true;
         std::cout << "start sensing" << std::endl;
@@ -83,7 +84,7 @@ namespace gr {
       {
         double power = pmt::to_double(info_in);
         _in_cca = (_cs_threshold > power);
-        if(_develop_mode == 1 && !_in_cca)
+        if(_develop_mode == 1 && _in_cca)
         {
           struct timeval t;
           gettimeofday(&t, NULL);
@@ -113,10 +114,10 @@ namespace gr {
       std::cout << ((current_time < start_time + _cs_duration / 1000) && _in_cca) << std::endl;
       while((current_time < start_time + _cs_duration / 1000) && _in_cca)
       {
-        boost::this_thread::sleep(boost::posix_time::milliseconds(5)); 
+        boost::this_thread::sleep(boost::posix_time::milliseconds(_system_time_granularity_us)); 
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
-        std::cout << "current sensing time is: " << current_time - start_time - _cs_duration / 1000 << std::endl;
+//        std::cout << "current sensing time is: " << current_time - start_time - _cs_duration / 1000 << std::endl;
         // std::cout << "sensing status is: " << _in_cca << std::endl;
         // std::cout << "in sensing " << start_time + _cs_duration / 1000 - current_time << std::endl;
       }

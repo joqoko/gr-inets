@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: aloha
 # Author: PWA
-# Generated: Sat Dec 17 18:21:25 2016
+# Generated: Tue Dec 20 12:06:55 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -171,7 +171,7 @@ class aloha(gr.top_block, Qt.QWidget):
         self.inets_frame_info_selector_0 = inets.frame_info_selector()
         self.inets_exponential_backoff_cpp_0 = inets.exponential_backoff_cpp(1, 11, backoff_time_unit_ms, max_num_retransmission, min_backoff_ms)
         self.inets_counter_0_1 = inets.counter(([22]), 22)
-        self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(1, 11, cs_duration, cs_threshold)
+        self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(1, 11, cs_duration, cs_threshold, system_time_granularity_us)
         self.frame_info_simulator = blocks.message_strobe_random(pmt.to_pmt({'good_frame' : 1, 'address_check' : 1, 'header_length' : 9, 'payload_length' : 0, 'reserved_field_II' : 6, 'reserved_field_I' : 5, 'num_transmission' : 0, 'source_address' : 1, 'destination_address': 3, 'frame_index' : 22, 'frame_type' : 1}), blocks.STROBE_POISSON, 2000, 1000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", "localhost", "52001", 10000, False)
         self.blocks_message_strobe_random_1 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 5)
