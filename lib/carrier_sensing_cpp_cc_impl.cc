@@ -81,15 +81,21 @@ namespace gr {
           _frame_info = info_in;
           _in_cca = true;
           if(_develop_mode == 1)
-            std::cout << "start sensing" << std::endl;
+            std::cout << "before sending a data frame, start sensing" << std::endl;
           boost::thread thrd(&carrier_sensing_cpp_cc_impl::countdown_sensing, this);
         }
+        else
+        {
+          if(_develop_mode == 1)
+            std::cout << "before sending a ack frame, no sensing" << std::endl;
+        }
+        message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
       }
       else if(pmt::is_real(info_in))
       {
         double power = pmt::to_double(info_in);
         _in_cca = (_cs_threshold > power);
-        if(_develop_mode == 1 && !_in_cca)
+        if(_develop_mode == 1 && _in_cca)
         {
           struct timeval t;
           gettimeofday(&t, NULL);

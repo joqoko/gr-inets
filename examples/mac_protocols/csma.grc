@@ -1246,7 +1246,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>5100</value>
+      <value>500</value>
     </param>
   </block>
   <block>
@@ -1504,7 +1504,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
