@@ -1477,61 +1477,6 @@
     </param>
   </block>
   <block>
-    <key>inets_carrier_sensing_cpp_cc</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>11</value>
-    </param>
-    <param>
-      <key>cs_duration</key>
-      <value>cs_duration</value>
-    </param>
-    <param>
-      <key>cs_threshold</key>
-      <value>cs_threshold</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(528, 487)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_carrier_sensing_cpp_cc_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>inets_counter</key>
     <param>
       <key>alias</key>
@@ -2177,18 +2122,6 @@
     <sink_key>data_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_carrier_sensing_cpp_cc_0</source_block_id>
-    <sink_block_id>inets_exponential_backoff_cpp_0</sink_block_id>
-    <source_key>frame_info_fail_out</source_key>
-    <sink_key>frame_info_trigger_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_carrier_sensing_cpp_cc_0</source_block_id>
-    <sink_block_id>send_frame_0</sink_block_id>
-    <source_key>frame_info_pass_out</source_key>
-    <sink_key>in</sink_key>
-  </connection>
-  <connection>
     <source_block_id>inets_exponential_backoff_cpp_0</source_block_id>
     <sink_block_id>inets_idle_0</sink_block_id>
     <source_key>frame_info_out</source_key>
@@ -2226,9 +2159,9 @@
   </connection>
   <connection>
     <source_block_id>inets_idle_0</source_block_id>
-    <sink_block_id>inets_carrier_sensing_cpp_cc_0</sink_block_id>
+    <sink_block_id>send_frame_0</sink_block_id>
     <source_key>data_out</source_key>
-    <sink_key>info_in</sink_key>
+    <sink_key>in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_idle_0</source_block_id>
@@ -2247,12 +2180,6 @@
     <sink_block_id>inets_frame_info_selector_0</sink_block_id>
     <source_key>rx_frame_info_out</source_key>
     <sink_key>frame_info_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>receive_frame_0_0</source_block_id>
-    <sink_block_id>inets_carrier_sensing_cpp_cc_0</sink_block_id>
-    <source_key>rx_power_out</source_key>
-    <sink_key>info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>send_frame_0</source_block_id>

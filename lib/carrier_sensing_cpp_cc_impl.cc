@@ -74,17 +74,22 @@ namespace gr {
       if(pmt::is_dict(info_in))
       {
         // this function is fired
-        std::cout << "start sensing" << std::endl;
-        _frame_info = info_in;
-        _in_cca = true;
-        std::cout << "start sensing" << std::endl;
-        boost::thread thrd(&carrier_sensing_cpp_cc_impl::countdown_sensing, this);
+        pmt::pmt_t not_found;
+        int frame_type = pmt::to_long(pmt::dict_ref(info_in, pmt::string_to_symbol("frame_type"), not_found)); 
+        if(frame_type == 1)
+        {
+          _frame_info = info_in;
+          _in_cca = true;
+          if(_develop_mode == 1)
+            std::cout << "start sensing" << std::endl;
+          boost::thread thrd(&carrier_sensing_cpp_cc_impl::countdown_sensing, this);
+        }
       }
       else if(pmt::is_real(info_in))
       {
         double power = pmt::to_double(info_in);
         _in_cca = (_cs_threshold > power);
-        if(_develop_mode == 1 && _in_cca)
+        if(_develop_mode == 1 && !_in_cca)
         {
           struct timeval t;
           gettimeofday(&t, NULL);
@@ -106,12 +111,12 @@ namespace gr {
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
-      std::cout << "start_countdown" << std::endl;
-      std::cout << "cs duration is: " << _cs_duration << std::endl;
-      std::cout << "current time is: " << current_time << std::endl;
-      std::cout << "_in_cca is: " << _in_cca << std::endl;
-      std::cout << "time condition is: " << (start_time + (_cs_duration / 1000) - current_time) << std::endl;
-      std::cout << ((current_time < start_time + _cs_duration / 1000) && _in_cca) << std::endl;
+      // std::cout << "start_countdown" << std::endl;
+      // std::cout << "cs duration is: " << _cs_duration << std::endl;
+      // std::cout << "current time is: " << current_time << std::endl;
+      // std::cout << "_in_cca is: " << _in_cca << std::endl;
+      // std::cout << "time condition is: " << (start_time + (_cs_duration / 1000) - current_time) << std::endl;
+      // std::cout << ((current_time < start_time + _cs_duration / 1000) && _in_cca) << std::endl;
       while((current_time < start_time + _cs_duration / 1000) && _in_cca)
       {
         boost::this_thread::sleep(boost::posix_time::milliseconds(_system_time_granularity_us)); 
