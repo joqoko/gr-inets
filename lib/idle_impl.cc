@@ -205,7 +205,7 @@ namespace gr {
               }
               int num_transmission = pmt::to_long(pmt::dict_ref(data, pmt::string_to_symbol("num_transmission"), not_found));
               if(_develop_mode == 1)
-                std::cout << "get info of the data frame sent by me, number of retransmission is: " << num_transmission << std::endl;
+                std::cout << "get info of the data frame sent by me, number of transmission is: " << num_transmission << std::endl;
               if(num_transmission >= _max_num_retransmission)
               {
                 if(_develop_mode == 1)

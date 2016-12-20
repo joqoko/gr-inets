@@ -73,6 +73,8 @@ namespace gr {
       // std::cout << "received a message" << std::endl;
       if(pmt::is_dict(info_in))
       {
+        if(_develop_mode == 1 || _develop_mode == 2)
+          std::cout << "+++++++++ carrier sensing ID: " << _block_id << "  +++++++++++++++" << std::endl;    
         // this function is fired
         pmt::pmt_t not_found;
         int frame_type = pmt::to_long(pmt::dict_ref(info_in, pmt::string_to_symbol("frame_type"), not_found)); 
@@ -88,8 +90,8 @@ namespace gr {
         {
           if(_develop_mode == 1)
             std::cout << "before sending a ack frame, no sensing" << std::endl;
+          message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
         }
-        message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
       }
       else if(pmt::is_real(info_in))
       {

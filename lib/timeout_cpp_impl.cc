@@ -72,10 +72,8 @@ namespace gr {
 
     void timeout_cpp_impl::kill_timeout(pmt::pmt_t ack_frame_info) 
     {
-      if(_develop_mode == 1)
-      {
+      if(_develop_mode)
         std::cout << "++++++++++++  timeout_cpp ID: " << _block_id << "  +++++++++++++" << std::endl;
-      }
       if(_develop_mode == 2)
       {
         struct timeval t; 
@@ -123,7 +121,8 @@ namespace gr {
 
     void timeout_cpp_impl::start_timeout(pmt::pmt_t data_frame_info) 
     {
-    
+      if(_develop_mode)
+        std::cout << "++++++++++++  timeout_cpp ID: " << _block_id << "  +++++++++++++" << std::endl;
       if(_develop_mode == 2)
       {
         struct timeval t; 
@@ -169,7 +168,6 @@ namespace gr {
       {
         std::cout << "timeout timer start time: " << start_time << std::endl;
         std::cout << "timeout wait time: " << _timeout_duration_ms/1000 << std::endl;
-        std::cout << "_in_timeout: " << _in_timeout << std::endl;
       }
       while((current_time < start_time + _timeout_duration_ms / 1000) && _in_timeout)
       {
