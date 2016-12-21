@@ -120,7 +120,7 @@ namespace gr {
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
       // std::cout << "start_countdown" << std::endl;
-      std::cout << "cs duration is: " << _cs_duration << " in second: " << _cs_duration /1000 << std::endl;
+      // std::cout << "cs duration is: " << _cs_duration << " in second: " << _cs_duration /1000 << std::endl;
       // std::cout << "current time is: " << current_time << std::endl;
       // std::cout << "_in_cca is: " << _in_cca << std::endl;
       // std::cout << "time condition is: " << (start_time + (_cs_duration / 1000) - current_time) << std::endl;

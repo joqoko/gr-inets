@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: aloha
 # Author: PWA
-# Generated: Tue Dec 20 17:14:09 2016
+# Generated: Wed Dec 21 08:37:32 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -165,13 +165,13 @@ class aloha(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, "BB Derotation Gain", "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_timeout_cpp_0 = inets.timeout_cpp(0, 10, timeout_duration_ms, system_time_granularity_us)
-        self.inets_idle_0 = inets.idle(2, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_idle_0 = inets.idle(0, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.inets_frame_info_selector_0_0_0 = inets.frame_info_selector()
         self.inets_frame_info_selector_0_0 = inets.frame_info_selector()
         self.inets_frame_info_selector_0 = inets.frame_info_selector()
         self.inets_exponential_backoff_cpp_0 = inets.exponential_backoff_cpp(0, 11, backoff_time_unit_ms, max_num_retransmission, min_backoff_ms)
         self.inets_counter_0_1 = inets.counter(([22]), 22)
-        self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(1, 11, cs_duration, cs_threshold, system_time_granularity_us)
+        self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(0, 11, cs_duration, cs_threshold, system_time_granularity_us)
         self.frame_info_simulator = blocks.message_strobe_random(pmt.to_pmt({'good_frame' : 1, 'address_check' : 1, 'header_length' : 9, 'payload_length' : 0, 'reserved_field_II' : 6, 'reserved_field_I' : 5, 'num_transmission' : 0, 'source_address' : 1, 'destination_address': 3, 'frame_index' : 22, 'frame_type' : 1}), blocks.STROBE_POISSON, 2000, 1000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", "localhost", "52001", 10000, False)
         self.blocks_message_strobe_random_1 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 5)
