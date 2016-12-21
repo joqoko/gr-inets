@@ -59,7 +59,7 @@ namespace gr {
         _len_preamble = _preamble.size();
         modulate_preamble();
         _len_preamble = _mod_preamble.size();
-        std::cout << "[frame_sync_cc_impl] :: Using preamble of len " << _len_preamble << std::endl;
+        // std::cout << "[frame_sync_cc_impl] :: Using preamble of len " << _len_preamble << std::endl;
         set_tag_propagation_policy(TPP_DONT);
         set_output_multiple(1024);
         message_port_register_out(pmt::string_to_symbol("phase"));
@@ -136,7 +136,7 @@ namespace gr {
         if(tags.size() > 0) {
             rx_time_full_sec = pmt::to_uint64(pmt::tuple_ref(tags[0].value, 0));
             rx_time_frac_sec = pmt::to_double(pmt::tuple_ref(tags[0].value, 1));
-            std::cout << "received rx_time tag. Offset = " << tags[0].offset << " Full Sec = " << rx_time_full_sec << " Frac Sec = " << rx_time_frac_sec << std::endl;
+            // std::cout << "received rx_time tag. Offset = " << tags[0].offset << " Full Sec = " << rx_time_full_sec << " Frac Sec = " << rx_time_frac_sec << std::endl;
             add_item_tag(0, tags[0].offset, pmt::intern("rx_time"), pmt::make_tuple(pmt::from_uint64(rx_time_full_sec), pmt::from_double(rx_time_frac_sec)));
         }
 
