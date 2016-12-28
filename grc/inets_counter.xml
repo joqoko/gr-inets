@@ -2,7 +2,7 @@
 <block>
   <name>counter</name>
   <key>inets_counter</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_tool</category>
   <import>import inets</import>
   <make>inets.counter($develop_mode_list, $counter_id)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

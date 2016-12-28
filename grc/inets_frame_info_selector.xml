@@ -2,7 +2,7 @@
 <block>
   <name>frame_info_selector</name>
   <key>inets_frame_info_selector</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
   <make>inets.frame_info_selector()</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

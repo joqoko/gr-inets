@@ -2,7 +2,7 @@
 <block>
   <name>frame_header_analysis_cpp</name>
   <key>inets_frame_header_analysis_cpp</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
   <make>inets.frame_header_analysis_cpp($develop_mode, $block_id, $len_frame_type, $len_frame_index, $len_destination_address, $len_source_address, $len_num_transmission, $len_reserved_field_I, $len_reserved_field_II, $len_payload_length, $apply_address_check, $my_address)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

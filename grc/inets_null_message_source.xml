@@ -2,7 +2,7 @@
 <block>
   <name>null_message_source</name>
   <key>inets_null_message_source</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_tool</category>
   <import>import inets</import>
   <make>inets.null_message_source()</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

@@ -2,7 +2,7 @@
 <block>
   <name>tx_buffer</name>
   <key>inets_tx_buffer</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
   <make>inets.tx_buffer($develop_mode_list, $max_buffer_size, $policy)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

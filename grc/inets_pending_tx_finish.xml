@@ -2,7 +2,7 @@
 <block>
   <name>pending_tx_finish</name>
   <key>inets_pending_tx_finish</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_phy</category>
   <import>import inets</import>
   <make>inets.pending_tx_finish($develop_mode, $block_id, $system_time_granularity_us, $sample_rate, $lengthtagname)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

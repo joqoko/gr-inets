@@ -2,7 +2,7 @@
 <block>
   <name>wait_cpp</name>
   <key>inets_wait_cpp</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
   <make>inets.wait_cpp($develop_mode_list, $system_time_granularity_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

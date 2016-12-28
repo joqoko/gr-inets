@@ -2,7 +2,7 @@
 <block>
   <name>decision_cpp</name>
   <key>inets_decision_cpp</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_tool</category>
   <import>import inets</import>
   <make>inets.decision_cpp($develop_mode_list, $decision_index)</make>
   <!-- make one 'param' node for every parameter you want settable from the gui.

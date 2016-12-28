@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: aloha
 # Author: PWA
-# Generated: Wed Dec 21 08:45:22 2016
+# Generated: Wed Dec 28 11:37:46 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -65,10 +65,10 @@ class aloha(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.range_rx_gain = range_rx_gain = 5
+        self.range_rx_gain = range_rx_gain = 15
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
-        self.timeout_duration_ms = timeout_duration_ms = 500
+        self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 1
         self.self_data_info = self_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
@@ -158,7 +158,7 @@ class aloha(gr.top_block, Qt.QWidget):
             threshold=preamble_detector_threshold,
             usrp_device_address=usrp_device_address,
         )
-        self._range_rx_gain_range = Range(0, 60, 1, 5, 200)
+        self._range_rx_gain_range = Range(0, 60, 1, 15, 200)
         self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, "Rx Gain", "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_rx_gain_win, 1,0,1,1)
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
@@ -171,7 +171,7 @@ class aloha(gr.top_block, Qt.QWidget):
         self.inets_frame_info_selector_0 = inets.frame_info_selector()
         self.inets_exponential_backoff_cpp_0 = inets.exponential_backoff_cpp(0, 11, backoff_time_unit_ms, max_num_retransmission, min_backoff_ms)
         self.inets_counter_0_1 = inets.counter(([22]), 22)
-        self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(0, 11, cs_duration, cs_threshold, system_time_granularity_us)
+        self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(0, 11, 2, cs_duration, cs_threshold, system_time_granularity_us)
         self.frame_info_simulator = blocks.message_strobe_random(pmt.to_pmt({'good_frame' : 1, 'address_check' : 1, 'header_length' : 9, 'payload_length' : 0, 'reserved_field_II' : 6, 'reserved_field_I' : 5, 'num_transmission' : 0, 'source_address' : 1, 'destination_address': 3, 'frame_index' : 22, 'frame_type' : 1}), blocks.STROBE_POISSON, 2000, 1000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", "localhost", "52001", 10000, False)
         self.blocks_message_strobe_random_1 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 5)

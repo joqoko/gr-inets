@@ -2,7 +2,7 @@
 <block>
   <name>framing_py_v1</name>
   <key>inets_framing_py_v1</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_draft</category>
   <import>import inets</import>
   <make>inets.framing_py_v1($fr_seq, $src_addr)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

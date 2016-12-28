@@ -2,7 +2,7 @@
 <block>
   <name>rx_switch_cc</name>
   <key>inets_rx_switch_cc</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_phy</category>
   <import>import inets</import>
   <make>inets.rx_switch_cc($develop_mode, $block_id)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

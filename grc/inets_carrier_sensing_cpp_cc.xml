@@ -2,9 +2,9 @@
 <block>
   <name>carrier_sensing_cpp_cc</name>
   <key>inets_carrier_sensing_cpp_cc</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.carrier_sensing_cpp_cc($develop_mode, $block_id, $cs_duration, $cs_threshold, $system_time_granularity_us)</make>
+  <make>inets.carrier_sensing_cpp_cc($develop_mode, $block_id, $cs_mode, $cs_duration, $cs_threshold, $system_time_granularity_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -33,6 +33,23 @@
     <key>block_id</key>
     <value>11</value>
     <type>int</type>
+  </param>
+  <param>
+    <name>Carrier sensing mode</name>
+    <key>cs_mode</key>
+    <type>int</type>
+    <option>
+      <name>Oneshot</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Fix duration</name>
+      <key>2</key>
+    </option>
+    <option>
+      <name>Until channel free</name>
+      <key>3</key>
+    </option>
   </param>
   <param>
     <name>Carrier sensing duration</name>

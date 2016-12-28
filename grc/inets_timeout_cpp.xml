@@ -2,7 +2,7 @@
 <block>
   <name>timeout_cpp</name>
   <key>inets_timeout_cpp</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
   <make>inets.timeout_cpp($develop_mode, $block_id, $timeout_duration_ms, $system_time_granularity_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

@@ -2,7 +2,7 @@
 <block>
   <name>t_control_tx_cc</name>
   <key>inets_t_control_tx_cc</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_phy</category>
   <import>import inets</import>
   <make>inets.t_control_tx_cc($develop_mode, $block_id, $bps)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

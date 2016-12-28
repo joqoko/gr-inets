@@ -32,6 +32,7 @@ namespace gr {
       // Nothing to declare in this block.
       int _develop_mode;
       int _block_id;
+      int _cs_mode;
       int _system_time_granularity_us;
       bool _in_cca;
       double _cs_duration;
@@ -43,7 +44,7 @@ namespace gr {
       void countdown_sensing();
 
      public:
-      carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, double cs_duration, float cs_threshold, int system_time_granularity_us);
+      carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us);
       ~carrier_sensing_cpp_cc_impl();
 
     };

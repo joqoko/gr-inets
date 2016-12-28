@@ -2,7 +2,7 @@
 <block>
   <name>address_check_cpp</name>
   <key>inets_address_check_cpp</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
   <make>inets.address_check_cpp($develop_mode, $block_id, $my_address, $apply_address_check)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

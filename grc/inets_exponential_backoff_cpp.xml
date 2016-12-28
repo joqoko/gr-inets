@@ -2,7 +2,7 @@
 <block>
   <name>exponential_backoff_cpp</name>
   <key>inets_exponential_backoff_cpp</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
   <make>inets.exponential_backoff_cpp($develop_mode, $block_id, $backoff_time_unit_ms, $max_n_backoff, $min_backoff_ms)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

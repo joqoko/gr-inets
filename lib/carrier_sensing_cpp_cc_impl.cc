@@ -31,21 +31,22 @@ namespace gr {
   namespace inets {
 
     carrier_sensing_cpp_cc::sptr
-    carrier_sensing_cpp_cc::make(int develop_mode, int block_id, double cs_duration, float cs_threshold, int system_time_granularity_us)
+    carrier_sensing_cpp_cc::make(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us)
     {
       return gnuradio::get_initial_sptr
-        (new carrier_sensing_cpp_cc_impl(develop_mode, block_id, cs_duration, cs_threshold, system_time_granularity_us));
+        (new carrier_sensing_cpp_cc_impl(develop_mode, block_id, cs_mode, cs_duration, cs_threshold, system_time_granularity_us));
     }
 
     /*
      * the private constructor
      */
-    carrier_sensing_cpp_cc_impl::carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, double cs_duration, float cs_threshold, int system_time_granularity_us)
+    carrier_sensing_cpp_cc_impl::carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us)
       : gr::block("carrier_sensing_cpp_cc",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
+        _cs_mode(cs_mode),
         _cs_duration(cs_duration),
         _system_time_granularity_us(system_time_granularity_us),
         _cs_threshold(cs_threshold)

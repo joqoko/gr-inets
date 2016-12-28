@@ -2,7 +2,7 @@
 <block>
   <name>decouple_frame_info</name>
   <key>inets_decouple_frame_info</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_phy</category>
   <import>import inets</import>
   <make>inets.decouple_frame_info($develop_mode, $block_id)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

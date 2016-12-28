@@ -2,7 +2,7 @@
 <block>
   <name>frame_verification_cpp</name>
   <key>inets_frame_verification_cpp</key>
-  <category>inets_dmf_v1.0</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
   <make>inets.frame_verification_cpp($develop_mode, $block_id)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
