@@ -35,6 +35,7 @@ namespace gr {
       int _cs_mode;
       int _system_time_granularity_us;
       bool _in_cca;
+      bool _cca;
       double _cs_duration;
       double _cs_time; 
       pmt::pmt_t _frame_info;
@@ -42,6 +43,8 @@ namespace gr {
       void start_sensing(pmt::pmt_t frame_info);
       void kill_sensing(pmt::pmt_t power_info);
       void countdown_sensing();
+      void oneshot_sensing();
+      void unlimited_sensing();
 
      public:
       carrier_sensing_cpp_cc_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us);

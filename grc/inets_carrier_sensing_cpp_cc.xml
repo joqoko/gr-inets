@@ -88,9 +88,11 @@
   <source>
     <name>frame_info_pass_out</name>
     <type>message</type>
+    <optional>1</optional>
   </source>
   <source>
     <name>frame_info_fail_out</name>
     <type>message</type>
+    <optional>1</optional>
   </source>
 </block>
