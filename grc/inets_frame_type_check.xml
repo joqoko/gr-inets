@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<block>
+  <name>frame_type_check</name>
+  <key>inets_frame_type_check</key>
+  <category>inets_dmf_mac</category>
+  <import>import inets</import>
+  <make>inets.frame_type_check($data_frame, $ack_frame, $beacon_frame, $rts_frame, $cts_frame)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <param>
+    <name>Data frame</name>
+    <key>data_frame</key>
+    <type>enum</type>
+    <option>
+      <name>Check</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Not check</name>
+      <key>0</key>
+    </option>
+  </param>
+  <param>
+    <name>ACK frame</name>
+    <key>ack_frame</key>
+    <type>enum</type>
+    <option>
+      <name>Check</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Not check</name>
+      <key>0</key>
+    </option>
+  </param>
+  <param>
+    <name>Beacon frame</name>
+    <key>beacon_frame</key>
+    <type>enum</type>
+    <option>
+      <name>Check</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Not check</name>
+      <key>0</key>
+    </option>
+  </param>
+  <param>
+    <name>RTS frame</name>
+    <key>rts_frame</key>
+    <type>enum</type>
+    <option>
+      <name>Check</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Not check</name>
+      <key>0</key>
+    </option>
+  </param>
+  <param>
+    <name>CTS frame</name>
+    <key>cts_frame</key>
+    <type>enum</type>
+    <option>
+      <name>Check</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Not check</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <sink>
+    <name>frame_info_in</name>
+    <type>message</type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>data_frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>#if $data_frame == 1</hide>
+  </source>
+  <source>
+    <name>ack_frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>#if $ack_frame == 1</hide>
+  </source>
+  <source>
+    <name>beacon_frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>#if $beacon_frame == 1</hide>
+  </source>
+  <source>
+    <name>rts_frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>#if $rts_frame == 1</hide>
+  </source>
+  <source>
+    <name>cts_frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>#if $cts_frame == 1</hide>
+  </source>
+</block>

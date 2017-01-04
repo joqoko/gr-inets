@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: aloha
+# Title: csma
 # Author: PWA
-# Generated: Wed Jan  4 12:20:27 2017
+# Generated: Wed Jan  4 15:12:17 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -36,12 +36,12 @@ import inets
 import pmt
 
 
-class aloha(gr.top_block, Qt.QWidget):
+class csma(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "aloha")
+        gr.top_block.__init__(self, "csma")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("aloha")
+        self.setWindowTitle("csma")
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
         except:
@@ -58,7 +58,7 @@ class aloha(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "aloha")
+        self.settings = Qt.QSettings("GNU Radio", "csma")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -165,10 +165,10 @@ class aloha(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, "BB Derotation Gain", "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_timeout_cpp_0 = inets.timeout_cpp(0, 10, timeout_duration_ms, system_time_granularity_us)
-        self.inets_idle_0 = inets.idle(0, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
-        self.inets_frame_type_check_0_0 = inets.frame_type_check()
-        self.inets_frame_type_check_0 = inets.frame_type_check()
-        self.inets_frame_info_selector_0_0_0 = inets.frame_info_selector()
+        self.inets_idle_0 = inets.idle(1, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_frame_type_check_0_1 = inets.frame_type_check(1, 1, 1)
+        self.inets_frame_type_check_0_0 = inets.frame_type_check(1, 0, 0)
+        self.inets_frame_type_check_0 = inets.frame_type_check(1, 1, 1)
         self.inets_exponential_backoff_cpp_0 = inets.exponential_backoff_cpp(0, 11, backoff_time_unit_ms, max_num_retransmission, min_backoff_ms)
         self.inets_counter_0_1 = inets.counter(([22]), 22)
         self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(0, 11, 2, cs_duration, cs_threshold, system_time_granularity_us)
@@ -183,20 +183,20 @@ class aloha(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_carrier_sensing_cpp_cc_0, 'frame_info_fail_out'), (self.inets_exponential_backoff_cpp_0, 'frame_info_trigger_in'))    
         self.msg_connect((self.inets_carrier_sensing_cpp_cc_0, 'frame_info_pass_out'), (self.send_frame_0, 'in'))    
         self.msg_connect((self.inets_exponential_backoff_cpp_0, 'frame_info_out'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_frame_info_selector_0_0_0, 'data_frame_info_out'), (self.inets_exponential_backoff_cpp_0, 'frame_info_trigger_in'))    
-        self.msg_connect((self.inets_frame_info_selector_0_0_0, 'ack_frame_info_out'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_cpp_0, 'ack_frame_info_in'))    
         self.msg_connect((self.inets_frame_type_check_0_0, 'data_frame_info_out'), (self.inets_timeout_cpp_0, 'data_frame_info_in'))    
+        self.msg_connect((self.inets_frame_type_check_0_1, 'data_frame_info_out'), (self.inets_exponential_backoff_cpp_0, 'frame_info_trigger_in'))    
+        self.msg_connect((self.inets_frame_type_check_0_1, 'ack_frame_info_out'), (self.inets_idle_0, 'data_in'))    
         self.msg_connect((self.inets_idle_0, 'data_out'), (self.inets_carrier_sensing_cpp_cc_0, 'info_in'))    
         self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_counter_0_1, 'message_in'))    
-        self.msg_connect((self.inets_timeout_cpp_0, 'frame_info_out'), (self.inets_frame_info_selector_0_0_0, 'frame_info_in'))    
+        self.msg_connect((self.inets_timeout_cpp_0, 'frame_info_out'), (self.inets_frame_type_check_0_1, 'frame_info_in'))    
         self.msg_connect((self.receive_frame_0_0, 'rx_power_out'), (self.inets_carrier_sensing_cpp_cc_0, 'info_in'))    
         self.msg_connect((self.receive_frame_0_0, 'rx_frame_info_out'), (self.inets_frame_type_check_0, 'frame_info_in'))    
         self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))    
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "aloha")
+        self.settings = Qt.QSettings("GNU Radio", "csma")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -486,7 +486,7 @@ class aloha(gr.top_block, Qt.QWidget):
         self.another_ack_info = another_ack_info
 
 
-def main(top_block_cls=aloha, options=None):
+def main(top_block_cls=csma, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

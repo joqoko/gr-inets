@@ -51,7 +51,9 @@ list(APPEND inets_sources
     null_message_source_impl.cc
     idle_impl.cc
     decouple_frame_info_impl.cc
-    frame_info_selector_impl.cc )
+    frame_info_selector_impl.cc
+    frame_type_check_impl.cc
+    )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

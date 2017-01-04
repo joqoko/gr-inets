@@ -49,5 +49,7 @@ install(FILES
     inets_null_message_source.xml
     inets_idle.xml
     inets_decouple_frame_info.xml
-    inets_frame_info_selector.xml DESTINATION share/gnuradio/grc/blocks
+    inets_frame_info_selector.xml
+    inets_frame_type_check.xml
+    DESTINATION share/gnuradio/grc/blocks
 )

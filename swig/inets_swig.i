@@ -35,6 +35,7 @@
 #include "inets/idle.h"
 #include "inets/decouple_frame_info.h"
 #include "inets/frame_info_selector.h"
+#include "inets/frame_type_check.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -100,3 +101,6 @@ GR_SWIG_BLOCK_MAGIC2(inets, idle);
 GR_SWIG_BLOCK_MAGIC2(inets, decouple_frame_info);
 %include "inets/frame_info_selector.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_info_selector);
+%include "inets/frame_type_check.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_type_check);
+

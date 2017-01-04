@@ -1,3 +1,4 @@
+
 /* -*- c++ -*- */
 /* 
  * Copyright 2016 <INETS>.
@@ -23,49 +24,63 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include "frame_info_selector_impl.h"
+#include "frame_type_check_impl.h"
 
 namespace gr {
   namespace inets {
 
-    frame_info_selector::sptr
-    frame_info_selector::make()
+    frame_type_check::sptr
+    frame_type_check::make(int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame)
     {
       return gnuradio::get_initial_sptr
-        (new frame_info_selector_impl());
+        (new frame_type_check_impl(data_frame, ack_frame, beacon_frame, rts_frame, cts_frame));
     }
 
     /*
      * The private constructor
      */
-    frame_info_selector_impl::frame_info_selector_impl()
-      : gr::block("frame_info_selector",
+    frame_type_check_impl::frame_type_check_impl(int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame)
+      : gr::block("frame_type_check",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0))
     {
       message_port_register_in(pmt::mp("frame_info_in"));
-      message_port_register_out(pmt::mp("data_frame_info_out"));
-      message_port_register_out(pmt::mp("ack_frame_info_out"));
-      set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&frame_info_selector_impl::selector, this, _1 ));
+      if(data_frame == 1)
+        message_port_register_out(pmt::mp("data_frame_info_out"));
+      if(ack_frame == 1)
+        message_port_register_out(pmt::mp("ack_frame_info_out"));
+      if(beacon_frame == 1)
+        message_port_register_out(pmt::mp("beacon_frame_info_out"));
+      if(rts_frame == 1)
+        message_port_register_out(pmt::mp("rts_frame_info_out"));
+      if(cts_frame == 1)
+        message_port_register_out(pmt::mp("cts_frame_info_out"));
+      set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&frame_type_check_impl::selector, this, _1 ));
     }
 
     /*
      * Our virtual destructor.
      */
-    frame_info_selector_impl::~frame_info_selector_impl()
+    frame_type_check_impl::~frame_type_check_impl()
     {
     }
 
     void
-    frame_info_selector_impl::selector(pmt::pmt_t info)
+    frame_type_check_impl::selector(pmt::pmt_t info)
     { 
       pmt::pmt_t not_found;
       int frame_type = pmt::to_long(pmt::dict_ref(info, pmt::string_to_symbol("frame_type"), not_found));
       // data frame info
       if(frame_type == 1)
         message_port_pub(pmt::mp("data_frame_info_out"), info);
-      else
+      else if(frame_type == 2)
         message_port_pub(pmt::mp("ack_frame_info_out"), info);
+      else if(frame_type == 3)
+        message_port_pub(pmt::mp("beacon_frame_info_out"), info);
+      else if(frame_type == 4)
+        message_port_pub(pmt::mp("rts_frame_info_out"), info);
+      else if(frame_type == 5)
+        message_port_pub(pmt::mp("cts_frame_info_out"), info);
     }
 
 

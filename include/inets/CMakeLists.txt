@@ -48,6 +48,8 @@ install(FILES
     null_message_source.h
     idle.h
     decouple_frame_info.h
-    frame_info_selector.h DESTINATION include/inets
+    frame_info_selector.h
+    frame_type_check.h
+    DESTINATION include/inets
 
 )
