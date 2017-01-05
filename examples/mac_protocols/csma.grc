@@ -6,7 +6,7 @@
     <key>options</key>
     <param>
       <key>author</key>
-      <value>PWA</value>
+      <value>pwa</value>
     </param>
     <param>
       <key>window_size</key>
@@ -14,7 +14,7 @@
     </param>
     <param>
       <key>category</key>
-      <value>[GRC Hier Blocks]</value>
+      <value>Custom</value>
     </param>
     <param>
       <key>comment</key>
@@ -22,7 +22,7 @@
     </param>
     <param>
       <key>description</key>
-      <value></value>
+      <value>classic csma</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -30,7 +30,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(72, 71)</value>
+      <value>(56, 64)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1610,7 +1610,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(864, 736)</value>
+      <value>(848, 720)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1641,7 +1641,7 @@
     <key>inets_frame_type_check</key>
     <param>
       <key>ack_frame</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>beacon_frame</key>
@@ -1665,7 +1665,7 @@
     </param>
     <param>
       <key>data_frame</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1673,7 +1673,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(904, 857)</value>
+      <value>(904, 897)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1700,7 +1700,7 @@
     <key>inets_frame_type_check</key>
     <param>
       <key>ack_frame</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>beacon_frame</key>
@@ -1724,7 +1724,7 @@
     </param>
     <param>
       <key>data_frame</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1759,7 +1759,7 @@
     <key>inets_frame_type_check</key>
     <param>
       <key>ack_frame</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>beacon_frame</key>
@@ -1783,7 +1783,7 @@
     </param>
     <param>
       <key>data_frame</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1791,7 +1791,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(904, 577)</value>
+      <value>(864, 609)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2261,6 +2261,36 @@
     <sink_block_id>inets_idle_0</sink_block_id>
     <source_key>frame_info_out</source_key>
     <sink_key>data_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_type_check_0</source_block_id>
+    <sink_block_id>inets_timeout_cpp_0</sink_block_id>
+    <source_key>ack_frame_info_out</source_key>
+    <sink_key>ack_frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_type_check_0</source_block_id>
+    <sink_block_id>inets_idle_0</sink_block_id>
+    <source_key>data_frame_info_out</source_key>
+    <sink_key>data_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_type_check_0_0</source_block_id>
+    <sink_block_id>inets_timeout_cpp_0</sink_block_id>
+    <source_key>data_frame_info_out</source_key>
+    <sink_key>data_frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_type_check_0_1</source_block_id>
+    <sink_block_id>inets_idle_0</sink_block_id>
+    <source_key>ack_frame_info_out</source_key>
+    <sink_key>data_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_type_check_0_1</source_block_id>
+    <sink_block_id>inets_exponential_backoff_cpp_0</sink_block_id>
+    <source_key>data_frame_info_out</source_key>
+    <sink_key>frame_info_trigger_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_idle_0</source_block_id>

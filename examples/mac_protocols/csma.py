@@ -3,8 +3,9 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: csma
-# Author: PWA
-# Generated: Wed Jan  4 15:12:17 2017
+# Author: pwa
+# Description: classic csma
+# Generated: Thu Jan  5 15:00:59 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -165,10 +166,10 @@ class csma(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, "BB Derotation Gain", "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_timeout_cpp_0 = inets.timeout_cpp(0, 10, timeout_duration_ms, system_time_granularity_us)
-        self.inets_idle_0 = inets.idle(1, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
-        self.inets_frame_type_check_0_1 = inets.frame_type_check(1, 1, 1)
-        self.inets_frame_type_check_0_0 = inets.frame_type_check(1, 0, 0)
-        self.inets_frame_type_check_0 = inets.frame_type_check(1, 1, 1)
+        self.inets_idle_0 = inets.idle(0, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
+        self.inets_frame_type_check_0_1 = inets.frame_type_check(0, 0, 1, 1, 1)
+        self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 0, 1, 1, 1)
+        self.inets_frame_type_check_0 = inets.frame_type_check(0, 0, 1, 1, 1)
         self.inets_exponential_backoff_cpp_0 = inets.exponential_backoff_cpp(0, 11, backoff_time_unit_ms, max_num_retransmission, min_backoff_ms)
         self.inets_counter_0_1 = inets.counter(([22]), 22)
         self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(0, 11, 2, cs_duration, cs_threshold, system_time_granularity_us)

@@ -45,15 +45,17 @@ namespace gr {
               gr::io_signature::make(0, 0, 0))
     {
       message_port_register_in(pmt::mp("frame_info_in"));
-      if(data_frame == 1)
+      if(data_frame == 0){
+        std::cout << "data frame on" << std::endl;
         message_port_register_out(pmt::mp("data_frame_info_out"));
-      if(ack_frame == 1)
+      }
+      if(ack_frame == 0)
         message_port_register_out(pmt::mp("ack_frame_info_out"));
-      if(beacon_frame == 1)
+      if(beacon_frame == 0)
         message_port_register_out(pmt::mp("beacon_frame_info_out"));
-      if(rts_frame == 1)
+      if(rts_frame == 0)
         message_port_register_out(pmt::mp("rts_frame_info_out"));
-      if(cts_frame == 1)
+      if(cts_frame == 0)
         message_port_register_out(pmt::mp("cts_frame_info_out"));
       set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&frame_type_check_impl::selector, this, _1 ));
     }
@@ -81,6 +83,14 @@ namespace gr {
         message_port_pub(pmt::mp("rts_frame_info_out"), info);
       else if(frame_type == 5)
         message_port_pub(pmt::mp("cts_frame_info_out"), info);
+      else
+      {
+        message_port_pub(pmt::mp("data_frame_info_out"), info);
+        message_port_pub(pmt::mp("ack_frame_info_out"), info);
+        message_port_pub(pmt::mp("beacon_frame_info_out"), info);
+        message_port_pub(pmt::mp("rts_frame_info_out"), info);
+        message_port_pub(pmt::mp("cts_frame_info_out"), info);
+      } 
     }
 
 

@@ -19,66 +19,86 @@
   <param>
     <name>Data frame</name>
     <key>data_frame</key>
+    <value>0</value>
     <type>enum</type>
+    <hide>$data_frame.hide</hide>
     <option>
       <name>Check</name>
-      <key>1</key>
+      <key>0</key>
+      <opt>hide:none</opt>
     </option>
     <option>
       <name>Not check</name>
-      <key>0</key>
+      <key>1</key>
+      <opt>hide:part</opt>
     </option>
   </param>
   <param>
     <name>ACK frame</name>
     <key>ack_frame</key>
+    <value>0</value>
     <type>enum</type>
+    <hide>$ack_frame.hide</hide>
     <option>
       <name>Check</name>
-      <key>1</key>
+      <key>0</key>
+      <opt>hide:none</opt>
     </option>
     <option>
       <name>Not check</name>
-      <key>0</key>
+      <key>1</key>
+      <opt>hide:part</opt>
     </option>
   </param>
   <param>
     <name>Beacon frame</name>
     <key>beacon_frame</key>
+    <value>1</value>
     <type>enum</type>
+    <hide>$beacon_frame.hide</hide>
     <option>
       <name>Check</name>
-      <key>1</key>
+      <key>0</key>
+      <opt>hide:none</opt>
     </option>
     <option>
       <name>Not check</name>
-      <key>0</key>
+      <key>1</key>
+      <opt>hide:part</opt>
     </option>
   </param>
   <param>
     <name>RTS frame</name>
     <key>rts_frame</key>
+    <value>1</value>
     <type>enum</type>
+    <hide>$rts_frame.hide</hide>
     <option>
       <name>Check</name>
-      <key>1</key>
+      <key>0</key>
+      <opt>hide:none</opt>
     </option>
     <option>
       <name>Not check</name>
-      <key>0</key>
+      <key>1</key>
+      <opt>hide:part</opt>
     </option>
   </param>
   <param>
     <name>CTS frame</name>
     <key>cts_frame</key>
+    <value>1</value>
     <type>enum</type>
+    <hide>$cts_frame.hide</hide>
     <option>
       <name>Check</name>
-      <key>1</key>
+      <key>0</key>
+      <opt>hide:none</opt>
     </option>
     <option>
       <name>Not check</name>
-      <key>0</key>
+      <key>1</key>
+      <opt>hide:part</opt>
     </option>
   </param>
 
@@ -96,30 +116,30 @@
     <name>data_frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>#if $data_frame == 1</hide>
+    <hide>$data_frame</hide>
   </source>
   <source>
     <name>ack_frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>#if $ack_frame == 1</hide>
+    <hide>$ack_frame</hide>
   </source>
   <source>
     <name>beacon_frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>#if $beacon_frame == 1</hide>
+    <hide>$beacon_frame</hide>
   </source>
   <source>
     <name>rts_frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>#if $rts_frame == 1</hide>
+    <hide>$rts_frame</hide>
   </source>
   <source>
     <name>cts_frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>#if $cts_frame == 1</hide>
+    <hide>$cts_frame</hide>
   </source>
 </block>
