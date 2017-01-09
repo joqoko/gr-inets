@@ -35,7 +35,6 @@ install(FILES
     wait_cpp.h
     pending_tx_finish.h
     t_control_tx_cc.h
-    tx_buffer.h
     rx_switch_cc.h
     framing_cpp.h
     analyze_frame_cpp.h
@@ -50,6 +49,6 @@ install(FILES
     decouple_frame_info.h
     frame_info_selector.h
     frame_type_check.h
-    DESTINATION include/inets
+    buffer.h DESTINATION include/inets
 
 )

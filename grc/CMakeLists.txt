@@ -36,7 +36,6 @@ install(FILES
     inets_wait_cpp.xml
     inets_pending_tx_finish.xml
     inets_t_control_tx_cc.xml
-    inets_tx_buffer.xml
     inets_rx_switch_cc.xml
     inets_framing_cpp.xml
     inets_analyze_frame_cpp.xml
@@ -51,5 +50,5 @@ install(FILES
     inets_decouple_frame_info.xml
     inets_frame_info_selector.xml
     inets_frame_type_check.xml
-    DESTINATION share/gnuradio/grc/blocks
+    inets_buffer.xml DESTINATION share/gnuradio/grc/blocks
 )

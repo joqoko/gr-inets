@@ -1,6 +1,7 @@
+
 /* -*- c++ -*- */
 /* 
- * Copyright 2016 <+YOU OR YOUR COMPANY+>.
+ * Copyright 2017 <+YOU OR YOUR COMPANY+>.
  * 
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,35 +19,32 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_TX_BUFFER_IMPL_H
-#define INCLUDED_INETS_TX_BUFFER_IMPL_H
+#ifndef INCLUDED_INETS_BUFFER_IMPL_H
+#define INCLUDED_INETS_BUFFER_IMPL_H
 
-#include <inets/tx_buffer.h>
-#include <gnuradio/msg_queue.h>
+#include <inets/buffer.h>
 #include <queue>
 
 namespace gr {
   namespace inets {
 
-    class tx_buffer_impl : public tx_buffer
+    class buffer_impl : public buffer
     {
      private:
-      // Nothing to declare in this block.
       int _develop_mode;
-      int _my_develop_mode;
-      std::vector<int> _develop_mode_list;
-      int _max_buffer_size;
-      int _policy;
-      std::queue<pmt::pmt_t> _tx_buff;
-      int enqueue(pmt::pmt_t payload);      
-      int dequeue(pmt::pmt_t spark);
+      int _block_id;
+      int _buffer_size;
+      std::queue<pmt::pmt_t> _buffer;
+      void enqueue(pmt::pmt_t enqueue_element);
+      void dequeue(pmt::pmt_t dequeue_request);
+      void flush(pmt::pmt_t flush_request);
 
-    public:
-      tx_buffer_impl(std::vector<int> _develop_mode_list, int max_buffer_size, int policy);
-      ~tx_buffer_impl();
-     };
+     public:
+      buffer_impl(int develop_mode, int block_id, int buffer_size);
+      ~buffer_impl();
+    };
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_TX_BUFFER_IMPL_H */
+#endif /* INCLUDED_INETS_BUFFER_IMPL_H */
 

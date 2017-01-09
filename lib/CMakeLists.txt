@@ -38,7 +38,6 @@ list(APPEND inets_sources
     wait_cpp_impl.cc
     pending_tx_finish_impl.cc
     t_control_tx_cc_impl.cc
-    tx_buffer_impl.cc
     rx_switch_cc_impl.cc
     framing_cpp_impl.cc
     analyze_frame_cpp_impl.cc
@@ -53,7 +52,7 @@ list(APPEND inets_sources
     decouple_frame_info_impl.cc
     frame_info_selector_impl.cc
     frame_type_check_impl.cc
-    )
+    buffer_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

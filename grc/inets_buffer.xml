@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<block>
+  <name>buffer</name>
+  <key>inets_buffer</key>
+  <category>inets_dmf_mac</category>
+  <import>import inets</import>
+  <make>inets.buffer($develop_mode, $block_id, $buffer_size)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <option>
+      <name>on</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>off</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>16</value>
+    <type>int</type>
+  </param>
+
+  <param>
+    <name>Buffer size</name>
+    <key>buffer_size</key>
+    <value>10</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Enqueue</name>
+    <key>enqueue</key>
+    <value>0</value>
+    <type>enum</type>
+    <hide>$enqueue.hide</hide>
+    <option>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Dequeue</name>
+    <key>dequeue</key>
+    <value>0</value>
+    <type>enum</type>
+    <hide>$dequeue.hide</hide>
+    <option>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+  <param>
+    <name>Flush</name>
+    <key>flush</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>$flush.hide</hide>
+    <option>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>enqueue</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$enqueue</hide>
+  </sink>
+
+  <sink>
+    <name>dequeue</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$dequeue</hide>
+  </sink>
+
+  <sink>
+    <name>flush</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$flush</hide>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>dequeue_element</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+</block>

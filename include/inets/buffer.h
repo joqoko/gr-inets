@@ -1,6 +1,7 @@
+
 /* -*- c++ -*- */
 /* 
- * Copyright 2016 <+YOU OR YOUR COMPANY+>.
+ * Copyright 2017 <+YOU OR YOUR COMPANY+>.
  * 
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,12 +20,11 @@
  */
 
 
-#ifndef INCLUDED_INETS_TX_BUFFER_H
-#define INCLUDED_INETS_TX_BUFFER_H
+#ifndef INCLUDED_INETS_BUFFER_H
+#define INCLUDED_INETS_BUFFER_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
-#include <gnuradio/msg_queue.h>
 
 namespace gr {
   namespace inets {
@@ -34,24 +34,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API tx_buffer : virtual public gr::block
+    class INETS_API buffer : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<tx_buffer> sptr;
+      typedef boost::shared_ptr<buffer> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::tx_buffer.
+       * \brief Return a shared_ptr to a new instance of inets::buffer.
        *
-       * To avoid accidental use of raw pointers, inets::tx_buffer's
+       * To avoid accidental use of raw pointers, inets::buffer's
        * constructor is in a private implementation
-       * class. inets::tx_buffer::make is the public interface for
+       * class. inets::buffer::make is the public interface for
        * creating new instances.
        */
-      static sptr make(std::vector<int> _develop_mode_list, int max_buffer_size, int policy);
+      static sptr make(int develop_mode, int block_id, int buffer_size);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_TX_BUFFER_H */
+#endif /* INCLUDED_INETS_BUFFER_H */
 

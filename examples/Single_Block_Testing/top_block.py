@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu Jan  5 10:36:42 2017
+# Generated: Fri Jan  6 15:49:12 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -25,14 +25,16 @@ from gnuradio.filter import firdes
 from optparse import OptionParser
 import inets
 import sys
+from gnuradio import qtgui
 
 
 class top_block(gr.top_block, Qt.QWidget):
 
-    def __init__(self):
+    def __init__(self, parameter_0=1):
         gr.top_block.__init__(self, "Top Block")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Top Block")
+        qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
         except:
@@ -51,6 +53,11 @@ class top_block(gr.top_block, Qt.QWidget):
 
         self.settings = Qt.QSettings("GNU Radio", "top_block")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
+
+        ##################################################
+        # Parameters
+        ##################################################
+        self.parameter_0 = parameter_0
 
         ##################################################
         # Variables
@@ -85,19 +92,25 @@ class top_block(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         self.inets_idle_0 = inets.idle(0, 1, 1000, 6, 10, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
-        self.inets_frame_type_check_0 = inets.frame_type_check(0, 1, 1, 1, 1)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", "localhost", "52001", 10000, False)
+        self.inets_frame_type_check_0 = inets.frame_type_check(0, 0, 1, 1, 0)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_idle_0, 'data_out'), (self.inets_frame_type_check_0, 'frame_info_in'))    
+        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))
+        self.msg_connect((self.inets_idle_0, 'data_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
+
+    def get_parameter_0(self):
+        return self.parameter_0
+
+    def set_parameter_0(self, parameter_0):
+        self.parameter_0 = parameter_0
 
     def get_usrp_device_address(self):
         return self.usrp_device_address
@@ -250,7 +263,14 @@ class top_block(gr.top_block, Qt.QWidget):
         self.apply_address_check = apply_address_check
 
 
+def argument_parser():
+    parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
+    return parser
+
+
 def main(top_block_cls=top_block, options=None):
+    if options is None:
+        options, _ = argument_parser().parse_args()
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

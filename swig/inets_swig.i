@@ -21,7 +21,6 @@
 #include "inets/wait_cpp.h"
 #include "inets/pending_tx_finish.h"
 #include "inets/t_control_tx_cc.h"
-#include "inets/tx_buffer.h"
 #include "inets/rx_switch_cc.h"
 #include "inets/framing_cpp.h"
 #include "inets/analyze_frame_cpp.h"
@@ -36,6 +35,7 @@
 #include "inets/decouple_frame_info.h"
 #include "inets/frame_info_selector.h"
 #include "inets/frame_type_check.h"
+#include "inets/buffer.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -70,8 +70,7 @@ GR_SWIG_BLOCK_MAGIC2(inets, pending_tx_finish);
 
 %include "inets/t_control_tx_cc.h"
 GR_SWIG_BLOCK_MAGIC2(inets, t_control_tx_cc);
-%include "inets/tx_buffer.h"
-GR_SWIG_BLOCK_MAGIC2(inets, tx_buffer);
+
 %include "inets/rx_switch_cc.h"
 GR_SWIG_BLOCK_MAGIC2(inets, rx_switch_cc);
 
@@ -104,3 +103,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, frame_info_selector);
 %include "inets/frame_type_check.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_type_check);
 
+%include "inets/buffer.h"
+GR_SWIG_BLOCK_MAGIC2(inets, buffer);
