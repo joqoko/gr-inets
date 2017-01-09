@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <block>
-  <name>buffer</name>
-  <key>inets_buffer</key>
+  <name>frame_buffer</name>
+  <key>inets_frame_buffer</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.buffer($develop_mode, $block_id, $buffer_size)</make>
+  <make>inets.frame_buffer($develop_mode, $block_id, $buffer_size)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
+
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>

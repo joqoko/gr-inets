@@ -52,7 +52,8 @@ list(APPEND inets_sources
     decouple_frame_info_impl.cc
     frame_info_selector_impl.cc
     frame_type_check_impl.cc
-    buffer_impl.cc )
+    frame_buffer_impl.cc
+    framing_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

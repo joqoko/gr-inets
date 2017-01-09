@@ -49,6 +49,7 @@ install(FILES
     decouple_frame_info.h
     frame_info_selector.h
     frame_type_check.h
-    buffer.h DESTINATION include/inets
+    frame_buffer.h
+    framing.h DESTINATION include/inets
 
 )

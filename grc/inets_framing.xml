@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<block>
+  <name>framing</name>
+  <key>inets_framing</key>
+  <category>inets_dmf_mac</category>
+  <import>import inets</import>
+  <make>inets.framing($develop_mode_list, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+
+  <param>
+    <name>Develop mode list</name>
+    <key>develop_mode_list</key>
+    <value>develop_mode_list</value>
+    <type>int_vector</type>
+  </param>
+  <param>
+    <name>Frame type</name>
+    <key>frame_type</key>
+    <value>frame_type</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of frame type</name>
+    <key>len_frame_type</key>
+    <value>len_frame_type</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Frame index</name>
+    <key>frame_index</key>
+    <value>frame_index</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of frame index</name>
+    <key>len_frame_index</key>
+    <value>len_frame_index</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Destination address</name>
+    <key>destination_address</key>
+    <value>destination_address</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of destination address</name>
+    <key>len_destination_address</key>
+    <value>len_destination_address</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Source address</name>
+    <key>source_address</key>
+    <value>source_address</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of source address</name>
+    <key>len_source_address</key>
+    <value>len_source_address</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Reserved field I</name>
+    <key>reserved_field_I</key>
+    <value>reserved_field_I</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of reserved field I</name>
+    <key>len_reserved_field_I</key>
+    <value>len_reserved_field_I</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Reserved field II</name>
+    <key>reserved_field_II</key>
+    <value>reserved_field_II</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of reserved field II</name>
+    <key>len_reserved_field_II</key>
+    <value>len_reserved_field_II</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Length of payload length field</name>
+    <key>len_payload_length</key>
+    <value>len_payload_length</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Increase index?</name>
+    <key>increase_index</key>
+    <value>increase_index</value>
+    <type>int</type>
+  </param>
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>payload_in</name>
+    <type>message</type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>frame_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>tx_frame_info_out</name>
+    <type>message</type>
+  </source>
+</block>

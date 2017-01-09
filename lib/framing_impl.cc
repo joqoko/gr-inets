@@ -23,25 +23,25 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include "framing_cpp_impl.h"
+#include "framing_impl.h"
 #include <gnuradio/digital/crc32.h> 
 #include <volk/volk.h>
 #include <boost/crc.hpp>
 namespace gr {
   namespace inets {
 
-    framing_cpp::sptr
-    framing_cpp::make(std::vector<int> develop_mode_list, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index)
+    framing::sptr
+    framing::make(std::vector<int> develop_mode_list, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index)
     {
       return gnuradio::get_initial_sptr
-        (new framing_cpp_impl(develop_mode_list, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index));
+        (new framing_impl(develop_mode_list, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index));
     }
 
     /*
      * The private constructor
      */
-    framing_cpp_impl::framing_cpp_impl(std::vector<int> develop_mode_list, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index)
-      : gr::block("framing_cpp",
+    framing_impl::framing_impl(std::vector<int> develop_mode_list, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index)
+      : gr::block("framing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode_list(develop_mode_list),
@@ -63,22 +63,22 @@ namespace gr {
     {
       _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _my_develop_mode) != _develop_mode_list.end());
       if(_develop_mode)
-        std::cout << "develop_mode of framing_cpp is activated." << std::endl;
+        std::cout << "develop_mode of framing is activated." << std::endl;
       message_port_register_in(pmt::mp("payload_in"));
       message_port_register_out(pmt::mp("frame_out"));
       message_port_register_out(pmt::mp("tx_frame_info_out"));
-      set_msg_handler(pmt::mp("payload_in"), boost::bind(&framing_cpp_impl::frame_formation, this, _1 ));
+      set_msg_handler(pmt::mp("payload_in"), boost::bind(&framing_impl::frame_formation, this, _1 ));
     }
 
     /*
      * Our virtual destructor.
      */
-    framing_cpp_impl::~framing_cpp_impl()
+    framing_impl::~framing_impl()
     {
     }
 
     void 
-    framing_cpp_impl::frame_formation(pmt::pmt_t rx_payload)
+    framing_impl::frame_formation(pmt::pmt_t rx_payload)
     {
       if(_develop_mode)
       {
@@ -161,7 +161,7 @@ namespace gr {
     }
 
     void 
-    framing_cpp_impl::frame_header_formation(std::vector<unsigned char> *frame_header)
+    framing_impl::frame_header_formation(std::vector<unsigned char> *frame_header)
     {
       std::vector< unsigned char > vec_frame_header;
       std::vector< unsigned char > vec_frame_type;
@@ -250,7 +250,7 @@ namespace gr {
     }
 
     void 
-    framing_cpp_impl::intToByte(int i, std::vector<unsigned char> *bytes, int size)
+    framing_impl::intToByte(int i, std::vector<unsigned char> *bytes, int size)
     {
 //      std::cout << "Type is about to converted" << std::endl;
       bytes->insert(bytes->end(), (unsigned char) (0xff & i));
@@ -270,7 +270,7 @@ namespace gr {
     }
     
     pmt::pmt_t
-    framing_cpp_impl::crc32_bb_calc(pmt::pmt_t msg)
+    framing_impl::crc32_bb_calc(pmt::pmt_t msg)
     {
       // extract input pdu
       pmt::pmt_t meta(pmt::car(msg));
@@ -293,7 +293,7 @@ namespace gr {
     } 
 
     void 
-    framing_cpp_impl::disp_vec(std::vector<unsigned char> vec)
+    framing_impl::disp_vec(std::vector<unsigned char> vec)
     {
       std::cout << "display unsigned char vector:" << ' ';
       for(int i=0; i<vec.size(); ++i)
@@ -304,3 +304,4 @@ namespace gr {
 
   } /* namespace inets */
 } /* namespace gr */
+

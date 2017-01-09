@@ -1,4 +1,5 @@
 
+
 /* -*- c++ -*- */
 /* 
  * Copyright 2017 <+YOU OR YOUR COMPANY+>.
@@ -19,39 +20,32 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_INETS_FRAME_BUFFER_IMPL_H
+#define INCLUDED_INETS_FRAME_BUFFER_IMPL_H
 
-#ifndef INCLUDED_INETS_BUFFER_H
-#define INCLUDED_INETS_BUFFER_H
-
-#include <inets/api.h>
-#include <gnuradio/block.h>
+#include <inets/frame_buffer.h>
+#include <queue>
 
 namespace gr {
   namespace inets {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup inets
-     *
-     */
-    class INETS_API buffer : virtual public gr::block
+    class frame_buffer_impl : public frame_buffer
     {
+     private:
+      int _develop_mode;
+      int _block_id;
+      int _buffer_size;
+      std::queue<pmt::pmt_t> _buffer;
+      void enqueue(pmt::pmt_t enqueue_element);
+      void dequeue(pmt::pmt_t dequeue_request);
+      void flush(pmt::pmt_t flush_request);
+
      public:
-      typedef boost::shared_ptr<buffer> sptr;
-
-      /*!
-       * \brief Return a shared_ptr to a new instance of inets::buffer.
-       *
-       * To avoid accidental use of raw pointers, inets::buffer's
-       * constructor is in a private implementation
-       * class. inets::buffer::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(int develop_mode, int block_id, int buffer_size);
+      frame_buffer_impl(int develop_mode, int block_id, int buffer_size);
+      ~frame_buffer_impl();
     };
-
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_BUFFER_H */
+#endif /* INCLUDED_INETS_FRAME_BUFFER_IMPL_H */
 

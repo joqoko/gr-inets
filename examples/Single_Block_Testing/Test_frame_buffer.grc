@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <?grc format='1' created='3.7.11'?>
 <flow_graph>
-  <timestamp>Fri Dec  2 15:50:52 2016</timestamp>
+  <timestamp>Mon Jan  9 16:07:16 2017</timestamp>
   <block>
     <key>options</key>
     <param>
       <key>author</key>
-      <value>PWA</value>
+      <value></value>
     </param>
     <param>
       <key>window_size</key>
@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>Test_tx_buff</value>
+      <value>top_block</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,61 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>Test Tx buffer function</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
       <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(240, 28)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>develop_mode_list</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>[1,2,3,4,5,6]</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(392, 28)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>max_buffer_size</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>5</value>
     </param>
   </block>
   <block>
@@ -163,6 +109,37 @@
     </param>
   </block>
   <block>
+    <key>blocks_message_debug</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(984, 272)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_message_debug_0</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_message_strobe_random</key>
     <param>
       <key>alias</key>
@@ -186,7 +163,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 376)</value>
+      <value>(320, 456)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -202,11 +179,11 @@
     </param>
     <param>
       <key>mean</key>
-      <value>2500</value>
+      <value>1000</value>
     </param>
     <param>
       <key>msg</key>
-      <value>pmt.from_bool(True)</value>
+      <value>pmt.intern("TEST")</value>
     </param>
     <param>
       <key>minoutbuf</key>
@@ -233,11 +210,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(200, 172)</value>
+      <value>(336, 280)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -277,10 +254,18 @@
     </param>
   </block>
   <block>
-    <key>inets_message_tomb</key>
+    <key>inets_frame_buffer</key>
     <param>
       <key>alias</key>
       <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>16</value>
+    </param>
+    <param>
+      <key>buffer_size</key>
+      <value>10</value>
     </param>
     <param>
       <key>comment</key>
@@ -291,12 +276,28 @@
       <value></value>
     </param>
     <param>
+      <key>dequeue</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
+      <key>enqueue</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>flush</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(680, 352)</value>
+      <value>(632, 304)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -304,76 +305,33 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_message_tomb_0</value>
-    </param>
-  </block>
-  <block>
-    <key>inets_tx_buffer</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode_list</key>
-      <value>develop_mode_list</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(400, 288)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_tx_buffer_0</value>
+      <value>inets_frame_buffer_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
-      <key>max_buffer_size</key>
-      <value>max_buffer_size</value>
-    </param>
-    <param>
       <key>minoutbuf</key>
       <value>0</value>
-    </param>
-    <param>
-      <key>policy</key>
-      <value>1</value>
     </param>
   </block>
   <connection>
     <source_block_id>blocks_message_strobe_random_0</source_block_id>
-    <sink_block_id>inets_tx_buffer_0</sink_block_id>
+    <sink_block_id>inets_frame_buffer_0</sink_block_id>
     <source_key>strobe</source_key>
-    <sink_key>spark_in</sink_key>
+    <sink_key>flush</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0</source_block_id>
-    <sink_block_id>inets_tx_buffer_0</sink_block_id>
+    <sink_block_id>inets_frame_buffer_0</sink_block_id>
     <source_key>pdus</source_key>
-    <sink_key>payload_in</sink_key>
+    <sink_key>enqueue</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_tx_buffer_0</source_block_id>
-    <sink_block_id>inets_message_tomb_0</sink_block_id>
-    <source_key>payload_out</source_key>
-    <sink_key>message_in</sink_key>
+    <source_block_id>inets_frame_buffer_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>dequeue_element</source_key>
+    <sink_key>print_pdu</sink_key>
   </connection>
 </flow_graph>
