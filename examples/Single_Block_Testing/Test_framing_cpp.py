@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_framing_cpp
 # Author: PWA
-# Generated: Mon Dec 12 09:13:40 2016
+# Generated: Tue Jan 10 11:45:28 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -78,16 +78,15 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_message_tomb_0 = inets.message_tomb()
-        self.inets_framing_cpp_0 = inets.framing_cpp((develop_mode_list), frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index)
+        self.inets_framing_0 = inets.framing(1, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_cpp_0, 'payload_in'))    
-        self.msg_connect((self.inets_framing_cpp_0, 'frame_out'), (self.inets_message_tomb_0, 'message_in'))    
+        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'payload_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.blocks_message_debug_0, 'print_pdu'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_framing_cpp")

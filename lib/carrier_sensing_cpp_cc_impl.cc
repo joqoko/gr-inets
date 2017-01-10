@@ -54,6 +54,8 @@ namespace gr {
       _in_cca = false;
       _cs_time = 0;
       _cca = false;
+      if(_develop_mode == 1)
+        std::cout << "develop_mode of carrier sensing is activated." << std::endl;
       message_port_register_in(pmt::mp("info_in"));
       message_port_register_out(pmt::mp("frame_info_fail_out"));
       message_port_register_out(pmt::mp("frame_info_pass_out"));

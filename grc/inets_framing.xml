@@ -4,7 +4,7 @@
   <key>inets_framing</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.framing($develop_mode_list, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index)</make>
+  <make>inets.framing($develop_mode, $block_id, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -12,94 +12,222 @@
        * type -->
 
   <param>
-    <name>Develop mode list</name>
-    <key>develop_mode_list</key>
-    <value>develop_mode_list</value>
-    <type>int_vector</type>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:part</opt>
+    </option>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:part</opt>
+    </option>
   </param>
+
   <param>
-    <name>Frame type</name>
-    <key>frame_type</key>
-    <value>frame_type</value>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>17</value>
     <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
   </param>
+
   <param>
-    <name>Length of frame type</name>
-    <key>len_frame_type</key>
-    <value>len_frame_type</value>
-    <type>int</type>
+    <name>Generate DATA</name>
+    <key>data_frame_gen</key>
+    <value>0</value>
+    <type>enum</type>
+    <hide>$data_frame_gen.hide</hide>
+    <option>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:part</opt>
+    </option>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
   </param>
+
+
   <param>
     <name>Frame index</name>
     <key>frame_index</key>
     <value>frame_index</value>
     <type>int</type>
-  </param>
-  <param>
-    <name>Length of frame index</name>
-    <key>len_frame_index</key>
-    <value>len_frame_index</value>
-    <type>int</type>
+    <hide>$data_frame_gen.hide_control</hide>
   </param>
   <param>
     <name>Destination address</name>
     <key>destination_address</key>
     <value>destination_address</value>
     <type>int</type>
-  </param>
-  <param>
-    <name>Length of destination address</name>
-    <key>len_destination_address</key>
-    <value>len_destination_address</value>
-    <type>int</type>
+    <hide>$data_frame_gen.hide_control</hide>
   </param>
   <param>
     <name>Source address</name>
     <key>source_address</key>
     <value>source_address</value>
     <type>int</type>
-  </param>
-  <param>
-    <name>Length of source address</name>
-    <key>len_source_address</key>
-    <value>len_source_address</value>
-    <type>int</type>
-  </param>
-  <param>
-    <name>Reserved field I</name>
-    <key>reserved_field_I</key>
-    <value>reserved_field_I</value>
-    <type>int</type>
-  </param>
-  <param>
-    <name>Length of reserved field I</name>
-    <key>len_reserved_field_I</key>
-    <value>len_reserved_field_I</value>
-    <type>int</type>
-  </param>
-  <param>
-    <name>Reserved field II</name>
-    <key>reserved_field_II</key>
-    <value>reserved_field_II</value>
-    <type>int</type>
-  </param>
-  <param>
-    <name>Length of reserved field II</name>
-    <key>len_reserved_field_II</key>
-    <value>len_reserved_field_II</value>
-    <type>int</type>
-  </param>
-  <param>
-    <name>Length of payload length field</name>
-    <key>len_payload_length</key>
-    <value>len_payload_length</value>
-    <type>int</type>
+    <hide>$data_frame_gen.hide_control</hide>
   </param>
   <param>
     <name>Increase index?</name>
     <key>increase_index</key>
     <value>increase_index</value>
     <type>int</type>
+    <hide>$data_frame_gen.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Generate ACK</name>
+    <key>ack_frame_gen</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>$ack_frame_gen.hide</hide>
+    <option>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Generate BEACON</name>
+    <key>beacon_frame_gen</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>$beacon_frame_gen.hide</hide>
+    <option>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Set reserved field</name>
+    <key>set_reserved_field</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:all</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Reserved field I</name>
+    <key>reserved_field_I</key>
+    <value>reserved_field_I</value>
+    <type>int</type>
+    <hide>$set_reserved_field.hide</hide>
+  </param>
+  <param>
+    <name>Reserved field II</name>
+    <key>reserved_field_II</key>
+    <value>reserved_field_II</value>
+    <type>int</type>
+    <hide>$set_reserved_field.hide</hide>
+  </param>
+
+  <param>
+    <name>Default framing settings</name>
+    <key>default_framing_setting</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Default</name>
+      <key>default</key>
+      <opt>hide:all</opt>
+    </option>
+    <option>
+      <name>Customized</name>
+      <key>customized</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Length of frame type</name>
+    <key>len_frame_type</key>
+    <value>len_frame_type</value>
+    <type>int</type>
+    <hide>$default_framing_setting.hide</hide>
+  </param>
+  <param>
+    <name>Length of frame index</name>
+    <key>len_frame_index</key>
+    <value>len_frame_index</value>
+    <type>int</type>
+    <hide>$default_framing_setting.hide</hide>
+  </param>
+  <param>
+    <name>Length of destination address</name>
+    <key>len_destination_address</key>
+    <value>len_destination_address</value>
+    <type>int</type>
+    <hide>$default_framing_setting.hide</hide>
+  </param>
+  <param>
+    <name>Length of source address</name>
+    <key>len_source_address</key>
+    <value>len_source_address</value>
+    <type>int</type>
+    <hide>$default_framing_setting.hide</hide>
+  </param>
+  <param>
+    <name>Length of reserved field I</name>
+    <key>len_reserved_field_I</key>
+    <value>len_reserved_field_I</value>
+    <type>int</type>
+    <hide>$default_framing_setting.hide</hide>
+  </param>
+  <param>
+    <name>Length of reserved field II</name>
+    <key>len_reserved_field_II</key>
+    <value>len_reserved_field_II</value>
+    <type>int</type>
+    <hide>$default_framing_setting.hide</hide>
+  </param>
+  <param>
+    <name>Length of payload length field</name>
+    <key>len_payload_length</key>
+    <value>len_payload_length</value>
+    <type>int</type>
+    <hide>$default_framing_setting.hide</hide>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -109,8 +237,22 @@
   <sink>
     <name>payload_in</name>
     <type>message</type>
+    <optional>1</optional>
+    <hide>$data_frame_gen</hide>
   </sink>
 
+  <sink>
+    <name>data_frame_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$ack_frame_gen</hide>
+  </sink>
+  <sink>
+    <name>beacon_info_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$beacon_frame_gen</hide>
+  </sink>
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -119,9 +261,11 @@
   <source>
     <name>frame_out</name>
     <type>message</type>
+    <optional>1</optional>
   </source>
   <source>
     <name>tx_frame_info_out</name>
     <type>message</type>
+    <optional>1</optional>
   </source>
 </block>

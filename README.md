@@ -40,7 +40,8 @@ Index		block name				Categories
  13		counter					inets_dmf_tool	
  14		decision_cpp				inets_dmf_tool
  15             null_message_source			inets_dmf_tool
-
+ 16		frame_buffer				inets_dmf_mac
+ 17		framing					inets_dmf_mac
 
 
 

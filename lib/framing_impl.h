@@ -32,10 +32,8 @@ namespace gr {
     {
      private:
       // Nothing to declare in this block.
-      std::vector<int> _develop_mode_list;
       int _develop_mode;
-      int _my_develop_mode;
-      int _frame_type; 
+      int _block_id;
       int _len_frame_type; // Bytes
       int _frame_index;
       int _ack_index;
@@ -54,13 +52,15 @@ namespace gr {
       int _increase_index;
       boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
-      void frame_formation(pmt::pmt_t rx_payload);
-      void frame_header_formation(std::vector<unsigned char> *frame_header);
+      void data_frame_formation(pmt::pmt_t payload_in);
+      void ack_frame_formation(pmt::pmt_t rx_data);
+      void beacon_frame_formation(pmt::pmt_t rx_beacon_info);
+      void frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
       void disp_vec(std::vector<unsigned char> vec);
 
      public:
-      framing_impl(std::vector<int> develop_mode_list, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index);
+      framing_impl(int develop_mode, int block_id, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index);
       ~framing_impl();
 
     };
