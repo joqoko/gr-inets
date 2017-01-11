@@ -7,7 +7,7 @@ IP = "127.0.0.1"
 PORT = 52001
 
 np.random.seed(0)
-payload = np.random.randint(0, 256, 1000) #500 byte payload
+payload = np.random.randint(0, 256, 10) #500 byte payload
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 print len(payload)

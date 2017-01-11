@@ -84,14 +84,22 @@
     <key>source_address</key>
     <value>source_address</value>
     <type>int</type>
-    <hide>$data_frame_gen.hide_control</hide>
+    <hide>part</hide>
   </param>
   <param>
     <name>Increase index?</name>
     <key>increase_index</key>
-    <value>increase_index</value>
-    <type>int</type>
+    <value>1</value>
+    <type>enum</type>
     <hide>$data_frame_gen.hide_control</hide>
+    <option>
+      <name>increase</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>constant</name>
+      <key>0</key>
+    </option>
   </param>
 
   <param>
