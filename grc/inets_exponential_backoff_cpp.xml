@@ -13,44 +13,56 @@
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>
-    <value>develop_mode</value>
-    <type>int</type>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
     <option>
       <name>on</name>
       <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
     <option>
       <name>off</name>
       <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
     </option>
     <option>
       <name>time</name>
       <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
   </param>
+
   <param>
     <name>Block id</name>
     <key>block_id</key>
     <value>11</value>
     <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
   </param>
+
   <param>
     <name>Backoff time unit [ms]</name>
     <key>backoff_time_unit_ms</key>
     <value>backoff_time_unit_ms</value>
     <type>int</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Max. number of backoff</name>
     <key>max_n_backoff</key>
     <value>max_n_backoff</value>
     <type>int</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Min. backoff time [ms]</name>
     <key>min_backoff_ms</key>
     <value>min_backoff_ms</value>
     <type>int</type>
+    <hide>part</hide>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)

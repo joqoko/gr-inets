@@ -20,7 +20,7 @@
       <name>on</name>
       <key>1</key>
       <opt>hide:none</opt>
-      <opt>hide_control:part</opt>
+      <opt>hide_control:none</opt>
     </option>
     <option>
       <name>off</name>
@@ -32,7 +32,7 @@
       <name>time</name>
       <key>2</key>
       <opt>hide:none</opt>
-      <opt>hide_control:part</opt>
+      <opt>hide_control:none</opt>
     </option>
   </param>
 

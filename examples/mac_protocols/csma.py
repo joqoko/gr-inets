@@ -5,7 +5,7 @@
 # Title: csma
 # Author: pwa
 # Description: classic csma
-# Generated: Mon Jan  9 15:55:03 2017
+# Generated: Thu Jan 12 09:48:39 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -174,7 +174,7 @@ class csma(gr.top_block, Qt.QWidget):
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 0, 1, 1, 1)
         self.inets_exponential_backoff_cpp_0 = inets.exponential_backoff_cpp(0, 11, backoff_time_unit_ms, max_num_retransmission, min_backoff_ms)
         self.inets_counter_0_1 = inets.counter(([22]), 22)
-        self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(0, 11, 2, cs_duration, cs_threshold, system_time_granularity_us)
+        self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(0, 11, 1, cs_duration, cs_threshold, system_time_granularity_us)
         self.frame_info_simulator = blocks.message_strobe_random(pmt.to_pmt({'good_frame' : 1, 'address_check' : 1, 'header_length' : 9, 'payload_length' : 0, 'reserved_field_II' : 6, 'reserved_field_I' : 5, 'num_transmission' : 0, 'source_address' : 1, 'destination_address': 3, 'frame_index' : 22, 'frame_type' : 1}), blocks.STROBE_POISSON, 2000, 1000)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_1 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 5)

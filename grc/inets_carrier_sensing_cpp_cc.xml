@@ -14,18 +14,25 @@
     <name>Develop mode</name>
     <key>develop_mode</key>
     <value>develop_mode</value>
-    <type>int</type>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
     <option>
       <name>on</name>
       <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
     <option>
       <name>off</name>
       <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
     </option>
     <option>
       <name>time</name>
       <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
   </param>
   <param>
@@ -33,6 +40,7 @@
     <key>block_id</key>
     <value>11</value>
     <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
   </param>
   <param>
     <name>Carrier sensing mode</name>
@@ -56,18 +64,21 @@
     <key>cs_duration</key>
     <value>cs_duration</value>
     <type>real</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Carrier sensing threshold</name>
     <key>cs_threshold</key>
     <value>cs_threshold</value>
     <type>float</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>System time granularity [us]</name>
     <key>system_time_granularity_us</key>
     <value>system_time_granularity_us</value>
     <type>int</type>
+    <hide>part</hide>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

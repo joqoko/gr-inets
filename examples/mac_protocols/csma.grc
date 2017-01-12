@@ -1492,7 +1492,7 @@
     </param>
     <param>
       <key>cs_mode</key>
-      <value>2</value>
+      <value>1</value>
     </param>
     <param>
       <key>cs_threshold</key>
@@ -1610,7 +1610,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(848, 720)</value>
+      <value>(848, 744)</value>
     </param>
     <param>
       <key>_rotation</key>

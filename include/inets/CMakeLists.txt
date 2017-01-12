@@ -50,6 +50,7 @@ install(FILES
     frame_info_selector.h
     frame_type_check.h
     frame_buffer.h
-    framing.h DESTINATION include/inets
+    framing.h
+    send.h DESTINATION include/inets
 
 )
