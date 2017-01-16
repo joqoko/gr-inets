@@ -31,21 +31,22 @@ namespace gr {
   namespace inets {
 
     framing::sptr
-    framing::make(int develop_mode, int block_id, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index)
+    framing::make(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission)
     {
       return gnuradio::get_initial_sptr
-        (new framing_impl(develop_mode, block_id, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index));
+        (new framing_impl(develop_mode, block_id, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission));
     }
 
     /*
      * The private constructor
      */
-    framing_impl::framing_impl(int develop_mode, int block_id, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index)
+    framing_impl::framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission)
       : gr::block("framing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
+	_frame_type(frame_type),
         _len_frame_type(len_frame_type), // Bytes
         _frame_index(frame_index),
         _len_frame_index(len_frame_index), // Bytes
@@ -58,18 +59,14 @@ namespace gr {
         _reserved_field_II(reserved_field_II),
         _len_reserved_field_II(len_reserved_field_II), // Bytes
         _len_payload_length(len_payload_length), // Bytes
-        _increase_index(increase_index)
+        _increase_index(increase_index),
+	_len_num_transmission(len_num_transmission)
     {
       if(_develop_mode == 1)
-        std::cout << "develop_mode of framing is activated." << std::endl;
-      message_port_register_in(pmt::mp("payload_in"));
-      set_msg_handler(pmt::mp("payload_in"), boost::bind(&framing_impl::data_frame_formation, this, _1 ));
-      message_port_register_in(pmt::mp("data_frame_in"));
-      set_msg_handler(pmt::mp("data_frame_in"), boost::bind(&framing_impl::ack_frame_formation, this, _1 ));
-      message_port_register_in(pmt::mp("beacon_info_in"));
-      set_msg_handler(pmt::mp("beacon_info_in"), boost::bind(&framing_impl::beacon_frame_formation, this, _1 ));
+        std::cout << "develop_mode of Framing ID: " << _block_id << " is activated." << std::endl;
+      message_port_register_in(pmt::mp("data_in"));
+      set_msg_handler(pmt::mp("data_in"), boost::bind(&framing_impl::catagorization, this, _1 ));
       message_port_register_out(pmt::mp("frame_out"));
-      message_port_register_out(pmt::mp("tx_frame_info_out"));
     }
 
     /*
@@ -79,34 +76,64 @@ namespace gr {
     {
     }
 
-    void 
-    framing_impl::data_frame_formation(pmt::pmt_t payload_in)
+    pmt::pmt_t
+    framing_impl::catagorization(pmt::pmt_t data_in)
+    {
+      pmt::pmt_t generated_frame;
+      if(_frame_type == 0)
+	generated_frame = data_frame_formation(data_in);
+      else if(_frame_type == 1)
+	generated_frame = ack_frame_formation(data_in);
+      else if(_frame_type == 2)
+	generated_frame = beacon_frame_formation(data_in);
+      else
+	std::cout << "Wrong frame type, please check your connections." << std::endl;
+
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+	pmt::pmt_t not_found;
+        gettimeofday(&t, NULL);
+	if(_frame_type == 0)
+	{
+          double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+          std::cout << "framing ID: " << _block_id << ", " << pmt::dict_ref(generated_frame, pmt::string_to_symbol("num_transmission"), not_found) << "th time send frame " << pmt::dict_ref(generated_frame, pmt::string_to_symbol("frame_index"), not_found) << " at time " << current_time << " s" << std::endl;
+	}
+      }
+      message_port_pub(pmt::mp("frame_out"), generated_frame);
+    }
+
+    pmt::pmt_t
+    framing_impl::data_frame_formation(pmt::pmt_t rx_payload)
     {
       if(_develop_mode == 1)
       {
-        std::cout << "+++++++++   Framing ID: " << _block_id << " +++++++++" << std::endl;
+        std::cout << "+++ Framing ID: " << _block_id << " data frame +++" << std::endl;
       }
       /*
        * Generate a data frame
        */
-      if(pmt::is_pair(payload_in)) 
+      pmt::pmt_t frame_info;
+      if(pmt::is_pair(rx_payload)) 
       {
-        pmt::pmt_t meta = pmt::car(payload_in);
-        pmt::pmt_t payload_pmt = pmt::cdr(payload_in);
+        pmt::pmt_t meta = pmt::car(rx_payload);
+        pmt::pmt_t payload_pmt = pmt::cdr(rx_payload);
         std::vector<unsigned char> payload_array; 
         if(pmt::is_u8vector(payload_pmt))
         {
-          int frame_type = 1;
+          _frame_type = 1;
           payload_array = pmt::u8vector_elements(payload_pmt);
           _payload_length = payload_array.size(); 
           std::vector<unsigned char> frame_header;
-          frame_header_formation(&frame_header, frame_type);
+          if(_increase_index)
+            _frame_index++;
+          frame_info = frame_header_formation(&frame_header, 1, _frame_index, _destination_address, _source_address, _reserved_field_I, _reserved_field_II, _payload_length, 1);
           std::vector<unsigned char> frame;
           frame.insert(frame.end(), frame_header.begin(), frame_header.end());
-          if(_develop_mode)
+          if(_develop_mode == 1)
             std::cout << "frame header, length " << frame.size() << std::endl;
           frame.insert(frame.end(), payload_array.begin(), payload_array.end());
-          if(_develop_mode)
+          if(_develop_mode == 1)
             std::cout << "frame header with payload, length " << frame.size() << std::endl;
           // crc
           // crc32_bb_calc(&frame);
@@ -114,83 +141,80 @@ namespace gr {
           pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
           pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
           pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
+          frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_after_crc);
           std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
-          if(_develop_mode)
+          if(_develop_mode == 1)
             std::cout << "frame header with payload with crc, length " << frame_after_crc_vector.size() << std::endl;
-          message_port_pub(pmt::mp("frame_out"), frame_after_crc);
         }
         else
-          std::cout << "input is not a valid payload" << std::endl;
+          std::cout << "pmt is not a u8vector" << std::endl;
       }
       else 
-        std::cout << "input is not a valid payload" << std::endl;
+        std::cout << "pmt is not a pair" << std::endl;
+      return frame_info;
     }
 
-    void 
+    pmt::pmt_t
     framing_impl::ack_frame_formation(pmt::pmt_t rx_data)
     {
       if(_develop_mode == 1)
       {
-        std::cout << "+++++++++   Framing ID: " << _block_id << " +++++++++" << std::endl;
+        std::cout << "+++ Framing ID: " << _block_id << " ack frame +++" << std::endl;
       }
       /*
        * Generate an ack frame
        */
+      pmt::pmt_t frame_info;
       if(pmt::is_dict(rx_data))
       {
         pmt::pmt_t meta = pmt::make_dict();
         pmt::pmt_t not_found;
-        int frame_type = pmt::to_long(pmt::dict_ref(rx_data, pmt::string_to_symbol("frame_type"), not_found));
         // generate an ack frame
-        if(frame_type == 2)
-        { 
-          int _ack_address = pmt::to_long(pmt::dict_ref(rx_data, pmt::string_to_symbol("destination_address"), not_found));
-          int _ack_index = pmt::to_long(pmt::dict_ref(rx_data, pmt::string_to_symbol("frame_index"), not_found));
-          std::vector<unsigned char> frame_header;
-          frame_header_formation(&frame_header, frame_type);
-          std::vector<unsigned char> frame;
-          frame.insert(frame.end(), frame_header.begin(), frame_header.end());
-          if(_develop_mode)
-            std::cout << "frame header, length " << frame.size() << std::endl;
-          // crc
-          // crc32_bb_calc(&frame);
-          // change frame to pmt::pmt_t
-          pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
-          pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
-          pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
-          std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
-          if(_develop_mode)
-            std::cout << "ack frame with crc(no payload), length " << frame_after_crc_vector.size() << std::endl;
-          message_port_pub(pmt::mp("frame_out"), frame_after_crc);
-        }
-        /*
-         * unknown frame type 
-         */
-        else
-          std::cout << "frame type of input frame is " << frame_type << ". no ack frame is generated." << std::endl;
+        int ack_address = pmt::to_long(pmt::dict_ref(rx_data, pmt::string_to_symbol("source_address"), not_found));
+        //int src_address = pmt::to_long(pmt::dict_ref(rx_payload, pmt::string_to_symbol("destination_address"), not_found));
+        int ack_index = pmt::to_long(pmt::dict_ref(rx_data, pmt::string_to_symbol("frame_index"), not_found));
+        int ack_num_transmission = pmt::to_long(pmt::dict_ref(rx_data, pmt::string_to_symbol("num_transmission"), not_found));
+        std::vector<unsigned char> frame_header;
+        frame_info = frame_header_formation(&frame_header, 2, ack_index, ack_address, _source_address, _reserved_field_I, _reserved_field_II, 0, ack_num_transmission);
+        std::vector<unsigned char> frame;
+        frame.insert(frame.end(), frame_header.begin(), frame_header.end());
+        if(_develop_mode == 1)
+          std::cout << "frame header, length " << frame.size() << std::endl;
+        // crc
+        // crc32_bb_calc(&frame);
+        // change frame to pmt::pmt_t
+        pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
+        pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
+        pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
+        frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_after_crc);
+        std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
+        if(_develop_mode == 1)
+          std::cout << "ack frame with crc (no payload), length " << frame_after_crc_vector.size() << std::endl;
       }
       else 
-        std::cout << "pmt is not a valid received data frame" << std::endl;
+        std::cout << "Error: pmt is not a dict, cannot generate an ack frame. please check your connections." << std::endl;
+      return frame_info;
     }
 
-    void 
+    pmt::pmt_t
     framing_impl::beacon_frame_formation(pmt::pmt_t rx_beacon_info)
     {
       if(_develop_mode == 1)
       {
-        std::cout << "+++++++++   Framing ID: " << _block_id << " +++++++++" << std::endl;
+        std::cout << "+++ Framing ID: " << _block_id << " beacon frame +++" << std::endl;
       }
       // to be continued
     }
 
-    void 
-    framing_impl::frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type)
+    pmt::pmt_t
+    framing_impl::frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission)
     {
       std::vector< unsigned char > vec_frame_header;
       std::vector< unsigned char > vec_frame_type;
       std::vector< unsigned char > vec_frame_index;
       std::vector< unsigned char > vec_destination_address;
       std::vector< unsigned char > vec_source_address;
+      std::vector< unsigned char > vec_transmission;
       std::vector< unsigned char > vec_reserved_field_I;
       std::vector< unsigned char > vec_reserved_field_II;
       std::vector< unsigned char > vec_payload_length;
@@ -205,73 +229,54 @@ namespace gr {
        */
       // Frame type 
       intToByte(frame_type, &vec_frame_type, _len_frame_type);
-      if(frame_type == 1)
-      {
-        // Frame index
-        if(_increase_index)
-          _frame_index++;
-        intToByte(_frame_index, &vec_frame_index, _len_frame_index);
-        // Destination address
-        intToByte(_destination_address, &vec_destination_address, _len_destination_address);
-        // Payload length
-        intToByte(_payload_length, &vec_payload_length, _len_payload_length);
-      }
-      else if(frame_type == 2)
-      {
-        // Frame index
-        intToByte(_ack_index, &vec_frame_index, _len_frame_index);
-        // Destination address
-        intToByte(_ack_address, &vec_destination_address, _len_destination_address);
-        // Payload length
-        intToByte(0, &vec_payload_length, _len_payload_length);
-      }
-      else
-      {
-        std::cout << "Framing: unknown frame type. Please check your connections." << std::endl;
-        // Frame index
-        if(_increase_index)
-          _frame_index++;
-        intToByte(_frame_index, &vec_frame_index, _len_frame_index);
-        // Destination address
-        intToByte(_destination_address, &vec_destination_address, _len_destination_address);
-        // Payload length
-        intToByte(_payload_length, &vec_payload_length, _len_payload_length);
-      }
+      // Frame index
+      intToByte(frame_index, &vec_frame_index, _len_frame_index);
+      // Destination address
+      intToByte(destination_address, &vec_destination_address, _len_destination_address);
+      // Payload length
+      intToByte(payload_length, &vec_payload_length, _len_payload_length);
       // Source address
-      intToByte(_source_address, &vec_source_address, _len_source_address);
+      intToByte(source_address, &vec_source_address, _len_source_address);
+      // num_transmission 
+      intToByte(num_transmission, &vec_transmission, _len_num_transmission);
       // Reserved field I
-      intToByte(_reserved_field_I, &vec_reserved_field_I, _len_reserved_field_I);
+      intToByte(reserved_field_I, &vec_reserved_field_I, _len_reserved_field_I);
       // Reserved field II
-      intToByte(_reserved_field_II, &vec_reserved_field_II, _len_reserved_field_II);
+      intToByte(reserved_field_II, &vec_reserved_field_II, _len_reserved_field_II);
 
       //std::cout  << "Frame header length before frame type: " << frame_header->size() << std::endl;
       frame_header->insert(frame_header->end(), vec_frame_type.begin(), vec_frame_type.begin() + _len_frame_type);
       //std::cout  << "Frame header length after frame type: " << frame_header->size() << std::endl;
       frame_header->insert(frame_header->end(), vec_frame_index.begin(), vec_frame_index.begin() + _len_frame_index);
+      //std::cout  << "Frame header length after frame index: " << frame_header->size() << std::endl;
       frame_header->insert(frame_header->end(), vec_destination_address.begin(), vec_destination_address.begin() + _len_destination_address);
+      //std::cout  << "Frame header length after dest: " << frame_header->size() << std::endl;
       frame_header->insert(frame_header->end(), vec_source_address.begin(), vec_source_address.begin() + _len_source_address);
+      //std::cout  << "Frame header length after src: " << frame_header->size() << std::endl;
+      frame_header->insert(frame_header->end(), vec_transmission.begin(), vec_transmission.begin() + _len_num_transmission);
+      //std::cout  << "Frame header length after transmission: " << frame_header->size() << std::endl;
       frame_header->insert(frame_header->end(), vec_reserved_field_I.begin(), vec_reserved_field_I.begin() + _len_reserved_field_I);
+      //std::cout  << "Frame header length after re1: " << frame_header->size() << std::endl;
       frame_header->insert(frame_header->end(), vec_reserved_field_II.begin(), vec_reserved_field_II.begin() + _len_reserved_field_II);
+      //std::cout  << "Frame header length after re2: " << frame_header->size() << std::endl;
       frame_header->insert(frame_header->end(), vec_payload_length.begin(), vec_payload_length.begin() + _len_payload_length);
 
-      pmt::pmt_t frame_info = pmt::make_dict();
-      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_type"), pmt::from_long(frame_type));
-      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_index"), pmt::from_long(_frame_index));
-      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("destination_address"), pmt::from_long(_destination_address));
-      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("source_address"), pmt::from_long(_source_address));
-      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(_payload_length));
-
-      if(_develop_mode)
-      {
-        std::cout << "frame type is: " << frame_type << std::endl;
-        std::cout << "frame index is: " << _frame_index << std::endl;
-        std::cout << "destination address is: " << _destination_address << std::endl;
-        std::cout << "source address is: " << _source_address << std::endl;
-        std::cout << "payload length is: " << _payload_length << std::endl;
-      }
-      message_port_pub(pmt::mp("tx_frame_info_out"), frame_info);
+      pmt::pmt_t frame_info  = pmt::make_dict();
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_type"), pmt::from_long(frame_type));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_index"), pmt::from_long(frame_index));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("destination_address"), pmt::from_long(destination_address));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("source_address"), pmt::from_long(source_address));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("num_transmission"), pmt::from_long(1));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_I"), pmt::from_long(reserved_field_I));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_II"), pmt::from_long(reserved_field_II));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(payload_length));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("header_length"), pmt::from_long(get_frame_header_length()));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"),pmt::from_long(0));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(0));
+      if(_develop_mode == 1)
+        std::cout << "block id: " << _block_id << "destination address: " << destination_address << ", source_address: " << source_address << std::endl;
+      return frame_info;
     }
-
     void 
     framing_impl::intToByte(int i, std::vector<unsigned char> *bytes, int size)
     {
@@ -324,6 +329,11 @@ namespace gr {
     }
 
 
+    int
+    framing_impl::get_frame_header_length()
+    {
+      return _len_frame_type + _len_frame_index + _len_destination_address + _len_source_address + _len_num_transmission + _len_reserved_field_I + _len_reserved_field_II + _len_payload_length;
+    } 
 
   } /* namespace inets */
 } /* namespace gr */

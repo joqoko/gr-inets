@@ -54,7 +54,7 @@ list(APPEND inets_sources
     frame_type_check_impl.cc
     frame_buffer_impl.cc
     framing_impl.cc
-    send_impl.cc )
+    )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

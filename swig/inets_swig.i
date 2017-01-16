@@ -37,7 +37,6 @@
 #include "inets/frame_type_check.h"
 #include "inets/frame_buffer.h"
 #include "inets/framing.h"
-#include "inets/send.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -109,5 +108,4 @@ GR_SWIG_BLOCK_MAGIC2(inets, frame_type_check);
 GR_SWIG_BLOCK_MAGIC2(inets, frame_buffer);
 %include "inets/framing.h"
 GR_SWIG_BLOCK_MAGIC2(inets, framing);
-%include "inets/send.h"
-GR_SWIG_BLOCK_MAGIC2(inets, send);
+

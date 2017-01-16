@@ -2012,7 +2012,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1136, 912)</value>
+      <value>(1136, 992)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2052,7 +2052,7 @@
     </param>
     <param>
       <key>usrp_device_address</key>
-      <value>usrp_device_address</value>
+      <value>"addr=10.0.0.6"</value>
     </param>
     <param>
       <key>apply_address_check</key>
@@ -2080,7 +2080,7 @@
     </param>
     <param>
       <key>len_num_transmission</key>
-      <value>len_num_transmission</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_payload_length</key>
@@ -2315,12 +2315,6 @@
     <sink_block_id>inets_frame_type_check_0</sink_block_id>
     <source_key>rx_frame_info_out</source_key>
     <sink_key>frame_info_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>receive_frame_0_0</source_block_id>
-    <sink_block_id>inets_carrier_sensing_cpp_cc_0</sink_block_id>
-    <source_key>rx_power_out</source_key>
-    <sink_key>info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>send_frame_0</source_block_id>

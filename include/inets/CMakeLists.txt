@@ -51,6 +51,6 @@ install(FILES
     frame_type_check.h
     frame_buffer.h
     framing.h
-    send.h DESTINATION include/inets
+    DESTINATION include/inets
 
 )
