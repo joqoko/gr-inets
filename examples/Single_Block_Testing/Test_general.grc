@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>Test_framing_cpp</value>
+      <value>Test_general</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>Test_framing_cpp</value>
+      <value>Test_general</value>
     </param>
   </block>
   <block>
@@ -510,7 +510,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>32000</value>
+      <value>1000000</value>
     </param>
   </block>
   <block>
@@ -794,7 +794,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -857,7 +857,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -945,30 +945,34 @@
     </param>
   </block>
   <block>
-    <key>send_frame</key>
+    <key>inets_sending</key>
     <param>
       <key>alias</key>
       <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>11</value>
     </param>
     <param>
       <key>comment</key>
       <value></value>
     </param>
     <param>
-      <key>constellation</key>
-      <value>gnuradio.digital.constellation_qpsk().base()</value>
-    </param>
-    <param>
       <key>affinity</key>
       <value></value>
     </param>
     <param>
-      <key>_enabled</key>
+      <key>develop_mode</key>
       <value>1</value>
     </param>
     <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(904, 216)</value>
+      <value>(888, 364)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -976,7 +980,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>send_frame_0</value>
+      <value>inets_sending_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -991,84 +995,24 @@
       <value>samp_rate</value>
     </param>
     <param>
-      <key>sps</key>
-      <value>sps</value>
-    </param>
-    <param>
-      <key>usrp_device_address</key>
-      <value>usrp_device_address</value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>destination_address</key>
-      <value>destination_address</value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>frame_index</key>
-      <value>frame_index</value>
-    </param>
-    <param>
-      <key>frame_type</key>
-      <value>frame_type</value>
-    </param>
-    <param>
-      <key>increase_index</key>
-      <value>increase_index</value>
-    </param>
-    <param>
-      <key>len_destination_address</key>
-      <value>len_destination_address</value>
-    </param>
-    <param>
-      <key>len_frame_index</key>
-      <value>len_frame_index</value>
-    </param>
-    <param>
-      <key>len_frame_type</key>
-      <value>len_frame_type</value>
-    </param>
-    <param>
-      <key>len_payload_length</key>
-      <value>len_payload_length</value>
-    </param>
-    <param>
-      <key>len_reserved_field_I</key>
-      <value>len_reserved_field_I</value>
-    </param>
-    <param>
-      <key>len_reserved_field_II</key>
-      <value>len_reserved_field_II</value>
-    </param>
-    <param>
-      <key>len_source_address</key>
-      <value>len_source_address</value>
+      <key>constellation</key>
+      <value>gnuradio.digital.constellation_qpsk().base()</value>
     </param>
     <param>
       <key>preamble</key>
       <value>diff_preamble_128</value>
     </param>
     <param>
-      <key>reserved_field_I</key>
-      <value>reserved_field_I</value>
-    </param>
-    <param>
-      <key>reserved_field_II</key>
-      <value>reserved_field_II</value>
-    </param>
-    <param>
-      <key>source_address</key>
-      <value>source_address</value>
+      <key>sps</key>
+      <value>sps</value>
     </param>
     <param>
       <key>system_time_granularity_us</key>
       <value>system_time_granularity_us</value>
+    </param>
+    <param>
+      <key>usrp_device_address</key>
+      <value>usrp_device_address</value>
     </param>
   </block>
   <connection>
@@ -1085,7 +1029,7 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_buffer_0</source_block_id>
-    <sink_block_id>send_frame_0</sink_block_id>
+    <sink_block_id>inets_sending_0</sink_block_id>
     <source_key>dequeue_element</source_key>
     <sink_key>in</sink_key>
   </connection>

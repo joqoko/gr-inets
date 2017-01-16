@@ -65,7 +65,6 @@ namespace gr {
       if(_develop_mode == 1)
         std::cout << "develop_mode of Framing ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("data_in"));
-      std::cout << "frame type now is: " << _frame_type << std::endl;
       set_msg_handler(pmt::mp("data_in"), boost::bind(&framing_impl::catagorization, this, _1 ));
       message_port_register_out(pmt::mp("frame_out"));
     }
@@ -80,7 +79,6 @@ namespace gr {
     void 
     framing_impl::catagorization(pmt::pmt_t data_in)
     {
-        std::cout << "here 0 " << std::endl;
       if(_frame_type == 1)
 	data_frame_formation(data_in);
       else if(_frame_type == 2)
@@ -92,7 +90,6 @@ namespace gr {
       else
 	std::cout << "Wrong frame type, please check your connections." << std::endl;
 
-      std::cout << "here 5 " << std::endl;
     }
 
     void
@@ -109,13 +106,11 @@ namespace gr {
       if(pmt::is_pair(rx_payload)) 
       {
         pmt::pmt_t meta = pmt::car(rx_payload);
-        std::cout << "here 1 " << std::endl;
         pmt::pmt_t payload_pmt = pmt::cdr(rx_payload);
         std::vector<unsigned char> payload_array; 
         if(pmt::is_u8vector(payload_pmt))
         {
           _frame_type = 1;
-        std::cout << "here 2 " << std::endl;
           payload_array = pmt::u8vector_elements(payload_pmt);
           _payload_length = payload_array.size(); 
           std::vector<unsigned char> frame_header;
@@ -138,7 +133,6 @@ namespace gr {
           frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_after_crc);
           // std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
 
-        std::cout << "here 3 " << std::endl;
           // if(_develop_mode == 1)
              // std::cout << "frame header with payload with crc, length " << frame_after_crc_vector.size() << std::endl;
         }
@@ -147,7 +141,6 @@ namespace gr {
       }
       else 
         std::cout << "pmt is not a pair" << std::endl;
-      std::cout << "here 4 " << std::endl;
       message_port_pub(pmt::mp("frame_out"), frame_info);
     }
 
