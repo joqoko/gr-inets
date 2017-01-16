@@ -47,26 +47,26 @@
   <param>
     <name>Frame type</name>
     <key>frame_type</key>
-    <value>0</value>
+    <value>1</value>
     <type>enum</type>
     <hide>part</hide>
     <option>
       <name>DATA frame</name>
-      <key>0</key>
+      <key>1</key>
       <opt>hide_data:part</opt>
       <opt>hide_ack:all</opt>
       <opt>hide_beacon:all</opt>
     </option>
     <option>
       <name>ACK frame</name>
-      <key>1</key>
+      <key>2</key>
       <opt>hide_data:all</opt>
       <opt>hide_ack:part</opt>
       <opt>hide_beacon:all</opt>
     </option>
     <option>
       <name>BEACON frame</name>
-      <key>2</key>
+      <key>3</key>
       <opt>hide_data:all</opt>
       <opt>hide_ack:all</opt>
       <opt>hide_beacon:part</opt>

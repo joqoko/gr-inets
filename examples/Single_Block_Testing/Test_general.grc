@@ -641,7 +641,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -696,7 +696,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 352)</value>
+      <value>(112, 336)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -794,11 +794,11 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>enqueue</key>
@@ -806,7 +806,7 @@
     </param>
     <param>
       <key>flush</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -857,7 +857,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -868,23 +868,15 @@
       <value>frame_index</value>
     </param>
     <param>
+      <key>frame_type</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(344, 360)</value>
+      <value>(352, 352)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>ack_frame_gen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>beacon_frame_gen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>data_frame_gen</key>
       <value>0</value>
     </param>
     <param>
@@ -897,31 +889,35 @@
     </param>
     <param>
       <key>len_destination_address</key>
-      <value>len_destination_address</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_frame_index</key>
-      <value>len_frame_index</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_frame_type</key>
-      <value>len_frame_type</value>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_num_transmission</key>
+      <value>0</value>
     </param>
     <param>
       <key>len_payload_length</key>
-      <value>len_payload_length</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_reserved_field_I</key>
-      <value>len_reserved_field_I</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_reserved_field_II</key>
-      <value>len_reserved_field_II</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_source_address</key>
-      <value>len_source_address</value>
+      <value>1</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -933,11 +929,11 @@
     </param>
     <param>
       <key>reserved_field_I</key>
-      <value>reserved_field_I</value>
+      <value>0</value>
     </param>
     <param>
       <key>reserved_field_II</key>
-      <value>reserved_field_II</value>
+      <value>0</value>
     </param>
     <param>
       <key>set_reserved_field</key>
@@ -1079,13 +1075,13 @@
     <source_block_id>blocks_message_strobe_random_0</source_block_id>
     <sink_block_id>inets_frame_buffer_0</sink_block_id>
     <source_key>strobe</source_key>
-    <sink_key>dequeue</sink_key>
+    <sink_key>flush</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_socket_pdu_0</source_block_id>
     <sink_block_id>inets_framing_0</sink_block_id>
     <source_key>pdus</source_key>
-    <sink_key>payload_in</sink_key>
+    <sink_key>data_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_buffer_0</source_block_id>

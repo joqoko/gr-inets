@@ -54,10 +54,10 @@ namespace gr {
       int _len_num_transmission;
       boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
-      pmt::pmt_t catagorization(pmt::pmt_t data_in);
-      pmt::pmt_t data_frame_formation(pmt::pmt_t rx_payload);
-      pmt::pmt_t ack_frame_formation(pmt::pmt_t rx_data);
-      pmt::pmt_t beacon_frame_formation(pmt::pmt_t rx_beacon_info);
+      void catagorization(pmt::pmt_t data_in);
+      void data_frame_formation(pmt::pmt_t rx_payload);
+      void ack_frame_formation(pmt::pmt_t rx_data);
+      void beacon_frame_formation(pmt::pmt_t rx_beacon_info);
       pmt::pmt_t frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
       void disp_vec(std::vector<unsigned char> vec);

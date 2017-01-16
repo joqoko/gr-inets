@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_framing_cpp
 # Author: PWA
-# Generated: Wed Jan 11 17:05:57 2017
+# Generated: Mon Jan 16 11:01:02 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -17,10 +17,6 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
-import os
-import sys
-sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
-
 from PyQt4 import Qt
 from gnuradio import blocks
 from gnuradio import eng_notation
@@ -28,10 +24,10 @@ from gnuradio import gr
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
-from send_frame import send_frame  # grc-generated hier_block
 import gnuradio
 import inets
 import pmt
+import sys
 from gnuradio import qtgui
 
 
@@ -88,31 +84,7 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.send_frame_0 = send_frame(
-            block_id=2,
-            constellation=gnuradio.digital.constellation_qpsk().base(),
-            destination_address=destination_address,
-            develop_mode=1,
-            frame_index=frame_index,
-            frame_type=frame_type,
-            increase_index=increase_index,
-            len_destination_address=len_destination_address,
-            len_frame_index=len_frame_index,
-            len_frame_type=len_frame_type,
-            len_payload_length=len_payload_length,
-            len_reserved_field_I=len_reserved_field_I,
-            len_reserved_field_II=len_reserved_field_II,
-            len_source_address=len_source_address,
-            preamble=diff_preamble_128,
-            reserved_field_I=reserved_field_I,
-            reserved_field_II=reserved_field_II,
-            samp_rate=samp_rate,
-            source_address=source_address,
-            sps=sps,
-            system_time_granularity_us=system_time_granularity_us,
-            usrp_device_address=usrp_device_address,
-        )
-        self.inets_framing_0 = inets.framing(0, 17, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, 1)
+        self.inets_framing_0 = inets.framing(1, 17, 1, 1, frame_index, 1, destination_address, 1, source_address, 1, 0, 2, 0, 2, 1, 1, 0)
         self.inets_frame_buffer_0 = inets.frame_buffer(1, 16, 10)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.intern("TEST"), blocks.STROBE_POISSON, 1000, 100)
@@ -120,9 +92,8 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_frame_buffer_0, 'dequeue'))
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'payload_in'))
-        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.send_frame_0, 'in'))
+        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_frame_buffer_0, 'flush'))
+        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
 
     def closeEvent(self, event):
@@ -135,126 +106,108 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
 
     def set_usrp_device_address(self, usrp_device_address):
         self.usrp_device_address = usrp_device_address
-        self.send_frame_0.set_usrp_device_address(self.usrp_device_address)
 
     def get_system_time_granularity_us(self):
         return self.system_time_granularity_us
 
     def set_system_time_granularity_us(self, system_time_granularity_us):
         self.system_time_granularity_us = system_time_granularity_us
-        self.send_frame_0.set_system_time_granularity_us(self.system_time_granularity_us)
 
     def get_sps(self):
         return self.sps
 
     def set_sps(self, sps):
         self.sps = sps
-        self.send_frame_0.set_sps(self.sps)
 
     def get_source_address(self):
         return self.source_address
 
     def set_source_address(self, source_address):
         self.source_address = source_address
-        self.send_frame_0.set_source_address(self.source_address)
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.send_frame_0.set_samp_rate(self.samp_rate)
 
     def get_reserved_field_II(self):
         return self.reserved_field_II
 
     def set_reserved_field_II(self, reserved_field_II):
         self.reserved_field_II = reserved_field_II
-        self.send_frame_0.set_reserved_field_II(self.reserved_field_II)
 
     def get_reserved_field_I(self):
         return self.reserved_field_I
 
     def set_reserved_field_I(self, reserved_field_I):
         self.reserved_field_I = reserved_field_I
-        self.send_frame_0.set_reserved_field_I(self.reserved_field_I)
 
     def get_len_source_address(self):
         return self.len_source_address
 
     def set_len_source_address(self, len_source_address):
         self.len_source_address = len_source_address
-        self.send_frame_0.set_len_source_address(self.len_source_address)
 
     def get_len_reserved_field_II(self):
         return self.len_reserved_field_II
 
     def set_len_reserved_field_II(self, len_reserved_field_II):
         self.len_reserved_field_II = len_reserved_field_II
-        self.send_frame_0.set_len_reserved_field_II(self.len_reserved_field_II)
 
     def get_len_reserved_field_I(self):
         return self.len_reserved_field_I
 
     def set_len_reserved_field_I(self, len_reserved_field_I):
         self.len_reserved_field_I = len_reserved_field_I
-        self.send_frame_0.set_len_reserved_field_I(self.len_reserved_field_I)
 
     def get_len_payload_length(self):
         return self.len_payload_length
 
     def set_len_payload_length(self, len_payload_length):
         self.len_payload_length = len_payload_length
-        self.send_frame_0.set_len_payload_length(self.len_payload_length)
 
     def get_len_frame_type(self):
         return self.len_frame_type
 
     def set_len_frame_type(self, len_frame_type):
         self.len_frame_type = len_frame_type
-        self.send_frame_0.set_len_frame_type(self.len_frame_type)
 
     def get_len_frame_index(self):
         return self.len_frame_index
 
     def set_len_frame_index(self, len_frame_index):
         self.len_frame_index = len_frame_index
-        self.send_frame_0.set_len_frame_index(self.len_frame_index)
 
     def get_len_destination_address(self):
         return self.len_destination_address
 
     def set_len_destination_address(self, len_destination_address):
         self.len_destination_address = len_destination_address
-        self.send_frame_0.set_len_destination_address(self.len_destination_address)
 
     def get_increase_index(self):
         return self.increase_index
 
     def set_increase_index(self, increase_index):
         self.increase_index = increase_index
-        self.send_frame_0.set_increase_index(self.increase_index)
 
     def get_frame_type(self):
         return self.frame_type
 
     def set_frame_type(self, frame_type):
         self.frame_type = frame_type
-        self.send_frame_0.set_frame_type(self.frame_type)
 
     def get_frame_index(self):
         return self.frame_index
 
     def set_frame_index(self, frame_index):
         self.frame_index = frame_index
-        self.send_frame_0.set_frame_index(self.frame_index)
 
     def get_diff_preamble_128(self):
         return self.diff_preamble_128
 
     def set_diff_preamble_128(self, diff_preamble_128):
         self.diff_preamble_128 = diff_preamble_128
-        self.send_frame_0.set_preamble(self.diff_preamble_128)
 
     def get_develop_mode_list(self):
         return self.develop_mode_list
@@ -267,7 +220,6 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
 
     def set_destination_address(self, destination_address):
         self.destination_address = destination_address
-        self.send_frame_0.set_destination_address(self.destination_address)
 
 
 def main(top_block_cls=Test_framing_cpp, options=None):

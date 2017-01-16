@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Mon Jan 16 02:20:21 2017
+# Generated: Mon Jan 16 10:06:35 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -63,7 +63,6 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_framing_0 = inets.framing(1, 17, 0, 1, 1, 1, 5, 1, 1, 1, 0, 2, 0, 2, 1, 1, 0)
         self.inets_frame_buffer_0 = inets.frame_buffer(1, 16, 10)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.intern("TEST"), blocks.STROBE_POISSON, 1000, 100)
@@ -73,9 +72,8 @@ class top_block(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_frame_buffer_0, 'flush'))
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_frame_buffer_0, 'enqueue'))
         self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.blocks_message_debug_0, 'print_pdu'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
