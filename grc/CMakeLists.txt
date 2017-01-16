@@ -52,5 +52,6 @@ install(FILES
     inets_frame_type_check.xml
     inets_frame_buffer.xml
     inets_framing.xml
-    inets_sending.xml DESTINATION share/gnuradio/grc/blocks
+    inets_sending.xml
+    inets_receiving.xml DESTINATION share/gnuradio/grc/blocks
 )

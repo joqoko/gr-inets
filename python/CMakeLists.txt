@@ -37,7 +37,8 @@ GR_PYTHON_INSTALL(
     rrrm.py
     per_logger.py
     framing_py_v1.py
-    sending.py DESTINATION ${GR_PYTHON_DIR}/inets
+    sending.py
+    receiving.py DESTINATION ${GR_PYTHON_DIR}/inets
 )
 
 ########################################################################
