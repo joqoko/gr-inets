@@ -29,7 +29,7 @@ from gnuradio import gr
 from gnuradio import uhd
 from gnuradio.filter import firdes
 import gnuradio
-from receive_frame import receive_frame  # grc-generated hier_block
+from receive_frame_phy import receive_frame_phy  # grc-generated hier_block
 import inets
 import numpy
 import time
@@ -38,29 +38,42 @@ class receiving(gr.hier_block2):
     """
     docstring for block receiving
     """
-    def __init__(self, n):
+    def __init__(self, develop_mode=1, block_id=3, constellation=gnuradio.digital.constellation_qpsk().base(), matched_filter_coeff=(), mu=0, preamble=[], rx_gain=0, samp_rate=4e6, sps=4, threshold=30, usrp_device_address="addr=10.0.0.6"):
         gr.hier_block2.__init__(self,
             "receiving",
             gr.io_signature(0, 0, 0),  # Input signature
-            gr.io_signature(0, 0, 0)
+            gr.io_signaturev(4, 4, [gr.sizeof_gr_complex*1, gr.sizeof_gr_complex*1, gr.sizeof_float*1, gr.sizeof_gr_complex*1]),
         ) # Output signature
 
         self.message_port_register_hier_in("rx_switch_in")
-        self.message_port_register_hier_out("rx_frame_info_out")
+        self.message_port_register_hier_out("rx_frame_out")
+        self.message_port_register_hier_out("snr_out")
         self.message_port_register_hier_out("rx_power_out")
 
         ##################################################
         # Blocks
         ##################################################
-        self.receive_frame_0 = receive_frame(
+        self.receive_frame_phy_0 = receive_frame_phy(
             block_id=block_id,
             constellation=constellation,
             develop_mode=develop_mode,
+            matched_filter_coeff=matched_filter_coeff,
+            mu=mu,
             preamble=preamble,
+            rx_gain=rx_gain,
             samp_rate=samp_rate,
             sps=sps,
-            system_time_granularity_us=system_time_granularity_us,
+            threshold=threshold,
             usrp_device_address=usrp_device_address,
         )
-            # Define blocks and connect them
-            self.connect()
+        ##################################################
+        # Connections
+        ##################################################
+        self.msg_connect((self.receive_frame_phy_0, 'rx_frame_out'), (self, 'rx_frame_out'))    
+        self.msg_connect((self.receive_frame_phy_0, 'rx_power_out'), (self, 'rx_power_out'))    
+        self.msg_connect((self.receive_frame_phy_0, 'snr_out'), (self, 'snr_out'))    
+        self.msg_connect((self, 'rx_switch_in'), (self.send_frame_0, 'rx_switch_in'))    
+        self.connect((self.inets_receive_frame_phy_0, 0), (self, 0))
+        self.connect((self.inets_receive_frame_phy_0, 1), (self, 1))
+        self.connect((self.inets_receive_frame_phy_0, 2), (self, 2))
+        self.connect((self.inets_receive_frame_phy_0, 3), (self, 3))
