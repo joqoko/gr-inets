@@ -49,7 +49,7 @@
     <key>frame_type</key>
     <value>1</value>
     <type>enum</type>
-    <hide>part</hide>
+    <hide>none</hide>
     <option>
       <name>DATA frame</name>
       <key>1</key>

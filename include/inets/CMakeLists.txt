@@ -51,6 +51,8 @@ install(FILES
     frame_type_check.h
     frame_buffer.h
     framing.h
-    DESTINATION include/inets
+    timeout.h
+    carrier_sensing.h
+    backoff.h DESTINATION include/inets
 
 )

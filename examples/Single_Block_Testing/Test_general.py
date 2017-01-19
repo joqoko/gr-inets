@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_general
 # Author: PWA
-# Generated: Tue Jan 17 17:02:37 2017
+# Generated: Thu Jan 19 10:01:08 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -27,7 +27,6 @@ from gnuradio.qtgui import Range, RangeWidget
 from optparse import OptionParser
 import gnuradio
 import inets
-import pmt
 import sys
 from gnuradio import qtgui
 
@@ -65,6 +64,8 @@ class Test_general(gr.top_block, Qt.QWidget):
         self.range_rx_gain = range_rx_gain = 15
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
+        self.timeout_duration_ms = timeout_duration_ms = 1000
+        self.system_time_granularity_us_0 = system_time_granularity_us_0 = 1000
         self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 4
         self.samp_rate = samp_rate = 1000000
@@ -99,9 +100,10 @@ class Test_general(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_sending_0 = inets.sending(develop_mode=1, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address)
+        self.inets_timeout_0 = inets.timeout(1, 10, timeout_duration_ms, system_time_granularity_us)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address)
         self.inets_receiving_0 = inets.receiving(
-            develop_mode=1,
+            develop_mode=0,
             block_id=11,
             constellation=gnuradio.digital.constellation_qpsk().base(),
             matched_filter_coeff=rrc,
@@ -116,12 +118,10 @@ class Test_general(gr.top_block, Qt.QWidget):
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, frame_index, 1, destination_address, 1, source_address, 1, 0, 2, 0, 2, 1, 1, 0)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
-        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.intern("TEST"), blocks.STROBE_POISSON, 1000, 100)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_frame_buffer_0, 'flush'))
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
@@ -156,6 +156,18 @@ class Test_general(gr.top_block, Qt.QWidget):
 
     def set_usrp_device_address(self, usrp_device_address):
         self.usrp_device_address = usrp_device_address
+
+    def get_timeout_duration_ms(self):
+        return self.timeout_duration_ms
+
+    def set_timeout_duration_ms(self, timeout_duration_ms):
+        self.timeout_duration_ms = timeout_duration_ms
+
+    def get_system_time_granularity_us_0(self):
+        return self.system_time_granularity_us_0
+
+    def set_system_time_granularity_us_0(self, system_time_granularity_us_0):
+        self.system_time_granularity_us_0 = system_time_granularity_us_0
 
     def get_system_time_granularity_us(self):
         return self.system_time_granularity_us

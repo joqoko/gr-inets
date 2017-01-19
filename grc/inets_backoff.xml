@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<block>
+  <name>backoff</name>
+  <key>inets_backoff</key>
+  <category>inets_dmf_mac</category>
+  <import>import inets</import>
+  <make>inets.backoff($develop_mode, $block_id, $backoff_time_unit_ms, $max_n_backoff, $min_backoff_ms)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>11</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Backoff type</name>
+    <key>backoff_type</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+  </param>
+  <param>
+    <name>Backoff time unit [ms]</name>
+    <key>backoff_time_unit_ms</key>
+    <value>backoff_time_unit_ms</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+  <param>
+    <name>Max. number of backoff</name>
+    <key>max_n_backoff</key>
+    <value>max_n_backoff</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+  <param>
+    <name>Min. backoff time [ms]</name>
+    <key>min_backoff_ms</key>
+    <value>min_backoff_ms</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>frame_info_trigger_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+</block>
