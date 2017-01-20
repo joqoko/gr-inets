@@ -4,7 +4,7 @@
   <key>inets_backoff</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.backoff($develop_mode, $block_id, $backoff_time_unit_ms, $max_n_backoff, $min_backoff_ms)</make>
+  <make>inets.backoff($develop_mode, $block_id, $backoff_type, $backoff_time_unit_ms, $max_n_backoff, $min_backoff_ms, $max_backoff_ms)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -58,46 +58,55 @@
     <name>Backoff type</name>
     <key>backoff_type</key>
     <type>enum</type>
-    <hide>$develop_mode.hide</hide>
     <option>
-      <name>off</name>
-      <key>0</key>
-      <opt>hide:part</opt>
-      <opt>hide_control:all</opt>
-    </option>
-    <option>
-      <name>on</name>
+      <name>Binary exp.</name>
       <key>1</key>
-      <opt>hide:none</opt>
-      <opt>hide_control:none</opt>
+      <opt>hide_exp:part</opt>
+      <opt>hide_const:all</opt>
+      <opt>hide_random:all</opt>
     </option>
     <option>
-      <name>time</name>
+      <name>Const.</name>
       <key>2</key>
-      <opt>hide:none</opt>
-      <opt>hide_control:none</opt>
+      <opt>hide_exp:all</opt>
+      <opt>hide_const:part</opt>
+      <opt>hide_random:all</opt>
+    </option>
+    <option>
+      <name>Random</name>
+      <key>3</key>
+      <opt>hide_exp:all</opt>
+      <opt>hide_const:all</opt>
+      <opt>hide_random:part</opt>
     </option>
   </param>
   <param>
     <name>Backoff time unit [ms]</name>
     <key>backoff_time_unit_ms</key>
-    <value>backoff_time_unit_ms</value>
+    <value>10</value>
     <type>int</type>
-    <hide>part</hide>
+    <hide>$backoff_type.hide_exp</hide>
   </param>
   <param>
     <name>Max. number of backoff</name>
     <key>max_n_backoff</key>
-    <value>max_n_backoff</value>
+    <value>6</value>
     <type>int</type>
-    <hide>part</hide>
+    <hide>$backoff_type.hide_exp</hide>
   </param>
   <param>
     <name>Min. backoff time [ms]</name>
     <key>min_backoff_ms</key>
-    <value>min_backoff_ms</value>
+    <value>100</value>
     <type>int</type>
     <hide>part</hide>
+  </param>
+  <param>
+    <name>Max. backoff time [ms]</name>
+    <key>max_backoff_ms</key>
+    <value>400</value>
+    <type>int</type>
+    <hide>$backoff_type.hide_random</hide>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)

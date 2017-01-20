@@ -32,16 +32,16 @@ namespace gr {
   namespace inets {
 
     backoff::sptr
-    backoff::make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int max_n_backoff, int min_backoff_ms, int max_backoff_ms, int backoff_time_ms)
+    backoff::make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int max_n_backoff, int min_backoff_ms, int max_backoff_ms)
     {
       return gnuradio::get_initial_sptr
-        (new backoff_impl(develop_mode, block_id, backoff_type, backoff_time_unit_ms, max_n_backoff, min_backoff_ms, max_backoff_ms, backoff_time_ms));
+        (new backoff_impl(develop_mode, block_id, backoff_type, backoff_time_unit_ms, max_n_backoff, min_backoff_ms, max_backoff_ms));
     }
 
     /*
      * the private constructor
      */
-    backoff_impl::backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int max_n_backoff, int min_backoff_ms, int max_backoff_ms, int backoff_time_ms)
+    backoff_impl::backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int max_n_backoff, int min_backoff_ms, int max_backoff_ms)
       : gr::block("backoff",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -51,8 +51,7 @@ namespace gr {
         _develop_mode(develop_mode),
         _max_n_backoff(max_n_backoff),
         _min_backoff_ms(min_backoff_ms),
-        _max_backoff_ms(max_backoff_ms),
-        _backoff_time_ms(backoff_time_ms)
+        _max_backoff_ms(max_backoff_ms)
     {
       if(_develop_mode == 1)
         std::cout << "develop_mode of backoff is activated." << std::endl;
@@ -105,7 +104,8 @@ namespace gr {
               std::cout << "* backoff ID: " << _block_id << " backoff timer is triggered at time " << current_time << " s" << std::endl;
             }
           }
-          boost::thread thrd(&backoff_impl::countdown_backoff, this);
+          boost::thread thrd(&backoff_impl::countdown_exp_backoff, this);
+        }
         /*
          * _backoff_type 2: constant backoff.
          */
@@ -145,7 +145,8 @@ namespace gr {
     void 
     backoff_impl::countdown_const_backoff()
     {
-      boost::this_thread::sleep(boost::posix_time::milliseconds(backoff_time_ms));
+      struct timeval t;
+      boost::this_thread::sleep(boost::posix_time::milliseconds(_min_backoff_ms));
       if(_develop_mode == 2)
       {
         gettimeofday(&t, NULL);
@@ -158,10 +159,11 @@ namespace gr {
     void 
     backoff_impl::countdown_random_backoff()
     {
+      struct timeval t;
       //float backoff_time = std::rand() % std::pow(2, _n_backoff) + _min_bakcoff_ms;
       float backoff_time = std::rand() % (_max_backoff_ms - _min_backoff_ms) + _min_backoff_ms;
       if(_develop_mode == 1)
-          std::cout << "in " << _n_backoff << "th backoff, the backoff time is: " << backoff_time << "[ms]." << std::endl;
+          std::cout << "in random backoff, the backoff time is: " << backoff_time << "[ms]." << std::endl;
       boost::this_thread::sleep(boost::posix_time::milliseconds(backoff_time));
       if(_develop_mode == 2)
       {

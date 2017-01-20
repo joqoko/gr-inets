@@ -35,7 +35,6 @@ namespace gr {
        int _block_id;
        int _min_backoff_ms;
        int _max_backoff_ms;
-       int _backoff_time_ms;
        int _backoff_type;
        pmt::pmt_t _frame_info;
        int _n_backoff;
@@ -45,7 +44,7 @@ namespace gr {
        void countdown_random_backoff();
 
      public:
-      backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int max_n_backoff, int min_backoff_ms, int max_backoff_ms, int backoff_time);
+      backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int max_n_backoff, int min_backoff_ms, int max_backoff_ms);
       ~backoff_impl();
 
     };
