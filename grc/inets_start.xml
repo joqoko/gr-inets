@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>timeout</name>
-  <key>inets_timeout</key>
-  <category>inets_dmf_mac</category>
+  <name>start</name>
+  <key>inets_start</key>
+  <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.timeout($develop_mode, $block_id, $timeout_duration_ms, $system_time_granularity_us)</make>
+  <make>inets.start($develop_mode, $block_id, $time_to_start)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -35,54 +35,36 @@
       <opt>hide_control:none</opt>
     </option>
   </param>
+
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>10</value>
+    <value>0</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
+ 
   <param>
-    <name>Timeout duration [ms]</name>
-    <key>timeout_duration_ms</key>
-    <value>100</value>
-    <type>float</type>
-    <hide>part</hide>
-  </param>
-  <param>
-    <name>System time granularity [us]</name>
-    <key>system_time_granularity_us</key>
+    <name>Time to start</name>
+    <key>time_to_start</key>
     <value>1000</value>
     <type>int</type>
     <hide>part</hide>
   </param>
-
+ 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
-
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
-  <sink>
-    <name>ack_frame_info_in</name>
-    <type>message</type>
-    <optional>1</optional>
-  </sink>
-  <sink>
-    <name>data_frame_info_in</name>
-    <type>message</type>
-    <optional>1</optional>
-  </sink>
-
   <source>
-    <name>frame_info_out</name>
+    <name>out</name>
     <type>message</type>
     <optional>1</optional>
   </source>
-
 </block>

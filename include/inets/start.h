@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_FRAME_BUFFER_H
-#define INCLUDED_INETS_FRAME_BUFFER_H
+#ifndef INCLUDED_INETS_START_H
+#define INCLUDED_INETS_START_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API frame_buffer : virtual public gr::block
+    class INETS_API start : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<frame_buffer> sptr;
+      typedef boost::shared_ptr<start> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::frame_buffer.
+       * \brief Return a shared_ptr to a new instance of inets::start.
        *
-       * To avoid accidental use of raw pointers, inets::frame_buffer's
+       * To avoid accidental use of raw pointers, inets::start's
        * constructor is in a private implementation
-       * class. inets::frame_buffer::make is the public interface for
+       * class. inets::start::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int buffer_size, int output_dequeue_element);
+      static sptr make(int develop_mode, int block_id, int time_to_start_s);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_BUFFER_H */
+#endif /* INCLUDED_INETS_START_H */
 

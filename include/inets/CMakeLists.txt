@@ -53,6 +53,7 @@ install(FILES
     framing.h
     timeout.h
     carrier_sensing.h
-    backoff.h DESTINATION include/inets
+    backoff.h
+    start.h DESTINATION include/inets
 
 )

@@ -56,7 +56,8 @@ list(APPEND inets_sources
     framing_impl.cc
     timeout_impl.cc
     carrier_sensing_impl.cc
-    backoff_impl.cc )
+    backoff_impl.cc
+    start_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

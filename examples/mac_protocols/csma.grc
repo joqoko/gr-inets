@@ -2170,68 +2170,12 @@
       <value>2</value>
     </param>
     <param>
-      <key>destination_address</key>
-      <value>destination_address</value>
-    </param>
-    <param>
       <key>develop_mode</key>
       <value>1</value>
     </param>
     <param>
-      <key>frame_index</key>
-      <value>frame_index</value>
-    </param>
-    <param>
-      <key>frame_type</key>
-      <value>frame_type</value>
-    </param>
-    <param>
-      <key>increase_index</key>
-      <value>increase_index</value>
-    </param>
-    <param>
-      <key>len_destination_address</key>
-      <value>len_destination_address</value>
-    </param>
-    <param>
-      <key>len_frame_index</key>
-      <value>len_frame_index</value>
-    </param>
-    <param>
-      <key>len_frame_type</key>
-      <value>len_frame_type</value>
-    </param>
-    <param>
-      <key>len_payload_length</key>
-      <value>len_payload_length</value>
-    </param>
-    <param>
-      <key>len_reserved_field_I</key>
-      <value>len_reserved_field_I</value>
-    </param>
-    <param>
-      <key>len_reserved_field_II</key>
-      <value>len_reserved_field_II</value>
-    </param>
-    <param>
-      <key>len_source_address</key>
-      <value>len_source_address</value>
-    </param>
-    <param>
       <key>preamble</key>
       <value>diff_preamble_128</value>
-    </param>
-    <param>
-      <key>reserved_field_I</key>
-      <value>reserved_field_I</value>
-    </param>
-    <param>
-      <key>reserved_field_II</key>
-      <value>reserved_field_II</value>
-    </param>
-    <param>
-      <key>source_address</key>
-      <value>source_address</value>
     </param>
     <param>
       <key>system_time_granularity_us</key>

@@ -17,16 +17,16 @@
     <type>enum</type>
     <hide>$develop_mode.hide</hide>
     <option>
-      <name>on</name>
-      <key>1</key>
-      <opt>hide:none</opt>
-      <opt>hide_control:none</opt>
-    </option>
-    <option>
       <name>off</name>
       <key>0</key>
       <opt>hide:part</opt>
       <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
     <option>
       <name>time</name>

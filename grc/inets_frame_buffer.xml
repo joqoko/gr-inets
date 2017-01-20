@@ -4,7 +4,7 @@
   <key>inets_frame_buffer</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.frame_buffer($develop_mode, $block_id, $buffer_size)</make>
+  <make>inets.frame_buffer($develop_mode, $block_id, $buffer_size, $output_dequeue_element)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -17,16 +17,16 @@
     <type>enum</type>
     <hide>$develop_mode.hide</hide>
     <option>
-      <name>on</name>
-      <key>1</key>
-      <opt>hide:none</opt>
-      <opt>hide_control:none</opt>
-    </option>
-    <option>
       <name>off</name>
       <key>0</key>
       <opt>hide:part</opt>
       <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
     <option>
       <name>time</name>
@@ -80,6 +80,39 @@
       <name>On</name>
       <key>0</key>
       <opt>hide:none</opt>
+      <opt>hide_control:part</opt>
+    </option>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+  </param>
+  <param>
+    <name>Output?</name>
+    <key>output_dequeue_element</key>
+    <value>0</value>
+    <hide>$dequeue.hide_control</hide>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+  </param>
+  <param>
+    <name>Preview</name>
+    <key>preview</key>
+    <value>0</value>
+    <type>enum</type>
+    <hide>$preivew.hide</hide>
+    <option>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:none</opt>
     </option>
     <option>
       <name>Off</name>
@@ -121,6 +154,13 @@
     <type>message</type>
     <optional>1</optional>
     <hide>$dequeue</hide>
+  </sink>
+
+  <sink>
+    <name>preview</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$preview</hide>
   </sink>
 
   <sink>

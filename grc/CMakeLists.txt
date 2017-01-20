@@ -56,5 +56,6 @@ install(FILES
     inets_receiving.xml
     inets_timeout.xml
     inets_carrier_sensing.xml
-    inets_backoff.xml DESTINATION share/gnuradio/grc/blocks
+    inets_backoff.xml
+    inets_start.xml DESTINATION share/gnuradio/grc/blocks
 )

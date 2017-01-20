@@ -30,33 +30,35 @@ namespace gr {
   namespace inets {
 
     frame_buffer::sptr
-    frame_buffer::make(int develop_mode, int block_id, int buffer_size)
+    frame_buffer::make(int develop_mode, int block_id, int buffer_size, int output_dequeue_element)
     {
       return gnuradio::get_initial_sptr
-        (new frame_buffer_impl(develop_mode, block_id, buffer_size));
+        (new frame_buffer_impl(develop_mode, block_id, buffer_size, output_dequeue_element));
     }
 
     /*
      * The private constructor
      */
-    frame_buffer_impl::frame_buffer_impl(int develop_mode, int block_id, int buffer_size)
+    frame_buffer_impl::frame_buffer_impl(int develop_mode, int block_id, int buffer_size, int output_dequeue_element)
       : gr::block("frame_buffer",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
-        _buffer_size(buffer_size)
+        _buffer_size(buffer_size),
+        _output_dequeue_element(output_dequeue_element)
     {
       if(_develop_mode)
         std::cout << "develop_mode of buffer ID: " << _block_id << " is activated." << std::endl;
-        message_port_register_in(pmt::mp("enqueue")); 
-        set_msg_handler(pmt::mp("enqueue"), boost::bind(&frame_buffer_impl::enqueue, this, _1));
-        message_port_register_in(pmt::mp("dequeue")); 
-        set_msg_handler(pmt::mp("dequeue"), boost::bind(&frame_buffer_impl::dequeue, this, _1));
-        message_port_register_in(pmt::mp("flush")); 
-        set_msg_handler(pmt::mp("flush"), boost::bind(&frame_buffer_impl::flush, this, _1));
-         
-        message_port_register_out(pmt::mp("dequeue_element"));
+      message_port_register_in(pmt::mp("enqueue")); 
+      set_msg_handler(pmt::mp("enqueue"), boost::bind(&frame_buffer_impl::enqueue, this, _1));
+      message_port_register_in(pmt::mp("dequeue")); 
+      set_msg_handler(pmt::mp("dequeue"), boost::bind(&frame_buffer_impl::dequeue, this, _1));
+      message_port_register_in(pmt::mp("preview")); 
+      set_msg_handler(pmt::mp("preview"), boost::bind(&frame_buffer_impl::preview, this, _1));
+      message_port_register_in(pmt::mp("flush")); 
+      set_msg_handler(pmt::mp("flush"), boost::bind(&frame_buffer_impl::flush, this, _1));
+      message_port_register_out(pmt::mp("dequeue_element"));
     }
 
     /*
@@ -87,7 +89,8 @@ namespace gr {
         std::cout << "++++++++++++ buffer ID: " << _block_id << " dequeue ++++++++++" << std::endl;
       if(_buffer.size() > 0)
       {
-        message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
+        if(_output_dequeue_element)
+          message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
         _buffer.pop();
         if(_develop_mode == 1)
           std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after dequeue." << std::endl;
@@ -95,6 +98,21 @@ namespace gr {
       else
         if(_develop_mode == 1)
           std::cout << "buffer ID: " << _block_id << " is empty. no element is popped." << std::endl;
+    }
+
+    void frame_buffer_impl::preview(pmt::pmt_t preview_request)
+    {
+      if(_develop_mode == 1)
+        std::cout << "++++++++++++ buffer ID: " << _block_id << " preview ++++++++++" << std::endl;
+      if(_buffer.size() > 0)
+      {
+        message_port_pub(pmt::mp("preview_element"), _buffer.front());
+        if(_develop_mode == 1)
+          std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after preview." << std::endl;
+      }
+      else
+        if(_develop_mode == 1)
+          std::cout << "buffer ID: " << _block_id << " is empty. no element is previewed." << std::endl;
     }
 
     void frame_buffer_impl::flush(pmt::pmt_t flush)

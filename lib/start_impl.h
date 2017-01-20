@@ -18,39 +18,30 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_INETS_START_IMPL_H
+#define INCLUDED_INETS_START_IMPL_H
 
-#ifndef INCLUDED_INETS_FRAME_BUFFER_H
-#define INCLUDED_INETS_FRAME_BUFFER_H
-
-#include <inets/api.h>
-#include <gnuradio/block.h>
+#include <inets/start.h>
 
 namespace gr {
   namespace inets {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup inets
-     *
-     */
-    class INETS_API frame_buffer : virtual public gr::block
+    class start_impl : public start
     {
-     public:
-      typedef boost::shared_ptr<frame_buffer> sptr;
+     private:
+      int _develop_mode;
+      int _block_id;
+      int _time_to_start_s;
+      void start_out();
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of inets::frame_buffer.
-       *
-       * To avoid accidental use of raw pointers, inets::frame_buffer's
-       * constructor is in a private implementation
-       * class. inets::frame_buffer::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(int develop_mode, int block_id, int buffer_size, int output_dequeue_element);
+     public:
+      start_impl(int develop_mode, int block_id, int time_to_start_s);
+      ~start_impl();
+
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_BUFFER_H */
+#endif /* INCLUDED_INETS_START_IMPL_H */
 
