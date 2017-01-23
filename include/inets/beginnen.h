@@ -18,30 +18,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_START_IMPL_H
-#define INCLUDED_INETS_START_IMPL_H
 
-#include <inets/start.h>
+#ifndef INCLUDED_INETS_BEGINNEN_H
+#define INCLUDED_INETS_BEGINNEN_H
+
+#include <inets/api.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace inets {
 
-    class start_impl : public start
+    /*!
+     * \brief <+description of block+>
+     * \ingroup inets
+     *
+     */
+    class INETS_API beginnen : virtual public gr::block
     {
-     private:
-      int _develop_mode;
-      int _block_id;
-      int _time_to_start_s;
-      void start_out();
-
      public:
-      start_impl(int develop_mode, int block_id, int time_to_start_s);
-      ~start_impl();
+      typedef boost::shared_ptr<beginnen> sptr;
 
+      /*!
+       * \brief Return a shared_ptr to a new instance of inets::beginnen.
+       *
+       * To avoid accidental use of raw pointers, inets::beginnen's
+       * constructor is in a private implementation
+       * class. inets::beginnen::make is the public interface for
+       * creating new instances.
+       */
+      static sptr make(int develop_mode, int block_id);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_START_IMPL_H */
+#endif /* INCLUDED_INETS_BEGINNEN_H */
 

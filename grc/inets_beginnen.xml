@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<block>
+  <name>beginnen</name>
+  <key>inets_beginnen</key>
+  <category>inets_dmf_mac</category>
+  <import>import inets</import>
+  <make>inets.beginnen($develop_mode, $block_id)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>develop_mode</name>
+    <key>develop_mode</key>
+    <type>int</type>
+  </param>
+
+  <param>
+    <name>block_id</name>
+    <key>block_id</key>
+    <type>int</type>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>trigger_in</name>
+    <type>message</type>
+  </sink>
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>message</type>
+  </source>
+</block>

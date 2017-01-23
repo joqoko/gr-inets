@@ -40,7 +40,8 @@
 #include "inets/timeout.h"
 #include "inets/carrier_sensing.h"
 #include "inets/backoff.h"
-#include "inets/start.h"
+#include "inets/beginnen.h"
+#include "inets/address_check.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -119,5 +120,9 @@ GR_SWIG_BLOCK_MAGIC2(inets, timeout);
 GR_SWIG_BLOCK_MAGIC2(inets, carrier_sensing);
 %include "inets/backoff.h"
 GR_SWIG_BLOCK_MAGIC2(inets, backoff);
-%include "inets/start.h"
-GR_SWIG_BLOCK_MAGIC2(inets, start);
+
+%include "inets/beginnen.h"
+GR_SWIG_BLOCK_MAGIC2(inets, beginnen);
+%include "inets/address_check.h"
+GR_SWIG_BLOCK_MAGIC2(inets, address_check);
+

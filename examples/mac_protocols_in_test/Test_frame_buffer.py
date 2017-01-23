@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Test_general
+# Title: Test_frame_buffer
 # Author: PWA
-# Generated: Mon Jan 23 16:51:23 2017
+# Generated: Mon Jan 23 16:52:06 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -31,12 +31,12 @@ import sys
 from gnuradio import qtgui
 
 
-class Test_general(gr.top_block, Qt.QWidget):
+class Test_frame_buffer(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Test_general")
+        gr.top_block.__init__(self, "Test_frame_buffer")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Test_general")
+        self.setWindowTitle("Test_frame_buffer")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -54,7 +54,7 @@ class Test_general(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Test_general")
+        self.settings = Qt.QSettings("GNU Radio", "Test_frame_buffer")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -64,33 +64,15 @@ class Test_general(gr.top_block, Qt.QWidget):
         self.range_rx_gain = range_rx_gain = 15
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
-        self.timeout_duration_ms = timeout_duration_ms = 1000
-        self.system_time_granularity_us_0 = system_time_granularity_us_0 = 1000
         self.system_time_granularity_us = system_time_granularity_us = 1000
-        self.source_address = source_address = 4
-        self.samp_rate = samp_rate = 1000000
+        self.samp_rate = samp_rate = 32000
         self.rx_gain = rx_gain = range_rx_gain
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
-        self.reserved_field_II = reserved_field_II = 6
-        self.reserved_field_I = reserved_field_I = 5
         self.mu = mu = range_mu
-        self.len_source_address = len_source_address = 1
-        self.len_reserved_field_II = len_reserved_field_II = 2
-        self.len_reserved_field_I = len_reserved_field_I = 2
-        self.len_payload_length = len_payload_length = 1
-        self.len_frame_type = len_frame_type = 1
-        self.len_frame_index = len_frame_index = 1
-        self.len_destination_address = len_destination_address = 1
-        self.increase_index = increase_index = 1
-        self.frame_type = frame_type = 1
-        self.frame_index = frame_index = 2
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
-        self.develop_mode_list = develop_mode_list = [1, 2, 3]
-        self.destination_address = destination_address = 3
         self.cs_threshold = cs_threshold = 0.005
-        self.cs_duration = cs_duration = 50
 
         ##################################################
         # Blocks
@@ -101,8 +83,10 @@ class Test_general(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
+        self.inets_timeout_0 = inets.timeout(0, 10, 100, 1000)
+        self.inets_sending_0 = inets.sending(develop_mode=1, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address)
         self.inets_receiving_0 = inets.receiving(
-            develop_mode=1,
+            develop_mode=2,
             block_id=11,
             constellation=gnuradio.digital.constellation_qpsk().base(),
             matched_filter_coeff=rrc,
@@ -114,18 +98,37 @@ class Test_general(gr.top_block, Qt.QWidget):
             threshold=cs_threshold,
             usrp_device_address=usrp_device_address
         )
-        self.inets_framing_0 = inets.framing(0, 17, 1, 1, frame_index, 1, destination_address, 1, source_address, 1, 0, 2, 0, 2, 1, 1, 0)
+        self.inets_framing_0_0 = inets.framing(0, 17, 2, 1, 1, 1, 5, 1, 1, 1, 0, 2, 0, 2, 1, 1, 0)
+        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 1, 1, 5, 1, 1, 1, 0, 2, 0, 2, 1, 1, 0)
+        self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 0, 1, 1, 1)
+        self.inets_frame_type_check_0 = inets.frame_type_check(0, 0, 1, 1, 1)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10)
+        self.inets_carrier_sensing_0 = inets.carrier_sensing(0, 11, 2, 100, 0.005, 1000)
+        self.inets_backoff_0 = inets.backoff(0, 11, 3, 1, 10, 6, 100, 400)
+        self.inets_address_check_0 = inets.address_check(0, 17, 1)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_framing_0_0, 'data_in'))
+        self.msg_connect((self.inets_backoff_0, 'resend_frame_info_out'), (self.inets_carrier_sensing_0, 'info_in'))
+        self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_pass_out'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_carrier_sensing_0, 'info_in'))
+        self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_0, 'ack_frame_info_in'))
+        self.msg_connect((self.inets_frame_type_check_0_0, 'data_frame_info_out'), (self.inets_backoff_0, 'frame_info_trigger_in'))
+        self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_frame_buffer_0, 'dequeue'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
+        self.msg_connect((self.inets_framing_0_0, 'frame_out'), (self.inets_carrier_sensing_0, 'info_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'info_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_sending_0, 'tx_frame_info_out'), (self.inets_timeout_0, 'data_frame_info_in'))
+        self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Test_general")
+        self.settings = Qt.QSettings("GNU Radio", "Test_frame_buffer")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -155,29 +158,11 @@ class Test_general(gr.top_block, Qt.QWidget):
     def set_usrp_device_address(self, usrp_device_address):
         self.usrp_device_address = usrp_device_address
 
-    def get_timeout_duration_ms(self):
-        return self.timeout_duration_ms
-
-    def set_timeout_duration_ms(self, timeout_duration_ms):
-        self.timeout_duration_ms = timeout_duration_ms
-
-    def get_system_time_granularity_us_0(self):
-        return self.system_time_granularity_us_0
-
-    def set_system_time_granularity_us_0(self, system_time_granularity_us_0):
-        self.system_time_granularity_us_0 = system_time_granularity_us_0
-
     def get_system_time_granularity_us(self):
         return self.system_time_granularity_us
 
     def set_system_time_granularity_us(self, system_time_granularity_us):
         self.system_time_granularity_us = system_time_granularity_us
-
-    def get_source_address(self):
-        return self.source_address
-
-    def set_source_address(self, source_address):
-        self.source_address = source_address
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -197,83 +182,11 @@ class Test_general(gr.top_block, Qt.QWidget):
     def set_rrc(self, rrc):
         self.rrc = rrc
 
-    def get_reserved_field_II(self):
-        return self.reserved_field_II
-
-    def set_reserved_field_II(self, reserved_field_II):
-        self.reserved_field_II = reserved_field_II
-
-    def get_reserved_field_I(self):
-        return self.reserved_field_I
-
-    def set_reserved_field_I(self, reserved_field_I):
-        self.reserved_field_I = reserved_field_I
-
     def get_mu(self):
         return self.mu
 
     def set_mu(self, mu):
         self.mu = mu
-
-    def get_len_source_address(self):
-        return self.len_source_address
-
-    def set_len_source_address(self, len_source_address):
-        self.len_source_address = len_source_address
-
-    def get_len_reserved_field_II(self):
-        return self.len_reserved_field_II
-
-    def set_len_reserved_field_II(self, len_reserved_field_II):
-        self.len_reserved_field_II = len_reserved_field_II
-
-    def get_len_reserved_field_I(self):
-        return self.len_reserved_field_I
-
-    def set_len_reserved_field_I(self, len_reserved_field_I):
-        self.len_reserved_field_I = len_reserved_field_I
-
-    def get_len_payload_length(self):
-        return self.len_payload_length
-
-    def set_len_payload_length(self, len_payload_length):
-        self.len_payload_length = len_payload_length
-
-    def get_len_frame_type(self):
-        return self.len_frame_type
-
-    def set_len_frame_type(self, len_frame_type):
-        self.len_frame_type = len_frame_type
-
-    def get_len_frame_index(self):
-        return self.len_frame_index
-
-    def set_len_frame_index(self, len_frame_index):
-        self.len_frame_index = len_frame_index
-
-    def get_len_destination_address(self):
-        return self.len_destination_address
-
-    def set_len_destination_address(self, len_destination_address):
-        self.len_destination_address = len_destination_address
-
-    def get_increase_index(self):
-        return self.increase_index
-
-    def set_increase_index(self, increase_index):
-        self.increase_index = increase_index
-
-    def get_frame_type(self):
-        return self.frame_type
-
-    def set_frame_type(self, frame_type):
-        self.frame_type = frame_type
-
-    def get_frame_index(self):
-        return self.frame_index
-
-    def set_frame_index(self, frame_index):
-        self.frame_index = frame_index
 
     def get_diff_preamble_128(self):
         return self.diff_preamble_128
@@ -281,32 +194,14 @@ class Test_general(gr.top_block, Qt.QWidget):
     def set_diff_preamble_128(self, diff_preamble_128):
         self.diff_preamble_128 = diff_preamble_128
 
-    def get_develop_mode_list(self):
-        return self.develop_mode_list
-
-    def set_develop_mode_list(self, develop_mode_list):
-        self.develop_mode_list = develop_mode_list
-
-    def get_destination_address(self):
-        return self.destination_address
-
-    def set_destination_address(self, destination_address):
-        self.destination_address = destination_address
-
     def get_cs_threshold(self):
         return self.cs_threshold
 
     def set_cs_threshold(self, cs_threshold):
         self.cs_threshold = cs_threshold
 
-    def get_cs_duration(self):
-        return self.cs_duration
 
-    def set_cs_duration(self, cs_duration):
-        self.cs_duration = cs_duration
-
-
-def main(top_block_cls=Test_general, options=None):
+def main(top_block_cls=Test_frame_buffer, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

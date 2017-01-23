@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>start</name>
-  <key>inets_start</key>
-  <category>inets_dmf_tool</category>
+  <name>address_check</name>
+  <key>inets_address_check</key>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.start($develop_mode, $block_id, $time_to_start)</make>
+  <make>inets.address_check($develop_mode, $block_id, $my_address)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -39,32 +39,60 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>0</value>
+    <value>17</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
- 
+
   <param>
-    <name>Time to start</name>
-    <key>time_to_start</key>
-    <value>1000</value>
+    <name>My address</name>
+    <key>my_address</key>
+    <value>1</value>
     <type>int</type>
     <hide>part</hide>
   </param>
- 
+
+  <param>
+    <name>Show not pass</name>
+    <key>show_not_pass</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>show</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>hide</name>
+      <key>1</key>
+      <opt>hide:all</opt>
+    </option>
+  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>frame_info_in</name>
+    <type>message</type>
+  </sink>
+
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
+    <name>address_check_pass_out</name>
     <type>message</type>
     <optional>1</optional>
+  </source>
+
+  <source>
+    <name>address_check_fail_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$show_not_pass</hide>
   </source>
 </block>

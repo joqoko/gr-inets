@@ -1,5 +1,3 @@
-
-
 /* -*- c++ -*- */
 /* 
  * Copyright 2017 <+YOU OR YOUR COMPANY+>.
@@ -20,34 +18,31 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_FRAME_BUFFER_IMPL_H
-#define INCLUDED_INETS_FRAME_BUFFER_IMPL_H
+#ifndef INCLUDED_INETS_BEGINNEN_IMPL_H
+#define INCLUDED_INETS_BEGINNEN_IMPL_H
 
-#include <inets/frame_buffer.h>
-#include <queue>
+#include <inets/beginnen.h>
 
 namespace gr {
   namespace inets {
 
-    class frame_buffer_impl : public frame_buffer
+    class beginnen_impl : public beginnen
     {
      private:
+
       int _develop_mode;
       int _block_id;
-      int _buffer_size;
-//      int _output_dequeue_element;
-      std::queue<pmt::pmt_t> _buffer;
-      void enqueue(pmt::pmt_t enqueue_element);
-      void dequeue(pmt::pmt_t dequeue_request);
-//      void preview(pmt::pmt_t preview_request);
-      void flush(pmt::pmt_t flush_request);
+      bool _started;
+      void trigger(pmt::pmt_t msg);
 
      public:
-      frame_buffer_impl(int develop_mode, int block_id, int buffer_size);
-      ~frame_buffer_impl();
+      beginnen_impl(int develop_mode, int block_id);
+      ~beginnen_impl();
+
     };
+
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_BUFFER_IMPL_H */
+#endif /* INCLUDED_INETS_BEGINNEN_IMPL_H */
 

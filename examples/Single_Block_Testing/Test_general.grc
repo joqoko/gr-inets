@@ -1043,69 +1043,6 @@
     </param>
   </block>
   <block>
-    <key>inets_carrier_sensing</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>11</value>
-    </param>
-    <param>
-      <key>cs_duration</key>
-      <value>cs_duration</value>
-    </param>
-    <param>
-      <key>cs_mode</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>cs_threshold</key>
-      <value>cs_threshold</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(352, 448)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_carrier_sensing_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>system_time_granularity_us</key>
-      <value>system_time_granularity_us</value>
-    </param>
-  </block>
-  <block>
     <key>inets_frame_buffer</key>
     <param>
       <key>alias</key>
@@ -1303,7 +1240,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1311,7 +1248,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(880, 448)</value>
+      <value>(712, 468)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1390,143 +1327,11 @@
       <value>usrp_device_address</value>
     </param>
   </block>
-  <block>
-    <key>inets_sending</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>11</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(888, 364)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_sending_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>constellation</key>
-      <value>gnuradio.digital.constellation_qpsk().base()</value>
-    </param>
-    <param>
-      <key>preamble</key>
-      <value>diff_preamble_128</value>
-    </param>
-    <param>
-      <key>sps</key>
-      <value>sps</value>
-    </param>
-    <param>
-      <key>system_time_granularity_us</key>
-      <value>system_time_granularity_us</value>
-    </param>
-    <param>
-      <key>usrp_device_address</key>
-      <value>usrp_device_address</value>
-    </param>
-  </block>
-  <block>
-    <key>inets_timeout</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>10</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(624, 440)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_timeout_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>system_time_granularity_us</key>
-      <value>system_time_granularity_us</value>
-    </param>
-    <param>
-      <key>timeout_duration_ms</key>
-      <value>timeout_duration_ms</value>
-    </param>
-  </block>
   <connection>
     <source_block_id>blocks_socket_pdu_0</source_block_id>
     <sink_block_id>inets_framing_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>data_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_frame_buffer_0</source_block_id>
-    <sink_block_id>inets_sending_0</sink_block_id>
-    <source_key>dequeue_element</source_key>
-    <sink_key>in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_framing_0</source_block_id>

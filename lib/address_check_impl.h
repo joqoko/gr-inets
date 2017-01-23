@@ -1,8 +1,7 @@
 
-
 /* -*- c++ -*- */
 /* 
- * Copyright 2017 <+YOU OR YOUR COMPANY+>.
+ * Copyright 2016 <+YOU OR YOUR COMPANY+>.
  * 
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,34 +19,31 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_FRAME_BUFFER_IMPL_H
-#define INCLUDED_INETS_FRAME_BUFFER_IMPL_H
+#ifndef INCLUDED_INETS_ADDRESS_CHECK_IMPL_H
+#define INCLUDED_INETS_ADDRESS_CHECK_IMPL_H
 
-#include <inets/frame_buffer.h>
-#include <queue>
+#include <inets/address_check.h>
 
 namespace gr {
   namespace inets {
 
-    class frame_buffer_impl : public frame_buffer
+    class address_check_impl : public address_check
     {
      private:
       int _develop_mode;
       int _block_id;
-      int _buffer_size;
-//      int _output_dequeue_element;
-      std::queue<pmt::pmt_t> _buffer;
-      void enqueue(pmt::pmt_t enqueue_element);
-      void dequeue(pmt::pmt_t dequeue_request);
-//      void preview(pmt::pmt_t preview_request);
-      void flush(pmt::pmt_t flush_request);
+      int _my_address;
+      int _apply_address_check;
+      void check_address(pmt::pmt_t frame_info);
 
      public:
-      frame_buffer_impl(int develop_mode, int block_id, int buffer_size);
-      ~frame_buffer_impl();
+      address_check_impl(int develop_mode, int block_id, int my_address);
+      ~address_check_impl();
+
     };
+
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_BUFFER_IMPL_H */
+#endif /* INCLUDED_INETS_ADDRESS_CHECK_IMPL_H */
 

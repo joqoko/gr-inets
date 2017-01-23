@@ -5,7 +5,7 @@
 # Title: csma
 # Author: pwa
 # Description: classic csma
-# Generated: Thu Jan 12 09:48:39 2017
+# Generated: Mon Jan 23 16:42:46 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -117,23 +117,9 @@ class csma(gr.top_block, Qt.QWidget):
         self.send_frame_0 = send_frame(
             block_id=2,
             constellation=gnuradio.digital.constellation_qpsk().base(),
-            destination_address=destination_address,
             develop_mode=1,
-            frame_index=frame_index,
-            frame_type=frame_type,
-            increase_index=increase_index,
-            len_destination_address=len_destination_address,
-            len_frame_index=len_frame_index,
-            len_frame_type=len_frame_type,
-            len_payload_length=len_payload_length,
-            len_reserved_field_I=len_reserved_field_I,
-            len_reserved_field_II=len_reserved_field_II,
-            len_source_address=len_source_address,
             preamble=diff_preamble_128,
-            reserved_field_I=reserved_field_I,
-            reserved_field_II=reserved_field_II,
             samp_rate=samp_rate,
-            source_address=source_address,
             sps=sps,
             system_time_granularity_us=system_time_granularity_us,
             usrp_device_address=usrp_device_address,
@@ -146,7 +132,7 @@ class csma(gr.top_block, Qt.QWidget):
             len_destination_address=len_destination_address,
             len_frame_index=len_frame_index,
             len_frame_type=len_frame_type,
-            len_num_transmission=len_num_transmission,
+            len_num_transmission=1,
             len_payload_length=len_payload_length,
             len_reserved_field_I=len_reserved_field_I,
             len_reserved_field_II=len_reserved_field_II,
@@ -159,7 +145,7 @@ class csma(gr.top_block, Qt.QWidget):
             samp_rate=samp_rate,
             sps=sps,
             threshold=preamble_detector_threshold,
-            usrp_device_address=usrp_device_address,
+            usrp_device_address="addr=10.0.0.6",
         )
         self._range_rx_gain_range = Range(0, 60, 1, 15, 200)
         self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, 'Rx Gain', "counter_slider", float)
@@ -194,7 +180,6 @@ class csma(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_idle_0, 'data_out'), (self.inets_carrier_sensing_cpp_cc_0, 'info_in'))
         self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_counter_0_1, 'message_in'))
         self.msg_connect((self.inets_timeout_cpp_0, 'frame_info_out'), (self.inets_frame_type_check_0_1, 'frame_info_in'))
-        self.msg_connect((self.receive_frame_0_0, 'rx_power_out'), (self.inets_carrier_sensing_cpp_cc_0, 'info_in'))
         self.msg_connect((self.receive_frame_0_0, 'rx_frame_info_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
         self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
 
@@ -231,7 +216,6 @@ class csma(gr.top_block, Qt.QWidget):
     def set_usrp_device_address(self, usrp_device_address):
         self.usrp_device_address = usrp_device_address
         self.send_frame_0.set_usrp_device_address(self.usrp_device_address)
-        self.receive_frame_0_0.set_usrp_device_address(self.usrp_device_address)
 
     def get_timeout_duration_ms(self):
         return self.timeout_duration_ms
@@ -251,7 +235,6 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_source_address(self, source_address):
         self.source_address = source_address
-        self.send_frame_0.set_source_address(self.source_address)
         self.receive_frame_0_0.set_my_address(self.source_address)
 
     def get_self_data_info(self):
@@ -293,14 +276,12 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_reserved_field_II(self, reserved_field_II):
         self.reserved_field_II = reserved_field_II
-        self.send_frame_0.set_reserved_field_II(self.reserved_field_II)
 
     def get_reserved_field_I(self):
         return self.reserved_field_I
 
     def set_reserved_field_I(self, reserved_field_I):
         self.reserved_field_I = reserved_field_I
-        self.send_frame_0.set_reserved_field_I(self.reserved_field_I)
 
     def get_preamble_detector_threshold(self):
         return self.preamble_detector_threshold
@@ -339,7 +320,6 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_len_source_address(self, len_source_address):
         self.len_source_address = len_source_address
-        self.send_frame_0.set_len_source_address(self.len_source_address)
         self.receive_frame_0_0.set_len_source_address(self.len_source_address)
 
     def get_len_reserved_field_II(self):
@@ -347,7 +327,6 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_len_reserved_field_II(self, len_reserved_field_II):
         self.len_reserved_field_II = len_reserved_field_II
-        self.send_frame_0.set_len_reserved_field_II(self.len_reserved_field_II)
         self.receive_frame_0_0.set_len_reserved_field_II(self.len_reserved_field_II)
 
     def get_len_reserved_field_I(self):
@@ -355,7 +334,6 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_len_reserved_field_I(self, len_reserved_field_I):
         self.len_reserved_field_I = len_reserved_field_I
-        self.send_frame_0.set_len_reserved_field_I(self.len_reserved_field_I)
         self.receive_frame_0_0.set_len_reserved_field_I(self.len_reserved_field_I)
 
     def get_len_payload_length(self):
@@ -363,7 +341,6 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_len_payload_length(self, len_payload_length):
         self.len_payload_length = len_payload_length
-        self.send_frame_0.set_len_payload_length(self.len_payload_length)
         self.receive_frame_0_0.set_len_payload_length(self.len_payload_length)
 
     def get_len_num_transmission(self):
@@ -371,14 +348,12 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_len_num_transmission(self, len_num_transmission):
         self.len_num_transmission = len_num_transmission
-        self.receive_frame_0_0.set_len_num_transmission(self.len_num_transmission)
 
     def get_len_frame_type(self):
         return self.len_frame_type
 
     def set_len_frame_type(self, len_frame_type):
         self.len_frame_type = len_frame_type
-        self.send_frame_0.set_len_frame_type(self.len_frame_type)
         self.receive_frame_0_0.set_len_frame_type(self.len_frame_type)
 
     def get_len_frame_index(self):
@@ -386,7 +361,6 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_len_frame_index(self, len_frame_index):
         self.len_frame_index = len_frame_index
-        self.send_frame_0.set_len_frame_index(self.len_frame_index)
         self.receive_frame_0_0.set_len_frame_index(self.len_frame_index)
 
     def get_len_destination_address(self):
@@ -394,7 +368,6 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_len_destination_address(self, len_destination_address):
         self.len_destination_address = len_destination_address
-        self.send_frame_0.set_len_destination_address(self.len_destination_address)
         self.receive_frame_0_0.set_len_destination_address(self.len_destination_address)
 
     def get_increase_index(self):
@@ -402,21 +375,18 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_increase_index(self, increase_index):
         self.increase_index = increase_index
-        self.send_frame_0.set_increase_index(self.increase_index)
 
     def get_frame_type(self):
         return self.frame_type
 
     def set_frame_type(self, frame_type):
         self.frame_type = frame_type
-        self.send_frame_0.set_frame_type(self.frame_type)
 
     def get_frame_index(self):
         return self.frame_index
 
     def set_frame_index(self, frame_index):
         self.frame_index = frame_index
-        self.send_frame_0.set_frame_index(self.frame_index)
 
     def get_experiment_duration_s(self):
         return self.experiment_duration_s
@@ -443,7 +413,6 @@ class csma(gr.top_block, Qt.QWidget):
 
     def set_destination_address(self, destination_address):
         self.destination_address = destination_address
-        self.send_frame_0.set_destination_address(self.destination_address)
 
     def get_cs_threshold(self):
         return self.cs_threshold

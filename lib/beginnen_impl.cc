@@ -23,47 +23,53 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include "start_impl.h"
+#include "beginnen_impl.h"
 
 namespace gr {
   namespace inets {
 
-    start::sptr
-    start::make(int develop_mode, int block_id, int time_to_start_s)
+    beginnen::sptr
+    beginnen::make(int develop_mode, int block_id)
     {
       return gnuradio::get_initial_sptr
-        (new start_impl(develop_mode, block_id, time_to_start_s));
+        (new beginnen_impl(develop_mode, block_id));
     }
 
     /*
      * The private constructor
      */
-    start_impl::start_impl(int develop_mode, int block_id, int time_to_start_s)
-      : gr::block("start",
+    beginnen_impl::beginnen_impl(int develop_mode, int block_id)
+      : gr::block("beginnen",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
-        _time_to_start_s(time_to_start_s)
-    {
-      if(_develop_mode)
-        std::cout << "develop_mode of start ID: " << _block_id << " is activated." << std::endl;
+        _started(false)
+    { 
+      if(_develop_mode == 1)
+        std::cout << "develop_mode of Beginnen ID: " << _block_id << " is activated." << std::endl;
+      message_port_register_in(pmt::mp("trigger_in"));
+      set_msg_handler(pmt::mp("trigger_in"), boost::bind(&beginnen_impl::trigger, this, _1 ));
       message_port_register_out(pmt::mp("out"));
-//      start_out();
     }
 
     /*
      * Our virtual destructor.
      */
-    start_impl::~start_impl()
+    beginnen_impl::~beginnen_impl()
     {
     }
 
-    void
-    start_impl::start_out()
+    void 
+    beginnen_impl::trigger(pmt::pmt_t msg)
     {
-      boost::this_thread::sleep(boost::posix_time::microseconds(_time_to_start_s));
-      message_port_pub(pmt::mp("out"), pmt::string_to_symbol("Start!"));
+      if(!_started)
+      {
+        std::cout << "Here 0" << std::endl;
+        message_port_pub(pmt::mp("out"), pmt::string_to_symbol("Start"));
+        std::cout << "Here 1" << std::endl;
+        _started = true;
+      }
     }
 
   } /* namespace inets */

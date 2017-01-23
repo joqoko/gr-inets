@@ -54,6 +54,8 @@ install(FILES
     timeout.h
     carrier_sensing.h
     backoff.h
-    start.h DESTINATION include/inets
+    beginnen.h
+    address_check.h
+    DESTINATION include/inets
 
 )
