@@ -42,6 +42,7 @@
 #include "inets/backoff.h"
 #include "inets/beginnen.h"
 #include "inets/address_check.h"
+#include "inets/inter_frame_interval.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -126,3 +127,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, beginnen);
 %include "inets/address_check.h"
 GR_SWIG_BLOCK_MAGIC2(inets, address_check);
 
+%include "inets/inter_frame_interval.h"
+GR_SWIG_BLOCK_MAGIC2(inets, inter_frame_interval);

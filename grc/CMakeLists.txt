@@ -59,5 +59,5 @@ install(FILES
     inets_backoff.xml
     inets_beginnen.xml
     inets_address_check.xml
-    DESTINATION share/gnuradio/grc/blocks
+    inets_inter_frame_interval.xml DESTINATION share/gnuradio/grc/blocks
 )
