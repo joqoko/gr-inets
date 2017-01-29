@@ -43,6 +43,7 @@
 #include "inets/beginnen.h"
 #include "inets/address_check.h"
 #include "inets/frame_probe.h"
+#include "inets/frame_aggregation.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -129,3 +130,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, address_check);
 
 %include "inets/frame_probe.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_probe);
+%include "inets/frame_aggregation.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_aggregation);

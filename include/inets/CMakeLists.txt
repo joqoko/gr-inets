@@ -56,6 +56,7 @@ install(FILES
     backoff.h
     beginnen.h
     address_check.h
-    frame_probe.h DESTINATION include/inets
+    frame_probe.h
+    frame_aggregation.h DESTINATION include/inets
 
 )

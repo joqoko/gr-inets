@@ -101,6 +101,8 @@ namespace gr {
           std::cout << "frame info contains a frame with length " << frame_array.size() << "bytes" << std::endl;
         }
       }
+      else
+        std::cout << "Error. Input is not a frame_info structure. Please check your connections." << std::endl;
     }
 
 
