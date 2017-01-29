@@ -31,16 +31,16 @@ namespace gr {
   namespace inets {
 
     framing::sptr
-    framing::make(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission)
+    framing::make(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu)
     {
       return gnuradio::get_initial_sptr
-        (new framing_impl(develop_mode, block_id, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission));
+        (new framing_impl(develop_mode, block_id, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission, reserved_field_ampdu));
     }
 
     /*
      * The private constructor
      */
-    framing_impl::framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission)
+    framing_impl::framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu)
       : gr::block("framing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -60,7 +60,8 @@ namespace gr {
         _len_reserved_field_II(len_reserved_field_II), // Bytes
         _len_payload_length(len_payload_length), // Bytes
         _increase_index(increase_index),
-	_len_num_transmission(len_num_transmission)
+	_len_num_transmission(len_num_transmission),
+        _reserved_field_ampdu(reserved_field_ampdu)
     {
       if(_develop_mode == 1)
         std::cout << "develop_mode of Framing ID: " << _block_id << " is activated." << std::endl;
@@ -79,6 +80,8 @@ namespace gr {
     void 
     framing_impl::catagorization(pmt::pmt_t data_in)
     {
+      if(_develop_mode == 1)
+        std::cout << "frame type: "<< _frame_type << std::endl;
       if(_frame_type == 1)
 	data_frame_formation(data_in);
       else if(_frame_type == 2)
@@ -87,9 +90,110 @@ namespace gr {
       }
       else if(_frame_type == 3)
 	beacon_frame_formation(data_in);
+      else if(_frame_type == 4)
+	rts_frame_formation(data_in);
+      else if(_frame_type == 5)
+	cts_frame_formation(data_in);
+      else if(_frame_type == 6)
+	std::cout << "frame type 6 is ampdu frame. It is not aggregated here. " << std::endl;
+      else if(_frame_type == 7)
+	std::cout << "frame type 7 is amsdu frame. It is not aggregated here. " << std::endl;
+      else if(_frame_type == 8)
+      {
+	ampdu_subframe_formation(data_in);
+      }
+      else if(_frame_type == 9)
+	amsdu_subframe_formation(data_in);
       else
 	std::cout << "Wrong frame type, please check your connections." << std::endl;
+    }
 
+    pmt::pmt_t
+    framing_impl::ampdu_delimiter_formation(std::vector<unsigned char> *delimiter, int reserved_field_ampdu, int payload_length)
+    {
+      std::vector< unsigned char > vec_delimiter;
+      std::vector< unsigned char > vec_reserved_field_ampdu;
+      std::vector< unsigned char > vec_payload_length;
+      /* 
+        delimiter (4 Bytes)
+        Reserved field 1 (1 Bytes)
+        Payload length (1 Bytes)
+        delimiter signature (1 Bytes)
+       */
+      // Reserved field I
+      intToByte(reserved_field_ampdu, &vec_reserved_field_ampdu, 1);
+      // Payload length
+      intToByte(payload_length, &vec_payload_length, _len_payload_length);
+
+      //std::cout  << "Frame header length before frame type: " << frame_header->size() << std::endl;
+      delimiter->insert(delimiter->end(), vec_reserved_field_ampdu.begin(), vec_reserved_field_ampdu.begin() + 1);
+      //std::cout  << "delimiter length after reserved_field: " << delimiter->size() << std::endl;
+      delimiter->insert(delimiter->end(), vec_payload_length.begin(), vec_payload_length.begin() + _len_payload_length);
+
+      pmt::pmt_t frame_info  = pmt::make_dict();
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_ampdu"), pmt::from_long(reserved_field_ampdu));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(payload_length));
+      return frame_info;
+    }
+
+    void
+    framing_impl::ampdu_subframe_formation(pmt::pmt_t rx_payload)
+    {
+      if(_develop_mode == 1)
+      {
+        std::cout << "+++ Framing ID: " << _block_id << " ampdu subframe +++" << std::endl;
+      }
+      /*
+       * Generate a ampdu subframe
+       */
+      pmt::pmt_t frame_info;
+      if(pmt::is_pair(rx_payload)) 
+      {
+        pmt::pmt_t meta = pmt::car(rx_payload);
+        pmt::pmt_t payload_pmt = pmt::cdr(rx_payload);
+        std::vector<unsigned char> payload_array; 
+        if(pmt::is_u8vector(payload_pmt))
+        {
+          payload_array = pmt::u8vector_elements(payload_pmt);
+          _payload_length = payload_array.size(); 
+          std::vector<unsigned char> delimiter;
+          frame_info = ampdu_delimiter_formation(&delimiter, _reserved_field_ampdu, _payload_length);
+          std::vector<unsigned char> ampdu_subframe;
+          ampdu_subframe.insert(ampdu_subframe.end(), delimiter.begin(), delimiter.end());
+          if(_develop_mode == 1)
+            std::cout << "delimiter length " << ampdu_subframe.size() << std::endl;
+          ampdu_subframe.insert(ampdu_subframe.end(), payload_array.begin(), payload_array.end());
+          if(_develop_mode == 1)
+            std::cout << "delimiter length with payload, length " << ampdu_subframe.size() << std::endl;
+          pmt::pmt_t subframe_before_crc_u8vector = pmt::init_u8vector(ampdu_subframe.size(), ampdu_subframe);
+          pmt::pmt_t subframe_before_crc = pmt::cons(meta, subframe_before_crc_u8vector); 
+          pmt::pmt_t subframe_after_crc = crc32_bb_calc(subframe_before_crc);
+          frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), subframe_after_crc);
+        }
+        else
+          std::cout << "pmt is not a u8vector" << std::endl;
+      }
+      else 
+        std::cout << "pmt is not a pair" << std::endl;
+      message_port_pub(pmt::mp("frame_out"), frame_info);
+    }
+
+    void
+    framing_impl::amsdu_subframe_formation(pmt::pmt_t rx_payload)
+    {
+      std::cout << "Under construction" << std::endl;
+    }
+
+    void
+    framing_impl::rts_frame_formation(pmt::pmt_t rx_payload)
+    {
+      std::cout << "Under construction" << std::endl;
+    }
+
+    void
+    framing_impl::cts_frame_formation(pmt::pmt_t rx_payload)
+    {
+      std::cout << "Under construction" << std::endl;
     }
 
     void

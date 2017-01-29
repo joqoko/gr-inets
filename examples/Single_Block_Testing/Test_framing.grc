@@ -514,37 +514,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_message_debug</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(952, 288)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_message_debug_0</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_socket_pdu</key>
     <param>
       <key>alias</key>
@@ -564,7 +533,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(288, 328)</value>
+      <value>(64, 320)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -601,6 +570,45 @@
     <param>
       <key>type</key>
       <value>"UDP_SERVER"</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_probe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>17</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(616, 520)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_probe_0</value>
     </param>
   </block>
   <block>
@@ -642,24 +650,16 @@
       <value>frame_index</value>
     </param>
     <param>
+      <key>frame_type</key>
+      <value>8</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(576, 376)</value>
+      <value>(296, 340)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
-    </param>
-    <param>
-      <key>ack_frame_gen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>beacon_frame_gen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>data_frame_gen</key>
-      <value>1</value>
     </param>
     <param>
       <key>id</key>
@@ -667,7 +667,7 @@
     </param>
     <param>
       <key>increase_index</key>
-      <value>increase_index</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -680,6 +680,10 @@
     <param>
       <key>len_frame_type</key>
       <value>len_frame_type</value>
+    </param>
+    <param>
+      <key>len_num_transmission</key>
+      <value>0</value>
     </param>
     <param>
       <key>len_payload_length</key>
@@ -714,6 +718,10 @@
       <value>reserved_field_II</value>
     </param>
     <param>
+      <key>reserved_field_ampdu</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>set_reserved_field</key>
       <value>1</value>
     </param>
@@ -722,4 +730,16 @@
       <value>source_address</value>
     </param>
   </block>
+  <connection>
+    <source_block_id>blocks_socket_pdu_0</source_block_id>
+    <sink_block_id>inets_framing_0</sink_block_id>
+    <source_key>pdus</source_key>
+    <sink_key>data_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_framing_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <source_key>frame_out</source_key>
+    <sink_key>info_in</sink_key>
+  </connection>
 </flow_graph>

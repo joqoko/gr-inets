@@ -4,7 +4,7 @@
   <key>inets_framing</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.framing($develop_mode, $block_id, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission)</make>
+  <make>inets.framing($develop_mode, $block_id, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission, $reserved_field_ampdu)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -47,7 +47,6 @@
   <param>
     <name>Frame type</name>
     <key>frame_type</key>
-    <value>1</value>
     <type>enum</type>
     <hide>none</hide>
     <option>
@@ -56,6 +55,7 @@
       <opt>hide_data:part</opt>
       <opt>hide_ack:all</opt>
       <opt>hide_beacon:all</opt>
+      <opt>hide_ampdu:all</opt>
     </option>
     <option>
       <name>ACK frame</name>
@@ -63,6 +63,7 @@
       <opt>hide_data:all</opt>
       <opt>hide_ack:part</opt>
       <opt>hide_beacon:all</opt>
+      <opt>hide_ampdu:all</opt>
     </option>
     <option>
       <name>BEACON frame</name>
@@ -70,9 +71,49 @@
       <opt>hide_data:all</opt>
       <opt>hide_ack:all</opt>
       <opt>hide_beacon:part</opt>
+      <opt>hide_ampdu:all</opt>
+    </option>
+    <option>
+      <name>RTS frame</name>
+      <key>4</key>
+      <opt>hide_data:all</opt>
+      <opt>hide_ack:all</opt>
+      <opt>hide_beacon:all</opt>
+      <opt>hide_ampdu:all</opt>
+    </option>
+    <option>
+      <name>CTS frame</name>
+      <key>5</key>
+      <opt>hide_data:all</opt>
+      <opt>hide_ack:all</opt>
+      <opt>hide_beacon:all</opt>
+      <opt>hide_ampdu:all</opt>
+    </option>
+    <option>
+      <name>AMPDU subframe</name>
+      <key>8</key>
+      <opt>hide_data:all</opt>
+      <opt>hide_ack:all</opt>
+      <opt>hide_beacon:all</opt>
+      <opt>hide_ampdu:part</opt>
+    </option>
+    <option>
+      <name>AMSDU subframe</name>
+      <key>9</key>
+      <opt>hide_data:all</opt>
+      <opt>hide_ack:all</opt>
+      <opt>hide_beacon:all</opt>
+      <opt>hide_ampdu:all</opt>
     </option>
   </param>
 
+  <param>
+    <name>Reseved field AMPDU</name>
+    <key>reserved_field_ampdu</key>
+    <value>0</value>
+    <type>int</type>
+    <hide>$frame_type.hide_ampdu</hide>
+  </param>
 
   <param>
     <name>Frame index</name>

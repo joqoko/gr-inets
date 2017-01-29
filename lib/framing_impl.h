@@ -48,6 +48,7 @@ namespace gr {
       int _len_reserved_field_I; // Bytes
       int _reserved_field_II;
       int _len_reserved_field_II; // Bytes
+      int _reserved_field_ampdu; // Bytes
       int _payload_length;
       int _len_payload_length; // Bytes
       int _increase_index;
@@ -56,15 +57,20 @@ namespace gr {
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
       void catagorization(pmt::pmt_t data_in);
       void data_frame_formation(pmt::pmt_t rx_payload);
+      void ampdu_subframe_formation(pmt::pmt_t rx_payload);
+      void amsdu_subframe_formation(pmt::pmt_t rx_payload);
       void ack_frame_formation(pmt::pmt_t rx_data);
+      void rts_frame_formation(pmt::pmt_t rx_data);
+      void cts_frame_formation(pmt::pmt_t rx_data);
       void beacon_frame_formation(pmt::pmt_t rx_beacon_info);
       pmt::pmt_t frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission);
+      pmt::pmt_t ampdu_delimiter_formation(std::vector<unsigned char> *delimiter, int _reserved_field_I, int _payload_length);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
       void disp_vec(std::vector<unsigned char> vec);
       int get_frame_header_length();
 
      public:
-      framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission);
+      framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu);
       ~framing_impl();
 
     };

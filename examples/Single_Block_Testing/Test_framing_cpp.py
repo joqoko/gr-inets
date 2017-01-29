@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_framing_cpp
 # Author: PWA
-# Generated: Mon Jan 16 11:01:02 2017
+# Generated: Sun Jan 29 15:36:58 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -24,9 +24,7 @@ from gnuradio import gr
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
-import gnuradio
 import inets
-import pmt
 import sys
 from gnuradio import qtgui
 
@@ -60,9 +58,6 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
-        self.system_time_granularity_us = system_time_granularity_us = 1000
-        self.sps = sps = 4
         self.source_address = source_address = 4
         self.samp_rate = samp_rate = 32000
         self.reserved_field_II = reserved_field_II = 6
@@ -77,47 +72,26 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         self.increase_index = increase_index = 1
         self.frame_type = frame_type = 1
         self.frame_index = frame_index = 2
-        self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
         self.develop_mode_list = develop_mode_list = [1, 2, 3]
         self.destination_address = destination_address = 3
 
         ##################################################
         # Blocks
         ##################################################
-        self.inets_framing_0 = inets.framing(1, 17, 1, 1, frame_index, 1, destination_address, 1, source_address, 1, 0, 2, 0, 2, 1, 1, 0)
-        self.inets_frame_buffer_0 = inets.frame_buffer(1, 16, 10)
+        self.inets_framing_0 = inets.framing(0, 17, 8, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, 1, 0, 0)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 17)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
-        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.intern("TEST"), blocks.STROBE_POISSON, 1000, 100)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_frame_buffer_0, 'flush'))
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_probe_0, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_framing_cpp")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
-
-    def get_usrp_device_address(self):
-        return self.usrp_device_address
-
-    def set_usrp_device_address(self, usrp_device_address):
-        self.usrp_device_address = usrp_device_address
-
-    def get_system_time_granularity_us(self):
-        return self.system_time_granularity_us
-
-    def set_system_time_granularity_us(self, system_time_granularity_us):
-        self.system_time_granularity_us = system_time_granularity_us
-
-    def get_sps(self):
-        return self.sps
-
-    def set_sps(self, sps):
-        self.sps = sps
 
     def get_source_address(self):
         return self.source_address
@@ -202,12 +176,6 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
 
     def set_frame_index(self, frame_index):
         self.frame_index = frame_index
-
-    def get_diff_preamble_128(self):
-        return self.diff_preamble_128
-
-    def set_diff_preamble_128(self, diff_preamble_128):
-        self.diff_preamble_128 = diff_preamble_128
 
     def get_develop_mode_list(self):
         return self.develop_mode_list

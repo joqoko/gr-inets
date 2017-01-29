@@ -59,7 +59,7 @@ list(APPEND inets_sources
     backoff_impl.cc
     beginnen_impl.cc
     address_check_impl.cc
-    )
+    frame_probe_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)
