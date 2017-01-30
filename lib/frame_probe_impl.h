@@ -31,10 +31,13 @@ namespace gr {
      private:
       int _develop_mode;
       int _block_id;
+      int _print_frame;
       void read_info(pmt::pmt_t frame_info);
+      void show_detail(pmt::pmt_t frame_info);
+      void disp_vec(std::vector<unsigned char> vec);
 
      public:
-      frame_probe_impl(int develop_mode, int block_id);
+      frame_probe_impl(int develop_mode, int block_id, int print_frame);
       ~frame_probe_impl();
 
     };

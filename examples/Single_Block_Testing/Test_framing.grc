@@ -596,11 +596,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(616, 520)</value>
+      <value>(944, 360)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -609,6 +609,10 @@
     <param>
       <key>id</key>
       <value>inets_frame_probe_0</value>
+    </param>
+    <param>
+      <key>print_frame</key>
+      <value>1</value>
     </param>
   </block>
   <block>

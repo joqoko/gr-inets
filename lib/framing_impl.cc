@@ -109,11 +109,13 @@ namespace gr {
     }
 
     pmt::pmt_t
-    framing_impl::ampdu_delimiter_formation(std::vector<unsigned char> *delimiter, int reserved_field_ampdu, int payload_length)
+    framing_impl::ampdu_delimiter_formation(std::vector<unsigned char> *delimiter, int reserved_field_ampdu, int payload_length, int frame_type)
     {
       std::vector< unsigned char > vec_delimiter;
       std::vector< unsigned char > vec_reserved_field_ampdu;
       std::vector< unsigned char > vec_payload_length;
+      // signiture is the frame type of ampdu subframe, i.e., 8 (N, 0x4E in the original 802.11n
+      std::vector< unsigned char > vec_signiture;
       /* 
         delimiter (4 Bytes)
         Reserved field 1 (1 Bytes)
@@ -124,15 +126,20 @@ namespace gr {
       intToByte(reserved_field_ampdu, &vec_reserved_field_ampdu, 1);
       // Payload length
       intToByte(payload_length, &vec_payload_length, _len_payload_length);
+      // signuture
+      intToByte(frame_type, &vec_signiture, _len_frame_type);
 
       //std::cout  << "Frame header length before frame type: " << frame_header->size() << std::endl;
       delimiter->insert(delimiter->end(), vec_reserved_field_ampdu.begin(), vec_reserved_field_ampdu.begin() + 1);
       //std::cout  << "delimiter length after reserved_field: " << delimiter->size() << std::endl;
       delimiter->insert(delimiter->end(), vec_payload_length.begin(), vec_payload_length.begin() + _len_payload_length);
+      //std::cout  << "delimiter length after signiture: " << delimiter->size() << std::endl;
+      delimiter->insert(delimiter->end(), vec_signiture.begin(), vec_signiture.begin() + _len_frame_type);
 
       pmt::pmt_t frame_info  = pmt::make_dict();
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_ampdu"), pmt::from_long(reserved_field_ampdu));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(payload_length));
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("ampdu_delimiter_signiture"), pmt::from_long(frame_type));
       return frame_info;
     }
 
@@ -146,18 +153,39 @@ namespace gr {
       /*
        * Generate a ampdu subframe
        */
-      pmt::pmt_t frame_info;
-      if(pmt::is_pair(rx_payload)) 
+      pmt::pmt_t mpdu_info;
+      if(pmt::is_dict(rx_payload)) 
       {
         pmt::pmt_t meta = pmt::car(rx_payload);
         pmt::pmt_t payload_pmt = pmt::cdr(rx_payload);
         std::vector<unsigned char> payload_array; 
+        int payload_length;
         if(pmt::is_u8vector(payload_pmt))
         {
+          _frame_type = 8;
           payload_array = pmt::u8vector_elements(payload_pmt);
-          _payload_length = payload_array.size(); 
+          payload_length = payload_array.size(); 
+          std::vector<unsigned char> mpdu_header;
+          if(_increase_index)
+            _frame_index++;
+          mpdu_info = frame_header_formation(&mpdu_header, 8, _frame_index, _destination_address, _source_address, _reserved_field_I, _reserved_field_II, payload_length, 1);
+          std::vector<unsigned char> mpdu;
+          mpdu.insert(mpdu.end(), mpdu_header.begin(), mpdu_header.end());
+          if(_develop_mode == 1)
+            std::cout << "frame header, length " <<mpdu.size() << std::endl;
+          mpdu.insert(mpdu.end(), payload_array.begin(), payload_array.end());
+          if(_develop_mode == 1)
+            std::cout << "frame header with payload, length " << mpdu.size() << std::endl;
+          // crc
+          // crc32_bb_calc(&frame);
+          // change frame to pmt::pmt_t
+          pmt::pmt_t mpdu_before_crc_u8vector = pmt::init_u8vector(mpdu.size(), mpdu);
+          pmt::pmt_t mpdu_before_crc = pmt::cons(meta, mpdu_before_crc_u8vector); 
+          pmt::pmt_t mpdu_after_crc = crc32_bb_calc(mpdu_before_crc);
+          payload_array = pmt::u8vector_elements(pmt::cdr(mpdu_after_crc));
+          payload_length = payload_array.size(); 
           std::vector<unsigned char> delimiter;
-          frame_info = ampdu_delimiter_formation(&delimiter, _reserved_field_ampdu, _payload_length);
+	  pmt::pmt_t ampdu_subframe_info = ampdu_delimiter_formation(&delimiter, _reserved_field_ampdu, payload_length, 8);
           std::vector<unsigned char> ampdu_subframe;
           ampdu_subframe.insert(ampdu_subframe.end(), delimiter.begin(), delimiter.end());
           if(_develop_mode == 1)
@@ -168,14 +196,15 @@ namespace gr {
           pmt::pmt_t subframe_before_crc_u8vector = pmt::init_u8vector(ampdu_subframe.size(), ampdu_subframe);
           pmt::pmt_t subframe_before_crc = pmt::cons(meta, subframe_before_crc_u8vector); 
           pmt::pmt_t subframe_after_crc = crc32_bb_calc(subframe_before_crc);
-          frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), subframe_after_crc);
+          ampdu_subframe_info = pmt::dict_add(ampdu_subframe_info, pmt::string_to_symbol("subframe_pmt"), subframe_after_crc);
+          ampdu_subframe_info = pmt::dict_add(ampdu_subframe_info, pmt::string_to_symbol("mpdu_info"), mpdu_info);
+          message_port_pub(pmt::mp("frame_out"), ampdu_subframe_info);
         }
         else
           std::cout << "pmt is not a u8vector" << std::endl;
       }
       else 
         std::cout << "pmt is not a pair" << std::endl;
-      message_port_pub(pmt::mp("frame_out"), frame_info);
     }
 
     void

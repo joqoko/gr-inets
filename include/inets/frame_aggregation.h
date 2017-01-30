@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::frame_aggregation::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int aggregation_type);
+      static sptr make(int develop_mode, int block_id, int number_aggregation);
     };
 
   } // namespace inets

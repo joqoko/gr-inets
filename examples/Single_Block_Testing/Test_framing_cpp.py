@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_framing_cpp
 # Author: PWA
-# Generated: Sun Jan 29 15:36:58 2017
+# Generated: Mon Jan 30 18:41:11 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -79,7 +79,7 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         self.inets_framing_0 = inets.framing(0, 17, 8, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, 1, 0, 0)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 17)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 17, 1)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################

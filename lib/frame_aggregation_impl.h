@@ -33,7 +33,15 @@ namespace gr {
       int _block_id;
       int _number_aggregation;
       int _aggregation_type;
+      int _aggregation_n;
+      int _frame_type;
+      pmt::pmt_t _frame_info;
       pmt::pmt_t _aggregated_frame;
+      void aggregating(pmt::pmt_t subframe);
+      void create_ampdu(pmt::pmt_t subframe);
+      void create_amsdu(pmt::pmt_t subframe);
+      void insert_ampdu(pmt::pmt_t subframe);
+      void insert_amsdu(pmt::pmt_t subframe);
 
      public:
       frame_aggregation_impl(int develop_mode, int block_id, int aggregation_type);

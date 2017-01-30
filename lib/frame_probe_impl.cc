@@ -29,21 +29,22 @@ namespace gr {
   namespace inets {
 
     frame_probe::sptr
-    frame_probe::make(int develop_mode, int block_id)
+    frame_probe::make(int develop_mode, int block_id, int print_frame)
     {
       return gnuradio::get_initial_sptr
-        (new frame_probe_impl(develop_mode, block_id));
+        (new frame_probe_impl(develop_mode, block_id, print_frame));
     }
 
     /*
      * The private constructor
      */
-    frame_probe_impl::frame_probe_impl(int develop_mode, int block_id)
+    frame_probe_impl::frame_probe_impl(int develop_mode, int block_id, int print_frame)
       : gr::block("frame_probe",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
-        _block_id(block_id)
+        _block_id(block_id),
+	_print_frame(print_frame)
     {
       message_port_register_in(pmt::mp("info_in"));
       set_msg_handler(
@@ -63,49 +64,84 @@ namespace gr {
     frame_probe_impl::read_info(pmt::pmt_t frame_info)
     { 
       pmt::pmt_t not_found;
-      if(_develop_mode == 1)
-        std::cout << "+++++++++ frame_probe ID: " << _block_id << " +++++++++" << std::endl;    
+      int find_frame = 0;
+      std::cout << "+++++++++ frame_probe ID: " << _block_id << " +++++++++" << std::endl;    
+      int frame_type = 0;
       if(pmt::is_dict(frame_info))
       {
         if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_type")))
-          std::cout << "frame type is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_index")))
-          std::cout << "frame index is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_index"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("destination_address")))
-          std::cout << "destination address is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("source_address")))
-          std::cout << "source address is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("source_address"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("num_transmission")))
-          std::cout << "number of transmission is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("num_transmission"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("reserved_field_I")))
-          std::cout << "reserved field I is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("reserved_field_I"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("reserved_field_II")))
-          std::cout << "reserved field II is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("reserved_field_II"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("payload_length")))
-          std::cout << "frame length is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("payload_length"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("header_length")))
-          std::cout << "header length is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("header_length"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("address_check")))
-          std::cout << "address check is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("address_check"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("good_frame")))
-          std::cout << "good frame is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("good_frame"), not_found) << std::endl;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("reserved_field_ampdu")))
-        {
-          std::cout << "reserved field of ampdu subframe is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("reserved_field_ampdu"), not_found) << std::endl;
-          std::cout << "frame type is AMPDU subframe" << std::endl;
-        }
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_pmt")))
-        {
-          pmt::pmt_t frame_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_pmt"), not_found);
-          std::vector<unsigned char> frame_array = pmt::u8vector_elements(pmt::cdr(frame_pmt));
-          std::cout << "frame info contains a frame with length " << frame_array.size() << "bytes" << std::endl;
-        }
+	{
+          frame_type = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found));
+          std::cout << "frame type is: " << frame_type << std::endl;
+	}
+	// show detail of DATA, ACK, BEACON, RTS, CTS
+	if(frame_type <= 7 && frame_type > 0)
+	{
+          find_frame = 1;
+          show_detail(frame_info);
+	}
+	// show detail of ampdu subframe
+	if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("mpdu_info")))
+	{
+          find_frame = 1;
+          pmt::pmt_t mpdu_info = pmt::dict_ref(frame_info, pmt::string_to_symbol("mpdu_info"), not_found);
+          show_detail(mpdu_info);
+          if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("subframe_pmt")))
+          {
+            pmt::pmt_t subframe_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("subframe_pmt"), not_found);
+            std::vector<unsigned char> frame_array = pmt::u8vector_elements(pmt::cdr(subframe_pmt));
+            std::cout << "subframe info contains a subframe with length " << frame_array.size() << "bytes" << std::endl;
+            if(_print_frame) 
+              disp_vec(frame_array);
+	  }
+	}
+	else
+          std::cout << "Error. Unknow frame type. Please check your connections." << std::endl;
       }
       else
         std::cout << "Error. Input is not a frame_info structure. Please check your connections." << std::endl;
     }
-
-
+  
+    void
+    frame_probe_impl::show_detail(pmt::pmt_t frame_info)
+    {
+      pmt::pmt_t not_found;
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_index")))
+        std::cout << "frame index is:            " << pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_index"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("destination_address")))
+        std::cout << "destination address is:    " << pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("source_address")))
+        std::cout << "source address is:         " << pmt::dict_ref(frame_info, pmt::string_to_symbol("source_address"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("num_transmission")))
+        std::cout << "number of transmission is: " << pmt::dict_ref(frame_info, pmt::string_to_symbol("num_transmission"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("reserved_field_I")))
+        std::cout << "reserved field I is:       " << pmt::dict_ref(frame_info, pmt::string_to_symbol("reserved_field_I"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("reserved_field_II")))
+        std::cout << "reserved field II is:      " << pmt::dict_ref(frame_info, pmt::string_to_symbol("reserved_field_II"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("payload_length")))
+        std::cout << "frame length is:           " << pmt::dict_ref(frame_info, pmt::string_to_symbol("payload_length"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("header_length")))
+        std::cout << "header length is:          " << pmt::dict_ref(frame_info, pmt::string_to_symbol("header_length"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("address_check")))
+        std::cout << "address check is:          " << pmt::dict_ref(frame_info, pmt::string_to_symbol("address_check"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("good_frame")))
+        std::cout << "good frame is:             " << pmt::dict_ref(frame_info, pmt::string_to_symbol("good_frame"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_pmt")))
+      {
+        pmt::pmt_t frame_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_pmt"), not_found);
+        std::vector<unsigned char> frame_array = pmt::u8vector_elements(pmt::cdr(frame_pmt));
+        std::cout << "frame info contains a frame with length " << frame_array.size() << "bytes" << std::endl;
+        if(_print_frame) 
+          disp_vec(frame_array);
+      }
+    }
+ 
+    void 
+    frame_probe_impl::disp_vec(std::vector<unsigned char> vec)
+    {
+      for(int i=0; i<vec.size(); ++i)
+        std::cout << vec[i] << ' ';
+    }
   } /* namespace inets */
 } /* namespace gr */
 

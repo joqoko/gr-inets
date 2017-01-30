@@ -2,18 +2,53 @@
 <block>
   <name>frame_aggregation</name>
   <key>inets_frame_aggregation</key>
-  <category>[inets]</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.frame_aggregation($develop_mode, $block_id, $aggregation_type)</make>
+  <make>inets.frame_aggregation($develop_mode, $block_id, $number_aggregation)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>18</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Number of subframes</name>
+    <key>number_aggregation</key>
+    <value>4</value>
+    <type>int</type>
+    <hide>part</hide>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -22,8 +57,8 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>in</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>subframe_in</name>
+    <type>message</type>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -32,7 +67,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>aggregated_frame_out</name>
+    <type>message</type>
   </source>
 </block>

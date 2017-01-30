@@ -42,7 +42,7 @@ Index		block name				Categories
  15             null_message_source			inets_dmf_tool
  16		frame_buffer				inets_dmf_mac
  17		framing					inets_dmf_mac
-
+ 18		frame_aggregation			inets_dmf_mac
 
 
 

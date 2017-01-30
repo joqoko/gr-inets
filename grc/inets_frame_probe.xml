@@ -4,7 +4,7 @@
   <key>inets_frame_probe</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.frame_probe($develop_mode, $block_id)</make>
+  <make>inets.frame_probe($develop_mode, $block_id, $print_frame)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -42,6 +42,21 @@
     <value>17</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Print frame data</name>
+    <key>print_frame</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
