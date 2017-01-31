@@ -173,14 +173,14 @@
   <param>
     <name>Reserved field I</name>
     <key>reserved_field_I</key>
-    <value>0</value>
+    <value>318</value>
     <type>int</type>
     <hide>$set_reserved_field.hide</hide>
   </param>
   <param>
     <name>Reserved field II</name>
     <key>reserved_field_II</key>
-    <value>0</value>
+    <value>524</value>
     <type>int</type>
     <hide>$set_reserved_field.hide</hide>
   </param>
@@ -247,14 +247,14 @@
   <param>
     <name>Length of payload length field</name>
     <key>len_payload_length</key>
-    <value>1</value>
+    <value>2</value>
     <type>int</type>
     <hide>$default_framing_setting.hide</hide>
   </param>
   <param>
     <name>Length of number of transmissions</name>
     <key>len_num_transmission</key>
-    <value>0</value>
+    <value>1</value>
     <type>int</type>
     <hide>$default_framing_setting.hide</hide>
   </param>

@@ -69,45 +69,45 @@ namespace gr {
       pmt::pmt_t not_found;
       if(_develop_mode == 1)
         std::cout << "+++++++++ frame_aggregation ID: " << _block_id << " +++++++++" << std::endl;    
-      if(pmt::is_dict(subframe))
+      if(pmt::dict_has_key(subframe, pmt::string_to_symbol("mpdu_info")))
       {
-        if(pmt::dict_has_key(subframe, pmt::string_to_symbol("frame_type")))
+        pmt::pmt_t mpdu_info = pmt::dict_ref(subframe, pmt::string_to_symbol("mpdu_info"), not_found);
+        int frame_type = pmt::to_long(pmt::dict_ref(mpdu_info, pmt::string_to_symbol("frame_type"), not_found));
+        // first subframe of the aggregated frame
+        if(_aggregation_n == 0)
         {
-          int frame_type = pmt::to_long(pmt::dict_ref(subframe, pmt::string_to_symbol("frame_type"), not_found));
-          // first subframe of the aggregated frame
-          if(_aggregation_n == 0)
+          _aggregation_type = frame_type; 
+          // ampdu
+          if(frame_type == 8)
+	  {
+            create_ampdu(subframe);
+	    _aggregation_n = 1;
+	  }
+          // other frames cannot be aggregated
+          else
+            std::cout << "Other frame aggretation is not supported yet." << std::endl;
+        }
+        else if(_aggregation_n > 0)
+        {
+          // check is the frame type of the new comer is the same as the  existing aggregated frames.
+          if(_aggregation_type == frame_type)
           {
-            _aggregation_type = frame_type; 
-            // ampdu
             if(frame_type == 8)
-              create_ampdu(subframe);
-            // amsdu
-            else if(frame_type == 9)
-              create_amsdu(subframe);
-            // other frames cannot be aggregated
+	    {
+              insert_ampdu(subframe); 
+	      _aggregation_n++;
+	    }
             else
               std::cout << "Other frame aggretation is not supported yet." << std::endl;
           }
-          else if(_aggregation_n > 0)
+          else
+            std::cout << "aggregation of different type of subframe is not allowed." << std::endl;
+          if(_aggregation_n == _number_aggregation)
           {
-            // check is the frame type of the new comer is the same as the  existing aggregated frames.
-            if(_aggregation_type == frame_type)
-            {
-              if(frame_type == 8)
-                insert_ampdu(subframe); 
-              else if(frame_type == 9)
-                insert_amsdu(subframe);
-              else
-                std::cout << "Other frame aggretation is not supported yet." << std::endl;
-            }
-            else
-              std::cout << "aggregation of different type of subframe is not allowed." << std::endl;
-            _aggregation_n++;
-            if(_aggregation_n == _number_aggregation)
-            {
-              message_port_pub(pmt::mp("aggregated_frame_out"), _frame_info);
-	      _aggregation_n = 0;
-            }
+            if(_develop_mode == 1)
+	      std::cout << "all frames are aggregated." << std::endl;
+            message_port_pub(pmt::mp("aggregated_frame_out"), _frame_info);
+            _aggregation_n = 0;
           }
         }
         else
@@ -141,7 +141,7 @@ namespace gr {
           _frame_info = pmt::dict_add(_frame_info, pmt::string_to_symbol("frame_type"), pmt::from_long(6));
           _frame_info = pmt::dict_delete(_frame_info, pmt::string_to_symbol("reserved_field_I"));
           _frame_info = pmt::dict_delete(_frame_info, pmt::string_to_symbol("reserved_field_II"));
-          _frame_info = pmt::dict_add(_frame_info, pmt::string_to_symbol("aggregated_array"), payload_pmt);
+          _frame_info = pmt::dict_add(_frame_info, pmt::string_to_symbol("ampdu_frame_pmt"), subframe_pmt);
 	}
         else
           std::cout << "pmt is not a subframe" << std::endl;
@@ -170,11 +170,12 @@ namespace gr {
           pmt::pmt_t payload_pmt = pmt::cdr(subframe_pmt);
 	  std::vector<unsigned char> aggregated_array;
 	  std::vector<unsigned char> subframe_array;
-	  aggregated_array = pmt::u8vector_elements(pmt::dict_ref(_frame_info, pmt::string_to_symbol("aggregated_array"), not_found));
+	  aggregated_array = pmt::u8vector_elements(pmt::cdr(pmt::dict_ref(_frame_info, pmt::string_to_symbol("ampdu_frame_pmt"), not_found)));
 	  subframe_array = pmt::u8vector_elements(payload_pmt);
           aggregated_array.insert(aggregated_array.end(), subframe_array.begin(), subframe_array.end());
-	  _frame_info = pmt::dict_delete(_frame_info, pmt::string_to_symbol("aggregated_array"));
-          _frame_info = pmt::dict_add(_frame_info, pmt::string_to_symbol("aggregated_array"), pmt::init_u8vector(aggregated_array.size(), aggregated_array));
+	  _frame_info = pmt::dict_delete(_frame_info, pmt::string_to_symbol("ampdu_frame_pmt"));
+          _frame_info = pmt::dict_add(_frame_info, pmt::string_to_symbol("ampdu_frame_pmt"), pmt::cons(meta, pmt::init_u8vector(aggregated_array.size(), aggregated_array)));
+	  
 	}
         else
           std::cout << "pmt is not a u8vector" << std::endl;

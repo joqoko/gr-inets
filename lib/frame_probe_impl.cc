@@ -73,12 +73,17 @@ namespace gr {
 	{
           frame_type = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found));
           std::cout << "frame type is: " << frame_type << std::endl;
-	}
-	// show detail of DATA, ACK, BEACON, RTS, CTS
-	if(frame_type <= 7 && frame_type > 0)
-	{
-          find_frame = 1;
-          show_detail(frame_info);
+	  // show detail of DATA, ACK, BEACON, RTS, CTS
+	  if(frame_type <= 5 && frame_type > 0)
+          {
+            find_frame = 1;
+            show_detail(frame_info);
+          }
+	  else if(frame_type == 6)
+	  { 
+            find_frame = 1;
+	    show_detail(frame_info);
+	  }
 	}
 	// show detail of ampdu subframe
 	if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("mpdu_info")))
@@ -95,8 +100,9 @@ namespace gr {
               disp_vec(frame_array);
 	  }
 	}
-	else
+	if(find_frame == 0)
           std::cout << "Error. Unknow frame type. Please check your connections." << std::endl;
+	std::cout << std::endl;
       }
       else
         std::cout << "Error. Input is not a frame_info structure. Please check your connections." << std::endl;
@@ -106,6 +112,7 @@ namespace gr {
     frame_probe_impl::show_detail(pmt::pmt_t frame_info)
     {
       pmt::pmt_t not_found;
+      pmt::pmt_t frame_pmt;
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_index")))
         std::cout << "frame index is:            " << pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_index"), not_found) << ";    ";
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("destination_address")))
@@ -127,8 +134,13 @@ namespace gr {
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("good_frame")))
         std::cout << "good frame is:             " << pmt::dict_ref(frame_info, pmt::string_to_symbol("good_frame"), not_found) << ";    ";
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_pmt")))
+        frame_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_pmt"), not_found);
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("subframe_pmt")))
+        frame_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("subframe_pmt"), not_found);
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("ampdu_frame_pmt")))
+        frame_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("ampdu_frame_pmt"), not_found);
+      if((pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_pmt"))) || (pmt::dict_has_key(frame_info, pmt::string_to_symbol("subframe_pmt"))) || (pmt::dict_has_key(frame_info, pmt::string_to_symbol("ampdu_frame_pmt"))))
       {
-        pmt::pmt_t frame_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_pmt"), not_found);
         std::vector<unsigned char> frame_array = pmt::u8vector_elements(pmt::cdr(frame_pmt));
         std::cout << "frame info contains a frame with length " << frame_array.size() << "bytes" << std::endl;
         if(_print_frame) 
@@ -140,7 +152,8 @@ namespace gr {
     frame_probe_impl::disp_vec(std::vector<unsigned char> vec)
     {
       for(int i=0; i<vec.size(); ++i)
-        std::cout << vec[i] << ' ';
+        std::cout << static_cast<unsigned>(vec[i]) << ' ';
+      std::cout << ". total length is: " << vec.size() << std::endl;
     }
   } /* namespace inets */
 } /* namespace gr */

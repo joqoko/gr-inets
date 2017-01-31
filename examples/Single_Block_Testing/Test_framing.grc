@@ -533,7 +533,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(64, 320)</value>
+      <value>(152, 224)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -573,6 +573,57 @@
     </param>
   </block>
   <block>
+    <key>inets_frame_aggregation</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>18</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(720, 204)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_aggregation_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>number_aggregation</key>
+      <value>4</value>
+    </param>
+  </block>
+  <block>
     <key>inets_frame_probe</key>
     <param>
       <key>alias</key>
@@ -600,7 +651,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 360)</value>
+      <value>(960, 232)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -609,6 +660,49 @@
     <param>
       <key>id</key>
       <value>inets_frame_probe_0</value>
+    </param>
+    <param>
+      <key>print_frame</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_probe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>100</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(720, 352)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_probe_0_0</value>
     </param>
     <param>
       <key>print_frame</key>
@@ -659,7 +753,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(296, 340)</value>
+      <value>(448, 228)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -675,35 +769,35 @@
     </param>
     <param>
       <key>len_destination_address</key>
-      <value>len_destination_address</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_frame_index</key>
-      <value>len_frame_index</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_frame_type</key>
-      <value>len_frame_type</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_num_transmission</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_payload_length</key>
-      <value>len_payload_length</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_reserved_field_I</key>
-      <value>len_reserved_field_I</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_reserved_field_II</key>
-      <value>len_reserved_field_II</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_source_address</key>
-      <value>len_source_address</value>
+      <value>1</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -715,11 +809,11 @@
     </param>
     <param>
       <key>reserved_field_I</key>
-      <value>reserved_field_I</value>
+      <value>318</value>
     </param>
     <param>
       <key>reserved_field_II</key>
-      <value>reserved_field_II</value>
+      <value>524</value>
     </param>
     <param>
       <key>reserved_field_ampdu</key>
@@ -741,8 +835,20 @@
     <sink_key>data_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_framing_0</source_block_id>
+    <source_block_id>inets_frame_aggregation_0</source_block_id>
     <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <source_key>aggregated_frame_out</source_key>
+    <sink_key>info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_framing_0</source_block_id>
+    <sink_block_id>inets_frame_aggregation_0</sink_block_id>
+    <source_key>frame_out</source_key>
+    <sink_key>subframe_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_framing_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>info_in</sink_key>
   </connection>
