@@ -600,7 +600,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(720, 204)</value>
+      <value>(592, 236)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -651,7 +651,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(960, 232)</value>
+      <value>(800, 248)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -694,7 +694,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(720, 352)</value>
+      <value>(600, 356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -753,7 +753,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(448, 228)</value>
+      <value>(320, 244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -806,6 +806,10 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>output_frame_pmt</key>
+      <value>1</value>
     </param>
     <param>
       <key>reserved_field_I</key>

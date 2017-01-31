@@ -43,12 +43,6 @@
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
-  <param>
-    <name>Length of frame type</name>
-    <key>len_frame_type</key>
-    <value>len_frame_type</value>
-    <type>int</type>
-  </param>
 
   <param>
     <name>Default framing settings</name>
