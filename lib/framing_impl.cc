@@ -31,21 +31,22 @@ namespace gr {
   namespace inets {
 
     framing::sptr
-    framing::make(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu)
+    framing::make(int develop_mode, int block_id, int output_frame_pmt, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu)
     {
       return gnuradio::get_initial_sptr
-        (new framing_impl(develop_mode, block_id, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission, reserved_field_ampdu));
+        (new framing_impl(develop_mode, block_id, output_frame_pmt, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission, reserved_field_ampdu));
     }
 
     /*
      * The private constructor
      */
-    framing_impl::framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu)
+    framing_impl::framing_impl(int develop_mode, int block_id, int output_frame_pmt, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu)
       : gr::block("framing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
+	_output_frame_pmt(output_frame_pmt),
 	_frame_type(frame_type),
         _len_frame_type(len_frame_type), // Bytes
         _frame_index(frame_index),
@@ -68,6 +69,9 @@ namespace gr {
       message_port_register_in(pmt::mp("data_in"));
       set_msg_handler(pmt::mp("data_in"), boost::bind(&framing_impl::catagorization, this, _1 ));
       message_port_register_out(pmt::mp("frame_out"));
+      // only in develop_mode
+      if(_output_frame_pmt)
+      message_port_register_out(pmt::mp("frame_pmt_out"));
     }
 
     /*

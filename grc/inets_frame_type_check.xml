@@ -4,7 +4,7 @@
   <key>inets_frame_type_check</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.frame_type_check($data_frame, $ack_frame, $beacon_frame, $rts_frame, $cts_frame)</make>
+  <make>inets.frame_type_check($data_frame, $ack_frame, $beacon_frame, $rts_frame, $cts_frame, $ampdu_frame, $amsdu_frame, $other_frame)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -102,6 +102,60 @@
     </option>
   </param>
 
+  <param>
+    <name>AMPDU frame</name>
+    <key>ampdu_frame</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>$ampdu_frame.hide</hide>
+    <option>
+      <name>Check</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Not check</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>AMSDU frame</name>
+    <key>amsdu_frame</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>$amsdu_frame.hide</hide>
+    <option>
+      <name>Check</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Not check</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+  
+  <param>
+    <name>Other frame</name>
+    <key>other_frame</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>$other_frame.hide</hide>
+    <option>
+      <name>Check</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Not check</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
   <sink>
     <name>frame_info_in</name>
     <type>message</type>
@@ -135,6 +189,24 @@
     <type>message</type>
     <optional>1</optional>
     <hide>$rts_frame</hide>
+  </source>
+  <source>
+    <name>ampdu_frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$ampdu_frame</hide>
+  </source>
+  <source>
+    <name>amsdu_frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$amsdu_frame</hide>
+  </source>
+  <source>
+    <name>other_frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$other_frame</hide>
   </source>
   <source>
     <name>cts_frame_info_out</name>

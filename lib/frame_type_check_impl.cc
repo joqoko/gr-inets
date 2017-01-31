@@ -30,16 +30,16 @@ namespace gr {
   namespace inets {
 
     frame_type_check::sptr
-    frame_type_check::make(int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame)
+    frame_type_check::make(int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame, int ampdu_frame, int amsdu_frame, int other_frame)
     {
       return gnuradio::get_initial_sptr
-        (new frame_type_check_impl(data_frame, ack_frame, beacon_frame, rts_frame, cts_frame));
+        (new frame_type_check_impl(data_frame, ack_frame, beacon_frame, rts_frame, cts_frame, ampdu_frame, amsdu_frame, other_frame));
     }
 
     /*
      * The private constructor
      */
-    frame_type_check_impl::frame_type_check_impl(int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame)
+    frame_type_check_impl::frame_type_check_impl(int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame, int ampdu_frame, int amsdu_frame, int other_frame)
       : gr::block("frame_type_check",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0))
@@ -57,6 +57,12 @@ namespace gr {
         message_port_register_out(pmt::mp("rts_frame_info_out"));
       if(cts_frame == 0)
         message_port_register_out(pmt::mp("cts_frame_info_out"));
+      if(ampdu_frame == 0)
+        message_port_register_out(pmt::mp("ampdu_frame_info_out"));
+      if(amsdu_frame == 0)
+        message_port_register_out(pmt::mp("amsdu_frame_info_out"));
+      if(other_frame == 0)
+        message_port_register_out(pmt::mp("other_frame_info_out"));
       set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&frame_type_check_impl::selector, this, _1 ));
     }
 
@@ -83,14 +89,12 @@ namespace gr {
         message_port_pub(pmt::mp("rts_frame_info_out"), info);
       else if(frame_type == 5)
         message_port_pub(pmt::mp("cts_frame_info_out"), info);
+      else if(frame_type == 6)
+        message_port_pub(pmt::mp("ampdu_frame_info_out"), info);
+      else if(frame_type == 7)
+        message_port_pub(pmt::mp("amsdu_frame_info_out"), info);
       else
-      {
-        message_port_pub(pmt::mp("data_frame_info_out"), info);
-        message_port_pub(pmt::mp("ack_frame_info_out"), info);
-        message_port_pub(pmt::mp("beacon_frame_info_out"), info);
-        message_port_pub(pmt::mp("rts_frame_info_out"), info);
-        message_port_pub(pmt::mp("cts_frame_info_out"), info);
-      } 
+        message_port_pub(pmt::mp("other_frame_info_out"), info);
     }
 
 

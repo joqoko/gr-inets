@@ -34,6 +34,7 @@ namespace gr {
       // Nothing to declare in this block.
       int _develop_mode;
       int _block_id;
+      int _output_frame_pmt;
       int _frame_type;
       int _len_frame_type; // Bytes
       int _frame_index;
@@ -70,7 +71,7 @@ namespace gr {
       int get_frame_header_length();
 
      public:
-      framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu);
+      framing_impl(int develop_mode, int block_id, int output_frame_pmt, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu);
       ~framing_impl();
 
     };

@@ -4,7 +4,7 @@
   <key>inets_framing</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.framing($develop_mode, $block_id, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission, $reserved_field_ampdu)</make>
+  <make>inets.framing($develop_mode, $block_id, $output_frame_pmt, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission, $reserved_field_ampdu)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -42,6 +42,21 @@
     <value>17</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Output frame pmt</name>
+    <key>output_frame_pmt</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide_control</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
   </param>
 
   <param>
@@ -278,5 +293,11 @@
     <name>frame_out</name>
     <type>message</type>
     <optional>1</optional>
+  </source>
+  <source>
+    <name>frame_pmt_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_frame_pmt</hide>
   </source>
 </block>

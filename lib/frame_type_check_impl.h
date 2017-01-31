@@ -33,7 +33,7 @@ namespace gr {
       // Nothing to declare in this block.
 
      public:
-      frame_type_check_impl(int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame);
+      frame_type_check_impl(int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame, int ampdu_frame, int amsdu_frame, int other_frame);
       ~frame_type_check_impl();
 
       // Where all the action really happens

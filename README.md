@@ -31,7 +31,7 @@ Index		block name				Categories
  4		t_control_tx_cc				inets_dmf_phy
  5		pending_tx_finish			inets_dmf_phy
  6		rx_switch_cc				inets_dmf_phy
- 7		frame_header_analysis_cpp		inets_dmf_mac
+ 7		frame_header_analysis			inets_dmf_mac
  8		address_check_cpp			inets_dmf_mac
  9		frame_verification_cpp			inets_dmf_mac
  10		timeout_cpp				inets_dmf_mac
