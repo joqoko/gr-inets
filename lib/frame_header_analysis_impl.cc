@@ -159,22 +159,82 @@ namespace gr {
       int header_length = get_frame_header_length();
       std::vector<unsigned char> frame_header_array;
       frame_header_array.insert(frame_header_array.end(), frame_array.begin(), frame_array.begin() + header_length);
-      int frame_index = frame_header_array[_len_frame_type];
-      int dest_pos = _len_frame_type + _len_frame_type;
-      int destination_address = frame_header_array[dest_pos];
-      int src_pos = dest_pos + _len_destination_address;
-      int source_address = frame_header_array[src_pos];
-      int ntr_pos = src_pos + _len_source_address;
-      int num_transmission = frame_header_array[ntr_pos];
-      int re_I_pos = src_pos + _len_num_transmission;
-      int reserved_field_I = frame_header_array[re_I_pos]+frame_header_array[re_I_pos + 1];
-      int re_II_pos = re_I_pos + _len_reserved_field_I;
-      int reserved_field_II = frame_header_array[re_II_pos]+frame_header_array[re_II_pos + 1];
-      int plen_pos = re_II_pos + _len_reserved_field_II;
-      int payload_length = frame_header_array[plen_pos];
+      //int frame_index = frame_header_array[_len_frame_type];
+     // int dest_pos = _len_frame_type + _len_frame_type;
+      //int destination_address = frame_header_array[dest_pos];
+      //int src_pos = dest_pos + _len_destination_address;
+      //int source_address = frame_header_array[src_pos];
+      //int ntr_pos = src_pos + _len_source_address;
+      //int num_transmission = frame_header_array[ntr_pos];
+      //int re_I_pos = src_pos + _len_num_transmission;
+      //int reserved_field_I = frame_header_array[re_I_pos]+frame_header_array[re_I_pos + 1];
+      //int re_II_pos = re_I_pos + _len_reserved_field_I;
+      //int reserved_field_II = frame_header_array[re_II_pos]+frame_header_array[re_II_pos + 1];
+      //int plen_pos = re_II_pos + _len_reserved_field_II;
+      //int payload_length = frame_header_array[plen_pos];
       int address_check = !(_apply_address_check);
       //std::cout << "block_id: " << _block_id << ", my address: " << _my_address << ", source_address: " << source_address << ", frame_index: " << frame_index <<  ", frame_type: " << frame_type <<  ", destination_address: " << destination_address <<  std::endl;
       int is_good_frame = 0;
+      // Get frame index
+      int index_pos = _len_frame_type;
+      std::vector<unsigned char> frame_index_array(frame_header_array.begin() + index_pos, frame_header_array.begin() + index_pos + _len_frame_index);
+      disp_vec(frame_index_array);
+      int frame_index = BytesToint(&frame_index_array);
+      std::cout << "new frame index is: " << frame_index << std::endl;
+
+      // Get destination address
+      int dest_pos = index_pos + _len_frame_index;
+      std::vector<unsigned char> dest_array(frame_header_array.begin() + dest_pos, frame_header_array.begin() + dest_pos + _len_destination_address);
+      disp_vec(dest_array);
+      int destination_address = BytesToint(&dest_array);
+      std::cout << "new destination address is: " << destination_address << std::endl;
+      
+      // Get source address
+      int src_pos = dest_pos + _len_destination_address;
+      std::vector<unsigned char> src_array(frame_header_array.begin() + src_pos, frame_header_array.begin() + src_pos + _len_source_address);
+      disp_vec(src_array);
+      int source_address = BytesToint(&src_array);
+      std::cout << "new source address is: " << source_address << std::endl;
+
+      // Get number of transmissions
+      int ntrans_pos = src_pos + _len_source_address;
+      std::vector<unsigned char> ntrans_array(frame_header_array.begin() + ntrans_pos, frame_header_array.begin() + ntrans_pos + _len_num_transmission);
+      disp_vec(ntrans_array);
+      int num_transmission = BytesToint(&ntrans_array);
+      std::cout << "new number of transmission is: " << num_transmission << std::endl;
+      
+      // Get reserved field I
+      int re_I_pos = ntrans_pos + _len_num_transmission;
+      std::vector<unsigned char> re_I_array(frame_header_array.begin() + re_I_pos, frame_header_array.begin() + re_I_pos + _len_reserved_field_I);
+      disp_vec(re_I_array);
+      int reserved_field_I = BytesToint(&re_I_array);
+      std::cout << "new reserved field I is: " << reserved_field_I << std::endl;
+      
+      // Get reserved field II
+      int re_II_pos = re_I_pos + _len_reserved_field_I;
+      std::vector<unsigned char> re_II_array(frame_header_array.begin() + re_II_pos, frame_header_array.begin() + re_II_pos + _len_reserved_field_II);
+      disp_vec(re_II_array);
+      int reserved_field_II = BytesToint(&re_II_array);
+      std::cout << "new reserved field II is: " << reserved_field_II << std::endl;
+      
+      // Get payload length
+      int payload_length_pos = re_II_pos + _len_reserved_field_II;
+      std::vector<unsigned char> payload_length_array(frame_header_array.begin() + payload_length_pos, frame_header_array.begin() + payload_length_pos + _len_payload_length);
+      disp_vec(payload_length_array);
+      int payload_length = BytesToint(&payload_length_array);
+      std::cout << "new payload length is: " << payload_length << std::endl;
+      
+      // Get payload
+      int payload_pos = payload_length_pos + _len_payload_length;
+      std::vector<unsigned char> payload_array(frame_array.begin() + payload_pos, frame_array.begin() + payload_pos + payload_length);
+      std::cout << "payload is: " << std::endl;
+      disp_vec(payload_array);
+      
+      // Get CRC
+      int crc_pos = payload_pos + payload_length;
+      std::vector<unsigned char> crc_array(frame_array.begin() + crc_pos, frame_array.begin() + crc_pos + 4);
+      std::cout << "crc is: " << std::endl;
+      disp_vec(crc_array);
 
       if(_develop_mode == 1)
       {
@@ -191,66 +251,6 @@ namespace gr {
         std::cout << "address check is initialized to: " << address_check << std::endl;
         std::cout << "frame verification (good_frame) is initialized to: " << is_good_frame << std::endl;
       }
-      // Get frame index
-      int index_pos = _len_frame_type;
-      std::vector<unsigned char> frame_index_array(frame_header_array.begin() + index_pos, frame_header_array.begin() + index_pos + _len_frame_index);
-      disp_vec(frame_index_array);
-      frame_index = BytesToint(&frame_index_array);
-      std::cout << "new frame index is: " << frame_index << std::endl;
-
-      // Get destination address
-      dest_pos = index_pos + _len_frame_index;
-      std::vector<unsigned char> dest_array(frame_header_array.begin() + dest_pos, frame_header_array.begin() + dest_pos + _len_destination_address);
-      disp_vec(dest_array);
-      destination_address = BytesToint(&dest_array);
-      std::cout << "new destination address is: " << destination_address << std::endl;
-      
-      // Get source address
-      src_pos = dest_pos + _len_destination_address;
-      std::vector<unsigned char> src_array(frame_header_array.begin() + src_pos, frame_header_array.begin() + src_pos + _len_source_address);
-      disp_vec(src_array);
-      source_address = BytesToint(&src_array);
-      std::cout << "new source address is: " << source_address << std::endl;
-
-      // Get number of transmissions
-      int ntrans_pos = src_pos + _len_source_address;
-      std::vector<unsigned char> ntrans_array(frame_header_array.begin() + ntrans_pos, frame_header_array.begin() + ntrans_pos + _len_num_transmission);
-      disp_vec(ntrans_array);
-      num_transmission = BytesToint(&ntrans_array);
-      std::cout << "new number of transmission is: " << num_transmission << std::endl;
-      
-      // Get reserved field I
-      re_I_pos = ntrans_pos + _len_num_transmission;
-      std::vector<unsigned char> re_I_array(frame_header_array.begin() + re_I_pos, frame_header_array.begin() + re_I_pos + _len_reserved_field_I);
-      disp_vec(re_I_array);
-      reserved_field_I = BytesToint(&re_I_array);
-      std::cout << "new reserved field I is: " << reserved_field_I << std::endl;
-      
-      // Get reserved field II
-      re_II_pos = re_I_pos + _len_reserved_field_I;
-      std::vector<unsigned char> re_II_array(frame_header_array.begin() + re_II_pos, frame_header_array.begin() + re_II_pos + _len_reserved_field_II);
-      disp_vec(re_II_array);
-      reserved_field_II = BytesToint(&re_II_array);
-      std::cout << "new reserved field II is: " << reserved_field_II << std::endl;
-      
-      // Get payload length
-      int payload_length_pos = re_II_pos + _len_reserved_field_II;
-      std::vector<unsigned char> payload_length_array(frame_header_array.begin() + payload_length_pos, frame_header_array.begin() + payload_length_pos + _len_payload_length);
-      disp_vec(payload_length_array);
-      payload_length = BytesToint(&payload_length_array);
-      std::cout << "new payload length is: " << payload_length << std::endl;
-      
-      // Get payload
-      int payload_pos = payload_length_pos + _len_payload_length;
-      std::vector<unsigned char> payload_array(frame_array.begin() + payload_pos, frame_array.begin() + payload_pos + payload_length);
-      std::cout << "payload is: " << std::endl;
-      //disp_vec(payload_array);
-      
-      // Get CRC
-      int crc_pos = payload_pos + payload_length;
-      std::vector<unsigned char> crc_array(frame_array.begin() + crc_pos, frame_array.begin() + crc_pos + 4);
-      std::cout << "crc is: " << std::endl;
-      disp_vec(crc_array);
 
       if(source_address != _my_address)
       {

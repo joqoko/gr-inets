@@ -573,14 +573,18 @@
     </param>
   </block>
   <block>
-    <key>inets_frame_aggregation</key>
+    <key>inets_frame_header_analysis</key>
+    <param>
+      <key>apply_address_check</key>
+      <value>1</value>
+    </param>
     <param>
       <key>alias</key>
       <value></value>
     </param>
     <param>
       <key>block_id</key>
-      <value>18</value>
+      <value>7</value>
     </param>
     <param>
       <key>comment</key>
@@ -591,16 +595,20 @@
       <value></value>
     </param>
     <param>
+      <key>default_framing_setting</key>
+      <value>customized</value>
+    </param>
+    <param>
       <key>develop_mode</key>
       <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(592, 236)</value>
+      <value>(664, 364)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -608,7 +616,39 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_frame_aggregation_0</value>
+      <value>inets_frame_header_analysis_0</value>
+    </param>
+    <param>
+      <key>len_destination_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_type</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_num_transmission</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_payload_length</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_I</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_II</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_source_address</key>
+      <value>1</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -619,94 +659,8 @@
       <value>0</value>
     </param>
     <param>
-      <key>number_aggregation</key>
-      <value>4</value>
-    </param>
-  </block>
-  <block>
-    <key>inets_frame_probe</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>17</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(800, 248)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_frame_probe_0</value>
-    </param>
-    <param>
-      <key>print_frame</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>inets_frame_probe</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>100</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(600, 356)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_frame_probe_0_0</value>
-    </param>
-    <param>
-      <key>print_frame</key>
-      <value>1</value>
+      <key>my_address</key>
+      <value>11</value>
     </param>
   </block>
   <block>
@@ -737,7 +691,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -749,7 +703,7 @@
     </param>
     <param>
       <key>frame_type</key>
-      <value>8</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -809,7 +763,7 @@
     </param>
     <param>
       <key>output_frame_pmt</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>reserved_field_I</key>
@@ -839,21 +793,9 @@
     <sink_key>data_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_frame_aggregation_0</source_block_id>
-    <sink_block_id>inets_frame_probe_0</sink_block_id>
-    <source_key>aggregated_frame_out</source_key>
-    <sink_key>info_in</sink_key>
-  </connection>
-  <connection>
     <source_block_id>inets_framing_0</source_block_id>
-    <sink_block_id>inets_frame_aggregation_0</sink_block_id>
-    <source_key>frame_out</source_key>
-    <sink_key>subframe_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_framing_0</source_block_id>
-    <sink_block_id>inets_frame_probe_0_0</sink_block_id>
-    <source_key>frame_out</source_key>
-    <sink_key>info_in</sink_key>
+    <sink_block_id>inets_frame_header_analysis_0</sink_block_id>
+    <source_key>frame_pmt_out</source_key>
+    <sink_key>frame_in</sink_key>
   </connection>
 </flow_graph>
