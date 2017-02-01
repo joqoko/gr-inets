@@ -31,22 +31,21 @@ namespace gr {
   namespace inets {
 
     framing::sptr
-    framing::make(int develop_mode, int block_id, int output_frame_pmt, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu)
+    framing::make(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu)
     {
       return gnuradio::get_initial_sptr
-        (new framing_impl(develop_mode, block_id, output_frame_pmt, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission, reserved_field_ampdu));
+        (new framing_impl(develop_mode, block_id, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission, reserved_field_ampdu));
     }
 
     /*
      * The private constructor
      */
-    framing_impl::framing_impl(int develop_mode, int block_id, int output_frame_pmt, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu)
+    framing_impl::framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu)
       : gr::block("framing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
-	_output_frame_pmt(output_frame_pmt),
 	_frame_type(frame_type),
         _len_frame_type(len_frame_type), // Bytes
         _frame_index(frame_index),
@@ -70,7 +69,6 @@ namespace gr {
       set_msg_handler(pmt::mp("data_in"), boost::bind(&framing_impl::catagorization, this, _1 ));
       message_port_register_out(pmt::mp("frame_out"));
       // only in develop_mode
-      if(_output_frame_pmt)
       message_port_register_out(pmt::mp("frame_pmt_out"));
     }
 
@@ -207,6 +205,7 @@ namespace gr {
           ampdu_subframe_info = pmt::dict_add(ampdu_subframe_info, pmt::string_to_symbol("subframe_pmt"), subframe_after_crc);
           ampdu_subframe_info = pmt::dict_add(ampdu_subframe_info, pmt::string_to_symbol("mpdu_info"), mpdu_info);
           message_port_pub(pmt::mp("frame_out"), ampdu_subframe_info);
+          message_port_pub(pmt::mp("frame_pmt_out"), subframe_after_crc);
         }
         else
           std::cout << "pmt is not a u8vector" << std::endl;
@@ -244,6 +243,7 @@ namespace gr {
        * Generate a data frame
        */
       pmt::pmt_t frame_info;
+      pmt::pmt_t frame_after_crc;
       if(pmt::is_pair(rx_payload)) 
       {
         pmt::pmt_t meta = pmt::car(rx_payload);
@@ -268,7 +268,7 @@ namespace gr {
           // crc
           pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
           pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
-          pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
+          frame_after_crc = crc32_bb_calc(frame_before_crc);
           frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_after_crc);
           std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
 
@@ -281,6 +281,7 @@ namespace gr {
       else 
         std::cout << "pmt is not a pair" << std::endl;
       message_port_pub(pmt::mp("frame_out"), frame_info);
+      message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
     }
 
     void
@@ -294,6 +295,7 @@ namespace gr {
        * Generate an ack frame
        */
       pmt::pmt_t frame_info;
+      pmt::pmt_t frame_after_crc;
       if(pmt::is_dict(rx_data))
       {
         pmt::pmt_t meta = pmt::make_dict();
@@ -323,6 +325,7 @@ namespace gr {
       else 
         std::cout << "Error: pmt is not a dict, cannot generate an ack frame. please check your connections." << std::endl;
       message_port_pub(pmt::mp("frame_out"), frame_info);
+      message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
     }
 
     void
@@ -404,6 +407,7 @@ namespace gr {
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(0));
       return frame_info;
     }
+
     void 
     framing_impl::intToByte(int i, std::vector<unsigned char> *bytes, int size)
     {

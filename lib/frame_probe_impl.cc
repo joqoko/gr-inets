@@ -100,6 +100,14 @@ namespace gr {
               disp_vec(frame_array);
 	  }
 	}
+	if(pmt::is_u8vector(pmt::cdr(frame_info)))
+	{
+          find_frame = 1;
+          std::vector<unsigned char> array = pmt::u8vector_elements(pmt::cdr(frame_info));
+          std::cout << "Input mac frame has length: " << array.size() << std::endl;
+          if(_print_frame) 
+            disp_vec(array);
+	}  
 	if(find_frame == 0)
           std::cout << "Error. Unknow frame type. Please check your connections." << std::endl;
 	std::cout << std::endl;
