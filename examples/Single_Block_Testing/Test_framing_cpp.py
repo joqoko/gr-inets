@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_framing_cpp
 # Author: PWA
-# Generated: Tue Jan 31 16:25:36 2017
+# Generated: Wed Feb  1 06:51:45 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -61,7 +61,7 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         self.source_address = source_address = 4
         self.samp_rate = samp_rate = 32000
         self.reserved_field_II = reserved_field_II = 6
-        self.reserved_field_I = reserved_field_I = 5
+        self.reserved_field_I = reserved_field_I = 524
         self.len_source_address = len_source_address = 1
         self.len_reserved_field_II = len_reserved_field_II = 2
         self.len_reserved_field_I = len_reserved_field_I = 2
@@ -78,15 +78,19 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_framing_0 = inets.framing(1, 17, 0, 8, 1, frame_index, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
+        self.inets_framing_0 = inets.framing(1, 17, 1, 8, 1, frame_index, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 567)
+        self.inets_frame_probe_0_0 = inets.frame_probe(1, 100, 1)
         self.inets_frame_probe_0 = inets.frame_probe(0, 17, 1)
+        self.inets_frame_aggregation_0 = inets.frame_aggregation(1, 18, 4)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_frame_aggregation_0, 'aggregated_frame_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_aggregation_0, 'subframe_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_probe_0_0, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_framing_cpp")

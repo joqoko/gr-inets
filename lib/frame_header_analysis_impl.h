@@ -53,6 +53,8 @@ namespace gr {
       int _my_address;
       void frame_analysis(pmt::pmt_t rx_frame);
       int get_frame_header_length();
+      int get_ampdu_delimiter_length();
+      int BytesToint(std::vector<unsigned char> *bytes);
 
      public:
       frame_header_analysis_impl(int develop_mode, int block_id, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_num_transmission, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check, int my_address);

@@ -115,35 +115,34 @@ namespace gr {
     pmt::pmt_t
     framing_impl::ampdu_delimiter_formation(std::vector<unsigned char> *delimiter, int reserved_field_ampdu, int payload_length, int frame_type)
     {
-      std::vector< unsigned char > vec_delimiter;
+      std::vector< unsigned char > vec_signiture;
       std::vector< unsigned char > vec_reserved_field_ampdu;
       std::vector< unsigned char > vec_payload_length;
       // signiture is the frame type of ampdu subframe, i.e., 8 (N, 0x4E in the original 802.11n
-      std::vector< unsigned char > vec_signiture;
       /* 
-        delimiter (4 Bytes)
-        Reserved field 1 (1 Bytes)
-        Payload length (1 Bytes)
+        delimiter (5 Bytes)
         delimiter signature (1 Bytes)
+        Reserved field ampdu (2 Bytes, equal to reserved field I)
+        Payload length (2 Bytes)
        */
-      // Reserved field I
-      intToByte(reserved_field_ampdu, &vec_reserved_field_ampdu, 1);
-      // Payload length
-      intToByte(payload_length, &vec_payload_length, _len_payload_length);
       // signuture
       intToByte(frame_type, &vec_signiture, _len_frame_type);
+      // Reserved field I
+      intToByte(reserved_field_ampdu, &vec_reserved_field_ampdu, _len_reserved_field_I);
+      // Payload length
+      intToByte(payload_length, &vec_payload_length, _len_payload_length);
 
-      //std::cout  << "Frame header length before frame type: " << frame_header->size() << std::endl;
-      delimiter->insert(delimiter->end(), vec_reserved_field_ampdu.begin(), vec_reserved_field_ampdu.begin() + 1);
+      //std::cout  << "delimiter length before signiture: " << delimiter->size() << std::endl;
+      delimiter->insert(delimiter->end(), vec_signiture.begin(), vec_signiture.begin() + _len_frame_type);
+      //std::cout  << "Frame header length after signiture: " << frame_header->size() << std::endl;
+      delimiter->insert(delimiter->end(), vec_reserved_field_ampdu.begin(), vec_reserved_field_ampdu.begin() + _len_reserved_field_I);
       //std::cout  << "delimiter length after reserved_field: " << delimiter->size() << std::endl;
       delimiter->insert(delimiter->end(), vec_payload_length.begin(), vec_payload_length.begin() + _len_payload_length);
-      //std::cout  << "delimiter length after signiture: " << delimiter->size() << std::endl;
-      delimiter->insert(delimiter->end(), vec_signiture.begin(), vec_signiture.begin() + _len_frame_type);
 
       pmt::pmt_t frame_info  = pmt::make_dict();
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("ampdu_delimiter_signiture"), pmt::from_long(frame_type));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_ampdu"), pmt::from_long(reserved_field_ampdu));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(payload_length));
-      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("ampdu_delimiter_signiture"), pmt::from_long(frame_type));
       return frame_info;
     }
 
@@ -191,7 +190,7 @@ namespace gr {
             std::cout << "MAC header + msdu + crc32, length " <<payload_array.size() << std::endl;
           payload_length = payload_array.size(); 
           std::vector<unsigned char> delimiter;
-	  pmt::pmt_t ampdu_subframe_info = ampdu_delimiter_formation(&delimiter, _reserved_field_ampdu, payload_length, 8);
+	  pmt::pmt_t ampdu_subframe_info = ampdu_delimiter_formation(&delimiter, _reserved_field_ampdu, payload_length, _frame_type);
           std::vector<unsigned char> ampdu_subframe;
           ampdu_subframe.insert(ampdu_subframe.end(), delimiter.begin(), delimiter.end());
           if(_develop_mode == 1)

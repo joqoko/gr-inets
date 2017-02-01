@@ -91,13 +91,15 @@ namespace gr {
           std::vector<unsigned char> frame_array = pmt::u8vector_elements(frame_pmt);
           int _frame_length = frame_array.size(); 
           /*
-           * frame header
+           * frame type check
            */
-          int _header_length = get_frame_header_length();
-          std::vector<unsigned char> frame_header_array;
-          frame_header_array.insert(frame_header_array.end(), frame_array.begin(), frame_array.begin() + _header_length);
+          int frame_type = frame_array[0];
+          if(frame_type <= 5 && frame_type > 0)
+          {
+            int header_length = get_frame_header_length();
+            std::vector<unsigned char> frame_header_array;
+            frame_header_array.insert(frame_header_array.end(), frame_array.begin(), frame_array.begin() + header_length);
 
-            int frame_type = frame_header_array[0];
             int index_pos = _len_frame_type;
             int frame_index = frame_header_array[index_pos];
             int dest_pos = index_pos + _len_frame_type;
@@ -114,54 +116,62 @@ namespace gr {
             int payload_length = frame_header_array[plen_pos];
             int address_check = !(_apply_address_check);
          // std::cout << "block_id: " << _block_id << ", my address: " << _my_address << ", source_address: " << source_address << ", frame_index: " << frame_index <<  ", frame_type: " << frame_type <<  ", destination_address: " << destination_address <<  std::endl;
-          if(source_address != _my_address)
-          {
-            pmt::pmt_t frame_header_array_u8vector = pmt::init_u8vector(_header_length, frame_header_array);
-            pmt::pmt_t frame_header_array_pmt = pmt::cons(meta, frame_header_array_u8vector);
+            if(source_address != _my_address)
+            {
+              pmt::pmt_t frame_header_array_u8vector = pmt::init_u8vector(header_length, frame_header_array);
+              pmt::pmt_t frame_header_array_pmt = pmt::cons(meta, frame_header_array_u8vector);
             
+              int is_good_frame = 0;
+              pmt::pmt_t frame_info  = pmt::make_dict();
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_type"), pmt::from_long(frame_type));
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_index"), pmt::from_long(frame_index));
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("destination_address"), pmt::from_long(destination_address));
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("source_address"), pmt::from_long(source_address));
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("num_transmission"), pmt::from_long(num_transmission));
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_I"), pmt::from_long(reserved_field_I));
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_II"), pmt::from_long(reserved_field_II));
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(payload_length));
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("header_length"), pmt::from_long(header_length));
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"),pmt::from_long(address_check));
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(is_good_frame));
 
-            int is_good_frame = 0;
-            pmt::pmt_t frame_info  = pmt::make_dict();
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_type"), pmt::from_long(frame_type));
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_index"), pmt::from_long(frame_index));
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("destination_address"), pmt::from_long(destination_address));
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("source_address"), pmt::from_long(source_address));
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("num_transmission"), pmt::from_long(num_transmission));
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_I"), pmt::from_long(reserved_field_I));
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("reserved_field_II"), pmt::from_long(reserved_field_II));
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(payload_length));
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("header_length"), pmt::from_long(_header_length));
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"),pmt::from_long(address_check));
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(is_good_frame));
-
-            frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_pmt);
-            if(_develop_mode == 1)
-            {
-              std::cout << "length of frame_header_array is: " << frame_header_array.size() << std::endl;
-              std::cout << "frame type is: " << frame_type << std::endl;
-              std::cout << "frame index is: " << frame_index << std::endl;
-              std::cout << "destination address is: " << destination_address << std::endl;
-              std::cout << "source address is: " << source_address << std::endl;
-              std::cout << "number of transmission is: " << num_transmission << std::endl;
-              std::cout << "reserved field I is: " << reserved_field_I << std::endl;
-              std::cout << "reserved field II is: " << reserved_field_II << std::endl;
-              std::cout << "payload length is: " << payload_length << std::endl;
-              std::cout << "frame header length is: " << _header_length << std::endl;
-              std::cout << "address check is initialized to: " << address_check << std::endl;
-              std::cout << "frame verification (good_frame) is initialized to: " << is_good_frame << std::endl;
+              frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_pmt);
+              if(_develop_mode == 1)
+              {
+                std::cout << "length of frame_header_array is: " << frame_header_array.size() << std::endl;
+                std::cout << "frame type is: " << frame_type << std::endl;
+                std::cout << "frame index is: " << frame_index << std::endl;
+                std::cout << "destination address is: " << destination_address << std::endl;
+                std::cout << "source address is: " << source_address << std::endl;
+                std::cout << "number of transmission is: " << num_transmission << std::endl;
+                std::cout << "reserved field I is: " << reserved_field_I << std::endl;
+                std::cout << "reserved field II is: " << reserved_field_II << std::endl;
+                std::cout << "payload length is: " << payload_length << std::endl;
+                std::cout << "frame header length is: " << header_length << std::endl;
+                std::cout << "address check is initialized to: " << address_check << std::endl;
+                std::cout << "frame verification (good_frame) is initialized to: " << is_good_frame << std::endl;
+              }
+              if(_develop_mode == 2)
+              {
+                struct timeval t; 
+                gettimeofday(&t, NULL);
+                double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+                if(frame_type == 1)
+                  std::cout << "* header analysis ID: " << _block_id << " get the " << num_transmission <<"th transmission of data frame "<< frame_index << " at time " << current_time << " s" << std::endl;
+                else
+                  std::cout << "* header analysis ID: " << _block_id << " get the ack frame of the " << num_transmission <<"th transmission of data frame "<< frame_index << " at time " << current_time << " s" << std::endl;
+              }
+              message_port_pub(pmt::mp("frame_info_out"), frame_info);
+              message_port_pub(pmt::mp("frame_out"), rx_frame);
             }
-            if(_develop_mode == 2)
-            {
-              struct timeval t; 
-              gettimeofday(&t, NULL);
-              double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-              if(frame_type == 1)
-                std::cout << "* header analysis ID: " << _block_id << " get the " << num_transmission <<"th transmission of data frame "<< frame_index << " at time " << current_time << " s" << std::endl;
-              else
-                std::cout << "* header analysis ID: " << _block_id << " get the ack frame of the " << num_transmission <<"th transmission of data frame "<< frame_index << " at time " << current_time << " s" << std::endl;
-            }
-            message_port_pub(pmt::mp("frame_info_out"), frame_info);
-            message_port_pub(pmt::mp("frame_out"), rx_frame);
+          }
+          else if(frame_type = 8)
+          {
+            int delimiter_length = get_ampdu_delimiter_length();
+            std::vector<unsigned char> delimiter_array;
+            delimiter_array.insert(delimiter_array.end(), frame_array.begin(), frame_array.begin() + delimiter_length);
+            int reserved_field_ampdu_pos = _len_frame_type;
+            int reserved_field_ampdu = delimiter_array[reserved_field_ampdu_pos];
           }
         }
         else
@@ -175,9 +185,24 @@ namespace gr {
     frame_header_analysis_impl::get_frame_header_length()
     {
       return _len_frame_type + _len_frame_index + _len_destination_address + _len_source_address + _len_reserved_field_I + _len_reserved_field_II + _len_payload_length;
-
     } 
 
+    int
+    frame_header_analysis_impl::get_ampdu_delimiter_length()
+    {
+      return _len_frame_type + _len_reserved_field_I + _len_payload_length;
+    } 
+
+    int 
+    frame_header_analysis_impl::BytesToint(std::vector<unsigned char> *bytes)
+    {
+      int int_num = 0;
+      for(int i = 0; i < bytes->size(); i++)  
+      {
+        int_num = bytes->back() * 256^i + int_num;
+        bytes->pop_back();
+      } 
+    }
   } /* namespace inets */
 } /* namespace gr */
 
