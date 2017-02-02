@@ -592,15 +592,15 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
       <value>0</value>
     </param>
     <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(856, 188)</value>
+      <value>(696, 212)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -621,6 +621,10 @@
     <param>
       <key>number_aggregation</key>
       <value>4</value>
+    </param>
+    <param>
+      <key>output_frame_pmt</key>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -659,7 +663,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(696, 360)</value>
+      <value>(920, 308)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -742,7 +746,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(912, 488)</value>
+      <value>(1128, 408)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -797,7 +801,7 @@
     </param>
     <param>
       <key>frame_type</key>
-      <value>1</value>
+      <value>8</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -887,6 +891,12 @@
     <sink_key>data_in</sink_key>
   </connection>
   <connection>
+    <source_block_id>inets_frame_aggregation_0</source_block_id>
+    <sink_block_id>inets_frame_header_analysis_0</sink_block_id>
+    <source_key>aggregated_frame_pmt_out</source_key>
+    <sink_key>frame_in</sink_key>
+  </connection>
+  <connection>
     <source_block_id>inets_frame_header_analysis_0</source_block_id>
     <sink_block_id>inets_frame_probe_0</sink_block_id>
     <source_key>frame_info_out</source_key>
@@ -897,11 +907,5 @@
     <sink_block_id>inets_frame_aggregation_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>subframe_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_framing_0</source_block_id>
-    <sink_block_id>inets_frame_header_analysis_0</sink_block_id>
-    <source_key>frame_pmt_out</source_key>
-    <sink_key>frame_in</sink_key>
   </connection>
 </flow_graph>

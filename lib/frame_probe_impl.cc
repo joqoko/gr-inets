@@ -84,8 +84,13 @@ namespace gr {
             find_frame = 1;
 	    show_detail(frame_info);
 	  }
+	  else if(frame_type == 8)
+	  { 
+            find_frame = 1;
+	    show_detail(frame_info);
+	  }
 	}
-	// show detail of ampdu subframe
+	// show detail of ampdu subframe from the transmitter side
 	if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("mpdu_info")))
 	{
           find_frame = 1;
@@ -100,6 +105,7 @@ namespace gr {
               disp_vec(frame_array);
 	  }
 	}
+	// show pure vector pmt
 	if(pmt::is_u8vector(pmt::cdr(frame_info)))
 	{
           find_frame = 1;

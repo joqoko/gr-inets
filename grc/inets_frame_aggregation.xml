@@ -51,6 +51,21 @@
     <hide>part</hide>
   </param>
 
+  <param>
+    <name>Output AMPDU frame pmt</name>
+    <key>output_frame_pmt</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide_control</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -59,6 +74,7 @@
   <sink>
     <name>subframe_in</name>
     <type>message</type>
+    <optional>1</optional>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -69,5 +85,13 @@
   <source>
     <name>aggregated_frame_out</name>
     <type>message</type>
+    <optional>1</optional>
+  </source>
+
+  <source>
+    <name>aggregated_frame_pmt_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_frame_pmt</hide>
   </source>
 </block>

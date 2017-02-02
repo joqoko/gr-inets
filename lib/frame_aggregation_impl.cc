@@ -54,6 +54,7 @@ namespace gr {
       message_port_register_in(pmt::mp("subframe_in"));
       set_msg_handler(pmt::mp("subframe_in"), boost::bind(&frame_aggregation_impl::aggregating, this, _1 ));
       message_port_register_out(pmt::mp("aggregated_frame_out"));
+      message_port_register_out(pmt::mp("aggregated_frame_pmt_out"));
     }
 
     /*
@@ -107,6 +108,7 @@ namespace gr {
             if(_develop_mode == 1)
 	      std::cout << "all frames are aggregated." << std::endl;
             message_port_pub(pmt::mp("aggregated_frame_out"), _frame_info);
+            message_port_pub(pmt::mp("aggregated_frame_pmt_out"), pmt::dict_ref(_frame_info, pmt::string_to_symbol("ampdu_frame_pmt"), not_found));
             _aggregation_n = 0;
           }
         }
