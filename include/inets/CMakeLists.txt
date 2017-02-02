@@ -58,6 +58,7 @@ install(FILES
     address_check.h
     frame_probe.h
     frame_aggregation.h
-    frame_header_analysis.h DESTINATION include/inets
+    frame_header_analysis.h
+    frame_analysis.h DESTINATION include/inets
 
 )

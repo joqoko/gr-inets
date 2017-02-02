@@ -45,6 +45,7 @@
 #include "inets/frame_probe.h"
 #include "inets/frame_aggregation.h"
 #include "inets/frame_header_analysis.h"
+#include "inets/frame_analysis.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -136,3 +137,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, frame_probe);
 GR_SWIG_BLOCK_MAGIC2(inets, frame_aggregation);
 %include "inets/frame_header_analysis.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_header_analysis);
+%include "inets/frame_analysis.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_analysis);

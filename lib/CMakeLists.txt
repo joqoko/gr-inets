@@ -61,7 +61,8 @@ list(APPEND inets_sources
     address_check_impl.cc
     frame_probe_impl.cc
     frame_aggregation_impl.cc
-    frame_header_analysis_impl.cc )
+    frame_header_analysis_impl.cc
+    frame_analysis_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)
