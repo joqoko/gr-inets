@@ -41,7 +41,6 @@ list(APPEND inets_sources
     rx_switch_cc_impl.cc
     framing_cpp_impl.cc
     analyze_frame_cpp_impl.cc
-    frame_header_analysis_cpp_impl.cc
     message_tomb_impl.cc
     frame_verification_cpp_impl.cc
     address_check_cpp_impl.cc
@@ -61,8 +60,8 @@ list(APPEND inets_sources
     address_check_impl.cc
     frame_probe_impl.cc
     frame_aggregation_impl.cc
-    frame_header_analysis_impl.cc
-    frame_analysis_impl.cc )
+    frame_analysis_impl.cc
+    frame_check_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

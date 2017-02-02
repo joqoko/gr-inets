@@ -24,7 +24,6 @@
 #include "inets/rx_switch_cc.h"
 #include "inets/framing_cpp.h"
 #include "inets/analyze_frame_cpp.h"
-#include "inets/frame_header_analysis_cpp.h"
 #include "inets/message_tomb.h"
 #include "inets/frame_verification_cpp.h"
 #include "inets/address_check_cpp.h"
@@ -44,8 +43,8 @@
 #include "inets/address_check.h"
 #include "inets/frame_probe.h"
 #include "inets/frame_aggregation.h"
-#include "inets/frame_header_analysis.h"
 #include "inets/frame_analysis.h"
+#include "inets/frame_check.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -89,8 +88,7 @@ GR_SWIG_BLOCK_MAGIC2(inets, framing_cpp);
 
 %include "inets/analyze_frame_cpp.h"
 GR_SWIG_BLOCK_MAGIC2(inets, analyze_frame_cpp);
-%include "inets/frame_header_analysis_cpp.h"
-GR_SWIG_BLOCK_MAGIC2(inets, frame_header_analysis_cpp);
+
 %include "inets/message_tomb.h"
 GR_SWIG_BLOCK_MAGIC2(inets, message_tomb);
 
@@ -135,7 +133,8 @@ GR_SWIG_BLOCK_MAGIC2(inets, frame_probe);
 
 %include "inets/frame_aggregation.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_aggregation);
-%include "inets/frame_header_analysis.h"
-GR_SWIG_BLOCK_MAGIC2(inets, frame_header_analysis);
+
 %include "inets/frame_analysis.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_analysis);
+%include "inets/frame_check.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_check);

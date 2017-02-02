@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /* 
- * Copyright 2016 <+YOU OR YOUR COMPANY+>.
+ * Copyright 2017 <+YOU OR YOUR COMPANY+>.
  * 
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_FRAME_HEADER_ANALYSIS_CPP_H
-#define INCLUDED_INETS_FRAME_HEADER_ANALYSIS_CPP_H
+#ifndef INCLUDED_INETS_FRAME_CHECK_H
+#define INCLUDED_INETS_FRAME_CHECK_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API frame_header_analysis_cpp : virtual public gr::block
+    class INETS_API frame_check : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<frame_header_analysis_cpp> sptr;
+      typedef boost::shared_ptr<frame_check> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::frame_header_analysis_cpp.
+       * \brief Return a shared_ptr to a new instance of inets::frame_check.
        *
-       * To avoid accidental use of raw pointers, inets::frame_header_analysis_cpp's
+       * To avoid accidental use of raw pointers, inets::frame_check's
        * constructor is in a private implementation
-       * class. inets::frame_header_analysis_cpp::make is the public interface for
+       * class. inets::frame_check::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int len_frame_type, int len_frame_index, int len_destination_address, int len_source_address, int len_num_transmission, int len_reserved_field_I, int len_reserved_field_II, int len_payload_length, int apply_address_check, int my_address);
+      static sptr make(int develop_mode, int block_id);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_HEADER_ANALYSIS_CPP_H */
+#endif /* INCLUDED_INETS_FRAME_CHECK_H */
 

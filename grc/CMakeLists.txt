@@ -39,7 +39,6 @@ install(FILES
     inets_rx_switch_cc.xml
     inets_framing_cpp.xml
     inets_analyze_frame_cpp.xml
-    inets_frame_header_analysis_cpp.xml
     inets_message_tomb.xml
     inets_frame_verification_cpp.xml
     inets_address_check_cpp.xml
@@ -61,6 +60,6 @@ install(FILES
     inets_address_check.xml
     inets_frame_probe.xml
     inets_frame_aggregation.xml
-    inets_frame_header_analysis.xml
-    inets_frame_analysis.xml DESTINATION share/gnuradio/grc/blocks
+    inets_frame_analysis.xml
+    inets_frame_check.xml DESTINATION share/gnuradio/grc/blocks
 )

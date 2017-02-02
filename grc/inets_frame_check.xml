@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<block>
+  <name>frame_check</name>
+  <key>inets_frame_check</key>
+  <category>inets_dmf_mac</category>
+  <import>import inets</import>
+  <make>inets.frame_check($develop_mode, $block_id)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <value>develop_mode</value>
+    <type>int</type>
+    <option>
+      <name>on</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>off</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+    </option>
+  </param>
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>block_id</value>
+    <type>int</type>
+  </param>
+  <sink>
+    <name>frame_info_in</name>
+    <type>message</type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>good_frame</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+  <source>
+    <name>frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+  <source>
+    <name>payload_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+</block>

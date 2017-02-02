@@ -38,7 +38,6 @@ install(FILES
     rx_switch_cc.h
     framing_cpp.h
     analyze_frame_cpp.h
-    frame_header_analysis_cpp.h
     message_tomb.h
     frame_verification_cpp.h
     address_check_cpp.h
@@ -58,7 +57,7 @@ install(FILES
     address_check.h
     frame_probe.h
     frame_aggregation.h
-    frame_header_analysis.h
-    frame_analysis.h DESTINATION include/inets
+    frame_analysis.h
+    frame_check.h DESTINATION include/inets
 
 )
