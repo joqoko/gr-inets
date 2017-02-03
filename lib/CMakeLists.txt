@@ -61,7 +61,8 @@ list(APPEND inets_sources
     frame_probe_impl.cc
     frame_aggregation_impl.cc
     frame_analysis_impl.cc
-    frame_check_impl.cc )
+    frame_check_impl.cc
+    IFS_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

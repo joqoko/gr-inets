@@ -58,6 +58,7 @@ install(FILES
     frame_probe.h
     frame_aggregation.h
     frame_analysis.h
-    frame_check.h DESTINATION include/inets
+    frame_check.h
+    IFS.h DESTINATION include/inets
 
 )

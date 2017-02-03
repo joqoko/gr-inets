@@ -61,5 +61,6 @@ install(FILES
     inets_frame_probe.xml
     inets_frame_aggregation.xml
     inets_frame_analysis.xml
-    inets_frame_check.xml DESTINATION share/gnuradio/grc/blocks
+    inets_frame_check.xml
+    inets_IFS.xml DESTINATION share/gnuradio/grc/blocks
 )
