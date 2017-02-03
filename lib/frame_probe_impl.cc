@@ -100,7 +100,7 @@ namespace gr {
           {
             pmt::pmt_t subframe_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("subframe_pmt"), not_found);
             std::vector<unsigned char> frame_array = pmt::u8vector_elements(pmt::cdr(subframe_pmt));
-            std::cout << "subframe info contains a subframe with length " << frame_array.size() << "bytes" << std::endl;
+            std::cout << "subframe info contains a subframe with length " << frame_array.size() << " bytes: ";
             if(_print_frame) 
               disp_vec(frame_array);
 	  }
@@ -156,7 +156,7 @@ namespace gr {
       if((pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_pmt"))) || (pmt::dict_has_key(frame_info, pmt::string_to_symbol("subframe_pmt"))) || (pmt::dict_has_key(frame_info, pmt::string_to_symbol("ampdu_frame_pmt"))))
       {
         std::vector<unsigned char> frame_array = pmt::u8vector_elements(pmt::cdr(frame_pmt));
-        std::cout << "frame info contains a frame with length " << frame_array.size() << "bytes" << std::endl;
+        std::cout << "frame info contains a frame with length " << frame_array.size() << " bytes: ";
         if(_print_frame) 
           disp_vec(frame_array);
       }

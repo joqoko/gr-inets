@@ -51,6 +51,7 @@ namespace gr {
         std::cout << "develop_mode of address_check ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in"));
       message_port_register_out(pmt::mp("address_check_pass_out"));
+      message_port_register_out(pmt::mp("payload_out"));
       message_port_register_out(pmt::mp("address_check_fail_out"));
       set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&address_check_impl::check_address, this, _1 ));
     }
@@ -73,12 +74,13 @@ namespace gr {
       int received_frame_address = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found));
       int is_my_address = (_my_address == received_frame_address);
       if(_develop_mode == 1)
-        std::cout << "My address is " << _my_address << " and rx frame address is " << received_frame_address << ". Frame check is: " << is_my_address << std::endl;
+        std::cout << "My address is " << _my_address << " and rx frame address is " << received_frame_address << ". Frame check is: " << is_my_address << " (1: passed, 2: failed)." << std::endl;
       frame_info = pmt::dict_delete(frame_info, pmt::string_to_symbol("address_check"));
       frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"), pmt::from_long(is_my_address));
       if(is_my_address)
       {
         message_port_pub(pmt::mp("address_check_pass_out"), frame_info);
+        message_port_pub(pmt::mp("payload_out"), frame_info);
       }
       else
       {
