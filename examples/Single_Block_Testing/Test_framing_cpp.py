@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_framing_cpp
 # Author: PWA
-# Generated: Thu Feb  2 17:08:54 2017
+# Generated: Fri Feb  3 16:08:46 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -80,6 +80,7 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         ##################################################
         self.inets_framing_0 = inets.framing(0, 17, 8, 1, frame_index, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 551)
         self.inets_frame_probe_0 = inets.frame_probe(0, 17, 1)
+        self.inets_frame_check_0 = inets.frame_check(0, 9)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, 100)
         self.inets_frame_aggregation_0 = inets.frame_aggregation(0, 18, 4)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
@@ -89,7 +90,8 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_frame_aggregation_0, 'aggregated_frame_pmt_out'), (self.inets_frame_analysis_0, 'frame_in'))
-        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_frame_probe_0, 'info_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_aggregation_0, 'subframe_in'))
 
     def closeEvent(self, event):

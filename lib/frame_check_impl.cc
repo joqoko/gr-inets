@@ -51,8 +51,8 @@ namespace gr {
       if(_develop_mode == 1)
         std::cout << "develop_mode of frame_check ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in"));
-      message_port_register_out(pmt::mp("good_frame"));
-      message_port_register_out(pmt::mp("frame_info_out"));
+      message_port_register_out(pmt::mp("good_frame_info_out"));
+      message_port_register_out(pmt::mp("bad_frame_info_out"));
       message_port_register_out(pmt::mp("payload_out"));
       set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&frame_check_impl::check_frame, this, _1 ));
     }
@@ -71,10 +71,11 @@ namespace gr {
       {
         std::cout << "++++++  frame_check ID: " << _block_id << "  ++++++++" << std::endl;
       }
-      if(pmt::is_dict(frame_info)) 
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_pmt"))) 
       {
         int is_good_frame;
         pmt::pmt_t not_found;
+	/*
         // frame_type
         pmt::pmt_t frame_type_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found);
         int frame_type = pmt::to_long(frame_type_pmt);
@@ -90,19 +91,22 @@ namespace gr {
         // payload_length
         pmt::pmt_t payload_length_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("payload_length"), not_found);
         int payload_length = pmt::to_long(payload_length_pmt);
-        // header_length
-        pmt::pmt_t header_length_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("header_length"), not_found);
-        int header_length = pmt::to_long(header_length_pmt);
         // rx_frame_address_check
         pmt::pmt_t rx_frame_address_check_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("address_check"), not_found);
         int rx_frame_address_check = pmt::to_long(rx_frame_address_check_pmt);
+	*/
         /*
          * CRC
          */
         // rx_frame with crc
+
+        // header_length
+        pmt::pmt_t header_length_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("header_length"), not_found);
+        int header_length = pmt::to_long(header_length_pmt);
+	
         pmt::pmt_t frame_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_pmt"), not_found);
         // rx_frame without crc in vector form
-        std::vector<unsigned char> frame_array = pmt::u8vector_elements(frame_pmt);
+        std::vector<unsigned char> frame_array = pmt::u8vector_elements(pmt::cdr(frame_pmt));
         std::vector<unsigned char> frame_for_recrc_vector;
         frame_for_recrc_vector.insert(frame_for_recrc_vector.end(), frame_array.begin(), frame_array.end() - 4);
         std::vector<unsigned char> payload_vector;
@@ -112,7 +116,7 @@ namespace gr {
         pmt::pmt_t frame_before_recrc_pmt = pmt::cons(meta, frame_for_recrc_pmt);
         pmt::pmt_t frame_after_recrc_pmt = crc32_bb_calc(frame_before_recrc_pmt);
         std::vector<unsigned char> frame_after_recrc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_recrc_pmt));
-        is_good_frame = (frame_after_recrc_vector == frame_array) && rx_frame_address_check;
+        is_good_frame = (frame_after_recrc_vector == frame_array);
 
         if(_develop_mode == 2)
         {
@@ -123,6 +127,11 @@ namespace gr {
         }
         if(_develop_mode == 1)
         {
+          std::cout << "received frame with crc32 bytes (last four): ";
+	  disp_vec(frame_array);
+          std::cout << "frame with recalculated crc32 bytes : ";
+	  disp_vec(frame_after_recrc_vector);
+		/*
           std::cout << "dict has key frame_type: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_type")) << " with value: " << frame_type << std::endl;
           std::cout << "dict has key frame_index: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_index")) << " with value: " << frame_index << std::endl;
           std::cout << "dict has key destination_address: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("destination_address")) << " with value: " << destination_address << std::endl;
@@ -130,16 +139,21 @@ namespace gr {
           std::cout << "dict has key payload_length: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("payload_length")) << " with value: " << payload_length << std::endl;
           std::cout << "dict has key header_length: " << pmt::dict_has_key(frame_info, pmt::string_to_symbol("header_length")) << " with value: " << header_length << std::endl;
           std::cout << "address check is: " << rx_frame_address_check << ", (1: passed, 0: failed)" << std::endl;
+	  */
           std::cout << "Frame verification result: " << is_good_frame << ", (1: passed, 0: failed)" << std::endl;
         }
-        message_port_pub(pmt::mp("good_frame"), pmt::from_long(is_good_frame));
-          pmt::pmt_t payload_u8vector = pmt::init_u8vector(payload_vector.size(), payload_vector);
-          pmt::pmt_t payload = pmt::cons(meta, payload_u8vector); 
-        message_port_pub(pmt::mp("payload_out"), payload);
+        pmt::pmt_t payload_u8vector = pmt::init_u8vector(payload_vector.size(), payload_vector);
+        pmt::pmt_t payload = pmt::cons(meta, payload_u8vector); 
         frame_info = pmt::dict_delete(frame_info, pmt::string_to_symbol("good_frame"));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"), pmt::from_long(is_good_frame));
-//        frame_info = pmt::dict_delete(frame_info, pmt::string_to_symbol("frame_pmt"));
-        message_port_pub(pmt::mp("frame_info_out"), frame_info);
+	if(is_good_frame)
+	{
+          message_port_pub(pmt::mp("good_frame_info_out"), frame_info);
+          message_port_pub(pmt::mp("payload_out"), payload);
+	}
+        else
+          message_port_pub(pmt::mp("bad_frame_info_out"), frame_info);
+          
       }
       else 
         std::cout << "pmt is not a dict" << std::endl;
@@ -167,6 +181,14 @@ namespace gr {
       pmt::pmt_t output = pmt::init_u8vector(pkt_len+4, bytes_out); // this copies the values from bytes_out into the u8vector
       return pmt::cons(meta, output);
     } 
+
+    void 
+    frame_check_impl::disp_vec(std::vector<unsigned char> vec)
+    {
+      for(int i=0; i<vec.size(); ++i)
+        std::cout << static_cast<unsigned>(vec[i]) << ' ';
+      std::cout << ". total length is: " << vec.size() << std::endl;
+    }
 
   } /* namespace inets */
 } /* namespace gr */

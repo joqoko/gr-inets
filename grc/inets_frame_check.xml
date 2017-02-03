@@ -14,30 +14,70 @@
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>
-    <value>develop_mode</value>
-    <type>int</type>
-    <option>
-      <name>on</name>
-      <key>1</key>
-    </option>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
     <option>
       <name>off</name>
       <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
     <option>
       <name>time</name>
       <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
   </param>
+
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>block_id</value>
+    <value>9</value>
     <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
   </param>
+
+  <param>
+    <name>Output bad frame</name>
+    <key>output_bad_frame</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Output payload pmt</name>
+    <key>output_payload_pmt</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
   <sink>
     <name>frame_info_in</name>
     <type>message</type>
+    <optional>1</optional>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -46,18 +86,20 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>good_frame</name>
+    <name>good_frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>
   <source>
-    <name>frame_info_out</name>
+    <name>bad_frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$output_bad_frame</hide>
   </source>
   <source>
     <name>payload_out</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$output_payload_pmt</hide>
   </source>
 </block>

@@ -600,7 +600,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(704, 216)</value>
+      <value>(560, 216)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -663,7 +663,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(920, 312)</value>
+      <value>(752, 224)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -719,6 +719,61 @@
     </param>
   </block>
   <block>
+    <key>inets_frame_check</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>9</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(904, 264)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_check_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_bad_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>output_payload_pmt</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>inets_frame_probe</key>
     <param>
       <key>alias</key>
@@ -746,7 +801,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1128, 408)</value>
+      <value>(1032, 400)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -805,7 +860,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(448, 228)</value>
+      <value>(328, 232)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -898,8 +953,14 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_analysis_0</source_block_id>
-    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <sink_block_id>inets_frame_check_0</sink_block_id>
     <source_key>frame_info_out</source_key>
+    <sink_key>frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_check_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <source_key>good_frame_info_out</source_key>
     <sink_key>info_in</sink_key>
   </connection>
   <connection>

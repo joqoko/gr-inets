@@ -38,6 +38,7 @@ namespace gr {
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
       void check_frame(pmt::pmt_t frame_info);
       void check_frame_v0(pmt::pmt_t rx_frame);
+      void disp_vec(std::vector<unsigned char> vec);
 
      public:
       frame_check_impl(int develop_mode, int block_id);

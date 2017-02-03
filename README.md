@@ -33,7 +33,8 @@ Index		block name				Categories
  6		rx_switch_cc				inets_dmf_phy
  7		frame_header_analysis			inets_dmf_mac
  8		address_check_cpp			inets_dmf_mac
- 9		frame_verification_cpp			inets_dmf_mac
+ 9		frame_check				inets_dmf_mac
+                (frame_verification_cpp)
  10		timeout_cpp				inets_dmf_mac
  11		exponential_backoff_cpp			inets_dmf_mac
  12		carrier_sensing_cpp_cc			inets_dmf_mac

@@ -121,6 +121,7 @@ namespace gr {
     {
       pmt::pmt_t subframe_info;
       pmt::pmt_t not_found;
+      int crc32_length = 4;
       std::vector<unsigned char> frame_array = pmt::u8vector_elements(frame_pmt);
       // Create delimiter array
       int delimiter_length = get_ampdu_delimiter_length();
@@ -135,6 +136,8 @@ namespace gr {
       std::vector<unsigned char> mpdu_length_array(delimiter_array.begin() + mpdu_length_pos, delimiter_array.begin() + mpdu_length_pos + _len_payload_length);
       int mpdu_length = BytesToint(&mpdu_length_array);
       
+      if(_develop_mode)
+        std::cout << "mpdu length: " << mpdu_length << " delimiter_length: " << delimiter_length << std::endl;
       int number_aggregation = floor(frame_array.size() / (mpdu_length + delimiter_length));
       if(_develop_mode == 1)
       {	
@@ -144,9 +147,10 @@ namespace gr {
       }
       for(int i = 0; i < number_aggregation; i++)
       {
-        std::cout << "+++ the " << i << "th mpdu +++" << number_aggregation << std::endl;
+	if(_develop_mode)
+          std::cout << "+++ " << i << "/" << number_aggregation << " subframes in AMPDU +++" << std::endl;
         std::vector<unsigned char> mpdu_array;
-        mpdu_array.insert(mpdu_array.end(), frame_array.begin() + delimiter_length, frame_array.begin() + delimiter_length + mpdu_length);
+        mpdu_array.insert(mpdu_array.end(), frame_array.begin() + delimiter_length + i * (delimiter_length + mpdu_length + crc32_length), frame_array.begin() + (i + 1) * (delimiter_length + mpdu_length + crc32_length) - crc32_length);
         pmt::pmt_t mpdu_pmt = pmt::init_u8vector(mpdu_array.size(), mpdu_array);
         /*
 	if(_develop_mode == 1)
@@ -302,6 +306,7 @@ namespace gr {
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("payload_length"), pmt::from_long(payload_length));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("header_length"), pmt::from_long(header_length));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("self_address_check"),pmt::from_long(1));
+        frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"),pmt::from_long(0));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(is_good_frame));
 
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), pmt::cons(meta, frame_pmt));
