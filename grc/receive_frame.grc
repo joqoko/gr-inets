@@ -249,194 +249,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_null_sink</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bus_conns</key>
-      <value>[[0,],]</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(536, 320)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_null_sink_0_0_0_0_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>num_inputs</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_null_sink</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bus_conns</key>
-      <value>[[0,],]</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(536, 432)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_null_sink_0_0_0_0_0_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>num_inputs</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_null_sink</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bus_conns</key>
-      <value>[[0,],]</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(536, 584)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_null_sink_0_0_0_0_0_0_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>num_inputs</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_null_sink</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bus_conns</key>
-      <value>[[0,],]</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(536, 464)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_null_sink_0_0_0_1</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>num_inputs</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
     <key>parameter</key>
     <param>
       <key>alias</key>
@@ -495,7 +307,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1304, 388)</value>
+      <value>(480, 636)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -616,7 +428,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(816, 76)</value>
+      <value>(664, 352)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -640,10 +452,10 @@
     </param>
   </block>
   <block>
-    <key>inets_frame_header_analysis_cpp</key>
+    <key>inets_frame_analysis</key>
     <param>
-      <key>apply_address_check</key>
-      <value>apply_address_check</value>
+      <key>apply_self_address_check</key>
+      <value>1</value>
     </param>
     <param>
       <key>alias</key>
@@ -651,7 +463,7 @@
     </param>
     <param>
       <key>block_id</key>
-      <value>block_id</value>
+      <value>7</value>
     </param>
     <param>
       <key>comment</key>
@@ -662,8 +474,12 @@
       <value></value>
     </param>
     <param>
+      <key>default_framing_setting</key>
+      <value>customized</value>
+    </param>
+    <param>
       <key>develop_mode</key>
-      <value>2</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -671,7 +487,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(552, 28)</value>
+      <value>(464, 376)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -679,39 +495,39 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_frame_header_analysis_cpp_1</value>
+      <value>inets_frame_analysis_0</value>
     </param>
     <param>
       <key>len_destination_address</key>
-      <value>len_destination_address</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_frame_index</key>
-      <value>len_frame_index</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_frame_type</key>
-      <value>len_frame_type</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_num_transmission</key>
-      <value>len_num_transmission</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_payload_length</key>
-      <value>len_payload_length</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_reserved_field_I</key>
-      <value>len_reserved_field_I</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_reserved_field_II</key>
-      <value>len_reserved_field_II</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_source_address</key>
-      <value>len_source_address</value>
+      <value>1</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -754,7 +570,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1048, 72)</value>
+      <value>(896, 344)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1247,135 +1063,6 @@
     </param>
   </block>
   <block>
-    <key>pad_sink</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(872, 268)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>pad_sink_1</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>payload_const</value>
-    </param>
-    <param>
-      <key>num_streams</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>optional</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>pad_sink</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(928, 388)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>pad_sink_1_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>correlation</value>
-    </param>
-    <param>
-      <key>num_streams</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>optional</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>pad_sink</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(912, 644)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>pad_sink_2</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>RX Constellation</value>
-    </param>
-    <param>
-      <key>num_streams</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>optional</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
     <key>parameter</key>
     <param>
       <key>alias</key>
@@ -1513,7 +1200,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1272, 100)</value>
+      <value>(1144, 372)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1599,7 +1286,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1032, 524)</value>
+      <value>(512, 436)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1852,7 +1539,7 @@
     <sink_key>frame_info_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_frame_header_analysis_cpp_1</source_block_id>
+    <source_block_id>inets_frame_analysis_0</source_block_id>
     <sink_block_id>inets_address_check_cpp_1</sink_block_id>
     <source_key>frame_info_out</source_key>
     <sink_key>frame_info_in</sink_key>
@@ -1865,49 +1552,7 @@
   </connection>
   <connection>
     <source_block_id>receive_frame_phy_0</source_block_id>
-    <sink_block_id>blocks_null_sink_0_0_0_0_0_0_0</sink_block_id>
-    <source_key>3</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>receive_frame_phy_0</source_block_id>
-    <sink_block_id>pad_sink_2</sink_block_id>
-    <source_key>3</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>receive_frame_phy_0</source_block_id>
-    <sink_block_id>blocks_null_sink_0_0_0_0_0_0</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>receive_frame_phy_0</source_block_id>
-    <sink_block_id>pad_sink_1_0</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>receive_frame_phy_0</source_block_id>
-    <sink_block_id>blocks_null_sink_0_0_0_1</sink_block_id>
-    <source_key>2</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>receive_frame_phy_0</source_block_id>
-    <sink_block_id>blocks_null_sink_0_0_0_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>receive_frame_phy_0</source_block_id>
-    <sink_block_id>pad_sink_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>receive_frame_phy_0</source_block_id>
-    <sink_block_id>inets_frame_header_analysis_cpp_1</sink_block_id>
+    <sink_block_id>inets_frame_analysis_0</sink_block_id>
     <source_key>rx_frame_out</source_key>
     <sink_key>frame_in</sink_key>
   </connection>

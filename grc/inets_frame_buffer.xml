@@ -4,7 +4,7 @@
   <key>inets_frame_buffer</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.frame_buffer($develop_mode, $block_id, $buffer_size)</make>
+  <make>inets.frame_buffer($develop_mode, $block_id, $buffer_size, $auto_dequeue_first)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -87,6 +87,21 @@
       <key>1</key>
       <opt>hide:part</opt>
       <opt>hide_control:all</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Auto-dequeue 1st element</name>
+    <key>auto_dequeue_first</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>No</name>
+      <key>0</key>
     </option>
   </param>
 <!--  <param>

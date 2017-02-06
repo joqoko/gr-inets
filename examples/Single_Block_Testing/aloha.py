@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: aloha
 # Author: PWA
-# Generated: Tue Jan  3 16:32:45 2017
+# Generated: Mon Feb  6 17:14:43 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -33,6 +33,7 @@ from receive_frame import receive_frame  # grc-generated hier_block
 import gnuradio
 import inets
 import pmt
+from gnuradio import qtgui
 
 
 class aloha(gr.top_block, Qt.QWidget):
@@ -41,6 +42,7 @@ class aloha(gr.top_block, Qt.QWidget):
         gr.top_block.__init__(self, "aloha")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("aloha")
+        qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
         except:
@@ -74,9 +76,9 @@ class aloha(gr.top_block, Qt.QWidget):
         self.self_ack_info = self_ack_info = pmt.to_pmt({'frame_type': 2, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 0, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 0})
         self.samp_rate = samp_rate = 1000000
         self.rx_gain = rx_gain = range_rx_gain
-        
+
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
-          
+
         self.reserved_field_II = reserved_field_II = 6
         self.reserved_field_I = reserved_field_I = 5
         self.preamble_detector_threshold = preamble_detector_threshold = 30
@@ -134,25 +136,25 @@ class aloha(gr.top_block, Qt.QWidget):
             usrp_device_address=usrp_device_address,
         )
         self._range_rx_gain_range = Range(0, 60, 1, 5, 200)
-        self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, "Rx Gain", "counter_slider", float)
+        self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, 'Rx Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_rx_gain_win, 1,0,1,1)
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
-        self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, "BB Derotation Gain", "counter_slider", float)
+        self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_idle_0 = inets.idle(0, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
         self.inets_counter_0_1 = inets.counter(([22]), 22)
         self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(1, 11, 3, cs_duration, cs_threshold, system_time_granularity_us)
         self.frame_info_simulator = blocks.message_strobe_random(pmt.to_pmt({'good_frame' : 1, 'address_check' : 1, 'header_length' : 9, 'payload_length' : 0, 'reserved_field_II' : 6, 'reserved_field_I' : 5, 'num_transmission' : 0, 'source_address' : 1, 'destination_address': 3, 'frame_index' : 22, 'frame_type' : 1}), blocks.STROBE_POISSON, 2000, 1000)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", "localhost", "52001", 10000, False)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_1 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 5)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_idle_0, 'data_out'), (self.inets_carrier_sensing_cpp_cc_0, 'info_in'))    
-        self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_counter_0_1, 'message_in'))    
-        self.msg_connect((self.receive_frame_0_0, 'rx_power_out'), (self.inets_carrier_sensing_cpp_cc_0, 'info_in'))    
+        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))
+        self.msg_connect((self.inets_idle_0, 'data_out'), (self.inets_carrier_sensing_cpp_cc_0, 'info_in'))
+        self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_counter_0_1, 'message_in'))
+        self.msg_connect((self.receive_frame_0_0, 'rx_power_out'), (self.inets_carrier_sensing_cpp_cc_0, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "aloha")

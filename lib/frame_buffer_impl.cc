@@ -30,22 +30,24 @@ namespace gr {
   namespace inets {
 
     frame_buffer::sptr
-    frame_buffer::make(int develop_mode, int block_id, int buffer_size)
+    frame_buffer::make(int develop_mode, int block_id, int buffer_size, int auto_dequeue_first)
     {
       return gnuradio::get_initial_sptr
-        (new frame_buffer_impl(develop_mode, block_id, buffer_size));
+        (new frame_buffer_impl(develop_mode, block_id, buffer_size, auto_dequeue_first));
     }
 
     /*
      * The private constructor
      */
-    frame_buffer_impl::frame_buffer_impl(int develop_mode, int block_id, int buffer_size)
+    frame_buffer_impl::frame_buffer_impl(int develop_mode, int block_id, int buffer_size, int auto_dequeue_first)
       : gr::block("frame_buffer",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
-        _buffer_size(buffer_size)
+        _buffer_size(buffer_size),
+	_auto_dequeue_first(auto_dequeue_first),
+	_dequeue_first(1)
   //      _output_dequeue_element(output_dequeue_element)
     {
       if(_develop_mode)
@@ -77,6 +79,14 @@ namespace gr {
         _buffer.push(enqueue_element);
         if(_develop_mode == 1)
           std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after enqueue." << std::endl;
+        if(_dequeue_first && _auto_dequeue_first)
+        {
+          _dequeue_first = 0;
+          message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
+          _buffer.pop();
+          if(_develop_mode == 1)
+            std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after auto-dequeue the first element." << std::endl;
+        }
       }
       else
         if(_develop_mode == 1)
@@ -90,7 +100,7 @@ namespace gr {
       if(_buffer.size() > 0)
       {
  //       if(_output_dequeue_element)
-          message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
+        message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
         _buffer.pop();
         if(_develop_mode == 1)
           std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after dequeue." << std::endl;

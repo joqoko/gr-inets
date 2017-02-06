@@ -42,7 +42,7 @@ class receiving(gr.hier_block2):
         gr.hier_block2.__init__(self,
             "receiving",
             gr.io_signature(0, 0, 0),  # Input signature
-            gr.io_signaturev(4, 4, [gr.sizeof_gr_complex*1, gr.sizeof_gr_complex*1, gr.sizeof_float*1, gr.sizeof_gr_complex*1]),
+            gr.io_signature(0, 0, 0),
         ) # Output signature
 
         self.message_port_register_hier_in("rx_switch_in")
@@ -66,6 +66,10 @@ class receiving(gr.hier_block2):
             threshold=threshold,
             usrp_device_address=usrp_device_address,
         )
+ #       self.blocks_null_sink_0_0_0_1 = blocks.null_sink(gr.sizeof_float*1)
+ #       self.blocks_null_sink_0_0_0_0_0_0_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
+ #       self.blocks_null_sink_0_0_0_0_0_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
+ #       self.blocks_null_sink_0_0_0_0_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
         ##################################################
         # Connections
         ##################################################
@@ -73,7 +77,7 @@ class receiving(gr.hier_block2):
         self.msg_connect((self.receive_frame_phy_0, 'rx_power_out'), (self, 'rx_power_out'))    
         self.msg_connect((self.receive_frame_phy_0, 'snr_out'), (self, 'snr_out'))    
         self.msg_connect((self, 'rx_switch_in'), (self.receive_frame_phy_0, 'rx_switch_in'))    
-        self.connect((self.receive_frame_phy_0, 0), (self, 0))
-        self.connect((self.receive_frame_phy_0, 1), (self, 1))
-        self.connect((self.receive_frame_phy_0, 2), (self, 2))
-        self.connect((self.receive_frame_phy_0, 3), (self, 3))
+#        self.connect((self.receive_frame_phy_0, 0), (self.blocks_null_sink_0_0_0_0_0, 0))
+ #       self.connect((self.receive_frame_phy_0, 1), (self.blocks_null_sink_0_0_0_0_0_0, 0))
+ #       self.connect((self.receive_frame_phy_0, 3), (self.blocks_null_sink_0_0_0_0_0_0_0, 0))
+ #       self.connect((self.receive_frame_phy_0, 2), (self.blocks_null_sink_0_0_0_1, 0))

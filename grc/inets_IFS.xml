@@ -180,7 +180,7 @@
        * optional (set to 1 for optional inputs) -->
 
   <sink>
-    <name>info_in</name>
+    <name>frame_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>

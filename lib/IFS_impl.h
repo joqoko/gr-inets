@@ -38,7 +38,7 @@ namespace gr {
       float _cs_threshold;
       int _AIFS_ac;
       bool _in_cca;
-      int _IFS_duration;
+      float _IFS_duration;
       double _wait_time;
       pmt::pmt_t _frame_info;
       int _system_time_granularity_us;

@@ -131,9 +131,9 @@
   </param>
 
   <param>
-    <name>Frame index</name>
+    <name>Initial frame index</name>
     <key>frame_index</key>
-    <value>frame_index</value>
+    <value>0</value>
     <type>int</type>
     <hide>$frame_type.hide_data</hide>
   </param>

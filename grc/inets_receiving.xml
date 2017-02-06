@@ -164,6 +164,7 @@
     <hide>part</hide>
   </param>
 
+  <!-- currently this functionality is not supported:
   <param>
     <name>Show payload const</name>
     <key>show_payload_const</key>
@@ -235,6 +236,8 @@
       <opt>hide:part</opt>
     </option>
   </param>
+       * can be improved later -->
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -257,11 +260,19 @@
     <optional>1</optional>
   </source>
   <source>
+    <name>rx_power_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$show_rss</hide>
+  </source>
+  <source>
     <name>snr_out</name>
     <type>message</type>
     <optional>1</optional>
     <hide>$show_snr</hide>
   </source>
+
+  <!-- current do not output phy info:
   <source>
     <name>payload_const</name>
     <type>complex</type>
@@ -290,10 +301,5 @@
     <optional>1</optional>
     <hide>$show_rx_constellation</hide>
   </source>
-  <source>
-    <name>rx_power_out</name>
-    <type>message</type>
-    <optional>1</optional>
-    <hide>$show_rss</hide>
-  </source>
+       * this functionality can be further improved later -->
 </block>

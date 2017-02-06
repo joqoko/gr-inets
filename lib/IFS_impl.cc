@@ -129,6 +129,7 @@ namespace gr {
       else if(pmt::is_real(frame_in))
       {
         double power = pmt::to_double(frame_in);
+//        std::cout << "received power is: " << power << std::endl;
         _in_cca = (_cs_threshold > power);
         if(_develop_mode == 1 && _in_cca)
         {
@@ -148,7 +149,7 @@ namespace gr {
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
-      while((current_time < start_time + _IFS_duration / 1000) && _in_cca)
+      while((current_time < start_time + _IFS_duration / 1000000) && _in_cca)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us)); 
         gettimeofday(&t, NULL);
@@ -167,7 +168,7 @@ namespace gr {
         message_port_pub(pmt::mp("frame_info_fail_out"), _frame_info);
       }
       _in_cca = false;
-      int cs_time = current_time - start_time;
+      double cs_time = current_time - start_time;
       if(_develop_mode == 1)
         std::cout << "Carrier sensing time is: " << cs_time << " s" << std::endl;
     }
