@@ -35,14 +35,18 @@ namespace gr {
       int _SIFS;
       int _interval_type;
       int _customized_IFS;
+      int _cs_threshold;
       int _AIFS_ac;
+      bool _in_cca;
+      int _IFS_duration;
       double _wait_time;
+      pmt::pmt_t _frame_info;
       int _system_time_granularity_us;
-      void wait_for(pmt::pmt_t frame_in);
-      void countdown_waiting();
+      void start_IFS(pmt::pmt_t frame_in);
+      void countdown_sensing();
 
      public:
-      IFS_impl(int develop_mode, int block_id, int SIFS, int slot_time, int interval_type, int customized_IFS, int AIFS_ac, int system_time_granularity_us);
+      IFS_impl(int develop_mode, int block_id, int SIFS, int slot_time, int interval_type, int customized_IFS, int AIFS_ac, int cs_threshold, int system_time_granularity_us);
       ~IFS_impl();
 
 

@@ -44,7 +44,7 @@ Index		block name				Categories
  16		frame_buffer				inets_dmf_mac
  17		framing					inets_dmf_mac
  18		frame_aggregation			inets_dmf_mac
-
+ 19		IFS					inets_dmf_mac
  100+		frame_probe				inets_dmf_tool
 
 
