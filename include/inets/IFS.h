@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::IFS::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int SIFS, int slot_time, int interval_type, int customized_IFS, int AIFS_ac, int cs_threshold, int system_time_granularity_us);
+      static sptr make(int develop_mode, int block_id, int SIFS, int slot_time, int interval_type, int customized_IFS, int AIFS_ac, float cs_threshold, int system_time_granularity_us);
     };
 
   } // namespace inets

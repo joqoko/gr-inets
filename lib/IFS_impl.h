@@ -35,7 +35,7 @@ namespace gr {
       int _SIFS;
       int _interval_type;
       int _customized_IFS;
-      int _cs_threshold;
+      float _cs_threshold;
       int _AIFS_ac;
       bool _in_cca;
       int _IFS_duration;
@@ -46,7 +46,7 @@ namespace gr {
       void countdown_sensing();
 
      public:
-      IFS_impl(int develop_mode, int block_id, int SIFS, int slot_time, int interval_type, int customized_IFS, int AIFS_ac, int cs_threshold, int system_time_granularity_us);
+      IFS_impl(int develop_mode, int block_id, int SIFS, int slot_time, int interval_type, int customized_IFS, int AIFS_ac, float cs_threshold, int system_time_granularity_us);
       ~IFS_impl();
 
 

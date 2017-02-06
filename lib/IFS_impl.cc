@@ -29,7 +29,7 @@ namespace gr {
   namespace inets {
 
     IFS::sptr
-    IFS::make(int develop_mode, int block_id, int SIFS, int slot_time, int interval_type, int customized_IFS, int AIFS_ac, int cs_threshold, int system_time_granularity_us)
+    IFS::make(int develop_mode, int block_id, int SIFS, int slot_time, int interval_type, int customized_IFS, int AIFS_ac, float cs_threshold, int system_time_granularity_us)
     {
       return gnuradio::get_initial_sptr
         (new IFS_impl(develop_mode, block_id, SIFS, slot_time, interval_type, customized_IFS, AIFS_ac, cs_threshold, system_time_granularity_us));
@@ -38,7 +38,7 @@ namespace gr {
     /*
      * The private constructor
      */
-    IFS_impl::IFS_impl(int develop_mode, int block_id, int SIFS, int slot_time, int interval_type, int customized_IFS, int AIFS_ac, int cs_threshold, int system_time_granularity_us)
+    IFS_impl::IFS_impl(int develop_mode, int block_id, int SIFS, int slot_time, int interval_type, int customized_IFS, int AIFS_ac, float cs_threshold, int system_time_granularity_us)
       : gr::block("IFS",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
