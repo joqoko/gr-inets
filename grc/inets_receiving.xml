@@ -4,19 +4,7 @@
   <key>inets_receiving</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.receiving(
-    develop_mode=$develop_mode, 
-    block_id=$block_id, 
-    constellation=$constellation, 
-    matched_filter_coeff=$matched_filter_coeff, 
-    mu=$mu, 
-    preamble=$preamble, 
-    rx_gain=$rx_gain, 
-    samp_rate=$samp_rate, 
-    sps=$sps, 
-    threshold=$threshold, 
-    usrp_device_address=$usrp_device_address
-)</make>
+  <make>inets.receiving($develop_mode, $block_id, $constellation, $matched_filter_coeff, $mu, $preamble, $rx_gain, $samp_rate, $sps, $threshold, $usrp_device_address)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -51,24 +39,40 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>11</value>
+    <value>21</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
 
   <param>
-    <name>Output RSS</name>
-    <key>show_rss</key>
-    <value>1</value>
+    <name>Output received frame</name>
+    <key>output_rx_frame</key>
     <type>enum</type>
-    <hide>$show_rss.hide</hide>
+    <hide>$output_rx_frame.hide</hide>
     <option>
-      <name>on</name>
+      <name>Yes</name>
       <key>0</key>
       <opt>hide:none</opt>
     </option>
     <option>
-      <name>off</name>
+      <name>No</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Output RSS</name>
+    <key>output_rss</key>
+    <type>enum</type>
+    <hide>$output_rss.hide</hide>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>No</name>
       <key>1</key>
       <opt>hide:part</opt>
     </option>
@@ -76,21 +80,21 @@
 
   <param>
     <name>Output SNR</name>
-    <key>show_snr</key>
-    <value>1</value>
+    <key>output_snr</key>
     <type>enum</type>
-    <hide>$show_snr.hide</hide>
+    <hide>$output_snr.hide</hide>
     <option>
-      <name>on</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
-      <name>off</name>
+      <name>No</name>
       <key>1</key>
       <opt>hide:part</opt>
     </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
   </param>
+
 
   <param>
     <name>constellation</name>
@@ -101,7 +105,7 @@
   </param>
 
   <param>
-    <name>matched_filter_coeff</name>
+    <name>matched_filter</name>
     <key>matched_filter_coeff</key>
     <value>rrc</value>
     <type>raw</type>
@@ -109,7 +113,7 @@
   </param>
 
   <param>
-    <name>mu</name>
+    <name>Mu</name>
     <key>mu</key>
     <value>mu</value>
     <type>raw</type>
@@ -125,7 +129,7 @@
   </param>
 
   <param>
-    <name>rx_gain</name>
+    <name>Receiving gain</name>
     <key>rx_gain</key>
     <value>rx_gain</value>
     <type>raw</type>
@@ -149,9 +153,9 @@
   </param>
 
   <param>
-    <name>threshold</name>
+    <name>Threshold</name>
     <key>threshold</key>
-    <value>cs_threshold</value>
+    <value>30</value>
     <type>raw</type>
     <hide>part</hide>
   </param>
@@ -163,81 +167,6 @@
     <type>raw</type>
     <hide>part</hide>
   </param>
-
-  <!-- currently this functionality is not supported:
-  <param>
-    <name>Show payload const</name>
-    <key>show_payload_const</key>
-    <value>1</value>
-    <type>enum</type>
-    <hide>$show_payload_const.hide</hide>
-    <option>
-      <name>on</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
-      <name>off</name>
-      <key>1</key>
-      <opt>hide:part</opt>
-    </option>
-  </param>
-
-  <param>
-    <name>Show correlation</name>
-    <key>show_correlation</key>
-    <value>1</value>
-    <type>enum</type>
-    <hide>$show_correlation.hide</hide>
-    <option>
-      <name>on</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
-      <name>off</name>
-      <key>1</key>
-      <opt>hide:part</opt>
-    </option>
-  </param>
-
-  <param>
-    <name>Show f_offset</name>
-    <key>show_f_offset</key>
-    <value>1</value>
-    <type>enum</type>
-    <hide>$show_f_offset.hide</hide>
-    <option>
-      <name>on</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
-      <name>off</name>
-      <key>1</key>
-      <opt>hide:part</opt>
-    </option>
-  </param>
-
-  <param>
-    <name>Show RX constellation</name>
-    <key>show_rx_constellation</key>
-    <value>1</value>
-    <type>enum</type>
-    <hide>$show_rx_constellation.hide</hide>
-    <option>
-      <name>on</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
-      <name>off</name>
-      <key>1</key>
-      <opt>hide:part</opt>
-    </option>
-  </param>
-       * can be improved later -->
-
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -258,48 +187,18 @@
     <name>rx_frame_out</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$output_rx_frame</hide>
   </source>
   <source>
     <name>rx_power_out</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>$show_rss</hide>
+    <hide>$output_rss</hide>
   </source>
   <source>
     <name>snr_out</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>$show_snr</hide>
+    <hide>$output_snr</hide>
   </source>
-
-  <!-- current do not output phy info:
-  <source>
-    <name>payload_const</name>
-    <type>complex</type>
-    <vlen>1</vlen>
-    <optional>1</optional>
-    <hide>$show_payload_const</hide>
-  </source>
-  <source>
-    <name>correlation</name>
-    <type>complex</type>
-    <vlen>1</vlen>
-    <optional>1</optional>
-    <hide>$show_correlation</hide>
-  </source>
-  <source>
-    <name>f_offset</name>
-    <type>float</type>
-    <vlen>1</vlen>
-    <optional>1</optional>
-    <hide>$show_f_offset</hide>
-  </source>
-  <source>
-    <name>RX Constellation</name>
-    <type>complex</type>
-    <vlen>1</vlen>
-    <optional>1</optional>
-    <hide>$show_rx_constellation</hide>
-  </source>
-       * this functionality can be further improved later -->
 </block>

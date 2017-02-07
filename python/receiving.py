@@ -29,7 +29,7 @@ from gnuradio import gr
 from gnuradio import uhd
 from gnuradio.filter import firdes
 import gnuradio
-from receive_frame_phy import receive_frame_phy  # grc-generated hier_block
+from receiving_phy import receiving_phy # grc-generated hier_block
 import inets
 import numpy
 import time
@@ -38,11 +38,11 @@ class receiving(gr.hier_block2):
     """
     docstring for block receiving
     """
-    def __init__(self, develop_mode=1, block_id=3, constellation=gnuradio.digital.constellation_qpsk().base(), matched_filter_coeff=(), mu=0, preamble=[], rx_gain=0, samp_rate=4e6, sps=4, threshold=30, usrp_device_address="addr=10.0.0.6"):
+    def __init__(self, develop_mode, block_id, constellation, matched_filter_coeff, mu, preamble, rx_gain, samp_rate, sps, threshold, usrp_device_address):
         gr.hier_block2.__init__(self,
             "receiving",
             gr.io_signature(0, 0, 0),  # Input signature
-            gr.io_signature(0, 0, 0),
+            gr.io_signature(0, 0, 0)
         ) # Output signature
 
         self.message_port_register_hier_in("rx_switch_in")
@@ -53,7 +53,7 @@ class receiving(gr.hier_block2):
         ##################################################
         # Blocks
         ##################################################
-        self.receive_frame_phy_0 = receive_frame_phy(
+        self.receiving_phy_0 = receiving_phy(
             block_id=block_id,
             constellation=constellation,
             develop_mode=develop_mode,
@@ -66,18 +66,8 @@ class receiving(gr.hier_block2):
             threshold=threshold,
             usrp_device_address=usrp_device_address,
         )
- #       self.blocks_null_sink_0_0_0_1 = blocks.null_sink(gr.sizeof_float*1)
- #       self.blocks_null_sink_0_0_0_0_0_0_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
- #       self.blocks_null_sink_0_0_0_0_0_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
- #       self.blocks_null_sink_0_0_0_0_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
-        ##################################################
-        # Connections
-        ##################################################
-        self.msg_connect((self.receive_frame_phy_0, 'rx_frame_out'), (self, 'rx_frame_out'))    
-        self.msg_connect((self.receive_frame_phy_0, 'rx_power_out'), (self, 'rx_power_out'))    
-        self.msg_connect((self.receive_frame_phy_0, 'snr_out'), (self, 'snr_out'))    
-        self.msg_connect((self, 'rx_switch_in'), (self.receive_frame_phy_0, 'rx_switch_in'))    
-#        self.connect((self.receive_frame_phy_0, 0), (self.blocks_null_sink_0_0_0_0_0, 0))
- #       self.connect((self.receive_frame_phy_0, 1), (self.blocks_null_sink_0_0_0_0_0_0, 0))
- #       self.connect((self.receive_frame_phy_0, 3), (self.blocks_null_sink_0_0_0_0_0_0_0, 0))
- #       self.connect((self.receive_frame_phy_0, 2), (self.blocks_null_sink_0_0_0_1, 0))
+
+        self.msg_connect((self.receiving_phy_0, 'rx_frame_out'), (self, 'rx_frame_out'))    
+        self.msg_connect((self.receiving_phy_0, 'snr_out'), (self, 'snr_out'))    
+        self.msg_connect((self.receiving_phy_0, 'rx_power_out'), (self, 'rx_power_out'))    
+        self.msg_connect((self, 'rx_switch_in'), (self.receiving_phy_0, 'rx_switch_in'))    

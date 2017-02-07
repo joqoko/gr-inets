@@ -101,8 +101,9 @@ namespace gr {
             frame_info = frame_decompose(frame_pmt, frame_type);
 	    if(pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("self_address_check"), not_found)))
               message_port_pub(pmt::mp("frame_info_out"), frame_info);
-	else
-		std::cout << "no output self frame." << std::endl;
+	    else
+              if(_develop_mode == 1)
+                std::cout << "no output self frame." << std::endl;
           }
           else if(frame_type == 8)
           {
@@ -282,13 +283,13 @@ namespace gr {
         std::cout << "crc is: ";
         disp_vec(crc_array);
       }
+      pmt::pmt_t not_found;
 
       if(self_address_check == 0 && _apply_self_address_check == 1)
       {
         frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("self_address_check"), pmt::from_long(0));
-	std::cout << "Here" << self_address_check << " and " << _apply_self_address_check << std::endl;
-	pmt::pmt_t not_found;
-        std::cout << "Can we be here" << pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("self_address_check"), not_found)) << std::endl;
+        if(_develop_mode == 1)
+	std::cout << "Self address check is: " << self_address_check << " and apply self address check is: " << _apply_self_address_check << std::endl;
       }
       else
       {

@@ -57,3 +57,4 @@ GR_ADD_TEST(qa_baseband_derotation ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_D
 GR_ADD_TEST(qa_stop_and_wait_arq ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_stop_and_wait_arq.py)
 GR_ADD_TEST(qa_rrrm ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_rrrm.py)
 GR_ADD_TEST(qa_framing_cpp ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_framing_cpp.py)
+GR_ADD_TEST(qa_receiving ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_receiving.py)

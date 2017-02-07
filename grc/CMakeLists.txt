@@ -52,7 +52,6 @@ install(FILES
     inets_frame_buffer.xml
     inets_framing.xml
     inets_sending.xml
-    inets_receiving.xml
     inets_timeout.xml
     inets_carrier_sensing.xml
     inets_backoff.xml
@@ -62,5 +61,6 @@ install(FILES
     inets_frame_aggregation.xml
     inets_frame_analysis.xml
     inets_frame_check.xml
-    inets_IFS.xml DESTINATION share/gnuradio/grc/blocks
+    inets_IFS.xml
+    inets_receiving.xml DESTINATION share/gnuradio/grc/blocks
 )

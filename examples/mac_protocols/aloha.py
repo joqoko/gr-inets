@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: aloha
 # Author: PWA
-# Generated: Wed Jan  4 12:20:27 2017
+# Generated: Tue Feb  7 11:33:31 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -34,6 +34,7 @@ from send_frame import send_frame  # grc-generated hier_block
 import gnuradio
 import inets
 import pmt
+from gnuradio import qtgui
 
 
 class aloha(gr.top_block, Qt.QWidget):
@@ -42,6 +43,7 @@ class aloha(gr.top_block, Qt.QWidget):
         gr.top_block.__init__(self, "aloha")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("aloha")
+        qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
         except:
@@ -65,19 +67,19 @@ class aloha(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.range_rx_gain = range_rx_gain = 15
+        self.range_rx_gain = range_rx_gain = 5
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
-        self.timeout_duration_ms = timeout_duration_ms = 1000
+        self.timeout_duration_ms = timeout_duration_ms = 500
         self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 1
         self.self_data_info = self_data_info = pmt.to_pmt({'frame_type': 1, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 3, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 200})
         self.self_ack_info = self_ack_info = pmt.to_pmt({'frame_type': 2, 'frame_index': 1, 'destination_address': 2, 'source_address': 1, 'num_resend': 0, 'reserved_field_I': 1, 'reserved_field_II': 1, 'pay_load_length': 0})
         self.samp_rate = samp_rate = 1000000
         self.rx_gain = rx_gain = range_rx_gain
-        
+
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
-          
+
         self.reserved_field_II = reserved_field_II = 6
         self.reserved_field_I = reserved_field_I = 5
         self.preamble_detector_threshold = preamble_detector_threshold = 30
@@ -101,7 +103,7 @@ class aloha(gr.top_block, Qt.QWidget):
         self.develop_mode_list = develop_mode_list = [0]
         self.destination_address = destination_address = 2
         self.cs_threshold = cs_threshold = 0.005
-        self.cs_duration = cs_duration = 50
+        self.cs_duration = cs_duration = 1000
         self.counter_id = counter_id = 20
         self.backoff_time_unit_ms = backoff_time_unit_ms = 50
         self.apply_address_check = apply_address_check = 1
@@ -114,23 +116,9 @@ class aloha(gr.top_block, Qt.QWidget):
         self.send_frame_0 = send_frame(
             block_id=2,
             constellation=gnuradio.digital.constellation_qpsk().base(),
-            destination_address=destination_address,
             develop_mode=1,
-            frame_index=frame_index,
-            frame_type=frame_type,
-            increase_index=increase_index,
-            len_destination_address=len_destination_address,
-            len_frame_index=len_frame_index,
-            len_frame_type=len_frame_type,
-            len_payload_length=len_payload_length,
-            len_reserved_field_I=len_reserved_field_I,
-            len_reserved_field_II=len_reserved_field_II,
-            len_source_address=len_source_address,
             preamble=diff_preamble_128,
-            reserved_field_I=reserved_field_I,
-            reserved_field_II=reserved_field_II,
             samp_rate=samp_rate,
-            source_address=source_address,
             sps=sps,
             system_time_granularity_us=system_time_granularity_us,
             usrp_device_address=usrp_device_address,
@@ -158,42 +146,38 @@ class aloha(gr.top_block, Qt.QWidget):
             threshold=preamble_detector_threshold,
             usrp_device_address=usrp_device_address,
         )
-        self._range_rx_gain_range = Range(0, 60, 1, 15, 200)
-        self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, "Rx Gain", "counter_slider", float)
+        self._range_rx_gain_range = Range(0, 60, 1, 5, 200)
+        self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, 'Rx Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_rx_gain_win, 1,0,1,1)
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
-        self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, "BB Derotation Gain", "counter_slider", float)
+        self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_timeout_cpp_0 = inets.timeout_cpp(0, 10, timeout_duration_ms, system_time_granularity_us)
         self.inets_idle_0 = inets.idle(0, 1, experiment_duration_s, max_num_retransmission, max_buffer_size, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission)
-        self.inets_frame_type_check_0_0 = inets.frame_type_check()
-        self.inets_frame_type_check_0 = inets.frame_type_check()
         self.inets_frame_info_selector_0_0_0 = inets.frame_info_selector()
+        self.inets_frame_info_selector_0_0 = inets.frame_info_selector()
+        self.inets_frame_info_selector_0 = inets.frame_info_selector()
         self.inets_exponential_backoff_cpp_0 = inets.exponential_backoff_cpp(0, 11, backoff_time_unit_ms, max_num_retransmission, min_backoff_ms)
         self.inets_counter_0_1 = inets.counter(([22]), 22)
-        self.inets_carrier_sensing_cpp_cc_0 = inets.carrier_sensing_cpp_cc(0, 11, 2, cs_duration, cs_threshold, system_time_granularity_us)
         self.frame_info_simulator = blocks.message_strobe_random(pmt.to_pmt({'good_frame' : 1, 'address_check' : 1, 'header_length' : 9, 'payload_length' : 0, 'reserved_field_II' : 6, 'reserved_field_I' : 5, 'num_transmission' : 0, 'source_address' : 1, 'destination_address': 3, 'frame_index' : 22, 'frame_type' : 1}), blocks.STROBE_POISSON, 2000, 1000)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", "localhost", "52001", 10000, False)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_random_1 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 2000, 5)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_carrier_sensing_cpp_cc_0, 'frame_info_fail_out'), (self.inets_exponential_backoff_cpp_0, 'frame_info_trigger_in'))    
-        self.msg_connect((self.inets_carrier_sensing_cpp_cc_0, 'frame_info_pass_out'), (self.send_frame_0, 'in'))    
-        self.msg_connect((self.inets_exponential_backoff_cpp_0, 'frame_info_out'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_frame_info_selector_0_0_0, 'data_frame_info_out'), (self.inets_exponential_backoff_cpp_0, 'frame_info_trigger_in'))    
-        self.msg_connect((self.inets_frame_info_selector_0_0_0, 'ack_frame_info_out'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_idle_0, 'data_in'))    
-        self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_cpp_0, 'ack_frame_info_in'))    
-        self.msg_connect((self.inets_frame_type_check_0_0, 'data_frame_info_out'), (self.inets_timeout_cpp_0, 'data_frame_info_in'))    
-        self.msg_connect((self.inets_idle_0, 'data_out'), (self.inets_carrier_sensing_cpp_cc_0, 'info_in'))    
-        self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_counter_0_1, 'message_in'))    
-        self.msg_connect((self.inets_timeout_cpp_0, 'frame_info_out'), (self.inets_frame_info_selector_0_0_0, 'frame_info_in'))    
-        self.msg_connect((self.receive_frame_0_0, 'rx_power_out'), (self.inets_carrier_sensing_cpp_cc_0, 'info_in'))    
-        self.msg_connect((self.receive_frame_0_0, 'rx_frame_info_out'), (self.inets_frame_type_check_0, 'frame_info_in'))    
-        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))    
+        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_idle_0, 'data_in'))
+        self.msg_connect((self.inets_exponential_backoff_cpp_0, 'frame_info_out'), (self.inets_idle_0, 'data_in'))
+        self.msg_connect((self.inets_frame_info_selector_0, 'data_frame_info_out'), (self.inets_idle_0, 'data_in'))
+        self.msg_connect((self.inets_frame_info_selector_0, 'ack_frame_info_out'), (self.inets_timeout_cpp_0, 'ack_frame_info_in'))
+        self.msg_connect((self.inets_frame_info_selector_0_0, 'data_frame_info_out'), (self.inets_timeout_cpp_0, 'data_frame_info_in'))
+        self.msg_connect((self.inets_frame_info_selector_0_0_0, 'data_frame_info_out'), (self.inets_exponential_backoff_cpp_0, 'frame_info_trigger_in'))
+        self.msg_connect((self.inets_frame_info_selector_0_0_0, 'ack_frame_info_out'), (self.inets_idle_0, 'data_in'))
+        self.msg_connect((self.inets_idle_0, 'successful_transmission'), (self.inets_counter_0_1, 'message_in'))
+        self.msg_connect((self.inets_idle_0, 'data_out'), (self.send_frame_0, 'in'))
+        self.msg_connect((self.inets_timeout_cpp_0, 'frame_info_out'), (self.inets_frame_info_selector_0_0_0, 'frame_info_in'))
+        self.msg_connect((self.receive_frame_0_0, 'rx_frame_info_out'), (self.inets_frame_info_selector_0, 'frame_info_in'))
+        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self.inets_frame_info_selector_0_0, 'frame_info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "aloha")
@@ -205,8 +189,8 @@ class aloha(gr.top_block, Qt.QWidget):
 
     def set_sps(self, sps):
         self.sps = sps
-        self.receive_frame_0_0.set_sps(self.sps)
         self.send_frame_0.set_sps(self.sps)
+        self.receive_frame_0_0.set_sps(self.sps)
 
     def get_range_rx_gain(self):
         return self.range_rx_gain
@@ -227,8 +211,8 @@ class aloha(gr.top_block, Qt.QWidget):
 
     def set_usrp_device_address(self, usrp_device_address):
         self.usrp_device_address = usrp_device_address
-        self.receive_frame_0_0.set_usrp_device_address(self.usrp_device_address)
         self.send_frame_0.set_usrp_device_address(self.usrp_device_address)
+        self.receive_frame_0_0.set_usrp_device_address(self.usrp_device_address)
 
     def get_timeout_duration_ms(self):
         return self.timeout_duration_ms
@@ -249,7 +233,6 @@ class aloha(gr.top_block, Qt.QWidget):
     def set_source_address(self, source_address):
         self.source_address = source_address
         self.receive_frame_0_0.set_my_address(self.source_address)
-        self.send_frame_0.set_source_address(self.source_address)
 
     def get_self_data_info(self):
         return self.self_data_info
@@ -268,8 +251,8 @@ class aloha(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.receive_frame_0_0.set_samp_rate(self.samp_rate)
         self.send_frame_0.set_samp_rate(self.samp_rate)
+        self.receive_frame_0_0.set_samp_rate(self.samp_rate)
 
     def get_rx_gain(self):
         return self.rx_gain
@@ -290,14 +273,12 @@ class aloha(gr.top_block, Qt.QWidget):
 
     def set_reserved_field_II(self, reserved_field_II):
         self.reserved_field_II = reserved_field_II
-        self.send_frame_0.set_reserved_field_II(self.reserved_field_II)
 
     def get_reserved_field_I(self):
         return self.reserved_field_I
 
     def set_reserved_field_I(self, reserved_field_I):
         self.reserved_field_I = reserved_field_I
-        self.send_frame_0.set_reserved_field_I(self.reserved_field_I)
 
     def get_preamble_detector_threshold(self):
         return self.preamble_detector_threshold
@@ -337,7 +318,6 @@ class aloha(gr.top_block, Qt.QWidget):
     def set_len_source_address(self, len_source_address):
         self.len_source_address = len_source_address
         self.receive_frame_0_0.set_len_source_address(self.len_source_address)
-        self.send_frame_0.set_len_source_address(self.len_source_address)
 
     def get_len_reserved_field_II(self):
         return self.len_reserved_field_II
@@ -345,7 +325,6 @@ class aloha(gr.top_block, Qt.QWidget):
     def set_len_reserved_field_II(self, len_reserved_field_II):
         self.len_reserved_field_II = len_reserved_field_II
         self.receive_frame_0_0.set_len_reserved_field_II(self.len_reserved_field_II)
-        self.send_frame_0.set_len_reserved_field_II(self.len_reserved_field_II)
 
     def get_len_reserved_field_I(self):
         return self.len_reserved_field_I
@@ -353,7 +332,6 @@ class aloha(gr.top_block, Qt.QWidget):
     def set_len_reserved_field_I(self, len_reserved_field_I):
         self.len_reserved_field_I = len_reserved_field_I
         self.receive_frame_0_0.set_len_reserved_field_I(self.len_reserved_field_I)
-        self.send_frame_0.set_len_reserved_field_I(self.len_reserved_field_I)
 
     def get_len_payload_length(self):
         return self.len_payload_length
@@ -361,7 +339,6 @@ class aloha(gr.top_block, Qt.QWidget):
     def set_len_payload_length(self, len_payload_length):
         self.len_payload_length = len_payload_length
         self.receive_frame_0_0.set_len_payload_length(self.len_payload_length)
-        self.send_frame_0.set_len_payload_length(self.len_payload_length)
 
     def get_len_num_transmission(self):
         return self.len_num_transmission
@@ -376,7 +353,6 @@ class aloha(gr.top_block, Qt.QWidget):
     def set_len_frame_type(self, len_frame_type):
         self.len_frame_type = len_frame_type
         self.receive_frame_0_0.set_len_frame_type(self.len_frame_type)
-        self.send_frame_0.set_len_frame_type(self.len_frame_type)
 
     def get_len_frame_index(self):
         return self.len_frame_index
@@ -384,7 +360,6 @@ class aloha(gr.top_block, Qt.QWidget):
     def set_len_frame_index(self, len_frame_index):
         self.len_frame_index = len_frame_index
         self.receive_frame_0_0.set_len_frame_index(self.len_frame_index)
-        self.send_frame_0.set_len_frame_index(self.len_frame_index)
 
     def get_len_destination_address(self):
         return self.len_destination_address
@@ -392,28 +367,24 @@ class aloha(gr.top_block, Qt.QWidget):
     def set_len_destination_address(self, len_destination_address):
         self.len_destination_address = len_destination_address
         self.receive_frame_0_0.set_len_destination_address(self.len_destination_address)
-        self.send_frame_0.set_len_destination_address(self.len_destination_address)
 
     def get_increase_index(self):
         return self.increase_index
 
     def set_increase_index(self, increase_index):
         self.increase_index = increase_index
-        self.send_frame_0.set_increase_index(self.increase_index)
 
     def get_frame_type(self):
         return self.frame_type
 
     def set_frame_type(self, frame_type):
         self.frame_type = frame_type
-        self.send_frame_0.set_frame_type(self.frame_type)
 
     def get_frame_index(self):
         return self.frame_index
 
     def set_frame_index(self, frame_index):
         self.frame_index = frame_index
-        self.send_frame_0.set_frame_index(self.frame_index)
 
     def get_experiment_duration_s(self):
         return self.experiment_duration_s
@@ -426,8 +397,8 @@ class aloha(gr.top_block, Qt.QWidget):
 
     def set_diff_preamble_128(self, diff_preamble_128):
         self.diff_preamble_128 = diff_preamble_128
-        self.receive_frame_0_0.set_preamble(self.diff_preamble_128)
         self.send_frame_0.set_preamble(self.diff_preamble_128)
+        self.receive_frame_0_0.set_preamble(self.diff_preamble_128)
 
     def get_develop_mode_list(self):
         return self.develop_mode_list
@@ -440,7 +411,6 @@ class aloha(gr.top_block, Qt.QWidget):
 
     def set_destination_address(self, destination_address):
         self.destination_address = destination_address
-        self.send_frame_0.set_destination_address(self.destination_address)
 
     def get_cs_threshold(self):
         return self.cs_threshold

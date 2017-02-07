@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_IFS_with_Receiving
 # Author: PWA
-# Generated: Mon Feb  6 17:18:36 2017
+# Generated: Tue Feb  7 12:22:24 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -66,7 +66,7 @@ class Test_IFS_with_Receiving(gr.top_block, Qt.QWidget):
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
         self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 1
-        self.samp_rate = samp_rate = 32000
+        self.samp_rate = samp_rate = 1000000
         self.rx_gain = rx_gain = range_rx_gain
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
@@ -79,29 +79,16 @@ class Test_IFS_with_Receiving(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self._range_rx_gain_range = Range(0, 60, 1, 0, 200)
+        self._range_rx_gain_range = Range(0, 1, 1, 0, 200)
         self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, 'Rx Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_rx_gain_win, 1,0,1,1)
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_receiving_0 = inets.receiving(
-            develop_mode=1,
-            block_id=11,
-            constellation=gnuradio.digital.constellation_qpsk().base(),
-            matched_filter_coeff=rrc,
-            mu=mu,
-            preamble=diff_preamble_128,
-            rx_gain=rx_gain,
-            samp_rate=samp_rate,
-            sps=sps,
-            threshold=cs_threshold,
-            usrp_device_address=usrp_device_address
-        )
+        self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0)
-        self.inets_frame_buffer_0 = inets.frame_buffer(1, 16, 5, 1)
-        self.inets_IFS_0 = inets.IFS(0, 19, 10000, 8000, 1, 0, 1, cs_threshold, system_time_granularity_us)
+        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 5, 1)
+        self.inets_IFS_0 = inets.IFS(1, 19, 10000, 8000, 1, 0, 1, cs_threshold, system_time_granularity_us)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################
@@ -109,7 +96,6 @@ class Test_IFS_with_Receiving(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_IFS_0, 'frame_info_pass_out'), (self.inets_frame_buffer_0, 'dequeue'))
-        self.msg_connect((self.inets_IFS_0, 'frame_info_pass_out'), (self.inets_frame_probe_0, 'info_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_IFS_0, 'frame_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
         self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_IFS_0, 'frame_in'))
