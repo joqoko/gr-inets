@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_framing_cpp
 # Author: PWA
-# Generated: Mon Feb  6 11:10:13 2017
+# Generated: Tue Feb  7 14:20:28 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -58,6 +58,7 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 4
         self.samp_rate = samp_rate = 32000
         self.reserved_field_II = reserved_field_II = 6
@@ -74,6 +75,7 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         self.frame_index = frame_index = 2
         self.develop_mode_list = develop_mode_list = [1, 2, 3]
         self.destination_address = destination_address = 3
+        self.cs_threshold = cs_threshold = 0.005
 
         ##################################################
         # Blocks
@@ -100,6 +102,12 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         self.settings = Qt.QSettings("GNU Radio", "Test_framing_cpp")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
+
+    def get_system_time_granularity_us(self):
+        return self.system_time_granularity_us
+
+    def set_system_time_granularity_us(self, system_time_granularity_us):
+        self.system_time_granularity_us = system_time_granularity_us
 
     def get_source_address(self):
         return self.source_address
@@ -196,6 +204,12 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
 
     def set_destination_address(self, destination_address):
         self.destination_address = destination_address
+
+    def get_cs_threshold(self):
+        return self.cs_threshold
+
+    def set_cs_threshold(self, cs_threshold):
+        self.cs_threshold = cs_threshold
 
 
 def main(top_block_cls=Test_framing_cpp, options=None):

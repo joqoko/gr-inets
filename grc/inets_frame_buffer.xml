@@ -4,7 +4,7 @@
   <key>inets_frame_buffer</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.frame_buffer($develop_mode, $block_id, $buffer_size, $auto_dequeue_first)</make>
+  <make>inets.frame_buffer($develop_mode, $block_id, $buffer_size, $auto_dequeue_first, $keep_dequeue_state)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -57,7 +57,7 @@
     <key>enqueue</key>
     <value>0</value>
     <type>enum</type>
-    <hide>$enqueue.hide</hide>
+    <hide>part</hide>
     <option>
       <name>On</name>
       <key>0</key>
@@ -71,11 +71,26 @@
   </param>
 
   <param>
+    <name>Auto-dq 1st element</name>
+    <key>auto_dequeue_first</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
     <name>Dequeue</name>
     <key>dequeue</key>
     <value>0</value>
     <type>enum</type>
-    <hide>$dequeue.hide</hide>
+    <hide>part</hide>
     <option>
       <name>On</name>
       <key>0</key>
@@ -91,8 +106,8 @@
   </param>
 
   <param>
-    <name>Auto-dequeue 1st element</name>
-    <key>auto_dequeue_first</key>
+    <name>Dequeue when available</name>
+    <key>keep_dequeue_state</key>
     <type>enum</type>
     <hide>part</hide>
     <option>
@@ -104,6 +119,7 @@
       <key>0</key>
     </option>
   </param>
+
 <!--  <param>
     <name>Output?</name>
     <key>output_dequeue_element</key>
@@ -140,7 +156,7 @@
     <key>flush</key>
     <value>1</value>
     <type>enum</type>
-    <hide>$flush.hide</hide>
+    <hide>part</hide>
     <option>
       <name>On</name>
       <key>0</key>

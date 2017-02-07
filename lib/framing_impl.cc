@@ -63,7 +63,7 @@ namespace gr {
 	_len_num_transmission(len_num_transmission),
         _reserved_field_ampdu(reserved_field_ampdu)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
         std::cout << "develop_mode of Framing ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("data_in"));
       set_msg_handler(pmt::mp("data_in"), boost::bind(&framing_impl::catagorization, this, _1 ));
@@ -82,7 +82,7 @@ namespace gr {
     void 
     framing_impl::catagorization(pmt::pmt_t data_in)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
         std::cout << "frame type: "<< _frame_type << std::endl;
       if(_frame_type == 1)
 	data_frame_formation(data_in);
@@ -147,7 +147,7 @@ namespace gr {
     void
     framing_impl::ampdu_subframe_formation(pmt::pmt_t rx_payload)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
       {
         std::cout << "+++ Framing ID: " << _block_id << " ampdu subframe +++" << std::endl;
       }
@@ -172,10 +172,10 @@ namespace gr {
           mpdu_info = frame_header_formation(&mpdu_header, _frame_type, _frame_index, _destination_address, _source_address, _reserved_field_I, _reserved_field_II, payload_length, 1);
           std::vector<unsigned char> mpdu;
           mpdu.insert(mpdu.end(), mpdu_header.begin(), mpdu_header.end());
-          if(_develop_mode == 1)
+          if(_develop_mode)
             std::cout << "MAC header, length " <<mpdu.size() << std::endl;
           mpdu.insert(mpdu.end(), payload_array.begin(), payload_array.end());
-          if(_develop_mode == 1)
+          if(_develop_mode)
             std::cout << "MAC header + msdu, length " << mpdu.size() << std::endl;
           // crc
           // crc32_bb_calc(&frame);
@@ -184,28 +184,35 @@ namespace gr {
           pmt::pmt_t mpdu_before_crc = pmt::cons(meta, mpdu_before_crc_u8vector); 
           pmt::pmt_t mpdu_after_crc = crc32_bb_calc(mpdu_before_crc);
           payload_array = pmt::u8vector_elements(pmt::cdr(mpdu_after_crc));
-          if(_develop_mode == 1)
+          if(_develop_mode)
             std::cout << "MAC header + msdu + crc32, length " <<payload_array.size() << std::endl;
           payload_length = payload_array.size(); 
           std::vector<unsigned char> delimiter;
 	  pmt::pmt_t ampdu_subframe_info = ampdu_delimiter_formation(&delimiter, _reserved_field_ampdu, payload_length, _frame_type);
           std::vector<unsigned char> ampdu_subframe;
           ampdu_subframe.insert(ampdu_subframe.end(), delimiter.begin(), delimiter.end());
-          if(_develop_mode == 1)
+          if(_develop_mode)
             std::cout << "ampdu delimiter, length " << ampdu_subframe.size() << std::endl;
           ampdu_subframe.insert(ampdu_subframe.end(), payload_array.begin(), payload_array.end());
-          if(_develop_mode == 1)
+          if(_develop_mode)
             std::cout << "ampdu delimiter + mpdu (MAC header + msdu + crc32), length " << ampdu_subframe.size() << std::endl;
           pmt::pmt_t subframe_before_crc_u8vector = pmt::init_u8vector(ampdu_subframe.size(), ampdu_subframe);
           pmt::pmt_t subframe_before_crc = pmt::cons(meta, subframe_before_crc_u8vector); 
           pmt::pmt_t subframe_after_crc = crc32_bb_calc(subframe_before_crc);
 	  payload_array = pmt::u8vector_elements(pmt::cdr(subframe_after_crc));
-          if(_develop_mode == 1)
+          if(_develop_mode)
             std::cout << "ampdu delimiter + mpdu + crc32, length " << payload_array.size() << std::endl;
           ampdu_subframe_info = pmt::dict_add(ampdu_subframe_info, pmt::string_to_symbol("subframe_pmt"), subframe_after_crc);
           ampdu_subframe_info = pmt::dict_add(ampdu_subframe_info, pmt::string_to_symbol("mpdu_info"), mpdu_info);
           message_port_pub(pmt::mp("frame_out"), ampdu_subframe_info);
           message_port_pub(pmt::mp("frame_pmt_out"), subframe_after_crc);
+          if(_develop_mode == 2)
+          {
+            struct timeval t; 
+            gettimeofday(&t, NULL);
+            double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+            std::cout << "framing ID: " << _block_id << " ampdu subframe is generated at time " << current_time << " s" << std::endl;
+          }
         }
         else
           std::cout << "pmt is not a u8vector" << std::endl;
@@ -235,7 +242,7 @@ namespace gr {
     void
     framing_impl::data_frame_formation(pmt::pmt_t rx_payload)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
       {
         std::cout << "+++ Framing ID: " << _block_id << " data frame +++" << std::endl;
       }
@@ -260,10 +267,10 @@ namespace gr {
           frame_info = frame_header_formation(&frame_header, 1, _frame_index, _destination_address, _source_address, _reserved_field_I, _reserved_field_II, _payload_length, 1);
           std::vector<unsigned char> frame;
           frame.insert(frame.end(), frame_header.begin(), frame_header.end());
-          if(_develop_mode == 1)
+          if(_develop_mode)
             std::cout << "frame header, length " << frame.size() << std::endl;
           frame.insert(frame.end(), payload_array.begin(), payload_array.end());
-          if(_develop_mode == 1)
+          if(_develop_mode)
             std::cout << "frame header with payload, length " << frame.size() << std::endl;
           // crc
           pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
@@ -272,7 +279,7 @@ namespace gr {
           frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_after_crc);
           std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
 
-           if(_develop_mode == 1)
+           if(_develop_mode)
              std::cout << "frame header with payload with crc, length " << frame_after_crc_vector.size() << std::endl;
         }
         else
@@ -282,12 +289,19 @@ namespace gr {
         std::cout << "pmt is not a pair" << std::endl;
       message_port_pub(pmt::mp("frame_out"), frame_info);
       message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+        std::cout << "framing ID: " << _block_id << " data frame is generated at time " << current_time <<" s" <<  std::endl;
+      }
     }
 
     void
     framing_impl::ack_frame_formation(pmt::pmt_t rx_data)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
       {
         std::cout << "+++ Framing ID: " << _block_id << " ack frame +++" << std::endl;
       }
@@ -309,7 +323,7 @@ namespace gr {
         frame_info = frame_header_formation(&frame_header, 2, ack_index, ack_address, _source_address, _reserved_field_I, _reserved_field_II, 0, ack_num_transmission);
         std::vector<unsigned char> frame;
         frame.insert(frame.end(), frame_header.begin(), frame_header.end());
-        if(_develop_mode == 1)
+        if(_develop_mode)
           std::cout << "frame header, length " << frame.size() << std::endl;
         // crc
         // crc32_bb_calc(&frame);
@@ -319,19 +333,26 @@ namespace gr {
         pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_after_crc);
         // std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
-        // if(_develop_mode == 1)
+        // if(_develop_mode)
           // std::cout << "ack frame with crc (no payload), length " << frame_after_crc_vector.size() << std::endl;
       }
       else 
         std::cout << "Error: pmt is not a dict, cannot generate an ack frame. please check your connections." << std::endl;
       message_port_pub(pmt::mp("frame_out"), frame_info);
       message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+        std::cout << "framing ID: " << _block_id << " ACK frame is generated at time " << current_time << " s" << std::endl;
+      }
     }
 
     void
     framing_impl::beacon_frame_formation(pmt::pmt_t rx_beacon_info)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
       {
         std::cout << "+++ Framing ID: " << _block_id << " beacon frame +++" << std::endl;
       }

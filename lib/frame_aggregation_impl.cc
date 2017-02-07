@@ -113,10 +113,10 @@ namespace gr {
           }
         }
         else
-          std::cout << "subframe does not have frame type info. Please check your frame generation code." << std::endl;
+          std::cout << "Implementation error. number of actually aggregated subframes is greater than the maximal number. Please check your source code." << std::endl;
       }
       else
-        std::cout << "input pmt is not a dictionary. Please check your connections." << std::endl;
+        std::cout << "input pmt is not a ampdu subframe. Please check your connections." << std::endl;
     } 
 
     void

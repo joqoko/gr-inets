@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Test_frame_buffer
+# Title: Test_frame_buffer_operations
 # Author: PWA
-# Generated: Tue Feb  7 17:10:11 2017
+# Generated: Tue Feb  7 17:04:35 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -31,12 +31,12 @@ import sys
 from gnuradio import qtgui
 
 
-class Test_frame_buffer(gr.top_block, Qt.QWidget):
+class Test_frame_buffer_operations(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Test_frame_buffer")
+        gr.top_block.__init__(self, "Test_frame_buffer_operations")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Test_frame_buffer")
+        self.setWindowTitle("Test_frame_buffer_operations")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -54,70 +54,56 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Test_frame_buffer")
+        self.settings = Qt.QSettings("GNU Radio", "Test_frame_buffer_operations")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.range_rx_gain = range_rx_gain = 15
+        self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
         self.system_time_granularity_us = system_time_granularity_us = 1000
-        self.samp_rate = samp_rate = 32000
+        self.source_address = source_address = 1
+        self.samp_rate = samp_rate = 1000000
         self.rx_gain = rx_gain = range_rx_gain
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
         self.mu = mu = range_mu
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
+        self.destination_address = destination_address = 2
         self.cs_threshold = cs_threshold = 0.005
 
         ##################################################
         # Blocks
         ##################################################
-        self._range_rx_gain_range = Range(0, 60, 1, 15, 200)
+        self._range_rx_gain_range = Range(0, 1, 1, 0, 200)
         self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, 'Rx Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_rx_gain_win, 1,0,1,1)
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_timeout_0 = inets.timeout(0, 10, 100, 1000)
-        self.inets_sending_0 = inets.sending(develop_mode=1, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address)
-        self.inets_receiving_0 = inets.receiving(2, 11, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, cs_threshold, usrp_device_address)
-        self.inets_framing_0_0 = inets.framing(0, 17, 2, 1, 1, 1, 5, 1, 1, 1, 0, 2, 0, 2, 1, 1, 0, 0)
-        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 1, 1, 5, 1, 1, 1, 0, 2, 0, 2, 1, 1, 0, 0)
-        self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 0, 1, 1, 1, 1, 1, 1)
-        self.inets_frame_type_check_0 = inets.frame_type_check(0, 0, 1, 1, 1, 1, 1, 1)
-        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
-        self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1)
-        self.inets_carrier_sensing_0 = inets.carrier_sensing(0, 11, 2, 100, 0.005, 1000)
-        self.inets_backoff_0 = inets.backoff(0, 11, 3, 1, 10, 6, 100, 400)
-        self.inets_address_check_0 = inets.address_check(0, 17, 1)
+        self.inets_framing_0 = inets.framing(0, 17, 8, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0)
+        self.inets_frame_buffer_0 = inets.frame_buffer(1, 16, 5, 1, 1)
+        self.inets_frame_aggregation_0 = inets.frame_aggregation(0, 18, 4)
+        self.inets_IFS_0 = inets.IFS(0, 19, 10000, 8000, 1, 0, 1, cs_threshold, system_time_granularity_us)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_framing_0_0, 'data_in'))
-        self.msg_connect((self.inets_backoff_0, 'resend_frame_info_out'), (self.inets_carrier_sensing_0, 'info_in'))
-        self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_pass_out'), (self.inets_sending_0, 'in'))
-        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
-        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_carrier_sensing_0, 'info_in'))
-        self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
-        self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_0, 'ack_frame_info_in'))
-        self.msg_connect((self.inets_frame_type_check_0_0, 'data_frame_info_out'), (self.inets_backoff_0, 'frame_info_trigger_in'))
-        self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_frame_buffer_0, 'dequeue'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
-        self.msg_connect((self.inets_framing_0_0, 'frame_out'), (self.inets_carrier_sensing_0, 'info_in'))
-        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'info_in'))
-        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
-        self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
+        self.msg_connect((self.inets_IFS_0, 'frame_info_pass_out'), (self.inets_frame_buffer_0, 'dequeue'))
+        self.msg_connect((self.inets_IFS_0, 'frame_info_pass_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_frame_aggregation_0, 'aggregated_frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_IFS_0, 'frame_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_aggregation_0, 'subframe_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Test_frame_buffer")
+        self.settings = Qt.QSettings("GNU Radio", "Test_frame_buffer_operations")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -153,6 +139,12 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
     def set_system_time_granularity_us(self, system_time_granularity_us):
         self.system_time_granularity_us = system_time_granularity_us
 
+    def get_source_address(self):
+        return self.source_address
+
+    def set_source_address(self, source_address):
+        self.source_address = source_address
+
     def get_samp_rate(self):
         return self.samp_rate
 
@@ -183,6 +175,12 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
     def set_diff_preamble_128(self, diff_preamble_128):
         self.diff_preamble_128 = diff_preamble_128
 
+    def get_destination_address(self):
+        return self.destination_address
+
+    def set_destination_address(self, destination_address):
+        self.destination_address = destination_address
+
     def get_cs_threshold(self):
         return self.cs_threshold
 
@@ -190,7 +188,7 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.cs_threshold = cs_threshold
 
 
-def main(top_block_cls=Test_frame_buffer, options=None):
+def main(top_block_cls=Test_frame_buffer_operations, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

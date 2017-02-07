@@ -48,7 +48,6 @@
     <name>IFS type</name>
     <key>interval_type</key>
     <type>enum</type>
-    <hide>part</hide>
     <option>
       <name>SIFS</name>
       <key>1</key>
