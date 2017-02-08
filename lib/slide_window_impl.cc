@@ -61,6 +61,13 @@ namespace gr {
       message_port_register_out(pmt::mp("dequeue_frame_request"));
     }
 
+    /*
+     * Our virtual destructor.
+     */
+    slide_window_impl::~slide_window_impl()
+    {
+    }
+
     void
     slide_window_impl::handle_ack(pmt::pmt_t frame_in)
     {
@@ -69,6 +76,7 @@ namespace gr {
     void
     slide_window_impl::handle_data(pmt::pmt_t frame_in)
     {
+      // if a frame comes, simple add it to the window.
       if(pmt::is_dict(frame_in))
       {
         /*
@@ -85,16 +93,23 @@ namespace gr {
          */
         else if(_protocol == 2)
         {
+          _tx_window.push(frame_in);
+          if(_develop_mode)
+            std::cout << "selective repeat tx window " << _block_id << " has " << _tx_window.size() << " elements after enqueue." << std::endl;
         }
         else
           std::cout << "Chosen slide window protocol is not supported yet. You are welcome to have some contribution here. " << std::endl; 
       }
+      // the coming of a number means that the pull requests is responded and finished. The number indicated the pulled frames. In current step, we also deal with infinite source, i.e., 1, we can always get the number of frames that we request; 2. the window size is always feed to the original size.
       else if(pmt::is_integer(frame_in))
       {
         struct timeval t; 
+        // get the number of totally pushed frame from the source
         int _n_dequeue = pmt::to_long(frame_in); 
+        // after received the pushed frames, the current window size
         _n_window = _tx_window.size();
-        if(_n_window <= _window_size)
+        // for debugging purpose, if the infinite source is chosen, _n_window should always equal to _window_size
+        if(_n_window != _window_size)
         {
           for(int i = 0; i < _n_window; i++)
           {
@@ -114,12 +129,6 @@ namespace gr {
       {
         std::cout << "Error. Wrong input data type, please check your connection." << std::endl;
       } 
-    }
-    /*
-     * Our virtual destructor.
-     */
-    slide_window_impl::~slide_window_impl()
-    {
     }
 
   } /* namespace inets */
