@@ -33,11 +33,13 @@ namespace gr {
       int _block_id;
       int _payload_length;
       int _source_type;
+      double _packet_rate;
       int _start;
       void trigger(pmt::pmt_t trig);
+      void constant_source();
 
      public:
-      dummy_source_impl(int develop_mode, int block_id, int payload_length, int source_type);
+      dummy_source_impl(int develop_mode, int block_id, int payload_length, int source_type, double packet_rate);
       ~dummy_source_impl();
     };
 

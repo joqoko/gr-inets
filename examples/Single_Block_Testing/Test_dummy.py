@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_dummy
 # Author: PWA
-# Generated: Wed Feb  8 01:12:52 2017
+# Generated: Wed Feb  8 11:35:42 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -81,15 +81,17 @@ class Test_dummy(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.inets_framing_0 = inets.framing(1, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
         self.inets_frame_probe_0 = inets.frame_probe(0, 100, 1)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 1)
+        self.inets_dummy_source_0 = inets.dummy_source(1, 23, 100, 1, 1)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
-        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_probe_0, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_dummy")

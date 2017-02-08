@@ -4,7 +4,7 @@
   <key>inets_dummy_source</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.dummy_source($develop_mode, $block_id, $payload_length, $source_type)</make>
+  <make>inets.dummy_source($develop_mode, $block_id, $payload_length, $source_type, $packet_rate)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -59,14 +59,23 @@
     <option>
       <name>Infinite</name>
       <key>1</key>
+      <opt>hide:all</opt>
     </option>
 
     <option>
       <name>Constant rate</name>
       <key>2</key>
+      <opt>hide:part</opt>
     </option>
   </param>
 
+  <param>
+    <name>Packet rate</name>
+    <key>packet_rate</key>
+    <value>1</value>
+    <type>float</type>
+    <hide>$source_type.hide</hide>
+  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -75,6 +84,7 @@
   <sink>
     <name>trigger</name>
     <type>message</type>
+    <optional>1</optional>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -85,5 +95,6 @@
   <source>
     <name>output</name>
     <type>message</type>
+    <optional>1</optional>
   </source>
 </block>

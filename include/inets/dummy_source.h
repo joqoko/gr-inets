@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::dummy_source::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int payload_length, int source_type);
+      static sptr make(int develop_mode, int block_id, int payload_length, int source_type, double packet_rate);
     };
 
   } // namespace inets
