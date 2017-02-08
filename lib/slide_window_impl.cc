@@ -49,7 +49,8 @@ namespace gr {
       _window_size(window_size),
       _timeout_duration_ms(float(timeout_duration_ms)),
       _system_time_granularity_us(system_time_granularity_us),
-      _n_window(0)
+      _n_window(0),
+      _start(0)
     {
       if(_develop_mode)
         std::cout << "develop_mode of slide_window ID: " << _block_id << " is activated." << std::endl;
@@ -58,7 +59,8 @@ namespace gr {
       message_port_register_in(pmt::mp("ack_frame_in")); 
       set_msg_handler(pmt::mp("ack_frame_in"), boost::bind(&slide_window_impl::handle_ack, this, _1));
       message_port_register_out(pmt::mp("frame_info_out"));
-      message_port_register_out(pmt::mp("dequeue_frame_request"));
+      message_port_register_out(pmt::mp("frame_pull_request"));
+      _tx_win = NULL;
     }
 
     /*
@@ -67,7 +69,7 @@ namespace gr {
     slide_window_impl::~slide_window_impl()
     {
     }
-
+     
     void
     slide_window_impl::handle_ack(pmt::pmt_t frame_in)
     {
@@ -84,16 +86,21 @@ namespace gr {
          */
         if(_protocol == 1)
         {
-          _tx_window.push(frame_in);
+          // add the new frame to the linked list
+	  window_insert(_tx_win, frame_in);
           if(_develop_mode)
-            std::cout << "go-back-n tx window " << _block_id << " has " << _tx_window.size() << " elements after enqueue." << std::endl;
+	  {
+	    print_index(_tx_win);
+	    window_count(_tx_win);
+	  }
         }
         /*
          * protocol == 2: selective repeat
          */
         else if(_protocol == 2)
         {
-          _tx_window.push(frame_in);
+          // add the new frame to the linked list
+	  window_insert(_tx_win, frame_in);
           if(_develop_mode)
             std::cout << "selective repeat tx window " << _block_id << " has " << _tx_window.size() << " elements after enqueue." << std::endl;
         }
@@ -107,19 +114,19 @@ namespace gr {
         // get the number of totally pushed frame from the source
         int _n_dequeue = pmt::to_long(frame_in); 
         // after received the pushed frames, the current window size
-        _n_window = _tx_window.size();
+        _n_window = window_count(_tx_win);
         // for debugging purpose, if the infinite source is chosen, _n_window should always equal to _window_size
         if(_n_window != _window_size)
         {
           for(int i = 0; i < _n_window; i++)
           {
             // first dequeue the element
-            message_port_pub(pmt::mp("dequeue_element"), _tx_window.front());
-            _tx_window.pop(); 
+            // message_port_pub(pmt::mp("dequeue_element"), _tx_window.front());
+            // _tx_window.pop(); 
             // then record the time to check the timeout timer
             gettimeofday(&t, NULL);
             double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-            std::cout << "buffer ID: " << _block_id << " dequeue " << _n_dequeue << " elements at time " << current_time << " s" << std::endl;
+            // std::cout << "buffer ID: " << _block_id << " dequeue " << _n_dequeue << " elements at time " << current_time << " s" << std::endl;
           }
         }
         else
@@ -127,8 +134,67 @@ namespace gr {
       }
       else
       {
-        std::cout << "Error. Wrong input data type, please check your connection." << std::endl;
+        if(_start == 0)
+        {
+          if(_develop_mode)
+            std::cout << "slide window protocol starts. ask for the source to reload" << std::endl;
+          message_port_pub(pmt::mp("frame_pull_request"), pmt::from_long(_window_size));
+	  _start = 1;
+        }
       } 
+    }
+
+    void
+    slide_window_impl::print_index(frame_in_window *first)
+    {
+      frame_in_window *temp;
+      temp = first;
+      std::cout << "index: ";
+      while(temp != NULL)
+      {
+        std::cout << temp->frame_index << " ";
+        temp = temp->next;
+      }
+      std::cout << " " << std::endl;
+    }
+    
+    int
+    slide_window_impl::window_count(frame_in_window *first)
+    { 
+      frame_in_window *temp;
+      temp = first;
+      int i = 0;
+      while(temp != NULL)
+      {
+        i++;
+        temp = temp->next;
+      }
+      if(_develop_mode)
+        std::cout << "there is " << i << " frames in the window" << std::endl;
+      return i;
+    }
+
+    void
+    slide_window_impl::window_insert(frame_in_window *first, pmt::pmt_t frame)
+    { 
+      pmt::pmt_t not_found;
+      frame_in_window *temp;
+      *temp = *first;
+      std::cout << "temp is: " << temp << std::endl;
+      std::cout << "first is: " << first << std::endl;
+      while(temp != NULL)
+      {
+        std::cout << "temp frame_indexxxxx is: " << temp->frame_index << std::endl;
+        temp = temp->next;
+      }
+      frame_in_window new_frame;
+      new_frame.last = temp;
+      new_frame.next = NULL;
+      new_frame.frame = frame;
+      new_frame.frame_index = pmt::to_long(pmt::dict_ref(frame, pmt::string_to_symbol("frame_index"), not_found));
+      temp = &new_frame;
+      std::cout << "temp frame_index is: " << temp->frame_index << std::endl;
+      std::cout << "first frame_index is: " << first << std::endl;
     }
 
   } /* namespace inets */

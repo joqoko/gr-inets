@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Test_IFS_with_Receiving
+# Title: Test_slide_window
 # Author: PWA
-# Generated: Wed Feb  8 14:58:23 2017
+# Generated: Wed Feb  8 18:25:37 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -27,16 +27,17 @@ from gnuradio.qtgui import Range, RangeWidget
 from optparse import OptionParser
 import gnuradio
 import inets
+import pmt
 import sys
 from gnuradio import qtgui
 
 
-class Test_IFS_with_Receiving(gr.top_block, Qt.QWidget):
+class Test_slide_window(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Test_IFS_with_Receiving")
+        gr.top_block.__init__(self, "Test_slide_window")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Test_IFS_with_Receiving")
+        self.setWindowTitle("Test_slide_window")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -54,7 +55,7 @@ class Test_IFS_with_Receiving(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Test_IFS_with_Receiving")
+        self.settings = Qt.QSettings("GNU Radio", "Test_slide_window")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -85,19 +86,22 @@ class Test_IFS_with_Receiving(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_slide_window_0 = Template error: inets.slide_window($develop_mode, $block_id, $protocol, $window_size, $timeout_duration_ms, $system_time_granularity_us)
-            cannot find 'window_size'
-        self.inets_framing_0 = inets.framing(1, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
+        self.inets_slide_window_0 = inets.slide_window(1, 22, 1, 5, 100, system_time_granularity_us)
+        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
+        self.inets_dummy_source_0 = inets.dummy_source(1, 23, 100, 1, 1)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_slide_window_0, 'data_frame_in'))
+        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_slide_window_0, 'data_frame_in'))
+        self.msg_connect((self.inets_slide_window_0, 'frame_pull_request'), (self.inets_dummy_source_0, 'trigger'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Test_IFS_with_Receiving")
+        self.settings = Qt.QSettings("GNU Radio", "Test_slide_window")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -182,7 +186,7 @@ class Test_IFS_with_Receiving(gr.top_block, Qt.QWidget):
         self.cs_threshold = cs_threshold
 
 
-def main(top_block_cls=Test_IFS_with_Receiving, options=None):
+def main(top_block_cls=Test_slide_window, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

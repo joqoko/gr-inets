@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>Test_IFS_with_Receiving</value>
+      <value>Test_slide_window</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>Test_IFS_with_Receiving</value>
+      <value>Test_slide_window</value>
     </param>
   </block>
   <block>
@@ -521,6 +521,53 @@
     </param>
   </block>
   <block>
+    <key>blocks_message_strobe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(416, 204)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_message_strobe_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>msg</key>
+      <value>pmt.intern("TEST")</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>period</key>
+      <value>1000</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_socket_pdu</key>
     <param>
       <key>alias</key>
@@ -540,7 +587,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(200, 280)</value>
+      <value>(72, 440)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -611,22 +658,14 @@
     </param>
   </block>
   <block>
-    <key>inets_IFS</key>
-    <param>
-      <key>AIFS_ac</key>
-      <value>1</value>
-    </param>
+    <key>inets_dummy_source</key>
     <param>
       <key>alias</key>
       <value></value>
     </param>
     <param>
       <key>block_id</key>
-      <value>19</value>
-    </param>
-    <param>
-      <key>cs_threshold</key>
-      <value>cs_threshold</value>
+      <value>23</value>
     </param>
     <param>
       <key>comment</key>
@@ -635,14 +674,6 @@
     <param>
       <key>affinity</key>
       <value></value>
-    </param>
-    <param>
-      <key>customized_IFS</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>default_cs_setting</key>
-      <value>default</value>
     </param>
     <param>
       <key>develop_mode</key>
@@ -654,7 +685,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(792, 488)</value>
+      <value>(352, 624)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -662,11 +693,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_IFS_0</value>
-    </param>
-    <param>
-      <key>interval_type</key>
-      <value>1</value>
+      <value>inets_dummy_source_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -677,87 +704,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>SIFS</key>
-      <value>10000</value>
-    </param>
-    <param>
-      <key>slot_time</key>
-      <value>8000</value>
-    </param>
-    <param>
-      <key>system_time_granularity_us</key>
-      <value>system_time_granularity_us</value>
-    </param>
-  </block>
-  <block>
-    <key>inets_frame_buffer</key>
-    <param>
-      <key>auto_dequeue_first</key>
+      <key>packet_rate</key>
       <value>1</value>
     </param>
     <param>
-      <key>alias</key>
-      <value></value>
+      <key>payload_length</key>
+      <value>100</value>
     </param>
     <param>
-      <key>block_id</key>
-      <value>16</value>
-    </param>
-    <param>
-      <key>buffer_size</key>
-      <value>5</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>keep_dequeue_state</key>
+      <key>source_type</key>
       <value>1</value>
-    </param>
-    <param>
-      <key>dequeue</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>enqueue</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>flush</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(576, 304)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_frame_buffer_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
     </param>
   </block>
   <block>
@@ -788,7 +744,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1040, 232)</value>
+      <value>(1032, 464)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -843,7 +799,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 300)</value>
+      <value>(480, 392)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -926,34 +882,97 @@
       <value>source_address</value>
     </param>
   </block>
+  <block>
+    <key>inets_slide_window</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>22</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(696, 312)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_slide_window_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>protocol</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>system_time_granularity_us</key>
+      <value>system_time_granularity_us</value>
+    </param>
+    <param>
+      <key>timeout_duration_ms</key>
+      <value>100</value>
+    </param>
+    <param>
+      <key>window_size</key>
+      <value>5</value>
+    </param>
+  </block>
   <connection>
-    <source_block_id>blocks_socket_pdu_0</source_block_id>
+    <source_block_id>blocks_message_strobe_0</source_block_id>
+    <sink_block_id>inets_slide_window_0</sink_block_id>
+    <source_key>strobe</source_key>
+    <sink_key>data_frame_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_dummy_source_0</source_block_id>
     <sink_block_id>inets_framing_0</sink_block_id>
-    <source_key>pdus</source_key>
+    <source_key>output</source_key>
     <sink_key>data_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_IFS_0</source_block_id>
-    <sink_block_id>inets_frame_buffer_0</sink_block_id>
-    <source_key>frame_info_pass_out</source_key>
-    <sink_key>dequeue</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_IFS_0</source_block_id>
+    <source_block_id>inets_framing_0</source_block_id>
     <sink_block_id>inets_frame_probe_0</sink_block_id>
-    <source_key>frame_info_pass_out</source_key>
+    <source_key>frame_out</source_key>
     <sink_key>info_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_frame_buffer_0</source_block_id>
-    <sink_block_id>inets_IFS_0</sink_block_id>
-    <source_key>dequeue_element</source_key>
-    <sink_key>frame_in</sink_key>
+    <source_block_id>inets_framing_0</source_block_id>
+    <sink_block_id>inets_slide_window_0</sink_block_id>
+    <source_key>frame_out</source_key>
+    <sink_key>data_frame_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_framing_0</source_block_id>
-    <sink_block_id>inets_frame_buffer_0</sink_block_id>
-    <source_key>frame_out</source_key>
-    <sink_key>enqueue</sink_key>
+    <source_block_id>inets_slide_window_0</source_block_id>
+    <sink_block_id>inets_dummy_source_0</sink_block_id>
+    <source_key>frame_pull_request</source_key>
+    <sink_key>trigger</sink_key>
   </connection>
 </flow_graph>

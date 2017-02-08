@@ -64,7 +64,7 @@ namespace gr {
         _reserved_field_ampdu(reserved_field_ampdu)
     {
       if(_develop_mode)
-        std::cout << "develop_mode of Framing ID: " << _block_id << " is activated." << std::endl;
+        std::cout << "develop_mode of framing ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("data_in"));
       set_msg_handler(pmt::mp("data_in"), boost::bind(&framing_impl::catagorization, this, _1 ));
       message_port_register_out(pmt::mp("frame_out"));
@@ -84,30 +84,41 @@ namespace gr {
     {
       if(_develop_mode)
         std::cout << "frame type: "<< _frame_type << std::endl;
-      if(_frame_type == 1)
-	data_frame_formation(data_in);
-      else if(_frame_type == 2)
+      if(pmt::is_dict(data_in))
       {
-	ack_frame_formation(data_in);
+        if(_frame_type == 1)
+          data_frame_formation(data_in);
+        else if(_frame_type == 2)
+        {
+          ack_frame_formation(data_in);
+        }
+        else if(_frame_type == 3)
+          beacon_frame_formation(data_in);
+        else if(_frame_type == 4)
+          rts_frame_formation(data_in);
+        else if(_frame_type == 5)
+          cts_frame_formation(data_in);
+        else if(_frame_type == 6)
+          std::cout << "frame type 6 is ampdu frame. It is not aggregated here. " << std::endl;
+        else if(_frame_type == 7)
+          std::cout << "frame type 7 is amsdu frame. It is not aggregated here. " << std::endl;
+        else if(_frame_type == 8)
+        {
+          ampdu_subframe_formation(data_in);
+        }
+        else if(_frame_type == 9)
+          amsdu_subframe_formation(data_in);
+        else
+          std::cout << "Error. wrong frame type in framing ID: " << _block_id << ". please check your connections." << std::endl;
       }
-      else if(_frame_type == 3)
-	beacon_frame_formation(data_in);
-      else if(_frame_type == 4)
-	rts_frame_formation(data_in);
-      else if(_frame_type == 5)
-	cts_frame_formation(data_in);
-      else if(_frame_type == 6)
-	std::cout << "frame type 6 is ampdu frame. It is not aggregated here. " << std::endl;
-      else if(_frame_type == 7)
-	std::cout << "frame type 7 is amsdu frame. It is not aggregated here. " << std::endl;
-      else if(_frame_type == 8)
-      {
-	ampdu_subframe_formation(data_in);
-      }
-      else if(_frame_type == 9)
-	amsdu_subframe_formation(data_in);
       else
-	std::cout << "Wrong frame type, please check your connections." << std::endl;
+      {
+        if(_develop_mode)
+          std::cout << "framing ID: " << _block_id << "cannot framing input pmt. it is passed to the next blocks." << std::endl;
+        message_port_pub(pmt::mp("frame_out"), data_in);
+        
+      }
+
     }
 
     pmt::pmt_t

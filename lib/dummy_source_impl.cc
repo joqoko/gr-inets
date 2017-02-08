@@ -90,8 +90,11 @@ namespace gr {
             std::vector<unsigned char> payload(_payload_length);
             message_port_pub(pmt::mp("output"), pmt::cons(pmt::make_dict(), pmt::init_u8vector(payload.size(), payload)));
             if(_develop_mode)
-              std::cout << "dummy source ID: " << _block_id << " generate a payload." << std::endl;
+              std::cout << "dummy infinite source ID: " << _block_id << " generate a payload." << std::endl;
           }
+          if(_develop_mode)
+            std::cout << "dummy infinite source ID: " << _block_id << " generate and output " << pmt::to_long(trig) << " payloads in a row." << std::endl;
+          message_port_pub(pmt::mp("output"), trig);
         }
         else
         {
@@ -115,7 +118,7 @@ namespace gr {
           std::vector<unsigned char> payload(_payload_length);
           message_port_pub(pmt::mp("output"), pmt::cons(pmt::make_dict(), pmt::init_u8vector(payload.size(), payload)));
           if(_develop_mode)
-            std::cout << "dummy source ID: " << _block_id << " generate a payload." << std::endl;
+            std::cout << "dummy constant rate source ID: " << _block_id << " generate a payload." << std::endl;
         }
       }
       else
