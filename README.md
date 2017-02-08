@@ -47,6 +47,8 @@ Index		block name				Categories
  19		IFS					inets_dmf_mac
  20		sending					inets_dmf_mac
  21		receiving				inets_dmf_mac
+ 22		slide_window				inets_dmf_mac
+ 23		dummy_source				inets_dmf_tool
  100+		frame_probe				inets_dmf_tool
 
 

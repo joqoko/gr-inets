@@ -59,6 +59,8 @@ install(FILES
     frame_aggregation.h
     frame_analysis.h
     frame_check.h
-    IFS.h DESTINATION include/inets
+    IFS.h
+    slide_window.h
+    dummy_source.h DESTINATION include/inets
 
 )

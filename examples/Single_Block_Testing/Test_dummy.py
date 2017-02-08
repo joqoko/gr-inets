@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Test_IFS
+# Title: Test_dummy
 # Author: PWA
-# Generated: Wed Feb  8 00:48:12 2017
+# Generated: Wed Feb  8 01:12:52 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -25,16 +25,17 @@ from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import inets
+import pmt
 import sys
 from gnuradio import qtgui
 
 
-class Test_IFS(gr.top_block, Qt.QWidget):
+class Test_dummy(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Test_IFS")
+        gr.top_block.__init__(self, "Test_dummy")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Test_IFS")
+        self.setWindowTitle("Test_dummy")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -52,7 +53,7 @@ class Test_IFS(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Test_IFS")
+        self.settings = Qt.QSettings("GNU Radio", "Test_dummy")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -80,18 +81,18 @@ class Test_IFS(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_framing_0 = inets.framing(0, 17, 1, 1, frame_index, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 551)
-        self.inets_IFS_0 = inets.IFS(1, 19, 10000, 8000, 3, 0, 1, cs_threshold, system_time_granularity_us)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 1)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 1)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_IFS_0, 'frame_in'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_frame_probe_0, 'info_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Test_IFS")
+        self.settings = Qt.QSettings("GNU Radio", "Test_dummy")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -204,7 +205,7 @@ class Test_IFS(gr.top_block, Qt.QWidget):
         self.cs_threshold = cs_threshold
 
 
-def main(top_block_cls=Test_IFS, options=None):
+def main(top_block_cls=Test_dummy, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

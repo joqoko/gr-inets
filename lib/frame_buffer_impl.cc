@@ -58,8 +58,6 @@ namespace gr {
       set_msg_handler(pmt::mp("enqueue"), boost::bind(&frame_buffer_impl::enqueue, this, _1));
       message_port_register_in(pmt::mp("dequeue")); 
       set_msg_handler(pmt::mp("dequeue"), boost::bind(&frame_buffer_impl::dequeue, this, _1));
-//      message_port_register_in(pmt::mp("preview")); 
-//      set_msg_handler(pmt::mp("preview"), boost::bind(&frame_buffer_impl::preview, this, _1));
       message_port_register_in(pmt::mp("flush")); 
       set_msg_handler(pmt::mp("flush"), boost::bind(&frame_buffer_impl::flush, this, _1));
       message_port_register_out(pmt::mp("dequeue_element"));
@@ -89,7 +87,11 @@ namespace gr {
           double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
           std::cout << "buffer ID: " << _block_id << " enqueue at time " << current_time << " s" << std::endl;
         }
-
+        /*
+         * sometimes elements is dequeued immediately when enqueued. 
+         * 1. the first element for the whole execution. Normally it is used as the 'first drive' of the protocol
+         * 2. other parts of the protocol require to dequeue but no element is in the queue. Therefore new element is dequeued immediately to fit the demand.  
+         */
         if((_dequeue_first && _auto_dequeue_first) || _dequeue_when_available)
         {
           message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
@@ -122,32 +124,83 @@ namespace gr {
     {
       if(_develop_mode)
         std::cout << "++++++++++++ buffer ID: " << _block_id << " dequeue ++++++++++" << std::endl;
-      if(_buffer.size() > 0)
+      // real dequeue request only used for slide window arq which may need multiple frames at the same time. However, the state transition is quite complicated.
+      if(pmt::is_real(dequeue_request))
       {
- //       if(_output_dequeue_element)
-        message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
-        _buffer.pop();
-        if(_develop_mode)
-          std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after dequeue." << std::endl;
-        if(_develop_mode == 2)
+        int n_dequeue = pmt::to_long(dequeue_request);
+        // if there are elements in the buffer
+        if(_buffer.size() > 0)
         {
-          struct timeval t; 
-          gettimeofday(&t, NULL);
-          double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-          std::cout << "buffer ID: " << _block_id << " dequeue at time " << current_time << " s" << std::endl;
+          // if the number of elements in the buffer is smaller than the number of requested elements, the number of dequeued elements should be forced to the number of elements in the buffer.
+          if(n_dequeue > 0)
+          {
+            if(_buffer.size() < n_dequeue)
+            {
+              n_dequeue = _buffer.size();
+              if(_develop_mode)
+                std::cout << "Only " << n_dequeue << "element is the buffer, all of them are dequeued" << std::endl;
+            }
+            for(int i = 0; i < n_dequeue; i++)
+            {
+              message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
+              _buffer.pop();
+            }
+            // after dequeueing all elements, output a pmt containing the number of frames as a conclusion.
+            message_port_pub(pmt::mp("dequeue_element"), pmt::from_long(n_dequeue));
+            if(_develop_mode)
+              std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after dequeue." << std::endl;
+            if(_develop_mode == 2)
+            {
+              struct timeval t; 
+              gettimeofday(&t, NULL);
+              double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+              std::cout << "buffer ID: " << _block_id << " dequeue " << n_dequeue << " elements at time " << current_time << " s" << std::endl;
+            }
+          }
+          else
+          {
+            // dequeue a integer -2 means that the go-back-n requests no frame (most probably all transmissions are failed). 
+            message_port_pub(pmt::mp("dequeue_element"), pmt::from_long(-2));
+            if(_develop_mode)
+              std::cout << "0 element is required and no element is dequeued." << std::endl;
+          }
+        }
+        else
+        {
+          // dequeue a integer -1 means that the buffer is empty
+          message_port_pub(pmt::mp("dequeue_element"), pmt::from_long(-1));
+          if(_develop_mode)
+            std::cout << "buffer is empty so no element can be dequeued." << std::endl;
         }
       }
       else
       {
-        if(_keep_dequeue_state)
-	{
-          _dequeue_when_available = 1;
-	  if(_develop_mode)
-            std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements. dequeue will be executed after next enqueue." << std::endl;
-	}
-        else
+        if(_buffer.size() > 0)
+        {
+          message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
+          _buffer.pop();
           if(_develop_mode)
-            std::cout << "buffer ID: " << _block_id << " is empty. no element is popped." << std::endl;
+            std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after dequeue." << std::endl;
+          if(_develop_mode == 2)
+          {
+            struct timeval t; 
+            gettimeofday(&t, NULL);
+            double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+            std::cout << "buffer ID: " << _block_id << " dequeue at time " << current_time << " s" << std::endl;
+          }
+        }
+        else
+        {
+          if(_keep_dequeue_state)
+          {
+            _dequeue_when_available = 1;
+            if(_develop_mode)
+              std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements. dequeue will be executed after next enqueue." << std::endl;
+          }
+          else
+            if(_develop_mode)
+              std::cout << "buffer ID: " << _block_id << " is empty. no element is popped." << std::endl;
+        }
       }
     }
 

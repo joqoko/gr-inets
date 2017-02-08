@@ -573,97 +573,6 @@
     </param>
   </block>
   <block>
-    <key>inets_frame_header_analysis</key>
-    <param>
-      <key>apply_address_check</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>7</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>default_framing_setting</key>
-      <value>customized</value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(664, 364)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_frame_header_analysis_0</value>
-    </param>
-    <param>
-      <key>len_destination_address</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>len_frame_index</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>len_frame_type</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>len_num_transmission</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>len_payload_length</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>len_reserved_field_I</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>len_reserved_field_II</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>len_source_address</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>my_address</key>
-      <value>11</value>
-    </param>
-  </block>
-  <block>
     <key>inets_framing</key>
     <param>
       <key>alias</key>
@@ -698,10 +607,6 @@
       <value>True</value>
     </param>
     <param>
-      <key>frame_index</key>
-      <value>frame_index</value>
-    </param>
-    <param>
       <key>frame_type</key>
       <value>1</value>
     </param>
@@ -720,6 +625,10 @@
     <param>
       <key>increase_index</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>frame_index</key>
+      <value>frame_index</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -791,11 +700,5 @@
     <sink_block_id>inets_framing_0</sink_block_id>
     <source_key>pdus</source_key>
     <sink_key>data_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_framing_0</source_block_id>
-    <sink_block_id>inets_frame_header_analysis_0</sink_block_id>
-    <source_key>frame_pmt_out</source_key>
-    <sink_key>frame_in</sink_key>
   </connection>
 </flow_graph>
