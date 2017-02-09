@@ -38,10 +38,14 @@ namespace gr {
       int _start;
       float _timeout_duration_ms;
       int _system_time_granularity_us;
+      int _samp_rate;
+      int _sps;
+      double _bps;
       std::queue<double> _timer;
       std::queue<pmt::pmt_t> _tx_window;
       std::queue<pmt::pmt_t> _rx_window;
       struct frame_in_window{
+        double current_time;
         pmt::pmt_t frame;
 	int frame_index;
         frame_in_window *next;
@@ -56,7 +60,7 @@ namespace gr {
       int window_count(frame_in_window *first);
 
      public:
-      slide_window_impl(int develop_mode, int block_id, int protocol, int window_size, float timeout_duration_ms, int system_time_granularity_us);
+      slide_window_impl(int develop_mode, int block_id, int protocol, int window_size, float timeout_duration_ms, int system_time_granularity_us, int samp_rate, int sps, double bps);
       ~slide_window_impl();
 
     };

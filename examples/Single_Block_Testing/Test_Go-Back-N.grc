@@ -627,6 +627,49 @@
     </param>
   </block>
   <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(8, 348)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>constellation</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Constellation</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>gnuradio.digital.constellation_qpsk().base()</value>
+    </param>
+  </block>
+  <block>
     <key>import</key>
     <param>
       <key>alias</key>
@@ -933,6 +976,14 @@
       <value>1</value>
     </param>
     <param>
+      <key>sps</key>
+      <value>sps</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
       <key>system_time_granularity_us</key>
       <value>system_time_granularity_us</value>
     </param>
@@ -943,6 +994,10 @@
     <param>
       <key>window_size</key>
       <value>5</value>
+    </param>
+    <param>
+      <key>bps</key>
+      <value>constellation.bits_per_symbol() * (samp_rate / sps)</value>
     </param>
   </block>
   <connection>

@@ -4,7 +4,7 @@
   <key>inets_slide_window</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.slide_window($develop_mode, $block_id, $protocol, $window_size, $timeout_duration_ms, $system_time_granularity_us)</make>
+  <make>inets.slide_window($develop_mode, $block_id, $protocol, $window_size, $timeout_duration_ms, $system_time_granularity_us, $samp_rate, $sps, $bps)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -80,6 +80,30 @@
       <name>Selective repeat</name>
       <key>2</key>
     </option>
+  </param>
+
+  <param>
+    <name>Sample rate</name>
+    <key>samp_rate</key>
+    <value>samp_rate</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Sample per symbol</name>
+    <key>sps</key>
+    <value>sps</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>bitrate</name>
+    <key>bps</key>
+    <value>constellation.bits_per_symbol() * (samp_rate / sps)</value>
+    <type>real</type>
+    <hide>part</hide>
   </param>
 
 

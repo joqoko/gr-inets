@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_slide_window
 # Author: PWA
-# Generated: Wed Feb  8 18:25:37 2017
+# Generated: Thu Feb  9 02:31:41 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -34,7 +34,7 @@ from gnuradio import qtgui
 
 class Test_slide_window(gr.top_block, Qt.QWidget):
 
-    def __init__(self):
+    def __init__(self, constellation=gnuradio.digital.constellation_qpsk().base()):
         gr.top_block.__init__(self, "Test_slide_window")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Test_slide_window")
@@ -57,6 +57,11 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
 
         self.settings = Qt.QSettings("GNU Radio", "Test_slide_window")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
+
+        ##################################################
+        # Parameters
+        ##################################################
+        self.constellation = constellation
 
         ##################################################
         # Variables
@@ -86,7 +91,7 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_slide_window_0 = inets.slide_window(1, 22, 1, 5, 100, system_time_granularity_us)
+        self.inets_slide_window_0 = inets.slide_window(1, 22, 1, 5, 100, system_time_granularity_us, samp_rate, sps, constellation.bits_per_symbol() * (samp_rate / sps))
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
         self.inets_dummy_source_0 = inets.dummy_source(1, 23, 100, 1, 1)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
@@ -104,6 +109,12 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self.settings = Qt.QSettings("GNU Radio", "Test_slide_window")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
+
+    def get_constellation(self):
+        return self.constellation
+
+    def set_constellation(self, constellation):
+        self.constellation = constellation
 
     def get_sps(self):
         return self.sps
@@ -186,7 +197,14 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self.cs_threshold = cs_threshold
 
 
+def argument_parser():
+    parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
+    return parser
+
+
 def main(top_block_cls=Test_slide_window, options=None):
+    if options is None:
+        options, _ = argument_parser().parse_args()
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
