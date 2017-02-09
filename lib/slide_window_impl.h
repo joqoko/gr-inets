@@ -40,27 +40,33 @@ namespace gr {
       int _system_time_granularity_us;
       int _samp_rate;
       int _sps;
+      bool _in_timeout;
       double _bps;
-      std::queue<double> _timer;
-      std::queue<pmt::pmt_t> _tx_window;
-      std::queue<pmt::pmt_t> _rx_window;
+      double _interframe_interval_us;
       struct frame_in_window{
-        double current_time;
+        int window_index;
+        double tx_time;
+        double t_frame_ms;
         pmt::pmt_t frame;
-	int frame_index;
         frame_in_window *next;
 	frame_in_window *last;
       };
+      std::queue<double> _timer;
+      std::queue<pmt::pmt_t> _tx_window;
+      std::queue<pmt::pmt_t> _rx_window;
       frame_in_window *_tx_win;
       frame_in_window *_rx_win;
       void handle_data(pmt::pmt_t frame_in);
       void handle_ack(pmt::pmt_t frame_in);
       void print_index(frame_in_window *first);
       void window_insert(frame_in_window *first, pmt::pmt_t frame);
+      double time_frame(frame_in_window *first, int index);
+      void window_swap_element(frame_in_window *destination, frame_in_window *source);
       int window_count(frame_in_window *first);
+      void countdown_timeout();
 
      public:
-      slide_window_impl(int develop_mode, int block_id, int protocol, int window_size, float timeout_duration_ms, int system_time_granularity_us, int samp_rate, int sps, double bps);
+      slide_window_impl(int develop_mode, int block_id, int protocol, int window_size, float timeout_duration_ms, int system_time_granularity_us, int samp_rate, int sps, double bps, double interframe_interval_us);
       ~slide_window_impl();
 
     };

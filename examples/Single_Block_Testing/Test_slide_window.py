@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_slide_window
 # Author: PWA
-# Generated: Thu Feb  9 02:31:41 2017
+# Generated: Thu Feb  9 15:31:06 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -91,8 +91,9 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_slide_window_0 = inets.slide_window(1, 22, 1, 5, 100, system_time_granularity_us, samp_rate, sps, constellation.bits_per_symbol() * (samp_rate / sps))
+        self.inets_slide_window_0 = inets.slide_window(1, 22, 1, 5, 100, system_time_granularity_us, samp_rate, sps, constellation.bits_per_symbol() * (samp_rate / sps), 200)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0)
         self.inets_dummy_source_0 = inets.dummy_source(1, 23, 100, 1, 1)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
@@ -104,6 +105,7 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_slide_window_0, 'data_frame_in'))
         self.msg_connect((self.inets_slide_window_0, 'frame_pull_request'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_slide_window_0, 'frame_info_out'), (self.inets_frame_probe_0, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_slide_window")

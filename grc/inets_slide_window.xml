@@ -4,7 +4,7 @@
   <key>inets_slide_window</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.slide_window($develop_mode, $block_id, $protocol, $window_size, $timeout_duration_ms, $system_time_granularity_us, $samp_rate, $sps, $bps)</make>
+  <make>inets.slide_window($develop_mode, $block_id, $protocol, $window_size, $timeout_duration_ms, $system_time_granularity_us, $samp_rate, $sps, $bps, $interframe_interval_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -102,6 +102,14 @@
     <name>bitrate</name>
     <key>bps</key>
     <value>constellation.bits_per_symbol() * (samp_rate / sps)</value>
+    <type>real</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Interframe interval [us]</name>
+    <key>interframe_interval_us</key>
+    <value>200</value>
     <type>real</type>
     <hide>part</hide>
   </param>
