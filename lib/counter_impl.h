@@ -29,14 +29,13 @@ namespace gr {
     class counter_impl : public counter
     {
      private:
-      std::vector<int> _develop_mode_list;
       int _develop_mode;
       int _counter_id;
       int _counter;
       void counting(pmt::pmt_t message);
 
      public:
-      counter_impl(std::vector<int> develop_mode_list, int counter_id);
+      counter_impl(int develop_mode, int counter_id);
       ~counter_impl();
 
     };

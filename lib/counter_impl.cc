@@ -29,24 +29,23 @@ namespace gr {
   namespace inets {
 
     counter::sptr
-    counter::make(std::vector<int> develop_mode_list, int counter_id)
+    counter::make(int develop_mode, int counter_id)
     {
       return gnuradio::get_initial_sptr
-        (new counter_impl(develop_mode_list, counter_id));
+        (new counter_impl(develop_mode, counter_id));
     }
 
     /*
      * The private constructor
      */
-    counter_impl::counter_impl(std::vector<int> develop_mode_list, int counter_id)
+    counter_impl::counter_impl(int develop_mode, int counter_id)
       : gr::block("counter",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
-        _develop_mode_list(develop_mode_list),
+        _develop_mode(develop_mode),
         _counter_id(counter_id),
         _counter(0)
     {
-      _develop_mode = (std::find(_develop_mode_list.begin(), _develop_mode_list.end(), _counter_id) != _develop_mode_list.end());
       if(_develop_mode)
         std::cout << "the " << _counter_id << "th message counter is activated." << std::endl;
       message_port_register_in(pmt::mp("message_in"));
@@ -64,7 +63,16 @@ namespace gr {
     {
       _counter++;
       if(_develop_mode)
-        std::cout << "the " << _counter_id << "th message counter has been visited " << _counter << " times." << std::endl; 
+        std::cout << "the " << _counter_id << "th message counter has been visited " << _counter << " times "; 
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+        std::cout << " at time " << current_time << " s" << std::endl;
+      }
+      else
+        std::cout << " " << std::endl;
     }
 
   } /* namespace inets */

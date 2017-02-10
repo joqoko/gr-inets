@@ -128,7 +128,7 @@ namespace gr {
       {
         struct timeval t; 
         gettimeofday(&t, NULL);
-        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
         std::cout << "* timeout ID: " << _block_id << " timeout timer is triggered at time " << current_time << " s" << std::endl;
       }
       if(_develop_mode == 1)
@@ -164,7 +164,7 @@ namespace gr {
       struct timeval t;
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
-      double start_time = t.tv_sec + t.tv_usec / 1000000.0;
+      double start_time = current_time;
       if(_develop_mode == 1)
       {
         std::cout << "timeout timer start time: " << start_time << std::endl;
@@ -180,10 +180,10 @@ namespace gr {
           //std::cout << "Remaining time: " << _timeout_duration_ms / 1000 - (current_time - start_time) << ". And the in_timeout state is: " << _in_timeout << std::endl;
         }
       }
-      if(_develop_mode == 2)
+      if(_develop_mode)
       {
         gettimeofday(&t, NULL);
-        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
         if(_in_timeout)
         std::cout << "* timeout ID: " << _block_id << " timeout timer is expired at time " << current_time << " s" << std::endl;
         else

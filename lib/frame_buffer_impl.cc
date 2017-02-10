@@ -103,14 +103,16 @@ namespace gr {
             double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
             std::cout << "buffer ID: " << _block_id << " dequeue at time " << current_time << " s" <<  std::endl;
           }
-          if(_develop_mode && _dequeue_first && _auto_dequeue_first)
+          if(_dequeue_first && _auto_dequeue_first)
 	  {
-            std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after auto-dequeue the first element." << std::endl;
+            if(_develop_mode)
+              std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after auto-dequeue the first element." << std::endl;
             _dequeue_first = 0;
 	  }
-	  else if(_develop_mode && _dequeue_when_available)
+	  else if(_dequeue_when_available)
 	  {
-            std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after dequeue (postponed dequeue request)." << std::endl;
+            if(_develop_mode)
+              std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after dequeue (postponed dequeue request)." << std::endl;
 	    _dequeue_when_available = 0;
 	  }
         }

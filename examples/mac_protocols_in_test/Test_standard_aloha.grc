@@ -540,7 +540,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(200, 432)</value>
+      <value>(192, 432)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -705,7 +705,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(832, 408)</value>
+      <value>(832, 388)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1120,7 +1120,7 @@
     </param>
     <param>
       <key>destination_address</key>
-      <value>5</value>
+      <value>destination_address</value>
     </param>
     <param>
       <key>develop_mode</key>
@@ -1128,7 +1128,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>frame_type</key>
@@ -1136,7 +1136,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(192, 532)</value>
+      <value>(184, 524)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1144,7 +1144,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_framing_0_0</value>
+      <value>inets_framing_1</value>
     </param>
     <param>
       <key>increase_index</key>
@@ -1152,7 +1152,7 @@
     </param>
     <param>
       <key>frame_index</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -1168,11 +1168,11 @@
     </param>
     <param>
       <key>len_num_transmission</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_payload_length</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_reserved_field_I</key>
@@ -1200,11 +1200,11 @@
     </param>
     <param>
       <key>reserved_field_I</key>
-      <value>0</value>
+      <value>318</value>
     </param>
     <param>
       <key>reserved_field_II</key>
-      <value>0</value>
+      <value>524</value>
     </param>
     <param>
       <key>reserved_field_ampdu</key>
@@ -1216,7 +1216,7 @@
     </param>
     <param>
       <key>source_address</key>
-      <value>1</value>
+      <value>source_address</value>
     </param>
   </block>
   <block>
@@ -1437,7 +1437,7 @@
     </param>
     <param>
       <key>timeout_duration_ms</key>
-      <value>100</value>
+      <value>500</value>
     </param>
   </block>
   <connection>
@@ -1478,7 +1478,7 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0</source_block_id>
-    <sink_block_id>inets_framing_0_0</sink_block_id>
+    <sink_block_id>inets_framing_1</sink_block_id>
     <source_key>data_frame_info_out</source_key>
     <sink_key>data_in</sink_key>
   </connection>
@@ -1495,13 +1495,19 @@
     <sink_key>in</sink_key>
   </connection>
   <connection>
+    <source_block_id>inets_frame_type_check_0_0</source_block_id>
+    <sink_block_id>inets_timeout_0</sink_block_id>
+    <source_key>data_frame_info_out</source_key>
+    <sink_key>data_frame_info_in</sink_key>
+  </connection>
+  <connection>
     <source_block_id>inets_framing_0</source_block_id>
     <sink_block_id>inets_frame_buffer_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>enqueue</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_framing_0_0</source_block_id>
+    <source_block_id>inets_framing_1</source_block_id>
     <sink_block_id>inets_sending_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>in</sink_key>
