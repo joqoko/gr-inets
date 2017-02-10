@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_framing_cpp
 # Author: PWA
-# Generated: Wed Feb  8 00:47:51 2017
+# Generated: Fri Feb 10 11:00:22 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -58,10 +58,11 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 4
         self.samp_rate = samp_rate = 32000
         self.reserved_field_II = reserved_field_II = 6
-        self.reserved_field_I = reserved_field_I = 524
+        self.reserved_field_I = reserved_field_I = 5
         self.len_source_address = len_source_address = 1
         self.len_reserved_field_II = len_reserved_field_II = 2
         self.len_reserved_field_I = len_reserved_field_I = 2
@@ -74,22 +75,37 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
         self.frame_index = frame_index = 2
         self.develop_mode_list = develop_mode_list = [1, 2, 3]
         self.destination_address = destination_address = 3
+        self.cs_threshold = cs_threshold = 0.005
 
         ##################################################
         # Blocks
         ##################################################
-        self.inets_framing_0 = inets.framing(0, 17, 1, 1, frame_index, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 567)
+        self.inets_framing_0 = inets.framing(0, 17, 1, 1, frame_index, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 551)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 1)
+        self.inets_frame_check_0 = inets.frame_check(0, 9)
+        self.inets_frame_analysis_0 = inets.frame_analysis(1, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, destination_address)
+        self.inets_address_check_0 = inets.address_check(1, 17, destination_address)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_pmt_out'), (self.inets_frame_analysis_0, 'frame_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_framing_cpp")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
+
+    def get_system_time_granularity_us(self):
+        return self.system_time_granularity_us
+
+    def set_system_time_granularity_us(self, system_time_granularity_us):
+        self.system_time_granularity_us = system_time_granularity_us
 
     def get_source_address(self):
         return self.source_address
@@ -186,6 +202,12 @@ class Test_framing_cpp(gr.top_block, Qt.QWidget):
 
     def set_destination_address(self, destination_address):
         self.destination_address = destination_address
+
+    def get_cs_threshold(self):
+        return self.cs_threshold
+
+    def set_cs_threshold(self, cs_threshold):
+        self.cs_threshold = cs_threshold
 
 
 def main(top_block_cls=Test_framing_cpp, options=None):

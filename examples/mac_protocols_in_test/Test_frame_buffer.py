@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_frame_buffer
 # Author: PWA
-# Generated: Fri Feb 10 10:24:29 2017
+# Generated: Fri Feb 10 11:09:01 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -65,6 +65,7 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
         self.system_time_granularity_us = system_time_granularity_us = 1000
+        self.source_address = source_address = 1
         self.samp_rate = samp_rate = 1000000
         self.rx_gain = rx_gain = range_rx_gain
 
@@ -72,6 +73,7 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
 
         self.mu = mu = range_mu
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
+        self.destination_address = destination_address = 2
         self.cs_threshold = cs_threshold = 0.005
 
         ##################################################
@@ -87,12 +89,12 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.inets_sending_0 = inets.sending(develop_mode=1, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address)
         self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address)
         self.inets_framing_0_0 = inets.framing(0, 17, 2, 1, 1, 1, 5, 1, 1, 1, 0, 2, 0, 2, 1, 1, 0, 0)
-        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 1, 1, 5, 1, 1, 1, 0, 2, 0, 2, 1, 1, 0, 0)
+        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
         self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 0, 1, 1, 1, 1, 1, 1)
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 0, 1, 1, 1, 1, 1, 1)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
-        self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1)
-        self.inets_address_check_0 = inets.address_check(0, 17, 1)
+        self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
+        self.inets_address_check_0 = inets.address_check(0, 17, source_address)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################
@@ -149,6 +151,12 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
     def set_system_time_granularity_us(self, system_time_granularity_us):
         self.system_time_granularity_us = system_time_granularity_us
 
+    def get_source_address(self):
+        return self.source_address
+
+    def set_source_address(self, source_address):
+        self.source_address = source_address
+
     def get_samp_rate(self):
         return self.samp_rate
 
@@ -178,6 +186,12 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
 
     def set_diff_preamble_128(self, diff_preamble_128):
         self.diff_preamble_128 = diff_preamble_128
+
+    def get_destination_address(self):
+        return self.destination_address
+
+    def set_destination_address(self, destination_address):
+        self.destination_address = destination_address
 
     def get_cs_threshold(self):
         return self.cs_threshold

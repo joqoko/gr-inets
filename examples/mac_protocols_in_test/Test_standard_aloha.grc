@@ -120,6 +120,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(624, 84)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>destination_address</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>2</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(8, 156)</value>
     </param>
     <param>
@@ -397,6 +424,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(784, 84)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>source_address</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(176, 4)</value>
     </param>
     <param>
@@ -604,7 +658,7 @@
     </param>
     <param>
       <key>my_address</key>
-      <value>1</value>
+      <value>source_address</value>
     </param>
     <param>
       <key>output_payload_pmt</key>
@@ -651,7 +705,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(792, 408)</value>
+      <value>(832, 408)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -703,7 +757,7 @@
     </param>
     <param>
       <key>my_address</key>
-      <value>1</value>
+      <value>source_address</value>
     </param>
   </block>
   <block>
@@ -939,11 +993,11 @@
     </param>
     <param>
       <key>default_framing_setting</key>
-      <value>default</value>
+      <value>customized</value>
     </param>
     <param>
       <key>destination_address</key>
-      <value>5</value>
+      <value>destination_address</value>
     </param>
     <param>
       <key>develop_mode</key>
@@ -959,7 +1013,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(232, 340)</value>
+      <value>(224, 332)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -975,7 +1029,7 @@
     </param>
     <param>
       <key>frame_index</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -991,11 +1045,11 @@
     </param>
     <param>
       <key>len_num_transmission</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_payload_length</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_reserved_field_I</key>
@@ -1023,11 +1077,11 @@
     </param>
     <param>
       <key>reserved_field_I</key>
-      <value>0</value>
+      <value>318</value>
     </param>
     <param>
       <key>reserved_field_II</key>
-      <value>0</value>
+      <value>524</value>
     </param>
     <param>
       <key>reserved_field_ampdu</key>
@@ -1035,11 +1089,11 @@
     </param>
     <param>
       <key>set_reserved_field</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>source_address</key>
-      <value>1</value>
+      <value>source_address</value>
     </param>
   </block>
   <block>
