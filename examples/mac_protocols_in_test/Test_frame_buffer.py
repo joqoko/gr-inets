@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_frame_buffer
 # Author: PWA
-# Generated: Tue Feb  7 17:10:11 2017
+# Generated: Fri Feb 10 10:24:29 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -61,11 +61,11 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.range_rx_gain = range_rx_gain = 15
+        self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
         self.system_time_granularity_us = system_time_granularity_us = 1000
-        self.samp_rate = samp_rate = 32000
+        self.samp_rate = samp_rate = 1000000
         self.rx_gain = rx_gain = range_rx_gain
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
@@ -77,23 +77,21 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self._range_rx_gain_range = Range(0, 60, 1, 15, 200)
+        self._range_rx_gain_range = Range(0, 60, 1, 0, 200)
         self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, 'Rx Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_rx_gain_win, 1,0,1,1)
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_timeout_0 = inets.timeout(0, 10, 100, 1000)
+        self.inets_timeout_0 = inets.timeout(1, 10, 100, 1000)
         self.inets_sending_0 = inets.sending(develop_mode=1, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address)
-        self.inets_receiving_0 = inets.receiving(2, 11, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, cs_threshold, usrp_device_address)
+        self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address)
         self.inets_framing_0_0 = inets.framing(0, 17, 2, 1, 1, 1, 5, 1, 1, 1, 0, 2, 0, 2, 1, 1, 0, 0)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 1, 1, 5, 1, 1, 1, 0, 2, 0, 2, 1, 1, 0, 0)
         self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 0, 1, 1, 1, 1, 1, 1)
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 0, 1, 1, 1, 1, 1, 1)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1)
-        self.inets_carrier_sensing_0 = inets.carrier_sensing(0, 11, 2, 100, 0.005, 1000)
-        self.inets_backoff_0 = inets.backoff(0, 11, 3, 1, 10, 6, 100, 400)
         self.inets_address_check_0 = inets.address_check(0, 17, 1)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
@@ -101,18 +99,16 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_framing_0_0, 'data_in'))
-        self.msg_connect((self.inets_backoff_0, 'resend_frame_info_out'), (self.inets_carrier_sensing_0, 'info_in'))
-        self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_pass_out'), (self.inets_sending_0, 'in'))
-        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
-        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_carrier_sensing_0, 'info_in'))
-        self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_timeout_0, 'data_frame_info_in'))
+        self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_framing_0_0, 'data_in'))
         self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_0, 'ack_frame_info_in'))
-        self.msg_connect((self.inets_frame_type_check_0_0, 'data_frame_info_out'), (self.inets_backoff_0, 'frame_info_trigger_in'))
         self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_frame_buffer_0, 'dequeue'))
+        self.msg_connect((self.inets_frame_type_check_0_0, 'data_frame_info_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
-        self.msg_connect((self.inets_framing_0_0, 'frame_out'), (self.inets_carrier_sensing_0, 'info_in'))
-        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'info_in'))
+        self.msg_connect((self.inets_framing_0_0, 'frame_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
         self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
 

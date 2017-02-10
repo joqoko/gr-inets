@@ -46,7 +46,6 @@ namespace gr {
     {
       message_port_register_in(pmt::mp("frame_info_in"));
       if(data_frame == 0){
-        std::cout << "data frame on" << std::endl;
         message_port_register_out(pmt::mp("data_frame_info_out"));
       }
       if(ack_frame == 0)
