@@ -43,7 +43,7 @@
     <hide>$develop_mode.hide_control</hide>
   </param>
   <param>
-    <name>Carrier sensing mode</name>
+    <name>Mode</name>
     <key>cs_mode</key>
     <type>enum</type>
     <option>
@@ -69,14 +69,14 @@
     </option>
   </param>
   <param>
-    <name>Carrier sensing threshold</name>
+    <name>Threshold (ED)</name>
     <key>cs_threshold</key>
     <value>0.005</value>
     <type>float</type>
     <hide>part</hide>
   </param>
   <param>
-    <name>Carrier sensing duration</name>
+    <name>Duration</name>
     <key>cs_duration</key>
     <value>100</value>
     <type>real</type>

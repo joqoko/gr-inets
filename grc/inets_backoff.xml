@@ -55,7 +55,7 @@
   </param>
 
   <param>
-    <name>Backoff type</name>
+    <name>Type</name>
     <key>backoff_type</key>
     <type>enum</type>
     <option>

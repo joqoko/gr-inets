@@ -120,6 +120,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(624, 84)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>destination_address</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>2</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(8, 156)</value>
     </param>
     <param>
@@ -178,7 +205,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 224)</value>
+      <value>(312, 128)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -233,7 +260,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>15</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -382,7 +409,34 @@
     </param>
     <param>
       <key>value</key>
-      <value>32000</value>
+      <value>1000000</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(784, 84)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>source_address</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -486,7 +540,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 360)</value>
+      <value>(160, 456)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -580,11 +634,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 456)</value>
+      <value>(968, 536)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -604,7 +658,7 @@
     </param>
     <param>
       <key>my_address</key>
-      <value>1</value>
+      <value>source_address</value>
     </param>
     <param>
       <key>output_payload_pmt</key>
@@ -620,10 +674,6 @@
     <param>
       <key>backoff_time_unit_ms</key>
       <value>10</value>
-    </param>
-    <param>
-      <key>backoff_type</key>
-      <value>3</value>
     </param>
     <param>
       <key>alias</key>
@@ -643,7 +693,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -651,7 +701,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(200, 532)</value>
+      <value>(352, 492)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -683,6 +733,10 @@
     </param>
     <param>
       <key>unlimited_backoff</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>backoff_type</key>
       <value>1</value>
     </param>
   </block>
@@ -697,18 +751,6 @@
       <value>11</value>
     </param>
     <param>
-      <key>cs_duration</key>
-      <value>100</value>
-    </param>
-    <param>
-      <key>cs_mode</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>cs_threshold</key>
-      <value>0.005</value>
-    </param>
-    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -721,12 +763,16 @@
       <value>0</value>
     </param>
     <param>
+      <key>cs_duration</key>
+      <value>100</value>
+    </param>
+    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(608, 240)</value>
+      <value>(776, 304)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -745,8 +791,55 @@
       <value>0</value>
     </param>
     <param>
+      <key>cs_mode</key>
+      <value>2</value>
+    </param>
+    <param>
       <key>system_time_granularity_us</key>
       <value>1000</value>
+    </param>
+    <param>
+      <key>cs_threshold</key>
+      <value>0.005</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_counter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>counter_id</key>
+      <value>100</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(544, 212)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_counter_1</value>
     </param>
   </block>
   <block>
@@ -781,11 +874,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1064, 400)</value>
+      <value>(976, 464)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -837,7 +930,7 @@
     </param>
     <param>
       <key>my_address</key>
-      <value>1</value>
+      <value>source_address</value>
     </param>
   </block>
   <block>
@@ -880,7 +973,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>enqueue</key>
@@ -892,7 +985,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(392, 384)</value>
+      <value>(592, 344)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -951,11 +1044,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(880, 384)</value>
+      <value>(776, 544)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1022,11 +1115,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 504)</value>
+      <value>(552, 440)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1073,11 +1166,11 @@
     </param>
     <param>
       <key>default_framing_setting</key>
-      <value>default</value>
+      <value>customized</value>
     </param>
     <param>
       <key>destination_address</key>
-      <value>5</value>
+      <value>destination_address</value>
     </param>
     <param>
       <key>develop_mode</key>
@@ -1093,7 +1186,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(320, 276)</value>
+      <value>(168, 292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1109,7 +1202,7 @@
     </param>
     <param>
       <key>frame_index</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -1125,11 +1218,11 @@
     </param>
     <param>
       <key>len_num_transmission</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_payload_length</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_reserved_field_I</key>
@@ -1157,11 +1250,11 @@
     </param>
     <param>
       <key>reserved_field_I</key>
-      <value>0</value>
+      <value>318</value>
     </param>
     <param>
       <key>reserved_field_II</key>
-      <value>0</value>
+      <value>524</value>
     </param>
     <param>
       <key>reserved_field_ampdu</key>
@@ -1169,11 +1262,11 @@
     </param>
     <param>
       <key>set_reserved_field</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>source_address</key>
-      <value>1</value>
+      <value>source_address</value>
     </param>
   </block>
   <block>
@@ -1200,7 +1293,7 @@
     </param>
     <param>
       <key>destination_address</key>
-      <value>5</value>
+      <value>destination_address</value>
     </param>
     <param>
       <key>develop_mode</key>
@@ -1216,7 +1309,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(592, 388)</value>
+      <value>(128, 572)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1224,7 +1317,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_framing_0_0</value>
+      <value>inets_framing_1</value>
     </param>
     <param>
       <key>increase_index</key>
@@ -1232,7 +1325,7 @@
     </param>
     <param>
       <key>frame_index</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -1248,11 +1341,11 @@
     </param>
     <param>
       <key>len_num_transmission</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>len_payload_length</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>len_reserved_field_I</key>
@@ -1280,11 +1373,11 @@
     </param>
     <param>
       <key>reserved_field_I</key>
-      <value>0</value>
+      <value>318</value>
     </param>
     <param>
       <key>reserved_field_II</key>
-      <value>0</value>
+      <value>524</value>
     </param>
     <param>
       <key>reserved_field_ampdu</key>
@@ -1296,7 +1389,7 @@
     </param>
     <param>
       <key>source_address</key>
-      <value>1</value>
+      <value>source_address</value>
     </param>
   </block>
   <block>
@@ -1307,7 +1400,7 @@
     </param>
     <param>
       <key>block_id</key>
-      <value>11</value>
+      <value>21</value>
     </param>
     <param>
       <key>comment</key>
@@ -1319,15 +1412,15 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>2</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1248, 344)</value>
+      <value>(1016, 352)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1371,7 +1464,7 @@
     </param>
     <param>
       <key>threshold</key>
-      <value>cs_threshold</value>
+      <value>30</value>
     </param>
     <param>
       <key>constellation</key>
@@ -1418,11 +1511,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1120, 276)</value>
+      <value>(984, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1489,11 +1582,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(624, 504)</value>
+      <value>(776, 384)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1517,7 +1610,7 @@
     </param>
     <param>
       <key>timeout_duration_ms</key>
-      <value>100</value>
+      <value>500</value>
     </param>
   </block>
   <connection>
@@ -1528,15 +1621,27 @@
   </connection>
   <connection>
     <source_block_id>inets_address_check_0</source_block_id>
-    <sink_block_id>inets_framing_0_0</sink_block_id>
+    <sink_block_id>inets_frame_type_check_0</sink_block_id>
     <source_key>address_check_pass_out</source_key>
-    <sink_key>data_in</sink_key>
+    <sink_key>frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_backoff_0</source_block_id>
+    <sink_block_id>inets_frame_buffer_0</sink_block_id>
+    <source_key>drop_frame_info_out</source_key>
+    <sink_key>dequeue</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_backoff_0</source_block_id>
     <sink_block_id>inets_carrier_sensing_0</sink_block_id>
     <source_key>resend_frame_info_out</source_key>
     <sink_key>info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_carrier_sensing_0</source_block_id>
+    <sink_block_id>inets_backoff_0</sink_block_id>
+    <source_key>frame_info_fail_out</source_key>
+    <sink_key>frame_info_trigger_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_carrier_sensing_0</source_block_id>
@@ -1552,7 +1657,7 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_analysis_0</source_block_id>
-    <sink_block_id>inets_frame_type_check_0</sink_block_id>
+    <sink_block_id>inets_address_check_0</sink_block_id>
     <source_key>frame_info_out</source_key>
     <sink_key>frame_info_in</sink_key>
   </connection>
@@ -1570,9 +1675,9 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0</source_block_id>
-    <sink_block_id>inets_address_check_0</sink_block_id>
+    <sink_block_id>inets_framing_1</sink_block_id>
     <source_key>data_frame_info_out</source_key>
-    <sink_key>frame_info_in</sink_key>
+    <sink_key>data_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0_0</source_block_id>
@@ -1593,10 +1698,10 @@
     <sink_key>enqueue</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_framing_0_0</source_block_id>
-    <sink_block_id>inets_carrier_sensing_0</sink_block_id>
+    <source_block_id>inets_framing_1</source_block_id>
+    <sink_block_id>inets_sending_0</sink_block_id>
     <source_key>frame_out</source_key>
-    <sink_key>info_in</sink_key>
+    <sink_key>in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_receiving_0</source_block_id>

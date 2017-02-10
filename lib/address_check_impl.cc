@@ -47,7 +47,7 @@ namespace gr {
         _develop_mode(develop_mode),
         _my_address(my_address)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
         std::cout << "develop_mode of address_check ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in"));
       message_port_register_out(pmt::mp("address_check_pass_out"));

@@ -64,5 +64,6 @@ install(FILES
     inets_IFS.xml
     inets_receiving.xml
     inets_slide_window.xml
-    inets_dummy_source.xml DESTINATION share/gnuradio/grc/blocks
+    inets_dummy_source.xml
+    inets_resend_check.xml DESTINATION share/gnuradio/grc/blocks
 )

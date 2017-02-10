@@ -126,11 +126,12 @@ namespace gr {
             _n_backoff = num_transmission;
             if(_n_backoff > _max_n_backoff)
             {
-              _n_backoff = 0;
               message_port_pub(pmt::mp("drop_frame_info_out"), _frame_info);
             }
             else
+            {
               boost::thread thrd(&backoff_impl::countdown_const_backoff, this);
+            }
           }
         }
         /*
@@ -152,7 +153,10 @@ namespace gr {
               message_port_pub(pmt::mp("drop_frame_info_out"), _frame_info);
             }
             else
+            {
+              _n_backoff++;
               boost::thread thrd(&backoff_impl::countdown_random_backoff, this);
+            }
           }
         }
       }
@@ -171,7 +175,7 @@ namespace gr {
       if(_develop_mode == 2)
       {
         gettimeofday(&t, NULL);
-        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
         std::cout << "* backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
       }
       message_port_pub(pmt::mp("resend_frame_info_out"), _frame_info);
@@ -183,14 +187,14 @@ namespace gr {
       struct timeval t;
       //float backoff_time = std::rand() % std::pow(2, _n_backoff) + _min_bakcoff_ms;
       float backoff_time = std::rand() % (_max_backoff_ms - _min_backoff_ms) + _min_backoff_ms;
-      if(_develop_mode == 1)
+      if(_develop_mode)
           std::cout << "in random backoff, the backoff time is: " << backoff_time << "[ms]." << std::endl;
       boost::this_thread::sleep(boost::posix_time::milliseconds(backoff_time));
       if(_develop_mode == 2)
       {
         gettimeofday(&t, NULL);
-        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-        std::cout << "* backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
+        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+        std::cout << "backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
       }
       message_port_pub(pmt::mp("resend_frame_info_out"), _frame_info);
     }
@@ -203,17 +207,17 @@ namespace gr {
       {
         //float backoff_time = std::rand() % std::pow(2, _n_backoff) + _min_bakcoff_ms;
         float backoff_time = std::rand() % (int)std::pow(2, _n_backoff) * _backoff_time_unit_ms + _min_backoff_ms;
-        if(_develop_mode == 1)
+        if(_develop_mode)
           std::cout << "in " << _n_backoff << "th backoff, the backoff time is: " << backoff_time << "[ms]." << std::endl;
         boost::this_thread::sleep(boost::posix_time::milliseconds(backoff_time));
       }
       else
-        if(_develop_mode == 1)
+        if(_develop_mode)
           std::cout << "backoff counter reset so no waiting this time." << std::endl; 
       if(_develop_mode == 2)
       {
         gettimeofday(&t, NULL);
-        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
         std::cout << "* backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
       }
       message_port_pub(pmt::mp("resend_frame_info_out"), _frame_info);

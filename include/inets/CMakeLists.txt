@@ -61,6 +61,7 @@ install(FILES
     frame_check.h
     IFS.h
     slide_window.h
-    dummy_source.h DESTINATION include/inets
+    dummy_source.h
+    resend_check.h DESTINATION include/inets
 
 )
