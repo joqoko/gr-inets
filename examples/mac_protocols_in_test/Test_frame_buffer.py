@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_frame_buffer
 # Author: PWA
-# Generated: Mon Feb 13 16:08:43 2017
+# Generated: Mon Feb 13 16:17:19 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -27,6 +27,7 @@ from gnuradio.qtgui import Range, RangeWidget
 from optparse import OptionParser
 import gnuradio
 import inets
+import pmt
 import sys
 from gnuradio import qtgui
 
@@ -95,16 +96,18 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 0, 1, 1, 1, 1, 1, 1)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 300, 2, 5)
         self.inets_counter_0_0 = inets.counter(1, 101)
         self.inets_counter_0 = inets.counter(1, 100)
         self.inets_address_check_0 = inets.address_check(0, 17, source_address)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_framing_1, 'data_in'))
