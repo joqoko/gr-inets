@@ -4,7 +4,7 @@
   <key>inets_backoff</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.backoff($develop_mode, $block_id, $backoff_type, $unlimited_backoff, $backoff_time_unit_ms, $max_n_backoff, $min_backoff_ms, $max_backoff_ms)</make>
+  <make>inets.backoff($develop_mode, $block_id, $backoff_type, $backoff_time_unit_ms, $min_backoff_ms, $max_backoff_ms)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -84,29 +84,6 @@
     </option>
   </param>
   <param>
-    <name>Number of backoffs</name>
-    <key>unlimited_backoff</key>
-    <type>enum</type>
-    <hide>$backoff_type.hide_unlimited</hide>
-    <option>
-      <name>Limited</name>
-      <key>0</key>
-      <opt>hide_limited:part</opt>
-    </option>
-    <option>
-      <name>Unlimited</name>
-      <key>1</key>
-      <opt>hide_limited:all</opt>
-    </option>
-  </param>
-  <param>
-    <name>Max. number of backoff</name>
-    <key>max_n_backoff</key>
-    <value>6</value>
-    <type>int</type>
-    <hide>$unlimited_backoff.hide_limited</hide>
-  </param>
-  <param>
     <name>Backoff time unit [ms]</name>
     <key>backoff_time_unit_ms</key>
     <value>10</value>
@@ -133,7 +110,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>frame_info_trigger_in</name>
+    <name>frame_info_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
@@ -144,14 +121,8 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>resend_frame_info_out</name>
+    <name>frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
-  </source>
-  <source>
-    <name>drop_frame_info_out</name>
-    <type>message</type>
-    <optional>1</optional>
-    <hide>$unlimited_backoff</hide>
   </source>
 </block>

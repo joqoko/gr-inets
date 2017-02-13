@@ -32,25 +32,23 @@ namespace gr {
   namespace inets {
 
     backoff::sptr
-    backoff::make(int develop_mode, int block_id, int backoff_type, int unlimited_backoff, int backoff_time_unit_ms, int max_n_backoff, int min_backoff_ms, int max_backoff_ms)
+    backoff::make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms)
     {
       return gnuradio::get_initial_sptr
-        (new backoff_impl(develop_mode, block_id, backoff_type, unlimited_backoff, backoff_time_unit_ms, max_n_backoff, min_backoff_ms, max_backoff_ms));
+        (new backoff_impl(develop_mode, block_id, backoff_type, backoff_time_unit_ms, min_backoff_ms, max_backoff_ms));
     }
 
     /*
      * the private constructor
      */
-    backoff_impl::backoff_impl(int develop_mode, int block_id, int backoff_type, int unlimited_backoff, int backoff_time_unit_ms, int max_n_backoff, int min_backoff_ms, int max_backoff_ms)
+    backoff_impl::backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms)
       : gr::block("backoff",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _backoff_time_unit_ms(backoff_time_unit_ms),
         _block_id(block_id),
         _backoff_type(backoff_type),
-        _unlimited_backoff(unlimited_backoff),
         _develop_mode(develop_mode),
-        _max_n_backoff(max_n_backoff),
         _min_backoff_ms(min_backoff_ms),
         _max_backoff_ms(max_backoff_ms)
     {
@@ -58,11 +56,10 @@ namespace gr {
         std::cout << "develop_mode of backoff is activated." << std::endl;
       _n_backoff = 0;
       std::srand((unsigned)time(NULL));  
-      message_port_register_in(pmt::mp("frame_info_trigger_in"));
-      message_port_register_out(pmt::mp("resend_frame_info_out"));
-      message_port_register_out(pmt::mp("drop_frame_info_out"));
+      message_port_register_in(pmt::mp("frame_info_in"));
+      message_port_register_out(pmt::mp("frame_info_out"));
       set_msg_handler(
-        pmt::mp("frame_info_trigger_in"),
+        pmt::mp("frame_info_in"),
         boost::bind(&backoff_impl::start_backoff, this, _1)
       );
     }
@@ -101,64 +98,18 @@ namespace gr {
         {
           int num_transmission = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("num_transmission"), not_found));
           _n_backoff = num_transmission;
-          if(_n_backoff > _max_n_backoff)
-          {
-            _n_backoff = 0;
-            message_port_pub(pmt::mp("drop_frame_info_out"), _frame_info);
-          }
-          else
-          {
-            boost::thread thrd(&backoff_impl::countdown_exp_backoff, this);
-          }
+          boost::thread thrd(&backoff_impl::countdown_exp_backoff, this);
         }
         /*
          * _backoff_type 2: constant backoff.
          */
         else if(_backoff_type == 2)
-        { 
-          if(_unlimited_backoff)
-          {
-            boost::thread thrd(&backoff_impl::countdown_const_backoff, this);
-          }
-          else
-          {
-            int num_transmission = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("num_transmission"), not_found));
-            _n_backoff = num_transmission;
-            if(_n_backoff > _max_n_backoff)
-            {
-              message_port_pub(pmt::mp("drop_frame_info_out"), _frame_info);
-            }
-            else
-            {
-              boost::thread thrd(&backoff_impl::countdown_const_backoff, this);
-            }
-          }
-        }
+          boost::thread thrd(&backoff_impl::countdown_const_backoff, this);
         /*
          * _backoff_type 2: random backoff.
          */
         else if(_backoff_type == 3)
-        { 
-          if(_unlimited_backoff)
-          {
-            boost::thread thrd(&backoff_impl::countdown_random_backoff, this);
-          }
-          else
-          {
-            int num_transmission = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("num_transmission"), not_found));
-            _n_backoff = num_transmission;
-            if(_n_backoff > _max_n_backoff)
-            {
-              _n_backoff = 0;
-              message_port_pub(pmt::mp("drop_frame_info_out"), _frame_info);
-            }
-            else
-            {
-              _n_backoff++;
-              boost::thread thrd(&backoff_impl::countdown_random_backoff, this);
-            }
-          }
-        }
+          boost::thread thrd(&backoff_impl::countdown_random_backoff, this);
       }
       else
       {
@@ -178,7 +129,7 @@ namespace gr {
         double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
         std::cout << "* backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
       }
-      message_port_pub(pmt::mp("resend_frame_info_out"), _frame_info);
+      message_port_pub(pmt::mp("frame_info_out"), _frame_info);
     }
 
     void 
@@ -196,7 +147,7 @@ namespace gr {
         double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
         std::cout << "backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
       }
-      message_port_pub(pmt::mp("resend_frame_info_out"), _frame_info);
+      message_port_pub(pmt::mp("frame_info_out"), _frame_info);
     }
 
     void 
@@ -220,7 +171,7 @@ namespace gr {
         double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
         std::cout << "* backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
       }
-      message_port_pub(pmt::mp("resend_frame_info_out"), _frame_info);
+      message_port_pub(pmt::mp("frame_info_out"), _frame_info);
     }
   } /* namespace inets */
 } /* namespace gr */

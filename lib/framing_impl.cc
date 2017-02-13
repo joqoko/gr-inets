@@ -70,6 +70,11 @@ namespace gr {
       message_port_register_out(pmt::mp("frame_out"));
       // only in develop_mode
       message_port_register_out(pmt::mp("frame_pmt_out"));
+      if(_frame_index > 255 || _frame_index < 0)
+      {
+        std::cout << "frame index should in range [0, 255]. Frame index is set to 0." << std::endl;
+        _frame_index = 0;
+      }
     }
 
     /*
@@ -274,7 +279,11 @@ namespace gr {
           _payload_length = payload_array.size(); 
           std::vector<unsigned char> frame_header;
           if(_increase_index)
+          {
             _frame_index++;
+            if(_frame_index > 255)
+              _frame_index = 0;
+          }
           frame_info = frame_header_formation(&frame_header, 1, _frame_index, _destination_address, _source_address, _reserved_field_I, _reserved_field_II, _payload_length, 1);
           std::vector<unsigned char> frame;
           frame.insert(frame.end(), frame_header.begin(), frame_header.end());

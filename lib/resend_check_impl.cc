@@ -69,13 +69,13 @@ namespace gr {
       if(n_transmission >= _max_resend)
       {
         if(_develop_mode)
-          std::cout << "frame dropped because maximal retransmissions is reached. the frame index of the dropped frame is from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found)) << " with frame index: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << std::endl;
+          std::cout <<"frame: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) <<  " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found)) << " is dropped because its max retransmission counter is reached. " << std::endl;
         message_port_pub(pmt::mp("resend_check_fail_out"),frame_in);
       }
       else
       {
         if(_develop_mode)
-          std::cout << "frame from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found)) << " with frame index: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << " will be retransmitted the " << n_transmission + 1 << "th time" << std::endl;
+          std::cout << "frame: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found))  << " has been transmitted " << n_transmission  << "th time" << std::endl;
           frame_in = pmt::dict_delete(frame_in, pmt::string_to_symbol("num_transmission"));
           frame_in = pmt::dict_add(frame_in, pmt::string_to_symbol("num_transmission"), pmt::from_long(n_transmission + 1));
         message_port_pub(pmt::mp("resend_check_pass_out"),frame_in);
