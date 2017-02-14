@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_slide_window
 # Author: PWA
-# Generated: Tue Feb 14 11:10:42 2017
+# Generated: Tue Feb 14 16:35:55 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -70,10 +70,12 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
+        self.tx_center_frequency = tx_center_frequency = 4e8
         self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 1
         self.samp_rate = samp_rate = 1000000
         self.rx_gain = rx_gain = range_rx_gain
+        self.rx_center_frequency = rx_center_frequency = 4e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
@@ -91,10 +93,14 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_slide_window_0 = inets.slide_window(1, 22, 1, 5, 100, system_time_granularity_us, samp_rate, sps, constellation.bits_per_symbol() * (samp_rate / sps), 200)
+        self.inets_slide_window_0 = inets.slide_window(1, 22, 1, 5, 1000, system_time_granularity_us, samp_rate, sps, constellation.bits_per_symbol() * (samp_rate / sps), 200)
+        self.inets_sending_0 = inets.sending(develop_mode=1, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency)
+        self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0)
+        self.inets_frame_type_check_0 = inets.frame_type_check(1, 0, 1, 1, 1, 1, 1, 1)
+        self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_dummy_source_0 = inets.dummy_source(1, 23, 100, 1, 1)
+        self.inets_address_check_0 = inets.address_check(0, 17, source_address)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
@@ -102,10 +108,14 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_slide_window_0, 'data_frame_in'))
+        self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_slide_window_0, 'ack_frame_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_slide_window_0, 'data_frame_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
         self.msg_connect((self.inets_slide_window_0, 'frame_pull_request'), (self.inets_dummy_source_0, 'trigger'))
-        self.msg_connect((self.inets_slide_window_0, 'frame_info_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_slide_window_0, 'frame_info_out'), (self.inets_sending_0, 'in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_slide_window")
@@ -144,6 +154,12 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
     def set_usrp_device_address(self, usrp_device_address):
         self.usrp_device_address = usrp_device_address
 
+    def get_tx_center_frequency(self):
+        return self.tx_center_frequency
+
+    def set_tx_center_frequency(self, tx_center_frequency):
+        self.tx_center_frequency = tx_center_frequency
+
     def get_system_time_granularity_us(self):
         return self.system_time_granularity_us
 
@@ -167,6 +183,12 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
 
     def set_rx_gain(self, rx_gain):
         self.rx_gain = rx_gain
+
+    def get_rx_center_frequency(self):
+        return self.rx_center_frequency
+
+    def set_rx_center_frequency(self, rx_center_frequency):
+        self.rx_center_frequency = rx_center_frequency
 
     def get_rrc(self):
         return self.rrc

@@ -4,7 +4,7 @@
   <key>inets_receiving</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.receiving($develop_mode, $block_id, $constellation, $matched_filter_coeff, $mu, $preamble, $rx_gain, $samp_rate, $sps, $threshold, $usrp_device_address)</make>
+  <make>inets.receiving($develop_mode, $block_id, $constellation, $matched_filter_coeff, $mu, $preamble, $rx_gain, $samp_rate, $sps, $threshold, $usrp_device_address, $center_frequency)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -164,6 +164,14 @@
     <name>usrp_device_address</name>
     <key>usrp_device_address</key>
     <value>usrp_device_address</value>
+    <type>raw</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Center frequency</name>
+    <key>center_frequency</key>
+    <value>rx_center_frequency</value>
     <type>raw</type>
     <hide>part</hide>
   </param>

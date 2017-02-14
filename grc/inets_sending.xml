@@ -4,7 +4,7 @@
   <key>inets_sending</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.sending(develop_mode=$develop_mode, block_id=$block_id, constellation=$constellation, preamble=$preamble, samp_rate=$samp_rate, sps=$sps, system_time_granularity_us=$system_time_granularity_us, usrp_device_address=$usrp_device_address)</make>
+  <make>inets.sending(develop_mode=$develop_mode, block_id=$block_id, constellation=$constellation, preamble=$preamble, samp_rate=$samp_rate, sps=$sps, system_time_granularity_us=$system_time_granularity_us, usrp_device_address=$usrp_device_address, center_frequency=$center_frequency)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -91,6 +91,13 @@
     <hide>part</hide>
   </param>
 
+  <param>
+    <name>Center frequency</name>
+    <key>center_frequency</key>
+    <value>tx_center_frequency</value>
+    <type>raw</type>
+    <hide>part</hide>
+  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type

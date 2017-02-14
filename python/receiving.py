@@ -38,7 +38,7 @@ class receiving(gr.hier_block2):
     """
     docstring for block receiving
     """
-    def __init__(self, develop_mode, block_id, constellation, matched_filter_coeff, mu, preamble, rx_gain, samp_rate, sps, threshold, usrp_device_address):
+    def __init__(self, develop_mode, block_id, constellation, matched_filter_coeff, mu, preamble, rx_gain, samp_rate, sps, threshold, usrp_device_address, center_frequency):
         gr.hier_block2.__init__(self,
             "receiving",
             gr.io_signature(0, 0, 0),  # Input signature
@@ -65,6 +65,7 @@ class receiving(gr.hier_block2):
             sps=sps,
             threshold=threshold,
             usrp_device_address=usrp_device_address,
+            center_frequency=center_frequency,
         )
 
         self.msg_connect((self.receiving_phy_0, 'rx_frame_out'), (self, 'rx_frame_out'))    

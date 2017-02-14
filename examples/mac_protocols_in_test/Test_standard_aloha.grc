@@ -370,6 +370,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(304, 132)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rx_center_frequency</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>4e8</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(640, 12)</value>
     </param>
     <param>
@@ -491,6 +518,60 @@
     <param>
       <key>value</key>
       <value>10000</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(448, 132)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>timeout_duration_ms</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>500</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(304, 196)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tx_center_frequency</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>4e8</value>
     </param>
   </block>
   <block>
@@ -697,7 +778,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(584, 204)</value>
+      <value>(664, 220)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -706,45 +787,6 @@
     <param>
       <key>id</key>
       <value>inets_counter_0</value>
-    </param>
-  </block>
-  <block>
-    <key>inets_counter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>counter_id</key>
-      <value>101</value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(784, 180)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_counter_0_0</value>
     </param>
   </block>
   <block>
@@ -890,7 +932,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(624, 328)</value>
+      <value>(608, 344)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -953,7 +995,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(824, 520)</value>
+      <value>(816, 576)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1024,7 +1066,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(600, 488)</value>
+      <value>(600, 512)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1214,7 +1256,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(184, 548)</value>
+      <value>(184, 580)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1306,6 +1348,10 @@
     <param>
       <key>block_id</key>
       <value>21</value>
+    </param>
+    <param>
+      <key>center_frequency</key>
+      <value>rx_center_frequency</value>
     </param>
     <param>
       <key>comment</key>
@@ -1420,7 +1466,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(424, 504)</value>
+      <value>(424, 528)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1452,6 +1498,10 @@
     <param>
       <key>block_id</key>
       <value>11</value>
+    </param>
+    <param>
+      <key>center_frequency</key>
+      <value>tx_center_frequency</value>
     </param>
     <param>
       <key>comment</key>
@@ -1542,7 +1592,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(808, 384)</value>
+      <value>(768, 384)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1566,7 +1616,7 @@
     </param>
     <param>
       <key>timeout_duration_ms</key>
-      <value>5000</value>
+      <value>timeout_duration_ms</value>
     </param>
   </block>
   <connection>
@@ -1652,12 +1702,6 @@
     <sink_block_id>inets_sending_0</sink_block_id>
     <source_key>resend_check_pass_out</source_key>
     <sink_key>in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_resend_check_0</source_block_id>
-    <sink_block_id>inets_timeout_0</sink_block_id>
-    <source_key>resend_check_pass_out</source_key>
-    <sink_key>data_frame_info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_sending_0</source_block_id>

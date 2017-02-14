@@ -598,6 +598,49 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(40, 472)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>center_frequency</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>center_frequency</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>4e8</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(784, 8)</value>
     </param>
     <param>
@@ -1917,7 +1960,7 @@
     </param>
     <param>
       <key>center_freq0</key>
-      <value>4e8</value>
+      <value>center_frequency</value>
     </param>
     <param>
       <key>dc_offs_enb0</key>

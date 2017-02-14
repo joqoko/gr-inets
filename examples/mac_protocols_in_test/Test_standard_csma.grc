@@ -370,6 +370,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(912, 20)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rx_center_frequency</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>4e8</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(640, 12)</value>
     </param>
     <param>
@@ -491,6 +518,33 @@
     <param>
       <key>value</key>
       <value>1000</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(912, 84)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tx_center_frequency</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>4e8</value>
     </param>
   </block>
   <block>
@@ -693,7 +747,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -729,7 +783,7 @@
     </param>
     <param>
       <key>backoff_type</key>
-      <value>2</value>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1395,6 +1449,10 @@
       <value>21</value>
     </param>
     <param>
+      <key>center_frequency</key>
+      <value>rx_center_frequency</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -1541,6 +1599,10 @@
       <value>11</value>
     </param>
     <param>
+      <key>center_frequency</key>
+      <value>tx_center_frequency</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -1621,7 +1683,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>

@@ -85,7 +85,7 @@ namespace gr {
           message_port_pub(pmt::mp("frame_info_out"), frame_info);
         }
         else
-          std::cout << "Warning: frame_cluster does not have payload. Please check your connection." << std::endl;
+          std::cout << "Warning: frame_cluster does does not have payload. Please check your connection." << std::endl;
       }
       else
         std::cout << "Warning: wrong pmt type. Please check your connection." << std::endl;

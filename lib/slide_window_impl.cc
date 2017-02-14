@@ -124,8 +124,8 @@ namespace gr {
         // after received the pushed frames, the current window size
         _n_window = window_count(_tx_win);
         // for debugging purpose, if the infinite source is chosen, _n_window should always equal to _window_size
- //       if(_develop_mode)
- //         std::cout << "window size and actual window size are: " << _n_window << _window_size << std::endl;
+        if(_develop_mode)
+          std::cout << "window size and actual window size are: " << _n_window << _window_size << std::endl;
         if(_n_window == _window_size)
         {
           _in_timeout = true;
@@ -176,7 +176,7 @@ namespace gr {
         std::cout << "timeout timer start time: " << start_time_show << std::endl;
       while(window_count(_rx_win))
       {
-        while((current_time < _timeout_duration_ms / 1000 + _rx_win->next->tx_time) && !_acked)
+        while((current_time < _timeout_duration_ms / 1000 + _rx_win->next->tx_time) && !_acked && _in_timeout)
         {
           gettimeofday(&t, NULL);
           current_time = t.tv_sec + t.tv_usec / 1000000.0;
@@ -186,8 +186,7 @@ namespace gr {
         }
         if(_acked)
         {
-          int n_rx = window_count(_rx_win);
-          if(n_rx > 0)
+          if(window_count(_rx_win) > 0)
             _rx_win = _rx_win->next;
           _acked = false;
         }
@@ -195,19 +194,76 @@ namespace gr {
         {
           break;
         }
+        if(!_in_timeout)
+          break;
       }
       if(_develop_mode)
       {
         gettimeofday(&t, NULL);
-        double current_time_show = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
         if(_in_timeout)
-        std::cout << "* timeout ID: " << _block_id << " timeout timer is expired at time " << current_time_show << " s. " << " timeout duration is: " << _timeout_duration_ms << " [ms]" << std::endl;
+          std::cout << "* timeout ID: " << _block_id << " timeout timer is expired at time " << current_time_show << " s. " << " timeout duration is: " << _timeout_duration_ms << " [ms]. " << "at this moment, there is " << window_count(_rx_win) << " frame in the buffer. " << std::endl;
         else
-        std::cout << "* timeout ID: " << _block_id << " timeout timer is killed  at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time_show - start_time_show << std::endl;
+          std::cout << "* timeout ID: " << _block_id << " timeout timer is killed at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time_show - start_time_show << std::endl;
       }
+      _acked = false;
       _in_timeout = false;
     }
 
+    void 
+    slide_window_impl::handle_ack(pmt::pmt_t ack_frame_info) 
+    {
+      if(_develop_mode)
+        std::cout << "++++++  slide_window ID: " << _block_id << " handle_ack  ++++++" << std::endl;
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        std::cout << "* timeout ID: " << _block_id << " start killing the timer at time " << current_time_show << " s" << std::endl;
+      }
+      if(pmt::is_dict(ack_frame_info))
+      {
+        pmt::pmt_t not_found;
+        // ack frame info
+        int frame_type = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("frame_type"), not_found));
+        int ack_dest = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("destination_address"), not_found));
+        int ack_src = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("source_address"), not_found));
+        int ack_index = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("frame_index"), not_found));
+        // waiting frame info
+        int wait_dest = pmt::to_long(pmt::dict_ref(_rx_win->next->frame, pmt::string_to_symbol("destination_address"), not_found));
+        int wait_src = pmt::to_long(pmt::dict_ref(_rx_win->next->frame, pmt::string_to_symbol("source_address"), not_found));
+        int wait_index = pmt::to_long(pmt::dict_ref(_rx_win->next->frame, pmt::string_to_symbol("frame_index"), not_found));
+        if(!_acked)
+        {
+          if((frame_type == 2) && (ack_dest == wait_src) && (ack_src == wait_dest) && (ack_index == wait_index))
+          { 
+            _acked = true;
+            message_port_pub(pmt::mp("frame_info_out"), ack_frame_info);
+            if(_develop_mode == 1)
+              std::cout << "timeout of window index: " << _rx_win->next->window_index << " is terminated by correctly received ack frame." << std::endl;
+          }
+          else if(frame_type != 2)
+            if(_develop_mode == 1)
+              std::cout << "Not an ack_frame_info dict." << std::endl;
+          else if((ack_dest != wait_src) && (ack_src != wait_dest))
+            if(_develop_mode == 1)
+              std::cout << "address not correct." << std::endl;
+          else if(ack_index != wait_index)
+          {
+            if(_develop_mode == 1)
+              std::cout << "expecting the ack of the " << wait_index << "th frame but received the ack of the " << ack_index << "th frame." << std::endl;
+            _in_timeout = false;
+          }
+          else
+            std::cout << "handle_ack function is problematic. Please check your code." << std::endl;
+        }
+        else
+          std::cout << "Receive a pmt dict out of timeout interval." << std::endl;
+      }
+      else
+        std::cout << "ack_frame_info: wrong data type. please check your connection." << std::endl;
+    }
     
     double
     slide_window_impl::time_frame(frame_in_window *first, int win_index)
@@ -298,55 +354,6 @@ namespace gr {
  //     std::cout << "temp frame_index is: " << temp->next->frame_index << std::endl;
     }
 
-    void 
-    slide_window_impl::handle_ack(pmt::pmt_t ack_frame_info) 
-    {
-      if(_develop_mode)
-        std::cout << "++++++  slide_window ID: " << _block_id << " handle_ack  ++++++" << std::endl;
-      if(_develop_mode == 2)
-      {
-        struct timeval t; 
-        gettimeofday(&t, NULL);
-        double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-        std::cout << "* timeout ID: " << _block_id << " start killing the timer at time " << current_time_show << " s" << std::endl;
-      }
-      if(pmt::is_dict(ack_frame_info))
-      {
-        pmt::pmt_t not_found;
-        // ack frame info
-        int frame_type = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("frame_type"), not_found));
-        int ack_dest = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("destination_address"), not_found));
-        int ack_src = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("source_address"), not_found));
-        int ack_index = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("frame_index"), not_found));
-        // waiting frame info
-        int wait_dest = pmt::to_long(pmt::dict_ref(_rx_win->next->frame, pmt::string_to_symbol("destination_address"), not_found));
-        int wait_src = pmt::to_long(pmt::dict_ref(_rx_win->next->frame, pmt::string_to_symbol("source_address"), not_found));
-        int wait_index = pmt::to_long(pmt::dict_ref(_rx_win->next->frame, pmt::string_to_symbol("frame_index"), not_found));
-        if(_in_timeout)
-        {
-          if((frame_type == 2) && (ack_dest == wait_src) && (ack_src == wait_dest) && (ack_index == wait_index))
-          { 
-            _in_timeout = false;
-            message_port_pub(pmt::mp("frame_info_out"), ack_frame_info);
-            if(_develop_mode == 1)
-              std::cout << "timeout is terminated by correctly received ack frame." << std::endl;
-          }
-          else if(frame_type != 2)
-            if(_develop_mode == 1)
-              std::cout << "Not an ack_frame_info dict." << std::endl;
-          else if((ack_dest != wait_src) && (ack_src != wait_dest))
-            if(_develop_mode == 1)
-              std::cout << "address not correct." << std::endl;
-          else
-            if(_develop_mode == 1)
-              std::cout << "expecting the ack of the " << wait_index << "th frame but received the ack of the " << ack_index << "th frame." << std::endl;
-        }
-        else
-          std::cout << "Receive a pmt dict out of timeout interval." << std::endl;
-      }
-      else
-        std::cout << "ack_frame_info: wrong data type. please check your connection." << std::endl;
-    }
 
   } /* namespace inets */
 } /* namespace gr */
