@@ -53,6 +53,7 @@ namespace gr {
       _samp_rate(samp_rate),
       _sps(sps),       
       _bps(bps),
+      _acked(false),
       _in_timeout(false),
       _interframe_interval_us(interframe_interval_us),
       _start(0)
@@ -127,17 +128,18 @@ namespace gr {
  //         std::cout << "window size and actual window size are: " << _n_window << _window_size << std::endl;
         if(_n_window == _window_size)
         {
+          _in_timeout = true;
           for(int i = 0; i < _n_window; i++)
           {
-            boost::this_thread::sleep(boost::posix_time::microseconds(_tx_win->next->t_frame_ms * 1000 + _interframe_interval_us));
-            // then record the time to check the timeout timer
-            struct timeval t; 
-            gettimeofday(&t, NULL);
-            double current_time = t.tv_sec + t.tv_usec / 1000000.0;
-            _tx_win->next->tx_time = current_time;
- //           std::cout << "frame length is: " << pmt::u8vector_elements(pmt::cdr(pmt::dict_ref(_tx_win->next->frame, pmt::string_to_symbol("frame_pmt"), not_found))).size() << ". and the data rate is: " << _bps << " bit/s. and the transmission time is: " << _tx_win->next->t_frame_ms << " ms. " << std::endl;
-            message_port_pub(pmt::mp("frame_info_out"), _tx_win->next->frame);
-            window_swap_element(_rx_win, _tx_win);
+            if(i > 0)
+              boost::this_thread::sleep(boost::posix_time::microseconds(_tx_win->next->t_frame_ms * 1000 + _interframe_interval_us));
+            if(!_in_timeout)
+              break;
+            else
+            {
+              message_port_pub(pmt::mp("frame_info_out"), _tx_win->next->frame);
+              window_swap_element(_rx_win, _tx_win);
+            }
             if(i == 0) 
               boost::thread thrd(&slide_window_impl::countdown_timeout, this);       
             // std::cout << "buffer ID: " << _block_id << " dequeue " << _n_dequeue << " elements at time " << current_time << " s" << std::endl;
@@ -163,6 +165,49 @@ namespace gr {
         }
       } 
     }
+    
+    void slide_window_impl::countdown_timeout()
+    {
+      struct timeval t;
+      gettimeofday(&t, NULL);
+      double current_time = t.tv_sec + t.tv_usec / 1000000.0;
+      double start_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+      if(_develop_mode)
+        std::cout << "timeout timer start time: " << start_time_show << std::endl;
+      while(window_count(_rx_win))
+      {
+        while((current_time < _timeout_duration_ms / 1000 + _rx_win->next->tx_time) && !_acked)
+        {
+          gettimeofday(&t, NULL);
+          current_time = t.tv_sec + t.tv_usec / 1000000.0;
+          boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
+          // current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+          // std::cout << "timeout is running at: " << current_time_show << std::endl;
+        }
+        if(_acked)
+        {
+          int n_rx = window_count(_rx_win);
+          if(n_rx > 0)
+            _rx_win = _rx_win->next;
+          _acked = false;
+        }
+        else
+        {
+          break;
+        }
+      }
+      if(_develop_mode)
+      {
+        gettimeofday(&t, NULL);
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+        if(_in_timeout)
+        std::cout << "* timeout ID: " << _block_id << " timeout timer is expired at time " << current_time_show << " s. " << " timeout duration is: " << _timeout_duration_ms << " [ms]" << std::endl;
+        else
+        std::cout << "* timeout ID: " << _block_id << " timeout timer is killed  at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time_show - start_time_show << std::endl;
+      }
+      _in_timeout = false;
+    }
+
     
     double
     slide_window_impl::time_frame(frame_in_window *first, int win_index)
@@ -301,37 +346,6 @@ namespace gr {
       }
       else
         std::cout << "ack_frame_info: wrong data type. please check your connection." << std::endl;
-    }
-
-    
-    void slide_window_impl::countdown_timeout()
-    {
-      struct timeval t;
-      gettimeofday(&t, NULL);
-      double current_time = t.tv_sec + t.tv_usec / 1000000.0;
-      double start_time_show = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-      double start_time = current_time;
-      double current_time_show = start_time_show;
-      if(_develop_mode)
-        std::cout << "timeout timer start time: " << start_time_show << std::endl;
-      while((current_time < start_time + _timeout_duration_ms / 1000) && _in_timeout)
-      {
-        gettimeofday(&t, NULL);
-        current_time = t.tv_sec + t.tv_usec / 1000000.0;
-        boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
-        current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-        // std::cout << "timeout is running at: " << current_time_show << std::endl;
-      }
-      if(_develop_mode)
-      {
-        gettimeofday(&t, NULL);
-        double current_time_show = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-        if(_in_timeout)
-        std::cout << "* timeout ID: " << _block_id << " timeout timer is expired at time " << current_time_show << " s. " << " timeout duration is: " << _timeout_duration_ms << " [ms]" << std::endl;
-        else
-        std::cout << "* timeout ID: " << _block_id << " timeout timer is killed  at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time_show - start_time_show << std::endl;
-      }
-      _in_timeout = false;
     }
 
   } /* namespace inets */

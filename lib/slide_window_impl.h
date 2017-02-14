@@ -40,6 +40,7 @@ namespace gr {
       int _system_time_granularity_us;
       int _samp_rate;
       int _sps;
+      bool _acked;
       bool _in_timeout;
       double _bps;
       double _interframe_interval_us;
