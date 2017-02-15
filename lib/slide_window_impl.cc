@@ -129,6 +129,10 @@ namespace gr {
         if(_n_window == _window_size)
         {
           _in_timeout = true;
+          _rx_win = _tx_win;
+
+        std::cout << "_rx_win->next->tx_time" << _rx_win->next->tx_time << std::endl;
+          print_index(_rx_win);
           for(int i = 0; i < _n_window; i++)
           {
             if(i > 0)
@@ -138,14 +142,14 @@ namespace gr {
             else
             {
               message_port_pub(pmt::mp("frame_info_out"), _tx_win->next->frame);
-              window_swap_element(_rx_win, _tx_win);
+              std::cout << "window size is: " << window_count(_tx_win) << std::endl;
+              _tx_win = _tx_win->next;
             }
             if(i == 0) 
               boost::thread thrd(&slide_window_impl::countdown_timeout, this);       
             // std::cout << "buffer ID: " << _block_id << " dequeue " << _n_dequeue << " elements at time " << current_time << " s" << std::endl;
           }
          // print_index(_tx_win);
-         print_index(_rx_win);
          // double last_tx_time;
          // last_tx_time = time_frame(_rx_win, 5);
          // std::cout << "time different is: " << last_tx_time - _rx_win->next->tx_time << std::endl; 
@@ -176,23 +180,14 @@ namespace gr {
         std::cout << "timeout timer start time: " << start_time_show << std::endl;
       while(window_count(_rx_win))
       {
-        while((current_time < _timeout_duration_ms / 1000 + _rx_win->next->tx_time) && !_acked && _in_timeout)
+        std::cout << "_rx_win->next->tx_time" << _rx_win->next->tx_time << std::endl;
+        while((current_time < _timeout_duration_ms / 1000 + _rx_win->next->tx_time) && _in_timeout)
         {
           gettimeofday(&t, NULL);
           current_time = t.tv_sec + t.tv_usec / 1000000.0;
           boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
           // current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
           // std::cout << "timeout is running at: " << current_time_show << std::endl;
-        }
-        if(_acked)
-        {
-          if(window_count(_rx_win) > 0)
-            _rx_win = _rx_win->next;
-          _acked = false;
-        }
-        else
-        {
-          break;
         }
         if(!_in_timeout)
           break;
@@ -230,33 +225,38 @@ namespace gr {
         int ack_dest = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("destination_address"), not_found));
         int ack_src = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("source_address"), not_found));
         int ack_index = pmt::to_long(pmt::dict_ref(ack_frame_info, pmt::string_to_symbol("frame_index"), not_found));
+
         // waiting frame info
         int wait_dest = pmt::to_long(pmt::dict_ref(_rx_win->next->frame, pmt::string_to_symbol("destination_address"), not_found));
         int wait_src = pmt::to_long(pmt::dict_ref(_rx_win->next->frame, pmt::string_to_symbol("source_address"), not_found));
         int wait_index = pmt::to_long(pmt::dict_ref(_rx_win->next->frame, pmt::string_to_symbol("frame_index"), not_found));
-        if(!_acked)
+        std::cout << "* _rx_win has " << window_count(_rx_win) << " elements" << std::endl;
+        if(_in_timeout)
         {
+          std::cout << "* timeout ID: " << _block_id << " frame_type: " << frame_type << " ack_dest: " << ack_dest << " ack_src: " << ack_src << " ack_index: " << ack_index << " wait_dest: " << wait_dest << " wait_src: " << wait_src << "wait_index: " << wait_index << std::endl;
           if((frame_type == 2) && (ack_dest == wait_src) && (ack_src == wait_dest) && (ack_index == wait_index))
           { 
-            _acked = true;
+            std::cout << "* _rx_win has " << window_count(_rx_win) << " elements" << " and _rx_win->next is: " << _rx_win->next << std::endl;
+            _rx_win = _rx_win->next;
+            std::cout << "* _rx_win has " << window_count(_rx_win) << " elements" << " and _rx_win->next is: " << _rx_win->next << std::endl;
             message_port_pub(pmt::mp("frame_info_out"), ack_frame_info);
-            if(_develop_mode == 1)
+            if(_develop_mode)
               std::cout << "timeout of window index: " << _rx_win->next->window_index << " is terminated by correctly received ack frame." << std::endl;
           }
           else if(frame_type != 2)
-            if(_develop_mode == 1)
-              std::cout << "Not an ack_frame_info dict." << std::endl;
+            std::cout << "Not an ack_frame_info dict." << std::endl;
           else if((ack_dest != wait_src) && (ack_src != wait_dest))
-            if(_develop_mode == 1)
-              std::cout << "address not correct." << std::endl;
+            std::cout << "address not correct." << std::endl;
           else if(ack_index != wait_index)
           {
-            if(_develop_mode == 1)
-              std::cout << "expecting the ack of the " << wait_index << "th frame but received the ack of the " << ack_index << "th frame." << std::endl;
+            std::cout << "expecting the ack of the " << wait_index << "th frame but received the ack of the " << ack_index << "th frame." << std::endl;
             _in_timeout = false;
           }
           else
+          {
             std::cout << "handle_ack function is problematic. Please check your code." << std::endl;
+          }
+          std::cout << "* timeout ID: " << _block_id << " frame_type: " << frame_type << " ack_dest: " << ack_dest << " ack_src: " << ack_src << " ack_index: " << ack_index << " wait_dest: " << wait_dest << " wait_src: " << wait_src << "wait_index: " << wait_index << std::endl;
         }
         else
           std::cout << "Receive a pmt dict out of timeout interval." << std::endl;

@@ -999,7 +999,7 @@
     </param>
     <param>
       <key>data_frame</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1158,6 +1158,129 @@
     </param>
   </block>
   <block>
+    <key>inets_framing</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>17</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>default_framing_setting</key>
+      <value>default</value>
+    </param>
+    <param>
+      <key>destination_address</key>
+      <value>destination_address</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>frame_type</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(528, 644)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_framing_1</value>
+    </param>
+    <param>
+      <key>increase_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>frame_index</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>len_destination_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_type</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_num_transmission</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_payload_length</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_I</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_II</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_source_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_frame_pmt</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>reserved_field_I</key>
+      <value>318</value>
+    </param>
+    <param>
+      <key>reserved_field_II</key>
+      <value>524</value>
+    </param>
+    <param>
+      <key>reserved_field_ampdu</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>set_reserved_field</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>source_address</key>
+      <value>source_address</value>
+    </param>
+  </block>
+  <block>
     <key>inets_receiving</key>
     <param>
       <key>alias</key>
@@ -1213,7 +1336,7 @@
     </param>
     <param>
       <key>output_rss</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>output_snr</key>
@@ -1403,7 +1526,7 @@
     </param>
     <param>
       <key>window_size</key>
-      <value>5</value>
+      <value>1</value>
     </param>
     <param>
       <key>bps</key>
@@ -1441,10 +1564,22 @@
     <sink_key>ack_frame_in</sink_key>
   </connection>
   <connection>
+    <source_block_id>inets_frame_type_check_0</source_block_id>
+    <sink_block_id>inets_framing_1</sink_block_id>
+    <source_key>data_frame_info_out</source_key>
+    <sink_key>data_in</sink_key>
+  </connection>
+  <connection>
     <source_block_id>inets_framing_0</source_block_id>
     <sink_block_id>inets_slide_window_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>data_frame_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_framing_1</source_block_id>
+    <sink_block_id>inets_sending_0</sink_block_id>
+    <source_key>frame_out</source_key>
+    <sink_key>in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_receiving_0</source_block_id>
