@@ -72,7 +72,26 @@ namespace gr {
         if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_type")))
 	{
           frame_type = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found));
-          std::cout << "frame type is: " << frame_type << std::endl;
+          if(frame_type == 1)
+            std::cout << "data frame detected" << std::endl;
+          else if(frame_type == 2)
+            std::cout << "ack frame detected" << std::endl;
+          else if(frame_type == 3)
+            std::cout << "beacon frame detected" << std::endl;
+          else if(frame_type == 4)
+            std::cout << "rts frame detected" << std::endl;
+          else if(frame_type == 5)
+            std::cout << "cts frame detected" << std::endl;
+          else if(frame_type == 6)
+            std::cout << "ampdu frame detected" << std::endl;
+          else if(frame_type == 7)
+            std::cout << "amsdu frame detected" << std::endl;
+          else if(frame_type == 8)
+            std::cout << "ampdu subframe detected" << std::endl;
+          else if(frame_type == 9)
+            std::cout << "amsdu subframe detected" << std::endl;
+          else
+            std::cout << "Unknown frame type" << std::endl;
 	  // show detail of DATA, ACK, BEACON, RTS, CTS
 	  if(frame_type <= 5 && frame_type > 0)
           {

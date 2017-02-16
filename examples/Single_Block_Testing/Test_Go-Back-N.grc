@@ -382,7 +382,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4e8</value>
+      <value>3.9e8</value>
     </param>
   </block>
   <block>
@@ -544,7 +544,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4e8</value>
+      <value>3.8e8</value>
     </param>
   </block>
   <block>
@@ -964,6 +964,49 @@
     </param>
   </block>
   <block>
+    <key>inets_frame_probe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>100</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1016, 160)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_probe_0</value>
+    </param>
+    <param>
+      <key>print_frame</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>inets_frame_type_check</key>
     <param>
       <key>ack_frame</key>
@@ -974,7 +1017,15 @@
       <value>1</value>
     </param>
     <param>
+      <key>ampdu_subframe</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>amsdu_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>amsdu_subframe</key>
       <value>1</value>
     </param>
     <param>
@@ -984,6 +1035,10 @@
     <param>
       <key>alias</key>
       <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>25</value>
     </param>
     <param>
       <key>cts_frame</key>
@@ -1000,6 +1055,10 @@
     <param>
       <key>data_frame</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1474,7 +1533,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1526,7 +1585,7 @@
     </param>
     <param>
       <key>window_size</key>
-      <value>1</value>
+      <value>5</value>
     </param>
     <param>
       <key>bps</key>

@@ -48,7 +48,7 @@ namespace gr {
        _block_id(block_id),
        _develop_mode(develop_mode)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
         std::cout << "develop_mode of frame_check ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in"));
       message_port_register_out(pmt::mp("good_frame_info_out"));
@@ -125,7 +125,7 @@ namespace gr {
           double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
           std::cout << "* frame verification ID: " << _block_id << " verifies frame at time " << current_time << " s" << std::endl;
         }
-        if(_develop_mode == 1)
+        if(_develop_mode)
         {
           std::cout << "received frame with crc32 bytes (last four): ";
 	  disp_vec(frame_array);

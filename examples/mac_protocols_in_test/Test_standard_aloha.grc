@@ -382,7 +382,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4e8</value>
+      <value>3.9e8</value>
     </param>
   </block>
   <block>
@@ -571,7 +571,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4e8</value>
+      <value>3.8e8</value>
     </param>
   </block>
   <block>
@@ -621,7 +621,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(224, 456)</value>
+      <value>(224, 432)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -962,7 +962,15 @@
       <value>1</value>
     </param>
     <param>
+      <key>ampdu_subframe</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>amsdu_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>amsdu_subframe</key>
       <value>1</value>
     </param>
     <param>
@@ -972,6 +980,10 @@
     <param>
       <key>alias</key>
       <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>25</value>
     </param>
     <param>
       <key>cts_frame</key>
@@ -987,6 +999,10 @@
     </param>
     <param>
       <key>data_frame</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
       <value>0</value>
     </param>
     <param>
@@ -1033,7 +1049,15 @@
       <value>1</value>
     </param>
     <param>
+      <key>ampdu_subframe</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>amsdu_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>amsdu_subframe</key>
       <value>1</value>
     </param>
     <param>
@@ -1043,6 +1067,10 @@
     <param>
       <key>alias</key>
       <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>25</value>
     </param>
     <param>
       <key>cts_frame</key>
@@ -1058,6 +1086,10 @@
     </param>
     <param>
       <key>data_frame</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
       <value>0</value>
     </param>
     <param>
@@ -1133,7 +1165,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 324)</value>
+      <value>(216, 340)</value>
     </param>
     <param>
       <key>_rotation</key>

@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_frame_buffer
 # Author: PWA
-# Generated: Wed Feb 15 10:24:36 2017
+# Generated: Thu Feb 16 15:08:23 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -64,13 +64,13 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
-        self.tx_center_frequency = tx_center_frequency = 4e8
+        self.tx_center_frequency = tx_center_frequency = 3.8e8
         self.timeout_duration_ms = timeout_duration_ms = 500
         self.system_time_granularity_us = system_time_granularity_us = 10000
         self.source_address = source_address = 1
         self.samp_rate = samp_rate = 1000000
         self.rx_gain = rx_gain = range_rx_gain
-        self.rx_center_frequency = rx_center_frequency = 4e8
+        self.rx_center_frequency = rx_center_frequency = 3.9e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
@@ -94,8 +94,8 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_framing_1 = inets.framing(0, 17, 2, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
-        self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 0, 1, 1, 1, 1, 1, 1)
-        self.inets_frame_type_check_0 = inets.frame_type_check(0, 0, 1, 1, 1, 1, 1, 1)
+        self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
+        self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_counter_0 = inets.counter(1, 100)

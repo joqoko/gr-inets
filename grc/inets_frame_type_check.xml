@@ -4,7 +4,7 @@
   <key>inets_frame_type_check</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.frame_type_check($data_frame, $ack_frame, $beacon_frame, $rts_frame, $cts_frame, $ampdu_frame, $amsdu_frame, $other_frame)</make>
+  <make>inets.frame_type_check($develop_mode, $block_id, $data_frame, $ack_frame, $beacon_frame, $rts_frame, $cts_frame, $ampdu_frame, $amsdu_frame, $ampdu_subframe, $amsdu_subframe, $other_frame)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -16,6 +16,40 @@
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
+
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>25</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
   <param>
     <name>Data frame</name>
     <key>data_frame</key>
@@ -137,6 +171,42 @@
       <opt>hide:part</opt>
     </option>
   </param>
+
+  <param>
+    <name>AMPDU subframe</name>
+    <key>ampdu_subframe</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>$ampdu_subframe.hide</hide>
+    <option>
+      <name>Check</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Not check</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>AMSDU subframe</name>
+    <key>amsdu_subframe</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>$amsdu_subframe.hide</hide>
+    <option>
+      <name>Check</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Not check</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
   
   <param>
     <name>Other frame</name>
@@ -191,6 +261,12 @@
     <hide>$rts_frame</hide>
   </source>
   <source>
+    <name>cts_frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$cts_frame</hide>
+  </source>
+  <source>
     <name>ampdu_frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
@@ -203,15 +279,21 @@
     <hide>$amsdu_frame</hide>
   </source>
   <source>
+    <name>ampdu_subframe_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$ampdu_frame</hide>
+  </source>
+  <source>
+    <name>amsdu_subframe_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$amsdu_frame</hide>
+  </source>
+  <source>
     <name>other_frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
     <hide>$other_frame</hide>
-  </source>
-  <source>
-    <name>cts_frame_info_out</name>
-    <type>message</type>
-    <optional>1</optional>
-    <hide>$cts_frame</hide>
   </source>
 </block>

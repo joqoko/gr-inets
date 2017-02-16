@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::slide_window::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int protocol, int window_size, float timeout_duration_ms, int system_time_granularity_us, int samp_rate, int sps, double bps, double interframe_interval_us);
+      static sptr make(int develop_mode, int block_id, int window_size, int protocol);
     };
 
   } // namespace inets

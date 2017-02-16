@@ -63,9 +63,9 @@ list(APPEND inets_sources
     frame_analysis_impl.cc
     frame_check_impl.cc
     IFS_impl.cc
-    slide_window_impl.cc
     dummy_source_impl.cc
-    resend_check_impl.cc )
+    resend_check_impl.cc
+    slide_window_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

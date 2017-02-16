@@ -30,10 +30,11 @@ namespace gr {
     class frame_type_check_impl : public frame_type_check
     {
      private:
-      // Nothing to declare in this block.
+      int _develop_mode;
+      int _block_id;
 
      public:
-      frame_type_check_impl(int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame, int ampdu_frame, int amsdu_frame, int other_frame);
+      frame_type_check_impl(int develop_mode, int block_id, int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame, int ampdu_frame, int amsdu_frame, int ampdu_subframe, int amsdu_subframe, int other_frame);
       ~frame_type_check_impl();
 
       // Where all the action really happens

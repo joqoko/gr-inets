@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::frame_type_check::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame, int ampdu_frame, int amsdu_frame, int other_frame);
+      static sptr make(int develop_mode, int block_id, int data_frame, int ack_frame, int beacon_frame, int rts_frame, int cts_frame, int ampdu_frame, int amsdu_frame, int ampdu_subframe, int amsdu_subframe, int other_frame);
     };
 
   } // namespace inets
