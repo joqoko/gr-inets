@@ -23,6 +23,7 @@
 #define INCLUDED_INETS_TIMEOUT_IMPL_H
 
 #include <inets/timeout.h>
+#include <queue>
 
 namespace gr {
   namespace inets {
@@ -35,6 +36,8 @@ namespace gr {
       int _in_timeout;
       float _timeout_duration_ms;
       int _system_time_granularity_us;
+      int _llc_protocol;
+      std::queue<pmt::pmt_t> _window;
       pmt::pmt_t _waiting_frame_info;
       void start_timeout(pmt::pmt_t tx_frame_info);
       void kill_timeout(pmt::pmt_t ack_info);

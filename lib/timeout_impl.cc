@@ -29,16 +29,16 @@ namespace gr {
   namespace inets {
 
     timeout::sptr
-    timeout::make(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us)
+    timeout::make(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us, int llc_protocol)
     {
       return gnuradio::get_initial_sptr
-        (new timeout_impl(develop_mode, block_id, timeout_duration_ms, system_time_granularity_us));
+        (new timeout_impl(develop_mode, block_id, timeout_duration_ms, system_time_granularity_us, llc_protocol));
     }
 
     /*
      * The private constructor
      */
-    timeout_impl::timeout_impl(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us)
+    timeout_impl::timeout_impl(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us, int llc_protocol)
       : gr::block("timeout",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -46,7 +46,8 @@ namespace gr {
         _block_id(block_id),
         _timeout_duration_ms(float(timeout_duration_ms)),
         _in_timeout(false),
-        _system_time_granularity_us(system_time_granularity_us)
+        _system_time_granularity_us(system_time_granularity_us),
+        _llc_protocol(llc_protocol)
     {
       if(_develop_mode)
         std::cout << "develop_mode of timeout ID: " << _block_id << " is activated." << std::endl;
@@ -123,39 +124,74 @@ namespace gr {
     void timeout_impl::start_timeout(pmt::pmt_t data_frame_info) 
     {
       if(_develop_mode)
-        std::cout << "++++++++++++  timeout ID: " << _block_id << "  +++++++++++++" << std::endl;
-      if(_develop_mode)
+        std::cout << "+++++ timeout ID: " << _block_id << " start timeout ++++++" << std::endl;
+      if(_llc_protocol == 0)
       {
-        std::cout << "+++++++++++++   timeout   ++++++++++++++" << std::endl;
-      }
-      if(pmt::is_dict(data_frame_info))
-      {
-        if(!_in_timeout)
+        if(pmt::is_dict(data_frame_info))
         {
-          pmt::pmt_t not_found;
-          int data_type = pmt::to_long(pmt::dict_ref(data_frame_info, pmt::string_to_symbol("frame_type"), not_found));
-          if(data_type == 1)
+          if(!_in_timeout)
           {
-            if(_develop_mode)
+            pmt::pmt_t not_found;
+            int data_type = pmt::to_long(pmt::dict_ref(data_frame_info, pmt::string_to_symbol("frame_type"), not_found));
+            if(data_type == 1)
             {
-              struct timeval t; 
-              gettimeofday(&t, NULL);
-              double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-              std::cout << "* timeout ID: " << _block_id << " timeout timer is triggered at time " << current_time << " s" << std::endl;
+              if(_develop_mode)
+              {
+                struct timeval t; 
+                gettimeofday(&t, NULL);
+                double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+                std::cout << "* timeout ID: " << _block_id << " timeout timer is triggered at time " << current_time << " s" << std::endl;
+              }
+              _in_timeout = true;
+              _waiting_frame_info = data_frame_info;
+              // std::cout << "When timeout is started, the index is: " << pmt::to_long(pmt::dict_ref(_waiting_frame_info, pmt::string_to_symbol("frame_index"), not_found)) << std::endl;
+              boost::thread thrd(&timeout_impl::countdown_timeout, this);       
             }
-            _in_timeout = true;
-            _waiting_frame_info = data_frame_info;
-            // std::cout << "When timeout is started, the index is: " << pmt::to_long(pmt::dict_ref(_waiting_frame_info, pmt::string_to_symbol("frame_index"), not_found)) << std::endl;
-            boost::thread thrd(&timeout_impl::countdown_timeout, this);       
+            else
+              std::cout << "Not a data_frame_info dict." << std::endl;
           }
           else
-            std::cout << "Not a data_frame_info dict." << std::endl;
+            std::cout << "Cannot trigger the timeout timer before finishing the last one." << std::endl;
         }
         else
-          std::cout << "Cannot trigger the timeout timer before finishing the last one." << std::endl;
+          std::cout << "data_frame_info: wrong data type. please check your connection." << std::endl;
       }
-      else
-        std::cout << "data_frame_info: wrong data type. please check your connection." << std::endl;
+      // go-back-n
+      else if(_llc_protocol == 1)
+      {
+        if(pmt::is_dict(data_frame_info))
+        {
+          if(!_in_timeout)
+          {
+            pmt::pmt_t not_found;
+            int data_type = pmt::to_long(pmt::dict_ref(data_frame_info, pmt::string_to_symbol("frame_type"), not_found));
+            if(data_type == 1)
+            {
+              if(_develop_mode)
+              {
+                struct timeval t; 
+                gettimeofday(&t, NULL);
+                double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+                std::cout << "* timeout ID: " << _block_id << " timeout timer is triggered at time " << current_time << " s" << std::endl;
+              }
+              _in_timeout = true;
+              _waiting_frame_info = data_frame_info;
+              // std::cout << "When timeout is started, the index is: " << pmt::to_long(pmt::dict_ref(_waiting_frame_info, pmt::string_to_symbol("frame_index"), not_found)) << std::endl;
+              boost::thread thrd(&timeout_impl::countdown_timeout, this);       
+            }
+            else
+              std::cout << "Not a data_frame_info dict." << std::endl;
+          }
+          else
+            std::cout << "Cannot trigger the timeout timer before finishing the last one." << std::endl;
+        }
+        else
+          std::cout << "data_frame_info: wrong data type. please check your connection." << std::endl;
+      }
+      // selective repeat
+      else if(_llc_protocol == 2)
+      {
+      }
     }
 
     void timeout_impl::countdown_timeout()

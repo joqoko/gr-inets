@@ -22,6 +22,7 @@
 #define INCLUDED_INETS_SLIDE_WINDOW_IMPL_H
 
 #include <inets/slide_window.h>
+#include <queue>
 
 namespace gr {
   namespace inets {
@@ -29,19 +30,21 @@ namespace gr {
     class slide_window_impl : public slide_window
     {
      private:
-      // Nothing to declare in this block.
-
+      int _develop_mode;
+      int _block_id;
+      int _window_size;
+      int _protocol;
+      double _bps;
+      int _interframe_interval_us;
+      std::queue<pmt::pmt_t> _window;  
+      void ack_in(pmt::pmt_t ack_in);
+      void frame_in(pmt::pmt_t frame_in);
+      void transmit_window(std::queue<pmt::pmt_t> window);
+       
      public:
-      slide_window_impl(int develop_mode, int block_id, int window_size, int protocol);
+      slide_window_impl(int develop_mode, int block_id, int window_size, int protocol, double bps, int interframe_interval_us);
       ~slide_window_impl();
 
-      // Where all the action really happens
-      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
-
-      int general_work(int noutput_items,
-           gr_vector_int &ninput_items,
-           gr_vector_const_void_star &input_items,
-           gr_vector_void_star &output_items);
     };
 
   } // namespace inets

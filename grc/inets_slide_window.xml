@@ -2,19 +2,85 @@
 <block>
   <name>slide_window</name>
   <key>inets_slide_window</key>
-  <category>[inets]</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.slide_window($develop_mode, $block_id, $window_size, $protocol)</make>
+  <make>inets.slide_window($develop_mode, $block_id, $window_size, $protocol, $bps, $interframe_interval_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
+
   <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
   </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>22</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Window size</name>
+    <key>window_size</key>
+    <value>5</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Protocol</name>
+    <key>protocol</key>
+    <type>enum</type>
+    <option>
+      <name>Go-Back-N</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Selective repeat</name>
+      <key>2</key>
+    </option>
+  </param>
+
+  <param>
+    <name>bitrate</name>
+    <key>bps</key>
+    <value>constellation.bits_per_symbol() * (samp_rate / sps)</value>
+    <type>real</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Interframe interval [us]</name>
+    <key>interframe_interval_us</key>
+    <value>200</value>
+    <type>real</type>
+    <hide>part</hide>
+</param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -22,8 +88,15 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>in</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>frame_info_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>ack_info_in</name>
+    <type>message</type>
+    <optional>1</optional>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -32,7 +105,13 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+  <source>
+    <name>reload_request</name>
+    <type>message</type>
+    <optional>1</optional>
   </source>
 </block>
