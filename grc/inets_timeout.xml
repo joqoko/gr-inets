@@ -4,7 +4,7 @@
   <key>inets_timeout</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.timeout($develop_mode, $block_id, $timeout_duration_ms, $system_time_granularity_us)</make>
+  <make>inets.timeout($develop_mode, $block_id, $timeout_duration_ms, $system_time_granularity_us, $llc_protocol)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -41,6 +41,27 @@
     <value>10</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
+  </param>
+  <param>
+    <name>LLC protocol</name>
+    <key>llc_protocol</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Stop and wait</name>
+      <key>0</key>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>Go-Back-N</name>
+      <key>1</key>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>Selective repeat</name>
+      <key>2</key>
+      <opt>hide_control:none</opt>
+    </option>
   </param>
   <param>
     <name>Timeout duration [ms]</name>

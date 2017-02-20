@@ -594,7 +594,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(456, 428)</value>
+      <value>(280, 444)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -641,7 +641,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(224, 296)</value>
+      <value>(352, 128)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -956,7 +956,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(560, 160)</value>
+      <value>(360, 248)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1003,7 +1003,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1016, 160)</value>
+      <value>(1112, 336)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1145,7 +1145,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(352, 148)</value>
+      <value>(528, 308)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1268,7 +1268,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(528, 644)</value>
+      <value>(488, 636)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1383,7 +1383,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1000, 344)</value>
+      <value>(1192, 460)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1474,7 +1474,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1482,7 +1482,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1000, 260)</value>
+      <value>(1160, 264)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1545,7 +1545,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1553,7 +1553,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(728, 176)</value>
+      <value>(816, 192)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1588,11 +1588,70 @@
       <value>constellation.bits_per_symbol() * (samp_rate / sps)</value>
     </param>
   </block>
+  <block>
+    <key>inets_timeout</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>10</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(824, 416)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_timeout_0</value>
+    </param>
+    <param>
+      <key>llc_protocol</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>system_time_granularity_us</key>
+      <value>1000</value>
+    </param>
+    <param>
+      <key>timeout_duration_ms</key>
+      <value>1000</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>blocks_socket_pdu_0</source_block_id>
-    <sink_block_id>inets_framing_0</sink_block_id>
+    <sink_block_id>inets_frame_buffer_0</sink_block_id>
     <source_key>pdus</source_key>
-    <sink_key>data_in</sink_key>
+    <sink_key>enqueue</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_address_check_0</source_block_id>
@@ -1608,15 +1667,15 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_buffer_0</source_block_id>
-    <sink_block_id>inets_slide_window_0</sink_block_id>
+    <sink_block_id>inets_framing_0</sink_block_id>
     <source_key>dequeue_element</source_key>
-    <sink_key>frame_info_in</sink_key>
+    <sink_key>data_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0</source_block_id>
-    <sink_block_id>inets_slide_window_0</sink_block_id>
+    <sink_block_id>inets_timeout_0</sink_block_id>
     <source_key>ack_frame_info_out</source_key>
-    <sink_key>ack_info_in</sink_key>
+    <sink_key>ack_frame_info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0</source_block_id>
@@ -1626,15 +1685,9 @@
   </connection>
   <connection>
     <source_block_id>inets_framing_0</source_block_id>
-    <sink_block_id>inets_frame_buffer_0</sink_block_id>
+    <sink_block_id>inets_slide_window_0</sink_block_id>
     <source_key>frame_out</source_key>
-    <sink_key>enqueue</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_framing_1</source_block_id>
-    <sink_block_id>inets_sending_0</sink_block_id>
-    <source_key>frame_out</source_key>
-    <sink_key>in</sink_key>
+    <sink_key>frame_info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_receiving_0</source_block_id>
@@ -1650,8 +1703,20 @@
   </connection>
   <connection>
     <source_block_id>inets_slide_window_0</source_block_id>
+    <sink_block_id>inets_timeout_0</sink_block_id>
+    <source_key>frame_info_out</source_key>
+    <sink_key>data_frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_slide_window_0</source_block_id>
     <sink_block_id>inets_frame_buffer_0</sink_block_id>
     <source_key>reload_request</source_key>
     <sink_key>dequeue</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_timeout_0</source_block_id>
+    <sink_block_id>inets_slide_window_0</sink_block_id>
+    <source_key>frame_info_out</source_key>
+    <sink_key>ack_info_in</sink_key>
   </connection>
 </flow_graph>

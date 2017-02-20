@@ -136,7 +136,8 @@ namespace gr {
       int real_win_size = window.size();
       for(int i = 0; i < real_win_size; i++)
       {
-        std::cout << "frame " << i + 1 << " is transmitted" << std::endl;
+        if(_develop_mode)
+          std::cout << "frame " << i + 1 << " is transmitted" << std::endl;
         pmt::pmt_t not_found;
         double t_frame_us = pmt::u8vector_elements(pmt::cdr(pmt::dict_ref(window.front(), pmt::string_to_symbol("frame_pmt"), not_found))).size() / _bps * 1000000;
         if(i > 0)

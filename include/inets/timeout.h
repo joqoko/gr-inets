@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::timeout::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us);
+      static sptr make(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us, int llc_protocol);
     };
 
   } // namespace inets

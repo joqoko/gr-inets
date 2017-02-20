@@ -22,6 +22,7 @@
 #define INCLUDED_INETS_PENDING_TX_FINISH_IMPL_H
 
 #include <inets/pending_tx_finish.h>
+#include <queue>
 
 namespace gr {
   namespace inets {
@@ -34,9 +35,9 @@ namespace gr {
       int _block_id;
       float _sample_rate;
       const pmt::pmt_t _d_lengthtagname;
-      pmt::pmt_t _tx_frame_info;
       float _wait_time;
       int _system_time_granularity_us;
+      std::queue<pmt::pmt_t> _tx_queue;         
       int process_tags_info(std::vector <tag_t> tags);
       void buffer_tx_frame_info(pmt::pmt_t tx_frame_info);
       void countdown_waiting();

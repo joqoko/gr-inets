@@ -87,7 +87,7 @@ namespace gr {
     {
       if(pmt::is_dict(tx_frame_info))
       {
-        _tx_frame_info = tx_frame_info;
+        _tx_queue.push(tx_frame_info);
         if(_develop_mode == 1)
           std::cout << "tx_frame_info received." << std::endl;
       }
@@ -161,7 +161,14 @@ namespace gr {
       if(_develop_mode == 1)
         std::cout << "Count is: " << count << std::endl;
       _wait_time = 0;
-      message_port_pub(pmt::mp("tx_frame_info_out"), _tx_frame_info);
+      if(_tx_queue.size() > 0)
+      {
+        pmt::pmt_t tx_frame_info = _tx_queue.front();
+        message_port_pub(pmt::mp("tx_frame_info_out"), tx_frame_info);
+        _tx_queue.pop();
+      } 
+      else
+        std::cout << "pending_tx: tx_queue is empty. " << std::endl;
 
       gettimeofday(&t, NULL);
       current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;

@@ -1,4 +1,3 @@
-
 /* -*- c++ -*- */
 /* 
  * Copyright 2016 <+YOU OR YOUR COMPANY+>.
@@ -34,6 +33,7 @@ namespace gr {
       int _develop_mode;
       int _block_id;
       int _in_timeout;
+      double _start_time;
       float _timeout_duration_ms;
       int _system_time_granularity_us;
       int _llc_protocol;
@@ -41,10 +41,12 @@ namespace gr {
       pmt::pmt_t _waiting_frame_info;
       void start_timeout(pmt::pmt_t tx_frame_info);
       void kill_timeout(pmt::pmt_t ack_info);
+      void reset_timeout();
+      void flush_window();
       void countdown_timeout();
 
      public:
-      timeout_impl(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us);
+      timeout_impl(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us, int llc_protocol);
       ~timeout_impl();
 
     };

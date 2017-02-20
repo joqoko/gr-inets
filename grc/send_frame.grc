@@ -669,7 +669,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>develop_mode</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -677,7 +677,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(168, 152)</value>
+      <value>(168, 80)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -806,7 +806,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>develop_mode</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1248,7 +1248,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(704, 348)</value>
+      <value>(712, 356)</value>
     </param>
     <param>
       <key>_rotation</key>

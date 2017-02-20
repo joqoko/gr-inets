@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_slide_window
 # Author: PWA
-# Generated: Fri Feb 17 16:26:41 2017
+# Generated: Mon Feb 20 16:54:49 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -93,8 +93,9 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_slide_window_0 = inets.slide_window(1, 22, 5, 1, constellation.bits_per_symbol() * (samp_rate / sps), 200)
-        self.inets_sending_0 = inets.sending(develop_mode=1, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency)
+        self.inets_timeout_0 = inets.timeout(0, 10, 1000, 1000, 1)
+        self.inets_slide_window_0 = inets.slide_window(0, 22, 5, 1, constellation.bits_per_symbol() * (samp_rate / sps), 200)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency)
         self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_framing_1 = inets.framing(0, 17, 2, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
@@ -109,17 +110,18 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_frame_buffer_0, 'enqueue'))
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
-        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_slide_window_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_framing_1, 'data_in'))
-        self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_slide_window_0, 'ack_info_in'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
-        self.msg_connect((self.inets_framing_1, 'frame_out'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_0, 'ack_frame_info_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_slide_window_0, 'frame_info_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
         self.msg_connect((self.inets_slide_window_0, 'reload_request'), (self.inets_frame_buffer_0, 'dequeue'))
         self.msg_connect((self.inets_slide_window_0, 'frame_info_out'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_slide_window_0, 'frame_info_out'), (self.inets_timeout_0, 'data_frame_info_in'))
+        self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_slide_window_0, 'ack_info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_slide_window")
