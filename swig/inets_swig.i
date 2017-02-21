@@ -49,6 +49,7 @@
 #include "inets/dummy_source.h"
 #include "inets/resend_check.h"
 #include "inets/slide_window.h"
+#include "inets/frame_filter.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -151,3 +152,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, dummy_source);
 GR_SWIG_BLOCK_MAGIC2(inets, resend_check);
 %include "inets/slide_window.h"
 GR_SWIG_BLOCK_MAGIC2(inets, slide_window);
+%include "inets/frame_filter.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_filter);

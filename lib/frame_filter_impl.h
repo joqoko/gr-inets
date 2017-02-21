@@ -18,39 +18,36 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_SLIDE_WINDOW_IMPL_H
-#define INCLUDED_INETS_SLIDE_WINDOW_IMPL_H
+#ifndef INCLUDED_INETS_FRAME_FILTER_IMPL_H
+#define INCLUDED_INETS_FRAME_FILTER_IMPL_H
 
-#include <inets/slide_window.h>
-#include <queue>
+#include <inets/frame_filter.h>
 
 namespace gr {
   namespace inets {
 
-    class slide_window_impl : public slide_window
+    class frame_filter_impl : public frame_filter
     {
      private:
       int _develop_mode;
       int _block_id;
-      int _window_size;
-      int _protocol;
-      int _txed_index;
-      double _bps;
-      int _interframe_interval_us;
-      std::queue<pmt::pmt_t> _window;  
-      void ack_in(pmt::pmt_t ack_in);
-      void frame_in(pmt::pmt_t frame_in);
-      void transmit_window(std::queue<pmt::pmt_t> window, int index);
-      void print_window(std::queue<pmt::pmt_t> window);
-       
+      int _drop_type;
+      int _source_address;
+      int _destination_address;
+      int _frame_index;
+      int _frame_type;
+      int _reserved_field_I;
+      int _reserved_field_II; 
+      void filtering(pmt::pmt_t frame_in);
+
      public:
-      slide_window_impl(int develop_mode, int block_id, int window_size, int protocol, double bps, int interframe_interval_us);
-      ~slide_window_impl();
+      frame_filter_impl(int develop_mode, int block_id, int drop_type, int frame_type, int source_address, int destination_address, int frame_index, int reserved_field_I, int reserved_field_II);
+      ~frame_filter_impl();
 
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_SLIDE_WINDOW_IMPL_H */
+#endif /* INCLUDED_INETS_FRAME_FILTER_IMPL_H */
 

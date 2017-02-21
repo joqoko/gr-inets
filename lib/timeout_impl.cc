@@ -143,11 +143,11 @@ namespace gr {
           int wait_index = pmt::to_long(pmt::dict_ref(_window.front(), pmt::string_to_symbol("frame_index"), not_found));
           if(_in_timeout)
           {
-            //std::cout << "frame type: " << frame_type << " ack_dest: " << ack_dest << " wait_src: " << wait_src << " ack_src: " << ack_src << "wait_dest: " << wait_dest << " ack_index: " << ack_index << " wait_index: " << wait_index << std::endl;
-            if((frame_type == 2) && (ack_dest == wait_src) && (ack_src == wait_dest) && (ack_index == wait_index))
+            std::cout << "frame type: " << frame_type << " ack_dest: " << ack_dest << " wait_src: " << wait_src << " ack_src: " << ack_src << "wait_dest: " << wait_dest << " ack_index: " << ack_index << " wait_index: " << wait_index << std::endl;
+            if((frame_type == 2) && (ack_dest == wait_src) && (ack_src == wait_dest) && (ack_index >= wait_index))
             { 
               message_port_pub(pmt::mp("frame_info_out"), ack_frame_info);
-              if(_window.size() == 1)
+              if(_window.size() - (ack_index - wait_index) == 1)
               {
                 _in_timeout = false;
               }
@@ -157,7 +157,8 @@ namespace gr {
                   std::cout << "frame from " << ack_src << " in window is acked with frame index: " << ack_index << std::endl;
                   
               }
-              _window.pop();
+              for(int i = 0; i < ack_index - wait_index + 1; i++)
+                _window.pop(); 
             }
             else if(frame_type != 2)
               if(_develop_mode)
@@ -251,8 +252,9 @@ namespace gr {
             if(data_type == 1)
             {
               int frame_index = pmt::to_long(pmt::dict_ref(data_frame_info, pmt::string_to_symbol("frame_index"), not_found));
-              if(_window.size() > 0 && frame_index == (pmt::to_long(pmt::dict_ref(_window.back(), pmt::string_to_symbol("frame_index"), not_found)) + 1))
-              {
+
+              //if(_window.size() > 0 && (frame_index == (pmt::to_long(pmt::dict_ref(_window.back(), pmt::string_to_symbol("frame_index"), not_found)) + 1)) || frame_index == (pmt::to_long(pmt::dict_ref(_window.back(), pmt::string_to_symbol("frame_index"), not_found)) + 256))
+              //{
                 reset_timeout();
                 _window.push(data_frame_info);
                 if(_develop_mode)
@@ -262,9 +264,9 @@ namespace gr {
                   double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
                   std::cout << "* timeout ID: " << _block_id << " timeout timer is reset at time " << current_time << " s" << std::endl;
                 }
-              }
-              else
-                std::cout << "go-back-n timeout cannot receive discontinued data frame, current frame index is: " << frame_index << " and the expected one is: " << pmt::to_long(pmt::dict_ref(_window.back(), pmt::string_to_symbol("frame_index"), not_found)) + 1 << ". please check your connections." << std::endl;
+              //}
+              //else
+              //  std::cout << "go-back-n timeout cannot receive discontinued data frame, current window size is: " << _window.size() << " current frame index is: " << frame_index << " and the expected one is: " << pmt::to_long(pmt::dict_ref(_window.back(), pmt::string_to_symbol("frame_index"), not_found)) + 1 << ". please check your connections." << std::endl;
             }
           }
         }

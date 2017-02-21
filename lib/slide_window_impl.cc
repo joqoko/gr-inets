@@ -47,10 +47,11 @@ namespace gr {
         _window_size(window_size),
         _protocol(protocol),
         _bps(bps),
+        _txed_index(0),
         _interframe_interval_us(interframe_interval_us)
     {
       if(_develop_mode)
-        std::cout << "develop_mode of slide_window ID: " << _block_id << " is activated." << std::endl;
+        std::cout << "develop_mode of slide_window id: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in")); 
       set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&slide_window_impl::frame_in, this, _1));
       message_port_register_in(pmt::mp("ack_info_in")); 
@@ -75,7 +76,7 @@ namespace gr {
       {
         _window.push(frame_in);
         if(_develop_mode)
-          std::cout << "window ID: " << _block_id << " has " << _window.size() << " frames." << std::endl;
+          print_window(_window);
         if(_develop_mode == 2)
         {
           struct timeval t; 
@@ -88,11 +89,15 @@ namespace gr {
           message_port_pub(pmt::mp("reload_request"), frame_in);
         }
         else
-          transmit_window(_window);
+          transmit_window(_window, _txed_index);
       }
       else
       {
+        pmt::pmt_t not_found;
+	int input_index = pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found));
+        std::cout << "the extra frame index is: " << input_index << std::endl;
         // if the whole logic is correct, the else case will never happen.
+        print_window(_window);
         std::cout << "Input frames are more than the window size." << std::endl;
       }
     }
@@ -111,16 +116,24 @@ namespace gr {
         int ack_src = pmt::to_long(pmt::dict_ref(ack_in, pmt::string_to_symbol("source_address"), not_found));
         int ack_index = pmt::to_long(pmt::dict_ref(ack_in, pmt::string_to_symbol("frame_index"), not_found));
         int wait_index = pmt::to_long(pmt::dict_ref(_window.front(), pmt::string_to_symbol("frame_index"), not_found));
-        if((frame_type == 2) && (ack_index == wait_index))
+        std::cout << "acked_index is: " << ack_index << " and wait_index is: " << wait_index << std::endl;
+        if((frame_type == 2) && ((ack_index >= wait_index) || ((ack_index >= (wait_index - 256)) && (ack_index < (wait_index - _window_size)))))
         {
-          _window.pop();
-          if(_develop_mode)
-            std::cout << "frame with index: " << ack_index << " is removed from the window because it is correctly acked. " << std::endl;
+          for(int i = 0; i < ack_index - wait_index + 1; i++)
+          {
+            _window.pop();
+          }
           message_port_pub(pmt::mp("reload_request"), ack_in);
+          if(_develop_mode)
+          {
+            std::cout << "frame with index: " << ack_index << " is removed from the window because it is correctly acked. " << std::endl;
+            print_window(_window);
+          }
         } 
         else
         {
-          transmit_window(_window);
+          std::cout << "ack_index is: " << ack_index << " and wait_index is: " << wait_index << std::endl;
+          transmit_window(_window, _txed_index);
           if(_develop_mode)
             std::cout << "retransmit the whole window due to lost frames." << std::endl;
         }
@@ -129,20 +142,47 @@ namespace gr {
     }
     
     void
-    slide_window_impl::transmit_window(std::queue<pmt::pmt_t> window)
+    slide_window_impl::print_window(std::queue<pmt::pmt_t> window)
     {
+      pmt::pmt_t not_found;
       if(_develop_mode)
-        std::cout << "window is transmitted" << std::endl;
+        std::cout << "current window: [";
       int real_win_size = window.size();
       for(int i = 0; i < real_win_size; i++)
       {
-        if(_develop_mode)
-          std::cout << "frame " << i + 1 << " is transmitted" << std::endl;
-        pmt::pmt_t not_found;
-        double t_frame_us = pmt::u8vector_elements(pmt::cdr(pmt::dict_ref(window.front(), pmt::string_to_symbol("frame_pmt"), not_found))).size() / _bps * 1000000;
-        if(i > 0)
-          boost::this_thread::sleep(boost::posix_time::microseconds(t_frame_us + _interframe_interval_us));
-        message_port_pub(pmt::mp("frame_info_out"), window.front());
+        std::cout << " " << pmt::to_long(pmt::dict_ref(window.front(), pmt::string_to_symbol("frame_index"), not_found)) << " ";
+        window.pop();
+      }
+      std::cout << "]" << std::endl;
+    }
+
+    void
+    slide_window_impl::transmit_window(std::queue<pmt::pmt_t> window, int index)
+    {
+      pmt::pmt_t not_found;
+      int real_win_size = window.size();
+      for(int i = 0; i < real_win_size; i++)
+      {
+        int tx_index = pmt::to_long(pmt::dict_ref(window.front(), pmt::string_to_symbol("frame_index"), not_found));
+        // std::cout << "tx_index is: " << tx_index << " and index is: " << index << std::endl;
+        if((tx_index > index) || (((tx_index + 256) >= index) && ((tx_index + 256) < index + _window_size) && (tx_index < index)))
+        {
+          // std::cout  << " i is : " << i << "current check index is: " << pmt::to_long(pmt::dict_ref(window.front(), pmt::string_to_symbol("frame_index"), not_found)) << " and the last acked index is: " << index << std::endl;
+          if(_develop_mode)
+          {
+            switch(i)
+            {
+              case 0 : std::cout << "the 1st frame in window is transmitted" << std::endl;break;
+              case 1 : std::cout << "the 2nd frame in window is transmitted" << std::endl;break;
+              default : std::cout << "the " << i + 1 << "th frame in window is transmitted" << std::endl;
+            }
+          }
+          double t_frame_us = pmt::u8vector_elements(pmt::cdr(pmt::dict_ref(window.front(), pmt::string_to_symbol("frame_pmt"), not_found))).size() / _bps * 1000000;
+          if(i > 0)
+            boost::this_thread::sleep(boost::posix_time::microseconds(t_frame_us + _interframe_interval_us));
+          message_port_pub(pmt::mp("frame_info_out"), window.front());
+        }
+        _txed_index = pmt::to_long(pmt::dict_ref(window.front(), pmt::string_to_symbol("frame_index"), not_found));
         window.pop();
       }
     }

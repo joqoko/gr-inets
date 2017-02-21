@@ -18,39 +18,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_SLIDE_WINDOW_IMPL_H
-#define INCLUDED_INETS_SLIDE_WINDOW_IMPL_H
 
-#include <inets/slide_window.h>
-#include <queue>
+#ifndef INCLUDED_INETS_FRAME_FILTER_H
+#define INCLUDED_INETS_FRAME_FILTER_H
+
+#include <inets/api.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace inets {
 
-    class slide_window_impl : public slide_window
+    /*!
+     * \brief <+description of block+>
+     * \ingroup inets
+     *
+     */
+    class INETS_API frame_filter : virtual public gr::block
     {
-     private:
-      int _develop_mode;
-      int _block_id;
-      int _window_size;
-      int _protocol;
-      int _txed_index;
-      double _bps;
-      int _interframe_interval_us;
-      std::queue<pmt::pmt_t> _window;  
-      void ack_in(pmt::pmt_t ack_in);
-      void frame_in(pmt::pmt_t frame_in);
-      void transmit_window(std::queue<pmt::pmt_t> window, int index);
-      void print_window(std::queue<pmt::pmt_t> window);
-       
      public:
-      slide_window_impl(int develop_mode, int block_id, int window_size, int protocol, double bps, int interframe_interval_us);
-      ~slide_window_impl();
+      typedef boost::shared_ptr<frame_filter> sptr;
 
+      /*!
+       * \brief Return a shared_ptr to a new instance of inets::frame_filter.
+       *
+       * To avoid accidental use of raw pointers, inets::frame_filter's
+       * constructor is in a private implementation
+       * class. inets::frame_filter::make is the public interface for
+       * creating new instances.
+       */
+      static sptr make(int develop_mode, int block_id, int drop_type, int frame_type, int source_address, int destination_address, int frame_index, int reserved_field_I, int reserved_field_II);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_SLIDE_WINDOW_IMPL_H */
+#endif /* INCLUDED_INETS_FRAME_FILTER_H */
 
