@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_slide_window
 # Author: PWA
-# Generated: Wed Feb 22 11:01:42 2017
+# Generated: Wed Feb 22 17:02:57 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -101,7 +101,7 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
         self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0)
-        self.inets_frame_filter_0 = inets.frame_filter(0, 26, 0, 0, 0, 0, 8, 0, 0)
+        self.inets_frame_filter_0 = inets.frame_filter(0, 26, 100, 0, 0, 0, 8, 0, 0, 2)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_address_check_0 = inets.address_check(0, 17, source_address)
@@ -119,6 +119,7 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_frame_filter_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_framing_1, 'data_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_slide_window_0, 'frame_info_in'))
+        self.msg_connect((self.inets_framing_1, 'frame_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
         self.msg_connect((self.inets_slide_window_0, 'reload_request'), (self.inets_frame_buffer_0, 'dequeue'))
         self.msg_connect((self.inets_slide_window_0, 'frame_info_out'), (self.inets_sending_0, 'in'))

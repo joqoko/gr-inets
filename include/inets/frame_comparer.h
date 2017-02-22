@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_FRAME_FILTER_H
-#define INCLUDED_INETS_FRAME_FILTER_H
+#ifndef INCLUDED_INETS_FRAME_COMPARER_H
+#define INCLUDED_INETS_FRAME_COMPARER_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API frame_filter : virtual public gr::block
+    class INETS_API frame_comparer : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<frame_filter> sptr;
+      typedef boost::shared_ptr<frame_comparer> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::frame_filter.
+       * \brief Return a shared_ptr to a new instance of inets::frame_comparer.
        *
-       * To avoid accidental use of raw pointers, inets::frame_filter's
+       * To avoid accidental use of raw pointers, inets::frame_comparer's
        * constructor is in a private implementation
-       * class. inets::frame_filter::make is the public interface for
+       * class. inets::frame_comparer::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int drop_type, int frame_type, int source_address, int destination_address, int frame_index, int reserved_field_I, int reserved_field_II, int nunmber_of_filtering);
+      static sptr make(int develop_mode, int block_id, int what_to_compare);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_FILTER_H */
+#endif /* INCLUDED_INETS_FRAME_COMPARER_H */
 

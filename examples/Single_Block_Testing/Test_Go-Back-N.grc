@@ -641,7 +641,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(352, 128)</value>
+      <value>(168, 256)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1003,7 +1003,7 @@
     </param>
     <param>
       <key>drop_type</key>
-      <value>0</value>
+      <value>100</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1019,7 +1019,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(568, 532)</value>
+      <value>(560, 540)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1036,6 +1036,14 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>number_of_filtering</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>output_filtered_frame</key>
+      <value>1</value>
     </param>
     <param>
       <key>reserved_field_I</key>
@@ -1773,6 +1781,12 @@
     <sink_block_id>inets_slide_window_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_framing_1</source_block_id>
+    <sink_block_id>inets_sending_0</sink_block_id>
+    <source_key>frame_out</source_key>
+    <sink_key>in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_receiving_0</source_block_id>

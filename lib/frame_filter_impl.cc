@@ -29,16 +29,16 @@ namespace gr {
   namespace inets {
 
     frame_filter::sptr
-    frame_filter::make(int develop_mode, int block_id, int drop_type, int frame_type, int source_address, int destination_address, int frame_index, int reserved_field_I, int reserved_field_II)
+    frame_filter::make(int develop_mode, int block_id, int drop_type, int frame_type, int source_address, int destination_address, int frame_index, int reserved_field_I, int reserved_field_II, int number_of_filtering)
     {
       return gnuradio::get_initial_sptr
-        (new frame_filter_impl(develop_mode, block_id, drop_type, frame_type, source_address, destination_address, frame_index, reserved_field_I, reserved_field_II));
+        (new frame_filter_impl(develop_mode, block_id, drop_type, frame_type, source_address, destination_address, frame_index, reserved_field_I, reserved_field_II, number_of_filtering));
     }
 
     /*
      * The private constructor
      */
-    frame_filter_impl::frame_filter_impl(int develop_mode, int block_id, int drop_type, int frame_type, int source_address, int destination_address, int frame_index, int reserved_field_I, int reserved_field_II)
+    frame_filter_impl::frame_filter_impl(int develop_mode, int block_id, int drop_type, int frame_type, int source_address, int destination_address, int frame_index, int reserved_field_I, int reserved_field_II, int number_of_filtering)
       : gr::block("frame_filter",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -50,13 +50,15 @@ namespace gr {
         _frame_index(frame_index),
         _frame_type(frame_type),
         _reserved_field_I(reserved_field_I),
-        _reserved_field_II(reserved_field_II)
+        _reserved_field_II(reserved_field_II),
+        _number_of_filtering(number_of_filtering)
     {
       if(_develop_mode)
         std::cout << "develop_mode of frame_filter id: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in")); 
       set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&frame_filter_impl::filtering, this, _1));
       message_port_register_out(pmt::mp("frame_info_out"));
+      message_port_register_out(pmt::mp("filtered_frame_info_out"));
     }
 
     /*
@@ -70,65 +72,110 @@ namespace gr {
     frame_filter_impl::filtering(pmt::pmt_t frame_in)
     {
       pmt::pmt_t not_found;
-      if(_develop_mode)
-        std::cout << "+++++++ frame_filter ID: " << _block_id << " get a frame +++++++" << std::endl;
-      switch(_drop_type)
+      if(_number_of_filtering > 0)
       {
-        // case 0: frame_index
-        case 0 :  
-          {
-            if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) != _frame_index)
+        //if(_develop_mode)
+         // std::cout << "+++++++ frame_filter ID: " << _block_id << " get a frame +++++++" << std::endl;
+        switch(_drop_type)
+        {
+          // case 0: frame_index
+          case 0 :  
             {
-              message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) != _frame_index)
+              {
+                message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              }
+              else
+              {
+                if(_develop_mode)
+                std::cout << "successfully filtered one targeted frame." << std::endl;
+                _number_of_filtering--;
+                message_port_pub(pmt::mp("filtered_frame_info_out"), frame_in);
+              }
+              break;
             }
-            break;
-          }
-        case 1 : 
-          {
-            if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_type"), not_found)) != _frame_type)
+          case 1 : 
             {
-              message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_type"), not_found)) != _frame_type)
+              {
+                message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              }
+              else
+              {
+                if(_develop_mode)
+                std::cout << "successfully filtered one targeted frame." << std::endl;
+                _number_of_filtering--;
+                message_port_pub(pmt::mp("filtered_frame_info_out"), frame_in);
+              }
+              break;
             }
-            break;
-          }
-        case 2 :  
-          {
-            if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found)) != _source_address)
+          case 2 :  
             {
-              message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found)) != _source_address)
+              {
+                message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              }
+              else
+              {
+                if(_develop_mode)
+                std::cout << "successfully filtered one targeted frame." << std::endl;
+                _number_of_filtering--;
+                message_port_pub(pmt::mp("filtered_frame_info_out"), frame_in);
+              }
+              break;
             }
-            break;
-          }
-        case 3 :  
-          {
-            if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("destination_address"), not_found)) != _source_address)
+          case 3 :  
             {
-              message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("destination_address"), not_found)) != _source_address)
+              {
+                message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              }
+              else
+              {
+                if(_develop_mode)
+                std::cout << "successfully filtered one targeted frame." << std::endl;
+                _number_of_filtering--;
+                message_port_pub(pmt::mp("filtered_frame_info_out"), frame_in);
+              }
+              break;
             }
-            break;
-          }
-        case 4 :  
-          {
-            if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("reserved_field_I"), not_found)) != _source_address)
+          case 4 :  
             {
-              message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("reserved_field_I"), not_found)) != _source_address)
+              {
+                message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              }
+              else
+              {
+                if(_develop_mode)
+                std::cout << "successfully filtered one targeted frame." << std::endl;
+                _number_of_filtering--;
+                message_port_pub(pmt::mp("filtered_frame_info_out"), frame_in);
+              }
+              break;
             }
-            break;
-          }
-        case 5 :  
-          {
-            if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("reserved_field_II"), not_found)) != _source_address)
+          case 5 :  
             {
-              message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              if(pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("reserved_field_II"), not_found)) != _source_address)
+              {
+                message_port_pub(pmt::mp("frame_info_out"), frame_in);
+              }
+              else
+              {
+                if(_develop_mode)
+                std::cout << "successfully filtered one targeted frame." << std::endl;
+                _number_of_filtering--;
+                message_port_pub(pmt::mp("filtered_frame_info_out"), frame_in);
+              }
+              break;
             }
-            break;
-          }
-        default:
-          {
-            if(_develop_mode)
-              std::cout << "No frame is filtered. " << std::endl;
-            message_port_pub(pmt::mp("frame_info_out"), frame_in);
-          }    
+          default:
+            {
+              if(_develop_mode)
+                std::cout << "No frame is filtered. " << std::endl;
+              message_port_pub(pmt::mp("frame_info_out"), frame_in);
+            }    
+        }
       }
     }
 

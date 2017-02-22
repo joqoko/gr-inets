@@ -1395,7 +1395,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1545,7 +1545,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1633,6 +1633,10 @@
     <param>
       <key>id</key>
       <value>inets_timeout_0</value>
+    </param>
+    <param>
+      <key>llc_protocol</key>
+      <value>0</value>
     </param>
     <param>
       <key>maxoutbuf</key>

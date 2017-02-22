@@ -66,5 +66,6 @@ install(FILES
     inets_dummy_source.xml
     inets_resend_check.xml
     inets_slide_window.xml
-    inets_frame_filter.xml DESTINATION share/gnuradio/grc/blocks
+    inets_frame_filter.xml
+    inets_frame_comparer.xml DESTINATION share/gnuradio/grc/blocks
 )

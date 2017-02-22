@@ -4,7 +4,7 @@
   <key>inets_frame_filter</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.frame_filter($develop_mode, $block_id, $drop_type, $frame_type, $source_address, $destination_address, $frame_index, $reserved_field_I, $reserved_field_II)</make>
+  <make>inets.frame_filter($develop_mode, $block_id, $drop_type, $frame_type, $source_address, $destination_address, $frame_index, $reserved_field_I, $reserved_field_II, $number_of_filtering)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -120,6 +120,15 @@
   </param>
 
   <param>
+    <name>Number of filtering</name>
+    <key>number_of_filtering</key>
+    <value>1</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+
+  <param>
     <name>Frame index</name>
     <key>frame_index</key>
     <value>0</value>
@@ -167,6 +176,21 @@
     <hide>$drop_type.hide_reII</hide>
   </param>
 
+  <param>
+    <name>Output filtered frame</name>
+    <key>output_filtered_frame</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -187,5 +211,11 @@
     <name>frame_info_out</name>
     <type>message</type>
     <optional>1</optional>
+  </source>
+  <source>
+    <name>filtered_frame_info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_filtered_frame</hide>
   </source>
 </block>

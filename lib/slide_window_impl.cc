@@ -124,28 +124,44 @@ namespace gr {
         int ack_index = pmt::to_long(pmt::dict_ref(ack_in, pmt::string_to_symbol("frame_index"), not_found));
         int wait_index = pmt::to_long(pmt::dict_ref(_window.front(), pmt::string_to_symbol("frame_index"), not_found));
         if(_develop_mode)
-          std::cout << "acked_index is: " << ack_index << " and wait_index is: " << wait_index << std::endl;
-        if((frame_type == 2) && ((ack_index >= wait_index) || ((ack_index >= (wait_index - _max_index)) && (ack_index < (wait_index - _window_size)))))
+          std::cout << "acked_index is: " << ack_index << " and wait_index is: " << wait_index << " and the frame_type is: " << frame_type << std::endl;
+        if(frame_type == 2)
         {
-          for(int i = 0; i < ack_index - wait_index + 1; i++)
+          if((ack_index >= wait_index) || ((ack_index >= (wait_index - _max_index)) && (ack_index < (wait_index - _window_size))))
           {
-            _window.pop();
+            for(int i = 0; i < ack_index - wait_index + 1; i++)
+            {
+              _window.pop();
+            }
+            message_port_pub(pmt::mp("reload_request"), ack_in);
+            if(_develop_mode)
+            {
+              std::cout << "frame with index: " << ack_index << " is removed from the window because it is correctly acked. " << std::endl;
+              print_window(_window);
+            }
+          } 
+          else
+          {
+            if(_develop_mode)
+            {
+              std::cout << "ack_index is: " << ack_index << " and wait_index is: " << wait_index << std::endl;
+              std::cout << "retransmit the whole window due to lost frames." << std::endl;
+            }
+            transmit_window(_window, _txed_index);
           }
-          message_port_pub(pmt::mp("reload_request"), ack_in);
+        }
+        else if(frame_type == pmt::to_long(pmt::dict_ref(_window.front(), pmt::string_to_symbol("frame_type"), not_found)))
+        {
           if(_develop_mode)
           {
-            std::cout << "frame with index: " << ack_index << " is removed from the window because it is correctly acked. " << std::endl;
-            print_window(_window);
+            std::cout << "retransmit the whole window because the timeout timer expired." << std::endl;
           }
-        } 
+          _txed_index = wait_index - 1;
+          transmit_window(_window, _txed_index);
+        }
         else
         {
-          if(_develop_mode)
-          {
-            std::cout << "ack_index is: " << ack_index << " and wait_index is: " << wait_index << std::endl;
-            std::cout << "retransmit the whole window due to lost frames." << std::endl;
-          }
-          transmit_window(_window, _txed_index);
+          std::cout << "slide_window: please only connect correct type of frame to the ack_frame_in port" << std::endl;
         }
       }
       

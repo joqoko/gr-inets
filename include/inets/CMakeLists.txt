@@ -63,6 +63,7 @@ install(FILES
     dummy_source.h
     resend_check.h
     slide_window.h
-    frame_filter.h DESTINATION include/inets
+    frame_filter.h
+    frame_comparer.h DESTINATION include/inets
 
 )

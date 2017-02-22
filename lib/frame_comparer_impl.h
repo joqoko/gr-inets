@@ -18,37 +18,33 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_FRAME_FILTER_IMPL_H
-#define INCLUDED_INETS_FRAME_FILTER_IMPL_H
+#ifndef INCLUDED_INETS_FRAME_COMPARER_IMPL_H
+#define INCLUDED_INETS_FRAME_COMPARER_IMPL_H
 
-#include <inets/frame_filter.h>
+#include <inets/frame_comparer.h>
 
 namespace gr {
   namespace inets {
 
-    class frame_filter_impl : public frame_filter
+    class frame_comparer_impl : public frame_comparer
     {
      private:
       int _develop_mode;
       int _block_id;
-      int _drop_type;
-      int _source_address;
-      int _destination_address;
-      int _frame_index;
-      int _frame_type;
-      int _reserved_field_I;
-      int _reserved_field_II; 
-      int _number_of_filtering;
-      void filtering(pmt::pmt_t frame_in);
+      int _what_to_comapre;
+      pmt::pmt_t _frame_one;
 
+      void start_compare(pmt::pmt_t frame_one);
+      void do_compare(pmt::pmt_t frame_two);
+     
      public:
-      frame_filter_impl(int develop_mode, int block_id, int drop_type, int frame_type, int source_address, int destination_address, int frame_index, int reserved_field_I, int reserved_field_II, int number_of_filtering);
-      ~frame_filter_impl();
+      frame_comparer_impl(int develop_mode, int block_id, int what_to_compare);
+      ~frame_comparer_impl();
 
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_FILTER_IMPL_H */
+#endif /* INCLUDED_INETS_FRAME_COMPARER_IMPL_H */
 
