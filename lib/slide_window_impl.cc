@@ -29,16 +29,16 @@ namespace gr {
   namespace inets {
 
     slide_window::sptr
-    slide_window::make(int develop_mode, int block_id, int window_size, int protocol, double bps, int interframe_interval_us)
+    slide_window::make(int develop_mode, int block_id, int window_size, int protocol, double bps, int interframe_interval_us, int frame_index_length)
     {
       return gnuradio::get_initial_sptr
-        (new slide_window_impl(develop_mode, block_id, window_size, protocol, bps, interframe_interval_us));
+        (new slide_window_impl(develop_mode, block_id, window_size, protocol, bps, interframe_interval_us, frame_index_length));
     }
 
     /*
      * The private constructor
      */
-    slide_window_impl::slide_window_impl(int develop_mode, int block_id, int window_size, int protocol, double bps, int interframe_interval_us)
+    slide_window_impl::slide_window_impl(int develop_mode, int block_id, int window_size, int protocol, double bps, int interframe_interval_us, int frame_index_length)
       : gr::block("slide_window",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -48,10 +48,13 @@ namespace gr {
         _protocol(protocol),
         _bps(bps),
         _txed_index(0),
+        _frame_index_length(frame_index_length),
         _interframe_interval_us(interframe_interval_us)
     {
       if(_develop_mode)
         std::cout << "develop_mode of slide_window id: " << _block_id << " is activated." << std::endl;
+      _max_index = 1 << (8 * _frame_index_length);
+      std::cout << "_max_index is: " << _max_index << std::endl;
       message_port_register_in(pmt::mp("frame_info_in")); 
       set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&slide_window_impl::frame_in, this, _1));
       message_port_register_in(pmt::mp("ack_info_in")); 
@@ -89,7 +92,11 @@ namespace gr {
           message_port_pub(pmt::mp("reload_request"), frame_in);
         }
         else
+        {
+          // std::cout << "what is the _txed_index: " << _txed_index << std::endl;
           transmit_window(_window, _txed_index);
+        //  std::cout << "what is the _txed_index after: " << _txed_index << std::endl;
+        }
       }
       else
       {
@@ -116,8 +123,9 @@ namespace gr {
         int ack_src = pmt::to_long(pmt::dict_ref(ack_in, pmt::string_to_symbol("source_address"), not_found));
         int ack_index = pmt::to_long(pmt::dict_ref(ack_in, pmt::string_to_symbol("frame_index"), not_found));
         int wait_index = pmt::to_long(pmt::dict_ref(_window.front(), pmt::string_to_symbol("frame_index"), not_found));
-        std::cout << "acked_index is: " << ack_index << " and wait_index is: " << wait_index << std::endl;
-        if((frame_type == 2) && ((ack_index >= wait_index) || ((ack_index >= (wait_index - 256)) && (ack_index < (wait_index - _window_size)))))
+        if(_develop_mode)
+          std::cout << "acked_index is: " << ack_index << " and wait_index is: " << wait_index << std::endl;
+        if((frame_type == 2) && ((ack_index >= wait_index) || ((ack_index >= (wait_index - _max_index)) && (ack_index < (wait_index - _window_size)))))
         {
           for(int i = 0; i < ack_index - wait_index + 1; i++)
           {
@@ -132,10 +140,12 @@ namespace gr {
         } 
         else
         {
-          std::cout << "ack_index is: " << ack_index << " and wait_index is: " << wait_index << std::endl;
-          transmit_window(_window, _txed_index);
           if(_develop_mode)
+          {
+            std::cout << "ack_index is: " << ack_index << " and wait_index is: " << wait_index << std::endl;
             std::cout << "retransmit the whole window due to lost frames." << std::endl;
+          }
+          transmit_window(_window, _txed_index);
         }
       }
       
@@ -157,17 +167,17 @@ namespace gr {
     }
 
     void
-    slide_window_impl::transmit_window(std::queue<pmt::pmt_t> window, int index)
+    slide_window_impl::transmit_window(std::queue<pmt::pmt_t> window, int txed_index)
     {
       pmt::pmt_t not_found;
       int real_win_size = window.size();
       for(int i = 0; i < real_win_size; i++)
       {
-        int tx_index = pmt::to_long(pmt::dict_ref(window.front(), pmt::string_to_symbol("frame_index"), not_found));
-        // std::cout << "tx_index is: " << tx_index << " and index is: " << index << std::endl;
-        if((tx_index > index) || (((tx_index + 256) >= index) && ((tx_index + 256) < index + _window_size) && (tx_index < index)))
+        int index = pmt::to_long(pmt::dict_ref(window.front(), pmt::string_to_symbol("frame_index"), not_found));
+        // std::cout << "index is: " << index << " and txed_index is: " << txed_index << std::endl;
+        if(((index > txed_index) && index <= (txed_index + _window_size)) || (((index - _max_index) > txed_index) && ((index - _max_index) <= (txed_index + _window_size)) && (index < txed_index)))
         {
-          // std::cout  << " i is : " << i << "current check index is: " << pmt::to_long(pmt::dict_ref(window.front(), pmt::string_to_symbol("frame_index"), not_found)) << " and the last acked index is: " << index << std::endl;
+          // std::cout  << " i is : " << i << ", current check index is: " << index << " and the last acked index is: " << txed_index << std::endl;
           if(_develop_mode)
           {
             switch(i)

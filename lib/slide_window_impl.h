@@ -35,6 +35,8 @@ namespace gr {
       int _window_size;
       int _protocol;
       int _txed_index;
+      int _frame_index_length;
+      int _max_index;
       double _bps;
       int _interframe_interval_us;
       std::queue<pmt::pmt_t> _window;  
@@ -44,7 +46,7 @@ namespace gr {
       void print_window(std::queue<pmt::pmt_t> window);
        
      public:
-      slide_window_impl(int develop_mode, int block_id, int window_size, int protocol, double bps, int interframe_interval_us);
+      slide_window_impl(int develop_mode, int block_id, int window_size, int protocol, double bps, int interframe_interval_us, int frame_index_length);
       ~slide_window_impl();
 
     };

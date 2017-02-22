@@ -1078,7 +1078,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1096, 440)</value>
+      <value>(1176, 296)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1200,7 +1200,7 @@
     </param>
     <param>
       <key>default_framing_setting</key>
-      <value>default</value>
+      <value>customized</value>
     </param>
     <param>
       <key>destination_address</key>
@@ -1625,6 +1625,10 @@
     <param>
       <key>_enabled</key>
       <value>True</value>
+    </param>
+    <param>
+      <key>frame_index_length</key>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>

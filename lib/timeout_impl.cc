@@ -143,7 +143,8 @@ namespace gr {
           int wait_index = pmt::to_long(pmt::dict_ref(_window.front(), pmt::string_to_symbol("frame_index"), not_found));
           if(_in_timeout)
           {
-            std::cout << "frame type: " << frame_type << " ack_dest: " << ack_dest << " wait_src: " << wait_src << " ack_src: " << ack_src << "wait_dest: " << wait_dest << " ack_index: " << ack_index << " wait_index: " << wait_index << std::endl;
+            if(_develop_mode)
+              std::cout << "frame type: " << frame_type << " ack_dest: " << ack_dest << " wait_src: " << wait_src << " ack_src: " << ack_src << "wait_dest: " << wait_dest << " ack_index: " << ack_index << " wait_index: " << wait_index << std::endl;
             if((frame_type == 2) && (ack_dest == wait_src) && (ack_src == wait_dest) && (ack_index >= wait_index))
             { 
               message_port_pub(pmt::mp("frame_info_out"), ack_frame_info);

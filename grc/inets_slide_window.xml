@@ -4,7 +4,7 @@
   <key>inets_slide_window</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.slide_window($develop_mode, $block_id, $window_size, $protocol, $bps, $interframe_interval_us)</make>
+  <make>inets.slide_window($develop_mode, $block_id, $window_size, $protocol, $bps, $interframe_interval_us, $frame_index_length)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -81,6 +81,14 @@
     <type>real</type>
     <hide>part</hide>
 </param>
+
+  <param>
+    <name>Frame index length</name>
+    <key>frame_index_length</key>
+    <value>1</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
