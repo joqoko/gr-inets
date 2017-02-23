@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::frame_comparer::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int what_to_compare);
+      static sptr make(int develop_mode, int block_id, int what_to_compare, int single_input);
     };
 
   } // namespace inets

@@ -52,6 +52,7 @@ Index		block name				Categories
  24		resend_check				inets_dmf_mac
  25             frame_type_check			inets_dmf_mac
  26		frame_filtering				inets_dmf_tool
+ 27		frame_comparer				inets_dmf_tool
  100+		frame_probe				inets_dmf_tool
 
 

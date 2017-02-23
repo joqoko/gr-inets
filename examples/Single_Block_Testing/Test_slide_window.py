@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_slide_window
 # Author: PWA
-# Generated: Wed Feb 22 17:02:57 2017
+# Generated: Wed Feb 22 21:32:01 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -102,6 +102,7 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
         self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0)
         self.inets_frame_filter_0 = inets.frame_filter(0, 26, 100, 0, 0, 0, 8, 0, 0, 2)
+        self.inets_frame_comparer_0 = inets.frame_comparer(0, 27, 0)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_address_check_0 = inets.address_check(0, 17, source_address)

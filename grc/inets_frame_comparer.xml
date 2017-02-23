@@ -2,18 +2,224 @@
 <block>
   <name>frame_comparer</name>
   <key>inets_frame_comparer</key>
-  <category>[inets]</category>
+  <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.frame_comparer($develop_mode, $block_id, $what_to_compare)</make>
+  <make>inets.frame_comparer($develop_mode, $block_id, $what_to_compare, $single_input)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
+
   <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>27</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Single input?</name>
+    <key>single_input</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>What to compare</name>
+    <key>what_to_compare</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Frame index</name>
+      <key>0</key>
+      <opt>hide_index:part</opt>
+      <opt>hide_reI:all</opt>
+      <opt>hide_reII:all</opt>
+    </option>
+    <option>
+      <name>Reserved field I</name>
+      <key>1</key>
+      <opt>hide_index:all</opt>
+      <opt>hide_reI:part</opt>
+      <opt>hide_reII:all</opt>
+    </option>
+    <option>
+      <name>Reserved field II</name>
+      <key>2</key>
+      <opt>hide_index:all</opt>
+      <opt>hide_reI:all</opt>
+      <opt>hide_reII:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Higher index Frame</name>
+    <key>output_higher_index_frame</key>
+    <type>enum</type>
+    <hide>$what_to_compare.hide_index</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Lower index Frame</name>
+    <key>output_lower_index_frame</key>
+    <type>enum</type>
+    <hide>$what_to_compare.hide_index</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Equal index Frame</name>
+    <key>output_equal_index_frame</key>
+    <type>enum</type>
+    <hide>$what_to_compare.hide_index</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Higher reI Frame</name>
+    <key>output_higher_reI_frame</key>
+    <type>enum</type>
+    <hide>$what_to_compare.hide_reI</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Lower reI Frame</name>
+    <key>output_lower_reI_frame</key>
+    <type>enum</type>
+    <hide>$what_to_compare.hide_reI</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Equal reI Frame</name>
+    <key>output_equal_reI_frame</key>
+    <type>enum</type>
+    <hide>$what_to_compare.hide_reI</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Higher reII Frame</name>
+    <key>output_higher_reII_frame</key>
+    <type>enum</type>
+    <hide>$what_to_compare.hide_reII</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Lower reII Frame</name>
+    <key>output_lower_reII_frame</key>
+    <type>enum</type>
+    <hide>$what_to_compare.hide_reII</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Equal reII Frame</name>
+    <key>output_equal_reII_frame</key>
+    <type>enum</type>
+    <hide>$what_to_compare.hide_reII</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -22,17 +228,74 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>in</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>frame_A_in</name>
+    <type>message</type>
+    <optional>1</optional>
   </sink>
 
+  <sink>
+    <name>frame_B_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$single_input</hide>
+  </sink>
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>higher_indexed_frame</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_higher_index_frame</hide>
+  </source>
+  <source>
+    <name>lower_indexed_frame</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_lower_index_frame</hide>
+  </source>
+  <source>
+    <name>same_indexed_frame</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_equal_index_frame</hide>
+  </source>
+  <source>
+    <name>higher_reI_frame</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_higher_reI_frame</hide>
+  </source>
+  <source>
+    <name>lower_reI_frame</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_lower_reI_frame</hide>
+  </source>
+  <source>
+    <name>same_reI_frame</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_equal_reI_frame</hide>
+  </source>
+  <source>
+    <name>higher_reII_frame</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_higher_reII_frame</hide>
+  </source>
+  <source>
+    <name>lower_reII_frame</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_lower_reII_frame</hide>
+  </source>
+  <source>
+    <name>same_reII_frame</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_equal_reII_frame</hide>
   </source>
 </block>

@@ -31,14 +31,17 @@ namespace gr {
      private:
       int _develop_mode;
       int _block_id;
-      int _what_to_comapre;
-      pmt::pmt_t _frame_one;
+      int _what_to_compare;
+      int _single_input;
+      pmt::pmt_t _frame_A;
+      pmt::pmt_t _frame_B;
 
-      void start_compare(pmt::pmt_t frame_one);
-      void do_compare(pmt::pmt_t frame_two);
+      void start_compare_A(pmt::pmt_t frame_A);
+      void start_compare_B(pmt::pmt_t frame_B);
+      void compare();
      
      public:
-      frame_comparer_impl(int develop_mode, int block_id, int what_to_compare);
+      frame_comparer_impl(int develop_mode, int block_id, int what_to_compare, int single_input);
       ~frame_comparer_impl();
 
     };
