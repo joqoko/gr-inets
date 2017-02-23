@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::framing::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu);
+      static sptr make(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu, std::vector<unsigned int> &node_list, std::vector<unsigned int> &duration_list_ms);
     };
 
   } // namespace inets

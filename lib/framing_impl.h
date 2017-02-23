@@ -53,6 +53,8 @@ namespace gr {
       int _len_payload_length; // Bytes
       int _increase_index;
       int _len_num_transmission;
+      std::vector<unsigned int> _node_list;
+      std::vector<unsigned int> _duration_list_ms;
       boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
       void catagorization(pmt::pmt_t data_in);
@@ -70,7 +72,7 @@ namespace gr {
       int get_frame_header_length();
 
      public:
-      framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu);
+      framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu, std::vector<unsigned int> &node_list, std::vector<unsigned int> &duration_list_ms);
       ~framing_impl();
 
     };

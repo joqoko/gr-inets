@@ -4,7 +4,7 @@
   <key>inets_framing</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.framing($develop_mode, $block_id, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission, $reserved_field_ampdu)</make>
+  <make>inets.framing($develop_mode, $block_id, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission, $reserved_field_ampdu, $node_list, $duration_list_ms)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -272,6 +272,22 @@
     <value>1</value>
     <type>int</type>
     <hide>$default_framing_setting.hide</hide>
+  </param>
+
+  <param>
+    <name>Node list</name>
+    <key>node_list</key>
+    <value>[]</value>
+    <type>int_vector</type>
+    <hide>$frame_type.hide_beacon</hide>
+  </param>
+
+  <param>
+    <name>Duration [ms]</name>
+    <key>duration_list_ms</key>
+    <value>[]</value>
+    <type>int_vector</type>
+    <hide>$frame_type.hide_beacon</hide>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
