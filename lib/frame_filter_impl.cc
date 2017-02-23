@@ -177,6 +177,8 @@ namespace gr {
             }    
         }
       }
+      else
+        message_port_pub(pmt::mp("frame_info_out"), frame_in);
     }
 
 
