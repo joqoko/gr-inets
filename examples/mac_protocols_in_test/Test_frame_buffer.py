@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_frame_buffer
 # Author: PWA
-# Generated: Wed Feb 22 16:55:42 2017
+# Generated: Fri Feb 24 10:43:57 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -64,7 +64,7 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
-        self.tx_center_frequency = tx_center_frequency = 3.8e8
+        self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.timeout_duration_ms = timeout_duration_ms = 500
         self.system_time_granularity_us = system_time_granularity_us = 10000
         self.source_address = source_address = 1
@@ -109,6 +109,7 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_timeout_0, 'data_frame_info_in'))
         self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_framing_1, 'data_in'))
         self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_0, 'ack_frame_info_in'))
         self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_counter_0, 'message_in'))
@@ -119,7 +120,6 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
         self.msg_connect((self.inets_resend_check_0, 'resend_check_fail_out'), (self.inets_frame_buffer_0, 'dequeue'))
         self.msg_connect((self.inets_resend_check_0, 'resend_check_pass_out'), (self.inets_sending_0, 'in'))
-        self.msg_connect((self.inets_sending_0, 'tx_frame_info_out'), (self.inets_timeout_0, 'data_frame_info_in'))
         self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
 
     def closeEvent(self, event):

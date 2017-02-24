@@ -64,6 +64,7 @@ install(FILES
     resend_check.h
     slide_window.h
     frame_filter.h
-    frame_comparer.h DESTINATION include/inets
+    frame_comparer.h
+    frame_index_check.h DESTINATION include/inets
 
 )

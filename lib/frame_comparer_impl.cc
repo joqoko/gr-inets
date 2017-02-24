@@ -95,17 +95,14 @@ namespace gr {
     void
     frame_comparer_impl::start_compare_A(pmt::pmt_t frame_A)
     {
-      std::cout << "here 1" << std::endl;
       // _single_input true means two port are activated.
       if(_single_input)
       {
         if(pmt::is_dict(frame_A))
         {
-          std::cout << "here 2" << std::endl;
           _frame_A = frame_A;
           if(pmt::is_dict(_frame_B))
           {
-            std::cout << "here 3" << std::endl;
             compare();
           }
         }
@@ -236,8 +233,16 @@ namespace gr {
               std::cout << "No frame is filtered. " << std::endl;
           }
       }
-      _frame_A = pmt::from_long(0);
-      _frame_B = pmt::from_long(0);
+      if(_single_input)
+      {
+        _frame_A = pmt::from_long(0);
+        _frame_B = pmt::from_long(0);
+      }
+      else
+      {
+        _frame_A = _frame_B;
+        _frame_B = pmt::from_long(0);
+      }
     }
 
   } /* namespace inets */

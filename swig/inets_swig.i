@@ -51,6 +51,7 @@
 #include "inets/slide_window.h"
 #include "inets/frame_filter.h"
 #include "inets/frame_comparer.h"
+#include "inets/frame_index_check.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -157,3 +158,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, slide_window);
 GR_SWIG_BLOCK_MAGIC2(inets, frame_filter);
 %include "inets/frame_comparer.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_comparer);
+%include "inets/frame_index_check.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_index_check);
