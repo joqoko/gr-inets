@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_slide_window
 # Author: PWA
-# Generated: Fri Feb 24 17:11:00 2017
+# Generated: Sat Feb 25 02:13:43 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -100,11 +100,12 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         self.inets_framing_1 = inets.framing(0, 17, 2, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0)
-        self.inets_frame_index_check_0 = inets.frame_index_check(1, 28, 1, 1, 1)
+        self.inets_frame_probe_0 = inets.frame_probe(1, 100, 0)
+        self.inets_frame_index_check_0 = inets.frame_index_check(1, 28, 1, 1, 1, 1, 1)
         self.inets_frame_filter_1 = inets.frame_filter(0, 26, 0, 0, 0, 0, 8, 0, 0, 1)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 2, 20)
         self.inets_address_check_0 = inets.address_check(0, 17, source_address)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
@@ -112,11 +113,13 @@ class Test_slide_window(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_frame_buffer_0, 'enqueue'))
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_frame_filter_1, 'frame_info_out'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_frame_index_check_0, 'frame_info_out'), (self.inets_frame_probe_0, 'info_in'))
         self.msg_connect((self.inets_frame_index_check_0, 'frame_info_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_framing_1, 'data_in'))
         self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_0, 'ack_frame_info_in'))

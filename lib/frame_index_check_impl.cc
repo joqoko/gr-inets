@@ -29,16 +29,16 @@ namespace gr {
   namespace inets {
 
     frame_index_check::sptr
-    frame_index_check::make(int develop_mode, int block_id, int difference, int no_wait, int output_fail)
+    frame_index_check::make(int develop_mode, int block_id, int difference, int no_wait, int output_fail, int reset_1st, int length_frame_index)
     {
       return gnuradio::get_initial_sptr
-        (new frame_index_check_impl(develop_mode, block_id, difference, no_wait, output_fail));
+        (new frame_index_check_impl(develop_mode, block_id, difference, no_wait, output_fail, reset_1st, length_frame_index));
     }
 
     /*
      * The private constructor
      */
-    frame_index_check_impl::frame_index_check_impl(int develop_mode, int block_id, int difference, int no_wait, int output_fail)
+    frame_index_check_impl::frame_index_check_impl(int develop_mode, int block_id, int difference, int no_wait, int output_fail, int reset_1st, int length_frame_index)
       : gr::block("frame_index_check",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -46,7 +46,9 @@ namespace gr {
         _block_id(block_id),
         _difference(difference),
         _no_wait(no_wait),
-        _output_fail(output_fail)
+        _output_fail(output_fail),
+        _reset_1st(reset_1st),
+        _length_frame_index(length_frame_index)
     {
       if(_develop_mode)
         std::cout << "develop_mode of frame_index_check ID: " << _block_id << " is activated." << std::endl;
@@ -70,8 +72,18 @@ namespace gr {
     void
     frame_index_check_impl::start_check(pmt::pmt_t frame)
     {
+      pmt::pmt_t not_found;
       if(pmt::is_dict(frame))
       {
+        if(_reset_1st)
+        {
+          int index = pmt::to_long(pmt::dict_ref(frame, pmt::string_to_symbol("frame_index"), not_found));
+          if(index == 1)
+          {
+            _frame_A = pmt::from_long(0);
+            _frame_B = pmt::from_long(0);
+          }
+        }
         if(pmt::is_dict(_frame_A))
         {
           if(_develop_mode)
@@ -98,7 +110,8 @@ namespace gr {
       pmt::pmt_t not_found;
       int frame_A_data = pmt::to_long(pmt::dict_ref(_frame_A, pmt::string_to_symbol("frame_index"), not_found));
       int frame_B_data = pmt::to_long(pmt::dict_ref(_frame_B, pmt::string_to_symbol("frame_index"), not_found));
-      if((frame_A_data - frame_B_data) == _difference)
+      std::cout << "frame_A index: " << frame_A_data << "frame B index: " << frame_B_data << std::endl;
+      if((frame_B_data - frame_A_data) == _difference)
       {
         if(_develop_mode)
           std::cout << "the difference of index of the comming frames is" << _difference << std::endl;

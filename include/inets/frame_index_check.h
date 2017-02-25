@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::frame_index_check::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int difference, int no_wait, int output_fail);
+      static sptr make(int develop_mode, int block_id, int difference, int no_wait, int output_fail, int reset_1st, int length_frame_index);
     };
 
   } // namespace inets

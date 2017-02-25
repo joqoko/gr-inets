@@ -36,11 +36,13 @@ namespace gr {
       pmt::pmt_t _frame_B;
       int _output_fail;
       int _no_wait;
+      int _reset_1st;
+      int _length_frame_index;
       void start_check(pmt::pmt_t frame);
       void compare();
 
      public:
-      frame_index_check_impl(int develop_mode, int block_id, int difference, int no_wait, int output_fail);
+      frame_index_check_impl(int develop_mode, int block_id, int difference, int no_wait, int output_fail, int reset_1st, int length_frame_index);
       ~frame_index_check_impl();
 
     };

@@ -4,7 +4,7 @@
   <key>inets_frame_index_check</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.frame_index_check($develop_mode, $block_id, $difference, $no_wait, $output_fail)</make>
+  <make>inets.frame_index_check($develop_mode, $block_id, $difference, $no_wait, $output_fail, $reset_1st, $length_frame_index)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -80,6 +80,22 @@
       <name>No</name>
       <key>0</key>
     </option>
+  </param>
+
+  <param>
+    <name>Reset for 1st frame</name>
+    <key>reset_1st</key>
+    <value>1</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>length frame index</name>
+    <key>length_frame_index</key>
+    <value>1</value>
+    <type>int</type>
+    <hide>part</hide>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
