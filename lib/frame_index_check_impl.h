@@ -37,6 +37,7 @@ namespace gr {
       int _output_fail;
       int _no_wait;
       int _reset_1st;
+      int _max_index;
       int _length_frame_index;
       void start_check(pmt::pmt_t frame);
       void compare();

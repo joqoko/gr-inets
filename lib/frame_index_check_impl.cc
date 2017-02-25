@@ -52,6 +52,7 @@ namespace gr {
     {
       if(_develop_mode)
         std::cout << "develop_mode of frame_index_check ID: " << _block_id << " is activated." << std::endl;
+      _max_index = 1 << (8 * _length_frame_index);
       _frame_A = pmt::from_long(0);
       _frame_B = pmt::from_long(0);
       message_port_register_in(pmt::mp("frame_in"));
@@ -111,7 +112,7 @@ namespace gr {
       int frame_A_data = pmt::to_long(pmt::dict_ref(_frame_A, pmt::string_to_symbol("frame_index"), not_found));
       int frame_B_data = pmt::to_long(pmt::dict_ref(_frame_B, pmt::string_to_symbol("frame_index"), not_found));
       std::cout << "frame_A index: " << frame_A_data << "frame B index: " << frame_B_data << std::endl;
-      if((frame_B_data - frame_A_data) == _difference)
+      if(((frame_B_data - frame_A_data) == _difference) || ((frame_B_data - frame_A_data) == (1 - _max_index)))
       {
         if(_develop_mode)
           std::cout << "the difference of index of the comming frames is" << _difference << std::endl;

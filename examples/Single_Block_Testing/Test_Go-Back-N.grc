@@ -1212,7 +1212,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(680, 432)</value>
+      <value>(640, 484)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1867,16 +1867,16 @@
     <sink_key>trigger</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_socket_pdu_0</source_block_id>
-    <sink_block_id>inets_frame_buffer_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>enqueue</sink_key>
-  </connection>
-  <connection>
     <source_block_id>inets_address_check_0</source_block_id>
     <sink_block_id>inets_frame_type_check_0</sink_block_id>
     <source_key>address_check_pass_out</source_key>
     <sink_key>frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_dummy_source_0</source_block_id>
+    <sink_block_id>inets_frame_buffer_0</sink_block_id>
+    <source_key>output</source_key>
+    <sink_key>enqueue</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_analysis_0</source_block_id>
@@ -1895,12 +1895,6 @@
     <sink_block_id>inets_sending_0</sink_block_id>
     <source_key>frame_info_out</source_key>
     <sink_key>in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_frame_index_check_0</source_block_id>
-    <sink_block_id>inets_frame_probe_0</sink_block_id>
-    <source_key>frame_info_out</source_key>
-    <sink_key>info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_index_check_0</source_block_id>

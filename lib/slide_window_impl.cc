@@ -117,12 +117,17 @@ namespace gr {
       
       if(pmt::is_dict(ack_in))
       {
+        std::cout << "ack 1" << std::endl;
         pmt::pmt_t not_found;
         int frame_type = pmt::to_long(pmt::dict_ref(ack_in, pmt::string_to_symbol("frame_type"), not_found));
         int ack_dest = pmt::to_long(pmt::dict_ref(ack_in, pmt::string_to_symbol("destination_address"), not_found));
         int ack_src = pmt::to_long(pmt::dict_ref(ack_in, pmt::string_to_symbol("source_address"), not_found));
         int ack_index = pmt::to_long(pmt::dict_ref(ack_in, pmt::string_to_symbol("frame_index"), not_found));
+
+        std::cout << "ack 2 and window size is: " << _window.size() << std::endl;
+        print_window(_window);
         int wait_index = pmt::to_long(pmt::dict_ref(_window.front(), pmt::string_to_symbol("frame_index"), not_found));
+        std::cout << "ack 3" << std::endl;
         if(_develop_mode)
           std::cout << "acked_index is: " << ack_index << " and wait_index is: " << wait_index << " and the frame_type is: " << frame_type << std::endl;
         if(frame_type == 2)
