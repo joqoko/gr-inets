@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu Feb 23 01:46:43 2017
+# Generated: Mon Feb 27 16:15:09 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -63,13 +63,11 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_framing_0_0 = inets.framing(0, 17, 1, 1, 3, 1, 2, 1, 1, 1, 318, 2, 524, 2, 2, 1, 1, 0)
-        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, 2, 1, 1, 1, 318, 2, 524, 2, 2, 1, 1, 0)
-        self.inets_frame_probe_0_1 = inets.frame_probe(1, 101, 0)
-        self.inets_frame_probe_0_0 = inets.frame_probe(1, 102, 0)
-        self.inets_frame_probe_0 = inets.frame_probe(1, 100, 0)
-        self.inets_frame_comparer_0 = inets.frame_comparer(1, 27, 0, 0)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 2, 1)
+        self.inets_framing_0 = inets.framing(1, 17, 3, 1, 0, 1, 2, 1, 1, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([1,2,3,4,5]), ([11, 513, 257, 300,100]), 2)
+        self.inets_frame_probe_0 = inets.frame_probe(1, 100, 1)
+        self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, 2)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 10, 2, 1)
+        self.inets_beacon_interpreter_0 = inets.beacon_interpreter(1, 29, 1, 2)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
@@ -77,12 +75,8 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0_0, 'data_in'))
-        self.msg_connect((self.inets_frame_comparer_0, 'higher_indexed_frame'), (self.inets_frame_probe_0, 'info_in'))
-        self.msg_connect((self.inets_frame_comparer_0, 'same_indexed_frame'), (self.inets_frame_probe_0_0, 'info_in'))
-        self.msg_connect((self.inets_frame_comparer_0, 'lower_indexed_frame'), (self.inets_frame_probe_0_1, 'info_in'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_comparer_0, 'frame_A_in'))
-        self.msg_connect((self.inets_framing_0_0, 'frame_out'), (self.inets_frame_comparer_0, 'frame_B_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_beacon_interpreter_0, 'beacon_frame_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_pmt_out'), (self.inets_frame_analysis_0, 'frame_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")

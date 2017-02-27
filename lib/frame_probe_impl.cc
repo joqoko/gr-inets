@@ -73,23 +73,23 @@ namespace gr {
 	{
           frame_type = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found));
           if(frame_type == 1)
-            std::cout << "data frame detected" << std::endl;
+            std::cout << "data frame detected -- ";
           else if(frame_type == 2)
-            std::cout << "ack frame detected" << std::endl;
+            std::cout << "ack frame detected -- ";
           else if(frame_type == 3)
-            std::cout << "beacon frame detected" << std::endl;
+            std::cout << "beacon frame detected -- ";
           else if(frame_type == 4)
-            std::cout << "rts frame detected" << std::endl;
+            std::cout << "rts frame detected -- ";
           else if(frame_type == 5)
-            std::cout << "cts frame detected" << std::endl;
+            std::cout << "cts frame detected -- ";
           else if(frame_type == 6)
-            std::cout << "ampdu frame detected" << std::endl;
+            std::cout << "ampdu frame detected -- ";
           else if(frame_type == 7)
-            std::cout << "amsdu frame detected" << std::endl;
+            std::cout << "amsdu frame detected -- ";
           else if(frame_type == 8)
-            std::cout << "ampdu subframe detected" << std::endl;
+            std::cout << "ampdu subframe detected -- ";
           else if(frame_type == 9)
-            std::cout << "amsdu subframe detected" << std::endl;
+            std::cout << "amsdu subframe detected -- ";
           else
             std::cout << "Unknown frame type" << std::endl;
 	  // show detail of DATA, ACK, BEACON, RTS, CTS
@@ -159,7 +159,7 @@ namespace gr {
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("reserved_field_II")))
         std::cout << "reserved field II is:      " << pmt::dict_ref(frame_info, pmt::string_to_symbol("reserved_field_II"), not_found) << ";    ";
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("payload_length")))
-        std::cout << "frame length is:           " << pmt::dict_ref(frame_info, pmt::string_to_symbol("payload_length"), not_found) << ";    ";
+        std::cout << "payload length is:           " << pmt::dict_ref(frame_info, pmt::string_to_symbol("payload_length"), not_found) << ";    ";
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("header_length")))
         std::cout << "header length is:          " << pmt::dict_ref(frame_info, pmt::string_to_symbol("header_length"), not_found) << ";    ";
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("address_check")))

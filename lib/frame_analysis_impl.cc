@@ -309,6 +309,8 @@ namespace gr {
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("self_address_check"),pmt::from_long(1));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"),pmt::from_long(0));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(is_good_frame));
+        if(payload_array.size() > 0)
+          frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("payload"), pmt::init_u8vector(payload_array.size(), payload_array));
 
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), pmt::cons(meta, frame_pmt));
         if(_develop_mode == 2)

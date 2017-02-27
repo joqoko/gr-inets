@@ -4,7 +4,7 @@
   <key>inets_framing</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.framing($develop_mode, $block_id, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission, $reserved_field_ampdu)</make>
+  <make>inets.framing($develop_mode, $block_id, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission, $reserved_field_ampdu, $node_list, $slot_list_ms, $len_slot_time_beacon)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -121,6 +121,31 @@
       <opt>hide_ampdu:all</opt>
     </option>
   </param>
+
+  <param>
+    <name>Node list</name>
+    <key>node_list</key>
+    <value>[2, 3]</value>
+    <type>int_vector</type>
+    <hide>$frame_type.hide_beacon</hide>
+  </param>
+
+  <param>
+    <name>Slot time [ms]</name>
+    <key>slot_list_ms</key>
+    <value>[1000, 1000]</value>
+    <type>int_vector</type>
+    <hide>$frame_type.hide_beacon</hide>
+  </param>
+
+  <param>
+    <name>Length of slot time</name>
+    <key>len_slot_time_beacon</key>
+    <value>2</value>
+    <type>int</type>
+    <hide>$frame_type.hide_beacon</hide>
+  </param>
+
 
   <param>
     <name>Reseved field AMPDU</name>
