@@ -77,11 +77,45 @@ namespace gr {
         std::cout << "Here" << std::endl;
         std::vector<unsigned char> payload = pmt::u8vector_elements(pmt::dict_ref(beacon, pmt::string_to_symbol("payload"), not_found));
         std::cout << "payload size is: " << payload.size() << std::endl;
-        // work from here!
-        disp_vec(payload);
-        int frame_type = pmt::to_long(pmt::dict_ref(beacon, pmt::string_to_symbol("frame_type"), not_found));
+       std::vector<uint32_t> address_array;
+       std::vector<uint32_t> slot_time_array;
+        if(payload.size() % (_len_address + _len_slot_time_beacon) == 0)
+        {
+          int n_node = payload.size() / (_len_address + _len_slot_time_beacon);
+          disp_vec(payload);
+          for(int i = 0; i < n_node; i++)
+          {
+            int pos = i * (_len_slot_time_beacon + _len_address);
+            std::vector<unsigned char> address_current;
+            address_current.insert(address_current.begin(), payload.begin() + pos, payload.begin() + pos + _len_address);
+            uint32_t address = BytesToint(address_current);
+            address_array.push_back(address);
+            std::vector<unsigned char> slot_time_current;
+            slot_time_current.insert(slot_time_current.begin(), payload.begin() + pos + _len_address, payload.begin() + pos + _len_address + _len_slot_time_beacon);
+            uint32_t slot_time = BytesToint(slot_time_current);
+            slot_time_array.push_back(slot_time);
+            disp_int_vec(address_array);
+            disp_int_vec(slot_time_array);
+          }  
+          pmt::pmt_t tdma_time_info = pmt::make_dict(); 
+          tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("node_id"), pmt::init_u32vector(address_array.size(), address_array));
+          tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("slot_time"), pmt::init_u32vector(slot_time_array.size(), slot_time_array));
+          message_port_pub(pmt::mp("tx_sequence_out"), tdma_time_info);
+        }
+        else
+          std::cout << "beacon_interpreter ID: " << _block_id << " has wrong payload length. please check your connections" << std::endl;
         
       }
+    }
+
+    void 
+    beacon_interpreter_impl::disp_int_vec(std::vector<uint32_t> vec)
+    {
+      for(int i=0; i<vec.size(); ++i)
+      {
+        std::cout << vec[i] << ' ';
+      }
+      std::cout << "total length is :" << vec.size() << "." << std::endl;
     }
 
     void 
@@ -91,6 +125,20 @@ namespace gr {
         std::cout << static_cast<unsigned>(vec[i]) << ' ';
       std::cout << "total length is :" << vec.size() << " bytes." << std::endl;
     }
+
+    int 
+    beacon_interpreter_impl::BytesToint(std::vector<unsigned char> bytes)
+    {
+      int int_num = 0;
+      int size = bytes.size();
+      for(int i = 0; i < size; ++i)  
+      {
+        int_num = static_cast<int>(bytes.back() << ((size - i - 1) * 8)) + int_num;
+        bytes.pop_back();
+      } 
+      return int_num;
+    }
+    
 
   } /* namespace inets */
 } /* namespace gr */

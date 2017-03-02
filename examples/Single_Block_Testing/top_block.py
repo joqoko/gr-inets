@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Mon Feb 27 16:15:09 2017
+# Generated: Thu Mar  2 16:00:30 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -67,13 +67,14 @@ class top_block(gr.top_block, Qt.QWidget):
         self.inets_frame_probe_0 = inets.frame_probe(1, 100, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, 2)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 10, 2, 1)
-        self.inets_beacon_interpreter_0 = inets.beacon_interpreter(1, 29, 1, 2)
+        self.inets_beacon_interpreter_0 = inets.beacon_interpreter(0, 29, 1, 2)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_beacon_interpreter_0, 'tx_sequence_out'), (self.inets_frame_probe_0, 'info_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_beacon_interpreter_0, 'beacon_frame_in'))
         self.msg_connect((self.inets_framing_0, 'frame_pmt_out'), (self.inets_frame_analysis_0, 'frame_in'))

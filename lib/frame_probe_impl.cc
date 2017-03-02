@@ -109,6 +109,18 @@ namespace gr {
 	    show_detail(frame_info);
 	  }
 	}
+
+        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("slot_time")))
+	{
+          find_frame = 1;
+          std::cout << "tdma scheduling info detected. " << std::endl;
+          std::vector<uint32_t> node_id_list = pmt::u32vector_elements(pmt::dict_ref(frame_info, pmt::string_to_symbol("node_id"), not_found)); 
+          std::vector<uint32_t> slot_time_list = pmt::u32vector_elements(pmt::dict_ref(frame_info, pmt::string_to_symbol("slot_time"), not_found)); 
+          for(int i = 0; i < node_id_list.size(); i++)
+          {
+            std::cout << "time slot of node " << node_id_list[i] << " is " << slot_time_list[i] << " [ms]" << std::endl;
+          }
+        }
 	// show detail of ampdu subframe from the transmitter side
 	if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("mpdu_info")))
 	{
@@ -179,6 +191,16 @@ namespace gr {
         if(_print_frame) 
           disp_vec(frame_array);
       }
+    }
+
+    void 
+    frame_probe_impl::disp_int_vec(std::vector<uint32_t> vec)
+    {
+      for(int i=0; i<vec.size(); ++i)
+      {
+        std::cout << vec[i] << ' ';
+      }
+      std::cout << ". total length is :" << vec.size() << "." << std::endl;
     }
  
     void 

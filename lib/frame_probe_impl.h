@@ -35,6 +35,7 @@ namespace gr {
       void read_info(pmt::pmt_t frame_info);
       void show_detail(pmt::pmt_t frame_info);
       void disp_vec(std::vector<unsigned char> vec);
+      void disp_int_vec(std::vector<uint32_t> vec);
 
      public:
       frame_probe_impl(int develop_mode, int block_id, int print_frame);

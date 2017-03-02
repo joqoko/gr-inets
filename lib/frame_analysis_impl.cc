@@ -309,14 +309,16 @@ namespace gr {
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("self_address_check"),pmt::from_long(1));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"),pmt::from_long(0));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(is_good_frame));
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec + t.tv_usec / 1000000.0;
+        frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("analyzed_time"),pmt::from_double(current_time));
         if(payload_array.size() > 0)
           frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("payload"), pmt::init_u8vector(payload_array.size(), payload_array));
 
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), pmt::cons(meta, frame_pmt));
         if(_develop_mode == 2)
         {
-          struct timeval t; 
-          gettimeofday(&t, NULL);
           double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
           if(frame_type == 1)
             std::cout << "* header analysis ID: " << _block_id << " get the " << num_transmission <<"th transmission of data frame "<< frame_index << " at time " << current_time << " s" << std::endl;
