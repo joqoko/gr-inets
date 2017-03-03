@@ -85,8 +85,10 @@ namespace gr {
         if(payload.size() % (_len_address + _len_slot_time_beacon) == 0)
         {
           int n_node = payload.size() / (_len_address + _len_slot_time_beacon);
+          pmt::pmt_t tdma_time_info; 
           for(int i = 0; i < n_node; i++)
           {
+            tdma_time_info = pmt::make_dict();
             int pos = i * (_len_slot_time_beacon + _len_address);
             std::vector<unsigned char> address_current;
             address_current.insert(address_current.begin(), payload.begin() + pos, payload.begin() + pos + _len_address);
@@ -96,16 +98,15 @@ namespace gr {
             slot_time_current.insert(slot_time_current.begin(), payload.begin() + pos + _len_address, payload.begin() + pos + _len_address + _len_slot_time_beacon);
             uint32_t slot_time = BytesToint(slot_time_current);
             slot_time_array.push_back(slot_time);
-            if(_develop_mode)
-            {
-              disp_int_vec(address_array);
-              disp_int_vec(slot_time_array);
-            }
+            tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("destination_address"), pmt::from_long(address));
+            tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("slot_time"), pmt::from_long(slot_time));
+            message_port_pub(pmt::mp("tx_sequence_out"), tdma_time_info);
           }  
-          pmt::pmt_t tdma_time_info = pmt::make_dict(); 
-          tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("node_id"), pmt::init_u32vector(address_array.size(), address_array));
-          tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("slot_time"), pmt::init_u32vector(slot_time_array.size(), slot_time_array));
-          message_port_pub(pmt::mp("tx_sequence_out"), tdma_time_info);
+          if(_develop_mode)
+          {
+            disp_int_vec(address_array);
+            disp_int_vec(slot_time_array);
+          }
         }
         else
           std::cout << "beacon_interpreter ID: " << _block_id << " has wrong payload length. please check your connections" << std::endl;

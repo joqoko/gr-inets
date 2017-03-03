@@ -114,11 +114,20 @@ namespace gr {
 	{
           find_frame = 1;
           std::cout << "tdma scheduling info detected. " << std::endl;
-          std::vector<uint32_t> node_id_list = pmt::u32vector_elements(pmt::dict_ref(frame_info, pmt::string_to_symbol("node_id"), not_found)); 
-          std::vector<uint32_t> slot_time_list = pmt::u32vector_elements(pmt::dict_ref(frame_info, pmt::string_to_symbol("slot_time"), not_found)); 
-          for(int i = 0; i < node_id_list.size(); i++)
+          if(!pmt::is_integer(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found)))
           {
-            std::cout << "time slot of node " << node_id_list[i] << " is " << slot_time_list[i] << " [ms]" << std::endl;
+            std::vector<uint32_t> node_id_list = pmt::u32vector_elements(pmt::dict_ref(frame_info, pmt::string_to_symbol("node_id"), not_found)); 
+            std::vector<uint32_t> slot_time_list = pmt::u32vector_elements(pmt::dict_ref(frame_info, pmt::string_to_symbol("slot_time"), not_found)); 
+            for(int i = 0; i < node_id_list.size(); i++)
+            {
+              std::cout << "time slot of node " << node_id_list[i] << " is " << slot_time_list[i] << " [ms]" << std::endl;
+            }
+          }
+          else
+          {
+            int node_id = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found)); 
+            double slot_time = pmt::to_double(pmt::dict_ref(frame_info, pmt::string_to_symbol("slot_time"), not_found)); 
+            std::cout << "time slot of node " << node_id << " is " << slot_time << " [ms]" << std::endl;
           }
         }
 	// show detail of ampdu subframe from the transmitter side
