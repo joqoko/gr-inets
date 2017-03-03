@@ -69,5 +69,6 @@ install(FILES
     inets_frame_filter.xml
     inets_frame_comparer.xml
     inets_frame_index_check.xml
-    inets_beacon_interpreter.xml DESTINATION share/gnuradio/grc/blocks
+    inets_beacon_interpreter.xml
+    inets_general_timer.xml DESTINATION share/gnuradio/grc/blocks
 )

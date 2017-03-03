@@ -145,6 +145,12 @@ namespace gr {
           if(_print_frame) 
             disp_vec(array);
 	}  
+        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("time_stamp")))
+	{
+          find_frame = 1;
+          double time = pmt::to_double(pmt::dict_ref(frame_info, pmt::string_to_symbol("time_stamp"), not_found));
+          std::cout << "input time_stamp is: " << time - double(int(time/100)*100);
+        }
 	if(find_frame == 0)
           std::cout << "Error. Unknow frame type. Please check your connections." << std::endl;
 	std::cout << std::endl;
@@ -178,6 +184,8 @@ namespace gr {
         std::cout << "address check is:          " << pmt::dict_ref(frame_info, pmt::string_to_symbol("address_check"), not_found) << ";    ";
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("good_frame")))
         std::cout << "good frame is:             " << pmt::dict_ref(frame_info, pmt::string_to_symbol("good_frame"), not_found) << ";    ";
+      if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("analysis_time")))
+        std::cout << "analysis time is:             " << pmt::dict_ref(frame_info, pmt::string_to_symbol("analysis_time"), not_found) << ";    ";
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_pmt")))
         frame_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_pmt"), not_found);
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("subframe_pmt")))

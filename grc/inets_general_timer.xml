@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<block>
+  <name>general_timer</name>
+  <key>inets_general_timer</key>
+  <category>inets_dmf_mac</category>
+  <import>import inets</import>
+  <make>inets.general_timer($develop_mode, $block_id, $timer_type, $duration_ms, $system_time_granularity_us)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+  </param>
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>3</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Timer type</name>
+    <key>timer_type</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>One shot</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>Periodic</name>
+      <key>1</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Duration [ms]</name>
+    <key>duration_ms</key>
+    <value>1000</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+  <param>
+    <name>System time granularity [us]</name>
+    <key>system_time_granularity_us</key>
+    <value>1000</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>active_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>expire_signal_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+</block>

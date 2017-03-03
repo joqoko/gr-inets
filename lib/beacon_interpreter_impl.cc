@@ -64,7 +64,7 @@ namespace gr {
     void
     beacon_interpreter_impl::interpretation(pmt::pmt_t beacon)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
       {
         std::cout << "++++++++  beacon_interpreter ID: " << _block_id << "  +++++++" << std::endl;
       }
@@ -74,15 +74,17 @@ namespace gr {
         std::cout << "beacon_interpreter ID: " << _block_id << " has wrong input data type. please check your connections. " << std::endl;
       else
       {
-        std::cout << "Here" << std::endl;
         std::vector<unsigned char> payload = pmt::u8vector_elements(pmt::dict_ref(beacon, pmt::string_to_symbol("payload"), not_found));
-        std::cout << "payload size is: " << payload.size() << std::endl;
-       std::vector<uint32_t> address_array;
-       std::vector<uint32_t> slot_time_array;
+        if(_develop_mode)
+        {
+          std::cout << "beacon payload : ";
+          disp_vec(payload);
+        }
+        std::vector<uint32_t> address_array;
+        std::vector<uint32_t> slot_time_array;
         if(payload.size() % (_len_address + _len_slot_time_beacon) == 0)
         {
           int n_node = payload.size() / (_len_address + _len_slot_time_beacon);
-          disp_vec(payload);
           for(int i = 0; i < n_node; i++)
           {
             int pos = i * (_len_slot_time_beacon + _len_address);
@@ -94,8 +96,11 @@ namespace gr {
             slot_time_current.insert(slot_time_current.begin(), payload.begin() + pos + _len_address, payload.begin() + pos + _len_address + _len_slot_time_beacon);
             uint32_t slot_time = BytesToint(slot_time_current);
             slot_time_array.push_back(slot_time);
-            disp_int_vec(address_array);
-            disp_int_vec(slot_time_array);
+            if(_develop_mode)
+            {
+              disp_int_vec(address_array);
+              disp_int_vec(slot_time_array);
+            }
           }  
           pmt::pmt_t tdma_time_info = pmt::make_dict(); 
           tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("node_id"), pmt::init_u32vector(address_array.size(), address_array));

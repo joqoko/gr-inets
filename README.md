@@ -27,7 +27,7 @@ How to use develop_mode to debug:
 Index		block name				Categories
  1		idle_cpp				inets_dmf_mac
  2		decouple_frame_info			inets_dmf_phy
- 3		wait_cpp				inets_dmf_mac
+ 3		general_timer				inets_dmf_mac
  4		t_control_tx_cc				inets_dmf_phy
  5		pending_tx_finish			inets_dmf_phy
  6		rx_switch_cc				inets_dmf_phy

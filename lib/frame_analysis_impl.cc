@@ -312,7 +312,7 @@ namespace gr {
         struct timeval t; 
         gettimeofday(&t, NULL);
         double current_time = t.tv_sec + t.tv_usec / 1000000.0;
-        frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("analyzed_time"),pmt::from_double(current_time));
+        frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("analysis_time"),pmt::from_double(current_time));
         if(payload_array.size() > 0)
           frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("payload"), pmt::init_u8vector(payload_array.size(), payload_array));
 
