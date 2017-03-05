@@ -55,6 +55,10 @@
       <name>Periodic</name>
       <key>1</key>
     </option>
+    <option>
+      <name>Continual</name>
+      <key>2</key>
+    </option>
   </param>
 
   <param>

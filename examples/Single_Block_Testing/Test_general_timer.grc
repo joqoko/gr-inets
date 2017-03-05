@@ -152,7 +152,7 @@
     </param>
     <param>
       <key>period</key>
-      <value>1000</value>
+      <value>2000</value>
     </param>
   </block>
   <block>
@@ -388,7 +388,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 308)</value>
+      <value>(1136, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -531,7 +531,7 @@
     </param>
     <param>
       <key>slot_list_ms</key>
-      <value>[11, 513, 257, 300,100]</value>
+      <value>[200, 513, 257, 300,100]</value>
     </param>
     <param>
       <key>source_address</key>
@@ -558,7 +558,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>duration_ms</key>
@@ -570,7 +570,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 288)</value>
+      <value>(928, 372)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -590,11 +590,11 @@
     </param>
     <param>
       <key>system_time_granularity_us</key>
-      <value>1000</value>
+      <value>10</value>
     </param>
     <param>
       <key>timer_type</key>
-      <value>1</value>
+      <value>2</value>
     </param>
   </block>
   <connection>
@@ -604,16 +604,10 @@
     <sink_key>trigger</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_message_strobe_0</source_block_id>
-    <sink_block_id>inets_general_timer_0</sink_block_id>
-    <source_key>strobe</source_key>
-    <sink_key>active_in</sink_key>
-  </connection>
-  <connection>
     <source_block_id>inets_beacon_interpreter_0</source_block_id>
-    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <sink_block_id>inets_general_timer_0</sink_block_id>
     <source_key>tx_sequence_out</source_key>
-    <sink_key>info_in</sink_key>
+    <sink_key>active_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_dummy_source_0</source_block_id>
@@ -632,5 +626,11 @@
     <sink_block_id>inets_frame_analysis_0</sink_block_id>
     <source_key>frame_pmt_out</source_key>
     <sink_key>frame_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_general_timer_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <source_key>expire_signal_out</source_key>
+    <sink_key>info_in</sink_key>
   </connection>
 </flow_graph>

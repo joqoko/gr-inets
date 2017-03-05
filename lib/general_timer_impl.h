@@ -35,8 +35,13 @@ namespace gr {
       int _in_active;
       int _duration_ms;
       int _system_time_granularity_us;
-      void countdown_timer();
+      std::vector<uint32_t> _duration_list_ms;
+      std::vector<int> _node_id_list;
       void start_timer(pmt::pmt_t trigger);
+      void kill_timer(pmt::pmt_t trigger);
+      void countdown_oneshot_timer();
+      void countdown_periodic_timer();
+      void countdown_continual_timer();
    
      public:
       general_timer_impl(int develop_mode, int block_id, int timer_type, int duration_ms, int system_time_granularity_us);

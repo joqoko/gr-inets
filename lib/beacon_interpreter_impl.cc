@@ -101,6 +101,7 @@ namespace gr {
             tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("destination_address"), pmt::from_long(address));
             tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("slot_time"), pmt::from_long(slot_time));
             message_port_pub(pmt::mp("tx_sequence_out"), tdma_time_info);
+            boost::this_thread::sleep(boost::posix_time::milliseconds(10));
           }  
           if(_develop_mode)
           {
