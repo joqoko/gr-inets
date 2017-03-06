@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>Test_frame_buffer</value>
+      <value>Test_standard_tdma_center</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>Test_frame_buffer</value>
+      <value>Test_standard_tdma_center</value>
     </param>
   </block>
   <block>
@@ -778,7 +778,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(664, 220)</value>
+      <value>(632, 220)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1300,7 +1300,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(184, 580)</value>
+      <value>(184, 604)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1648,7 +1648,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 384)</value>
+      <value>(768, 416)</value>
     </param>
     <param>
       <key>_rotation</key>

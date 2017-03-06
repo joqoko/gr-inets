@@ -367,7 +367,7 @@
     </param>
     <param>
       <key>packet_rate</key>
-      <value>0.6</value>
+      <value>1</value>
     </param>
     <param>
       <key>payload_length</key>
@@ -616,7 +616,7 @@
     </param>
     <param>
       <key>node_list</key>
-      <value>[1,2,3,4, 5, 6]</value>
+      <value>[1,2,3]</value>
     </param>
     <param>
       <key>output_frame_pmt</key>
@@ -640,7 +640,7 @@
     </param>
     <param>
       <key>slot_list_ms</key>
-      <value>[111, 222, 333, 444, 555, 666]</value>
+      <value>[200, 400, 600]</value>
     </param>
     <param>
       <key>source_address</key>
@@ -703,7 +703,7 @@
     </param>
     <param>
       <key>reserved_time_ms</key>
-      <value>20</value>
+      <value>0</value>
     </param>
     <param>
       <key>system_time_granularity_us</key>

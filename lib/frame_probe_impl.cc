@@ -127,7 +127,12 @@ namespace gr {
           {
             int node_id = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found)); 
             double slot_time = pmt::to_double(pmt::dict_ref(frame_info, pmt::string_to_symbol("slot_time"), not_found)); 
-            std::cout << "time slot of node " << node_id << " is " << slot_time << " [ms]" << std::endl;
+            int address_check = pmt::to_double(pmt::dict_ref(frame_info, pmt::string_to_symbol("address_check"), not_found)); 
+            std::cout << "time slot of node " << node_id << " is " << slot_time << " [ms]" << " and address check";
+            if(address_check)
+              std::cout << " passed" << std::endl;
+            else
+              std::cout << " failed" << std::endl;
           }
         }
 	// show detail of ampdu subframe from the transmitter side
@@ -146,9 +151,10 @@ namespace gr {
 	  }
 	}
         // pure number
-	if(pmt::is_integer(frame_info))
+	if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("beacon_address_check")))
 	{
-          std::cout << " input pmt is: " << pmt::to_long(frame_info) << std::endl;
+          pmt::pmt_t address_check_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("beacon_address_check"), not_found);
+          std::cout << " input pmt is: " << pmt::to_long(address_check_pmt) << std::endl;
           find_frame = 1;
         }
 	// show pure vector pmt

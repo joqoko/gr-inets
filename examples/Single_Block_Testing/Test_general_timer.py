@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_general_timer
 # Author: pwa
-# Generated: Mon Mar  6 04:00:07 2017
+# Generated: Mon Mar  6 11:23:27 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -65,11 +65,11 @@ class Test_general_timer(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_general_timer_0 = inets.general_timer(1, 3, 2, 1000, 10, 20)
-        self.inets_framing_0 = inets.framing(0, 17, 3, 1, 0, 1, 2, 1, 1, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([1,2,3,4, 5, 6]), ([111, 222, 333, 444, 555, 666]), 2)
+        self.inets_general_timer_0 = inets.general_timer(1, 3, 2, 1000, 10, 0)
+        self.inets_framing_0 = inets.framing(0, 17, 3, 1, 0, 1, 2, 1, 1, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([1,2,3]), ([200, 400, 600]), 2)
         self.inets_frame_probe_0 = inets.frame_probe(1, 100, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, 2)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 10, 2, 0.6)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 10, 2, 1)
         self.inets_beacon_interpreter_0 = inets.beacon_interpreter(0, 29, 1, 2, source_address)
         self.blocks_message_strobe_0_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)

@@ -95,6 +95,9 @@ namespace gr {
              _in_active = false;
              if(_develop_mode)
                std::cout << "general_timer ID: " << _block_id << " receives new scheduling information" << std::endl;
+             _duration_list_ms.clear();
+             _node_id_list.clear();
+             _address_check_list.clear();
            }
            else
            {
@@ -136,6 +139,9 @@ namespace gr {
                if(_develop_mode)
                  std::cout << "general_timer ID: " << _block_id << " terminates all scheduled timer because new scheduling information is received" << std::endl;
                _in_active = false;
+               _duration_list_ms.clear();
+               _node_id_list.clear();
+               _address_check_list.clear();
              }
              else
              {
@@ -165,7 +171,9 @@ namespace gr {
     {
       while(_duration_list_ms.size() > 0 && _in_active)
       {
-        message_port_pub(pmt::mp("address_check_out"), pmt::from_long(_address_check_list.front()));
+        pmt::pmt_t address_check = pmt::make_dict();
+        address_check = pmt::dict_add(address_check, pmt::string_to_symbol("beacon_address_check"), pmt::from_long(_address_check_list.front()));
+        message_port_pub(pmt::mp("address_check_out"), address_check);
         struct timeval t;
         gettimeofday(&t, NULL);
         double current_time = t.tv_sec + t.tv_usec / 1000000.0;
@@ -175,7 +183,7 @@ namespace gr {
         double duration_ms = std::max(double(_duration_list_ms.front()) - _reserved_time_ms, double(0));
         if(_develop_mode)
         {
-          std::cout << "timeout timer start time: " << start_time_show;
+          std::cout << "general timer start time: " << start_time_show;
           if(_address_check_list.front())
             std::cout << ", it is my time slot " << std::endl;
           else
@@ -189,6 +197,7 @@ namespace gr {
           current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
           // std::cout << "timeout is running at: " << current_time_show << std::endl;
         }
+        std::cout << " _in_active after waiting is: " << _in_active << std::endl;
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
         if(_develop_mode)
@@ -197,17 +206,20 @@ namespace gr {
           if(_in_active)
           {
             _timer_bias_s = _timer_bias_s + current_time - start_time - duration_ms/1000;
-            std::cout << "general timer ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << " [ms]" << "and the time bias is: " << _timer_bias_s << std::endl;
+            std::cout << "general timer ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << " [s]" << "and the time bias is: " << _timer_bias_s << std::endl;
           }
           else
-            std::cout << "general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time - start_time << " s" << std::endl;
+            std::cout << "general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time - start_time << " [s]" << std::endl;
         }
         pmt::pmt_t expire = pmt::make_dict();
         expire = pmt::dict_add(expire, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
         message_port_pub(pmt::mp("expire_signal_out"), expire);
-        _duration_list_ms.erase(_duration_list_ms.begin());
-        _node_id_list.erase(_node_id_list.begin());
-        _address_check_list.erase(_address_check_list.begin());
+        if(_in_active)
+        {
+          _duration_list_ms.erase(_duration_list_ms.begin());
+          _node_id_list.erase(_node_id_list.begin());
+          _address_check_list.erase(_address_check_list.begin());
+        }
       }
       if(!_in_active)
       {
@@ -216,7 +228,9 @@ namespace gr {
         _address_check_list.clear();
       }
       _in_active = false;
-      message_port_pub(pmt::mp("address_check_out"), pmt::from_long(0));
+      pmt::pmt_t address_check = pmt::make_dict();
+      address_check = pmt::dict_add(address_check, pmt::string_to_symbol("beacon_address_check"), pmt::from_long(0));
+      message_port_pub(pmt::mp("address_check_out"), address_check);
     }
 
     void
