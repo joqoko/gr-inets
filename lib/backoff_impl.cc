@@ -32,16 +32,16 @@ namespace gr {
   namespace inets {
 
     backoff::sptr
-    backoff::make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms)
+    backoff::make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, int cs_threshold, int system_time_granularity_us)
     {
       return gnuradio::get_initial_sptr
-        (new backoff_impl(develop_mode, block_id, backoff_type, backoff_time_unit_ms, min_backoff_ms, max_backoff_ms));
+        (new backoff_impl(develop_mode, block_id, backoff_type, backoff_time_unit_ms, min_backoff_ms, max_backoff_ms, apply_cs, cs_threshold, system_time_granularity_us));
     }
 
     /*
      * the private constructor
      */
-    backoff_impl::backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms)
+    backoff_impl::backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, int cs_threshold, int system_time_granularity_us)
       : gr::block("backoff",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -50,7 +50,10 @@ namespace gr {
         _backoff_type(backoff_type),
         _develop_mode(develop_mode),
         _min_backoff_ms(min_backoff_ms),
-        _max_backoff_ms(max_backoff_ms)
+        _max_backoff_ms(max_backoff_ms),
+        _apply_cs(apply_cs),
+        _cs_threshold(cs_threshold),
+        _system_time_granularity_us(system_time_granularity_us)
     {
       if(_develop_mode == 1)
         std::cout << "develop_mode of backoff is activated." << std::endl;
@@ -73,48 +76,69 @@ namespace gr {
 
     void backoff_impl::start_backoff(pmt::pmt_t frame_info)
     {
-      if(_develop_mode == 1)
+      if(pmt::is_dict(frame_in))
       {
-        std::cout << "++++  backoff ID: " << _block_id << " ++++" << std::endl;
-      }
-      if(_develop_mode == 2)
-      {
-        struct timeval t;
-        gettimeofday(&t, NULL);
-        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-        std::cout << "* backoff ID: " << _block_id << " backoff timer is triggered at time " << current_time << " s" << std::endl;
-      }
-      _frame_info = frame_info;
-      pmt::pmt_t not_found;
-      /*
-       * check the received message. misconnecting message port may lead to this error.
-       */
-      if(pmt::is_dict(frame_info))
-      {
-        /*
-         * _backoff_type 1: exponential backoff.
-         */
-        if(_backoff_type == 1)
+        if(_develop_mode)
         {
-          int num_transmission = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("num_transmission"), not_found));
-          _n_backoff = num_transmission;
-          boost::thread thrd(&backoff_impl::countdown_exp_backoff, this);
+          std::cout << "++++  backoff ID: " << _block_id << " ++++" << std::endl;
         }
+        if(_develop_mode == 2)
+        {
+          struct timeval t;
+          gettimeofday(&t, NULL);
+          double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+          std::cout << "* backoff ID: " << _block_id << " backoff timer is triggered at time " << current_time << " s" << std::endl;
+        }
+        _frame_info = frame_info;
+        pmt::pmt_t not_found;
         /*
-         * _backoff_type 2: constant backoff.
+         * check the received message. misconnecting message port may lead to this error.
          */
-        else if(_backoff_type == 2)
-          boost::thread thrd(&backoff_impl::countdown_const_backoff, this);
-        /*
-         * _backoff_type 2: random backoff.
-         */
-        else if(_backoff_type == 3)
-          boost::thread thrd(&backoff_impl::countdown_random_backoff, this);
+        if(pmt::is_dict(frame_info))
+        {
+          /*
+           * _backoff_type 1: exponential backoff.
+           */
+          if(_backoff_type == 1)
+          {
+            int num_transmission = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("num_transmission"), not_found));
+            _n_backoff = num_transmission;
+            if(_apply_cs)
+              boost::thread thrd(&backoff_impl::countdown_exp_backoff_cs, this);
+            else
+              boost::thread thrd(&backoff_impl::countdown_exp_backoff, this);
+          }
+          /*
+           * _backoff_type 2: constant backoff.
+           */
+          else if(_backoff_type == 2)
+            boost::thread thrd(&backoff_impl::countdown_const_backoff, this);
+          /*
+           * _backoff_type 2: random backoff.
+           */
+          else if(_backoff_type == 3)
+            boost::thread thrd(&backoff_impl::countdown_random_backoff, this);
+        }
+        else
+        {
+          // not a boolean pmt, most likely a gnuradio connection error
+          std::cout << "not correct input signal at block ID: " << _block_id << std::endl;
+        }
       }
-      else
+      else if(pmt::is_real(frame_in))
       {
-        // not a boolean pmt, most likely a gnuradio connection error
-        std::cout << "not correct input signal at block ID: " << _block_id << std::endl;
+        if(_backoff_type == 1 && _apply_cs)
+        {
+          double power = pmt::to_double(frame_in);
+          _ch_busy = (power > _cs_threshold);
+          if(_develop_mode && _ch_busy)
+          {
+            struct timeval t;
+            gettimeofday(&t, NULL);
+            double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+            std::cout << "in carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
+          }
+        }
       }
     }
 
@@ -165,6 +189,53 @@ namespace gr {
       else
         if(_develop_mode)
           std::cout << "backoff counter reset so no waiting this time." << std::endl; 
+      if(_develop_mode == 2)
+      {
+        gettimeofday(&t, NULL);
+        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+        std::cout << "* backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
+      }
+      message_port_pub(pmt::mp("frame_info_out"), _frame_info);
+    }
+
+    void 
+    backoff_impl::countdown_exp_backoff_cs()
+    {
+      struct timeval t;
+      if(_n_backoff)
+      {
+        //float backoff_time = std::rand() % std::pow(2, _n_backoff) + _min_bakcoff_ms;
+        double backoff_time_s = double(std::rand() % (int)std::pow(2, _n_backoff) * _backoff_time_unit_ms + _min_backoff_ms) / 1000;
+
+        gettimeofday(&t, NULL);
+        double start_time = t.tv_sec + t.tv_usec / 1000000.0;
+        double start_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        if(_develop_mode)
+          std::cout << "the " << _n_backoff << "th backoff starts at " << start_time_show << "s and the backoff time is: " << backoff_time_s << "[ms]." << std::endl;
+        double remain_time_s = backoff_time_s;
+        double previous_time = t.tv_sec + t.tv_usec / 1000000.0;
+        while(remain_time_s > 0)
+        {
+          gettimeofday(&t, NULL);
+          current_time = t.tv_sec + t.tv_usec / 1000000.0;
+          boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
+          current_time = t.tv_sec + t.tv_usec / 1000000.0;
+          remain_time_s = remain_time_s - (current_time - previous_time);
+        }
+   
+        gettimeofday(&t, NULL);
+        if(_develop_mode)
+        {
+          current_time = t.tv_sec + t.tv_usec / 1000000.0;
+          current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+          std::cout << "backoff ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << " [s]" << std::endl;
+        }
+      }
+      else
+      {
+        if(_develop_mode)
+          std::cout << "backoff counter reset so no waiting this time." << std::endl; 
+      }
       if(_develop_mode == 2)
       {
         gettimeofday(&t, NULL);

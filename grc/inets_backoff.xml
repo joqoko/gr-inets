@@ -4,7 +4,7 @@
   <key>inets_backoff</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.backoff($develop_mode, $block_id, $backoff_type, $backoff_time_unit_ms, $min_backoff_ms, $max_backoff_ms)</make>
+  <make>inets.backoff($develop_mode, $block_id, $backoff_type, $backoff_time_unit_ms, $min_backoff_ms, $max_backoff_ms, $apply_cs, $cs_threshold, $system_time_granularity_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -81,6 +81,20 @@
       <opt>hide_const:all</opt>
       <opt>hide_random:part</opt>
       <opt>hide_unlimited:part</opt>
+    </option>
+  </param>
+  <param>
+    <name>Apply carrier sensing</name>
+    <key>apply_cs</key>
+    <type>enum</type>
+    <hide>$backoff_type.hide_exp</hide>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
     </option>
   </param>
   <param>

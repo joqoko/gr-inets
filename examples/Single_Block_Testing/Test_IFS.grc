@@ -662,7 +662,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -783,10 +783,6 @@
       <value>True</value>
     </param>
     <param>
-      <key>frame_index</key>
-      <value>frame_index</value>
-    </param>
-    <param>
       <key>frame_type</key>
       <value>1</value>
     </param>
@@ -805,6 +801,10 @@
     <param>
       <key>increase_index</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>frame_index</key>
+      <value>frame_index</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -835,6 +835,10 @@
       <value>2</value>
     </param>
     <param>
+      <key>len_slot_time_beacon</key>
+      <value>2</value>
+    </param>
+    <param>
       <key>len_source_address</key>
       <value>1</value>
     </param>
@@ -845,6 +849,10 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>node_list</key>
+      <value>[2, 3]</value>
     </param>
     <param>
       <key>output_frame_pmt</key>
@@ -865,6 +873,10 @@
     <param>
       <key>set_reserved_field</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>slot_list_ms</key>
+      <value>[1000, 1000]</value>
     </param>
     <param>
       <key>source_address</key>

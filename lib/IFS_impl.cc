@@ -74,7 +74,7 @@ namespace gr {
     {
       if(pmt::is_dict(frame_in))
       {
-        if(_develop_mode == 1)
+        if(_develop_mode)
         {
           if(_interval_type == 1)
             std::cout << "++++ SIFS ID: " << _block_id <<  " ++++" << std::endl;
@@ -131,7 +131,7 @@ namespace gr {
         double power = pmt::to_double(frame_in);
 //        std::cout << "received power is: " << power << std::endl;
         _in_cca = (_cs_threshold > power);
-        if(_develop_mode == 1 && _in_cca)
+        if(_develop_mode && _in_cca)
         {
           struct timeval t;
           gettimeofday(&t, NULL);
