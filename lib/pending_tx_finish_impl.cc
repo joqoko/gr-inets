@@ -46,14 +46,22 @@ namespace gr {
         _d_lengthtagname(pmt::string_to_symbol(lengthtagname)),
         _develop_mode(develop_mode),
         _block_id(block_id),
-        _system_time_granularity_us(system_time_granularity_us)
+        _system_time_granularity_us(system_time_granularity_us),
+        _countdown_bias_s(0) 
     {
       if(_develop_mode == 1)
         std::cout << "develop_mode of pending_tx_finish ID: " << _block_id << " is activated." << std::endl;
       _wait_time = 0;
       message_port_register_in(pmt::mp("tx_frame_info_in"));
-      message_port_register_out(pmt::mp("tx_frame_info_out"));
       set_msg_handler(pmt::mp("tx_frame_info_in"), boost::bind(&pending_tx_finish_impl::buffer_tx_frame_info, this, _1 ));
+      message_port_register_out(pmt::mp("data_frame_out"));
+      message_port_register_out(pmt::mp("ack_frame_out"));
+      message_port_register_out(pmt::mp("beacon_frame_out"));
+      message_port_register_out(pmt::mp("rts_frame_out"));
+      message_port_register_out(pmt::mp("cts_frame_out"));
+      message_port_register_out(pmt::mp("ampdu_frame_out"));
+      message_port_register_out(pmt::mp("amsdu_frame_out"));
+      message_port_register_out(pmt::mp("unknown_frame_out"));
     }
 
     /*
@@ -98,38 +106,34 @@ namespace gr {
     int
     pending_tx_finish_impl::process_tags_info(std::vector <tag_t> tags)
     {
-      if(_develop_mode == 1)
-      {
-        std::cout << "+++++++++  pending_tx_finish ID: " << _block_id << "  ++++++++++" << std::endl;
-        std::cout << "Number of tags: " << tags.size() << std::endl;
-      }
       if(tags.size() > 0)
       {
         for(int i = 0; i < tags.size(); i++)
         {
-          if(_develop_mode == 1)
-          {
-            std::cout << "Index of tags: " << i << std::endl;
-            std::cout << "Offset: " << tags[i].offset << std::endl;
-            std::cout << "Key: " << tags[i].key << std::endl;
-            std::cout << "Value: " << tags[i].value << std::endl;
-            std::cout << "Srcid: " << tags[i].srcid << std::endl;
-          }
+//          if(_develop_mode)
+//          {
+ //           std::cout << "Index of tags: " << i << std::endl;
+   //         std::cout << "Offset: " << tags[i].offset << std::endl;
+       //     std::cout << "Key: " << tags[i].key << std::endl;
+     //       std::cout << "Value: " << tags[i].value << std::endl;
+         //   std::cout << "Srcid: " << tags[i].srcid << std::endl;
+          //}
           
           // std::cout << "string comapre: " << pmt::symbol_to_string(tags[i].key) << "packet_len" <<  (pmt::symbol_to_string(tags[i].key) == "packet_len") << std::endl;
           if(pmt::symbol_to_string(tags[i].key) == "packet_len")
           {
-            _wait_time = pmt::to_double(tags[i].value) / _sample_rate;     
             if(_develop_mode == 1)
+            {
+              std::cout << "+++++++++  pending_tx_finish ID: " << _block_id << "  ++++++++++" << std::endl;
+            }
+            _wait_time = pmt::to_double(tags[i].value) / _sample_rate;     
+            if(_develop_mode)
             {
               std::cout << "Frame transmission time is: " << _wait_time << std::endl;
             }
             break;
           }
         }
-      }
-      else
-      {
       }
       return tags.size();
     }
@@ -140,45 +144,78 @@ namespace gr {
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
+      double start_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
 
-      if(_develop_mode == 1)
-      {
-        std::cout << "Start time: " << start_time << std::endl;
-        std::cout << "wait time: " << _wait_time << std::endl;
-      }
-      int count = 0;
-      while(current_time < start_time + _wait_time)
+      while(current_time < start_time + _wait_time - _countdown_bias_s)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
-        if(_develop_mode == 1)
-        {
-        //  std::cout << "Remaining time: " << _wait_time - (current_time - start_time) << "Count is: "<< count << std::endl;
-          count = count + 1; 
-        }
       }
-      if(_develop_mode == 1)
-        std::cout << "Count is: " << count << std::endl;
-      _wait_time = 0;
       if(_tx_queue.size() > 0)
       {
+        gettimeofday(&t, NULL);
+        current_time = t.tv_sec + t.tv_usec / 1000000.0;
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
         pmt::pmt_t tx_frame_info = _tx_queue.front();
-        message_port_pub(pmt::mp("tx_frame_info_out"), tx_frame_info);
+        pmt::pmt_t not_found;
+        _countdown_bias_s = _countdown_bias_s / 2 + current_time - start_time - _wait_time;
+        int frame_type = pmt::to_long(pmt::dict_ref(tx_frame_info, pmt::string_to_symbol("frame_type"), not_found));
+        
+        if(frame_type == 1)
+        {
+          if(_develop_mode)
+            std::cout << "a data frame";
+          message_port_pub(pmt::mp("data_frame_out"), tx_frame_info);
+        } 
+        else if(frame_type == 2)
+        {
+          if(_develop_mode)
+            std::cout << "an ack frame";
+          message_port_pub(pmt::mp("ack_frame_out"), tx_frame_info);
+        } 
+        else if(frame_type == 3)
+        {
+          if(_develop_mode)
+            std::cout << "a beacon frame";
+          message_port_pub(pmt::mp("beacon_frame_out"), tx_frame_info);
+        } 
+        else if(frame_type == 4)
+        {
+          if(_develop_mode)
+            std::cout << "a rts frame";
+          message_port_pub(pmt::mp("rts_frame_out"), tx_frame_info);
+        } 
+        else if(frame_type == 5)
+        {
+          if(_develop_mode)
+            std::cout << "a cts frame";
+          message_port_pub(pmt::mp("cts_frame_out"), tx_frame_info);
+        } 
+        else if(frame_type == 6)
+        {
+          if(_develop_mode)
+            std::cout << "an ampdu frame";
+          message_port_pub(pmt::mp("ampdu_frame_out"), tx_frame_info);
+        } 
+        else if(frame_type == 7)
+        {
+          if(_develop_mode)
+            std::cout << "an amsdu frame";
+          message_port_pub(pmt::mp("amsdu_frame_out"), tx_frame_info);
+        } 
+        else
+        {
+          if(_develop_mode)
+            std::cout << "an unknown frame";
+          message_port_pub(pmt::mp("unknown_frame_out"), tx_frame_info);
+        } 
+        std::cout << " was transmitted at time " << start_time_show << "s and finishes at time " << current_time_show << "s. the required holding time is: " << _wait_time << " and the actual holding time is " << current_time - start_time << "s" << std::endl; 
         _tx_queue.pop();
       } 
       else
         std::cout << "pending_tx: tx_queue is empty. " << std::endl;
-
-      gettimeofday(&t, NULL);
-      current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-      if(_develop_mode == 2)
-      {
-        struct timeval t; 
-        gettimeofday(&t, NULL);
-        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-        std::cout << "* pending ID: " << _block_id << " finishes wait tx frame at time " << current_time << " s" << std::endl;
-      }
+      _wait_time = 0;
     }
 
 

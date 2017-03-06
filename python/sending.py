@@ -46,7 +46,14 @@ class sending(gr.hier_block2):
         ) # Output signature
  
         self.message_port_register_hier_in("in")
-        self.message_port_register_hier_out("tx_frame_info_out")
+        self.message_port_register_hier_out("data_frame_out")
+        self.message_port_register_hier_out("ack_frame_out")
+        self.message_port_register_hier_out("beacon_frame_out")
+        self.message_port_register_hier_out("rts_frame_out")
+        self.message_port_register_hier_out("cts_frame_out")
+        self.message_port_register_hier_out("ampdu_frame_out")
+        self.message_port_register_hier_out("amsdu_frame_out")
+        self.message_port_register_hier_out("unknown_frame_out")
 
         ##################################################
         # Blocks
@@ -65,5 +72,12 @@ class sending(gr.hier_block2):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.send_frame_0, 'tx_frame_info_out'), (self, 'tx_frame_info_out'))    
+        self.msg_connect((self.send_frame_0, 'data_frame_out'), (self, 'data_frame_out'))    
+        self.msg_connect((self.send_frame_0, 'ack_frame_out'), (self, 'ack_frame_out'))    
+        self.msg_connect((self.send_frame_0, 'beacon_frame_out'), (self, 'beacon_frame_out'))    
+        self.msg_connect((self.send_frame_0, 'rts_frame_out'), (self, 'rts_frame_out'))    
+        self.msg_connect((self.send_frame_0, 'cts_frame_out'), (self, 'cts_frame_out'))    
+        self.msg_connect((self.send_frame_0, 'ampdu_frame_out'), (self, 'ampdu_frame_out'))    
+        self.msg_connect((self.send_frame_0, 'amsdu_frame_out'), (self, 'amsdu_frame_out'))    
+        self.msg_connect((self.send_frame_0, 'unknown_frame_out'), (self, 'unknown_frame_out'))    
         self.msg_connect((self, 'in'), (self.send_frame_0, 'in'))    

@@ -73,7 +73,35 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>tx_frame_info_out</name>
+    <name>data_frame_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>ack_frame_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>beacon_frame_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>rts_frame_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>cts_frame_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>ampdu_frame_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>amsdu_frame_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>unknown_frame_out</name>
     <type>message</type>
   </source>
 </block>

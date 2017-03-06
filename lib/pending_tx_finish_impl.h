@@ -37,6 +37,7 @@ namespace gr {
       const pmt::pmt_t _d_lengthtagname;
       float _wait_time;
       int _system_time_granularity_us;
+      double _countdown_bias_s;
       std::queue<pmt::pmt_t> _tx_queue;         
       int process_tags_info(std::vector <tag_t> tags);
       void buffer_tx_frame_info(pmt::pmt_t tx_frame_info);
