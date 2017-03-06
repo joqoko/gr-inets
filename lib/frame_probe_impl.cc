@@ -145,6 +145,12 @@ namespace gr {
               disp_vec(frame_array);
 	  }
 	}
+        // pure number
+	if(pmt::is_integer(frame_info))
+	{
+          std::cout << " input pmt is: " << pmt::to_long(frame_info) << std::endl;
+          find_frame = 1;
+        }
 	// show pure vector pmt
 	if(pmt::is_u8vector(pmt::cdr(frame_info)))
 	{

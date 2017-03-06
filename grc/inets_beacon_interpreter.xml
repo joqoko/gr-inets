@@ -4,7 +4,7 @@
   <key>inets_beacon_interpreter</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.beacon_interpreter($develop_mode, $block_id, $len_address, $len_slot_time_beacon)</make>
+  <make>inets.beacon_interpreter($develop_mode, $block_id, $len_address, $len_slot_time_beacon, $my_address)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -41,6 +41,14 @@
     <value>29</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>My address</name>
+    <key>my_address</key>
+    <value>source_address</value>
+    <type>int</type>
+    <hide>part</hide>
   </param>
 
   <param>

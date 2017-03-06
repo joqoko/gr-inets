@@ -4,7 +4,7 @@
   <key>inets_general_timer</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.general_timer($develop_mode, $block_id, $timer_type, $duration_ms, $system_time_granularity_us)</make>
+  <make>inets.general_timer($develop_mode, $block_id, $timer_type, $duration_ms, $system_time_granularity_us, $reserved_time_ms)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -50,15 +50,26 @@
     <option>
       <name>One shot</name>
       <key>0</key>
+      <opt>hide_reserve:all</opt>
     </option>
     <option>
       <name>Periodic</name>
       <key>1</key>
+      <opt>hide_reserve:all</opt>
     </option>
     <option>
       <name>Continual</name>
       <key>2</key>
+      <opt>hide_reserve:part</opt>
     </option>
+  </param>
+
+  <param>
+    <name>Reserved time [ms]</name>
+    <key>reserved_time_ms</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>$timer_type.hide_reserve</hide>
   </param>
 
   <param>
@@ -68,12 +79,29 @@
     <type>int</type>
     <hide>part</hide>
   </param>
+
   <param>
     <name>System time granularity [us]</name>
     <key>system_time_granularity_us</key>
-    <value>1000</value>
+    <value>10</value>
     <type>int</type>
     <hide>part</hide>
+  </param>
+  <param>
+    <name>Enable kill timer</name>
+    <key>kill_timer</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Disable</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Enable</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -86,6 +114,13 @@
     <optional>1</optional>
   </sink>
 
+  <sink>
+    <name>kill_timer_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$kill_timer</hide>
+  </sink>
+
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -93,6 +128,11 @@
        * optional (set to 1 for optional inputs) -->
   <source>
     <name>expire_signal_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+  <source>
+    <name>address_check_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>

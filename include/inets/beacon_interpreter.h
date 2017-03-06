@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::beacon_interpreter::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int len_address, int len_slot_time_beacon);
+      static sptr make(int develop_mode, int block_id, int len_address, int len_slot_time_beacon, int my_address);
     };
 
   } // namespace inets

@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::general_timer::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int timer_type, int duration_ms, int system_time_granularity_us);
+      static sptr make(int develop_mode, int block_id, int timer_type, int duration_ms, int system_time_granularity_us, double reserved_time_ms);
     };
 
   } // namespace inets

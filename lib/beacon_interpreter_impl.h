@@ -33,13 +33,14 @@ namespace gr {
       int _block_id;
       int _len_address;
       int _len_slot_time_beacon;
+      int _my_address;
       void disp_vec(std::vector<unsigned char> vec);
       void disp_int_vec(std::vector<uint32_t> vec);
       void interpretation(pmt::pmt_t beacon);
       int BytesToint(std::vector<unsigned char> bytes);
    
      public:
-      beacon_interpreter_impl(int develop_mode, int block_id, int len_address, int len_slot_time_beacon);
+      beacon_interpreter_impl(int develop_mode, int block_id, int len_address, int len_slot_time_beacon, int my_address);
       ~beacon_interpreter_impl();
     };
 

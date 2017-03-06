@@ -29,23 +29,24 @@ namespace gr {
   namespace inets {
 
     beacon_interpreter::sptr
-    beacon_interpreter::make(int develop_mode, int block_id, int len_address, int len_slot_time_beacon)
+    beacon_interpreter::make(int develop_mode, int block_id, int len_address, int len_slot_time_beacon, int my_address)
     {
       return gnuradio::get_initial_sptr
-        (new beacon_interpreter_impl(develop_mode, block_id, len_address, len_slot_time_beacon));
+        (new beacon_interpreter_impl(develop_mode, block_id, len_address, len_slot_time_beacon, my_address));
     }
 
     /*
      * The private constructor
      */
-    beacon_interpreter_impl::beacon_interpreter_impl(int develop_mode, int block_id, int len_address, int len_slot_time_beacon)
+    beacon_interpreter_impl::beacon_interpreter_impl(int develop_mode, int block_id, int len_address, int len_slot_time_beacon, int my_address)
       : gr::block("beacon_interpreter",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
         _len_address(len_address),
-        _len_slot_time_beacon(len_slot_time_beacon)
+        _len_slot_time_beacon(len_slot_time_beacon),
+        _my_address(my_address)
     {
       if(_develop_mode)
         std::cout << "develop_mode of beacon_interpreter ID: " << _block_id << " is activated." << std::endl;
@@ -86,6 +87,11 @@ namespace gr {
         {
           int n_node = payload.size() / (_len_address + _len_slot_time_beacon);
           pmt::pmt_t tdma_time_info; 
+          tdma_time_info = pmt::make_dict();
+          tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("destination_address"), pmt::from_long(0));
+          tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("slot_time"), pmt::from_long(0));
+          tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("address_check"), pmt::from_long(0));
+          message_port_pub(pmt::mp("tx_sequence_out"), tdma_time_info);
           for(int i = 0; i < n_node; i++)
           {
             tdma_time_info = pmt::make_dict();
@@ -100,8 +106,11 @@ namespace gr {
             slot_time_array.push_back(slot_time);
             tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("destination_address"), pmt::from_long(address));
             tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("slot_time"), pmt::from_long(slot_time));
+            if(_my_address == int(address))
+              tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("address_check"), pmt::from_long(int(1)));
+            else
+              tdma_time_info = pmt::dict_add(tdma_time_info, pmt::string_to_symbol("address_check"), pmt::from_long(int(0)));
             message_port_pub(pmt::mp("tx_sequence_out"), tdma_time_info);
-            boost::this_thread::sleep(boost::posix_time::milliseconds(10));
           }  
           if(_develop_mode)
           {

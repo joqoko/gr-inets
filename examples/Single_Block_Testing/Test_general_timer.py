@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Top Block
-# Generated: Mon Mar  6 02:29:32 2017
+# Title: Test_general_timer
+# Author: pwa
+# Generated: Mon Mar  6 04:00:07 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -29,12 +30,12 @@ import sys
 from gnuradio import qtgui
 
 
-class top_block(gr.top_block, Qt.QWidget):
+class Test_general_timer(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Top Block")
+        gr.top_block.__init__(self, "Test_general_timer")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Top Block")
+        self.setWindowTitle("Test_general_timer")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -52,25 +53,27 @@ class top_block(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
+        self.settings = Qt.QSettings("GNU Radio", "Test_general_timer")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
         # Variables
         ##################################################
+        self.source_address = source_address = 3
         self.samp_rate = samp_rate = 32000
 
         ##################################################
         # Blocks
         ##################################################
-        self.inets_general_timer_0 = inets.general_timer(0, 3, 0, 1000, 1000, reserved_time_ms)
-        self.inets_framing_0 = inets.framing(0, 17, 3, 1, 0, 1, 2, 1, 1, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([1,2,3,4,5]), ([111, 222, 333, 444,555]), 2)
+        self.inets_general_timer_0 = inets.general_timer(1, 3, 2, 1000, 10, 20)
+        self.inets_framing_0 = inets.framing(0, 17, 3, 1, 0, 1, 2, 1, 1, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([1,2,3,4, 5, 6]), ([111, 222, 333, 444, 555, 666]), 2)
         self.inets_frame_probe_0 = inets.frame_probe(1, 100, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, 2)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 10, 2, 0.4)
-        self.inets_beacon_interpreter_0 = inets.beacon_interpreter(0, 29, 1, 2)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 10, 2, 0.6)
+        self.inets_beacon_interpreter_0 = inets.beacon_interpreter(0, 29, 1, 2, source_address)
         self.blocks_message_strobe_0_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
+        self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
@@ -82,9 +85,15 @@ class top_block(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_framing_0, 'frame_pmt_out'), (self.inets_frame_analysis_0, 'frame_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
+        self.settings = Qt.QSettings("GNU Radio", "Test_general_timer")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
+
+    def get_source_address(self):
+        return self.source_address
+
+    def set_source_address(self, source_address):
+        self.source_address = source_address
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -93,7 +102,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
 
 
-def main(top_block_cls=top_block, options=None):
+def main(top_block_cls=Test_general_timer, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
