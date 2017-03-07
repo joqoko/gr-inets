@@ -76,7 +76,7 @@ namespace gr {
 
     void backoff_impl::start_backoff(pmt::pmt_t frame_info)
     {
-      if(pmt::is_dict(frame_in))
+      if(pmt::is_dict(frame_info))
       {
         if(_develop_mode)
         {
@@ -125,11 +125,11 @@ namespace gr {
           std::cout << "not correct input signal at block ID: " << _block_id << std::endl;
         }
       }
-      else if(pmt::is_real(frame_in))
+      else if(pmt::is_real(frame_info))
       {
         if(_backoff_type == 1 && _apply_cs)
         {
-          double power = pmt::to_double(frame_in);
+          double power = pmt::to_double(frame_info);
           _ch_busy = (power > _cs_threshold);
           if(_develop_mode && _ch_busy)
           {
@@ -209,6 +209,7 @@ namespace gr {
 
         gettimeofday(&t, NULL);
         double start_time = t.tv_sec + t.tv_usec / 1000000.0;
+        double current_time = start_time;
         double start_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
         if(_develop_mode)
           std::cout << "the " << _n_backoff << "th backoff starts at " << start_time_show << "s and the backoff time is: " << backoff_time_s << "[ms]." << std::endl;
@@ -227,7 +228,7 @@ namespace gr {
         if(_develop_mode)
         {
           current_time = t.tv_sec + t.tv_usec / 1000000.0;
-          current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+          double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
           std::cout << "backoff ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << " [s]" << std::endl;
         }
       }

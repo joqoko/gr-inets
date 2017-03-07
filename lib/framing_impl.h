@@ -63,8 +63,6 @@ namespace gr {
       void ampdu_subframe_formation(pmt::pmt_t rx_payload);
       void amsdu_subframe_formation(pmt::pmt_t rx_payload);
       void ack_frame_formation(pmt::pmt_t rx_data);
-      void rts_frame_formation(pmt::pmt_t rx_data);
-      void cts_frame_formation(pmt::pmt_t rx_data);
       void beacon_frame_formation(pmt::pmt_t rx_beacon_info);
       pmt::pmt_t frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission);
       pmt::pmt_t ampdu_delimiter_formation(std::vector<unsigned char> *delimiter, int reserved_field_I, int payload_length, int frame_type);

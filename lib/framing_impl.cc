@@ -103,13 +103,13 @@ namespace gr {
         else if(_frame_type == 3)
           beacon_frame_formation(data_in);
         else if(_frame_type == 4)
-          rts_frame_formation(data_in);
+          std::cout << "frame type 4 is rts frame. It is not generated here" << std::endl;
         else if(_frame_type == 5)
-          cts_frame_formation(data_in);
+          std::cout << "frame type 5 is cts frame. It is not generated here" << std::endl;
         else if(_frame_type == 6)
-          std::cout << "frame type 6 is ampdu frame. It is not aggregated here. " << std::endl;
+          std::cout << "frame type 6 is ampdu frame. It is not aggregated here" << std::endl;
         else if(_frame_type == 7)
-          std::cout << "frame type 7 is amsdu frame. It is not aggregated here. " << std::endl;
+          std::cout << "frame type 7 is amsdu frame. It is not aggregated here" << std::endl;
         else if(_frame_type == 8)
         {
           ampdu_subframe_formation(data_in);
@@ -242,18 +242,6 @@ namespace gr {
 
     void
     framing_impl::amsdu_subframe_formation(pmt::pmt_t rx_payload)
-    {
-      std::cout << "Under construction" << std::endl;
-    }
-
-    void
-    framing_impl::rts_frame_formation(pmt::pmt_t rx_payload)
-    {
-      std::cout << "Under construction" << std::endl;
-    }
-
-    void
-    framing_impl::cts_frame_formation(pmt::pmt_t rx_payload)
     {
       std::cout << "Under construction" << std::endl;
     }

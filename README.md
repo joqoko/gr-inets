@@ -55,6 +55,7 @@ Index		block name				Categories
  27		frame_comparer				inets_dmf_tool
  28		frame_index_check			inets_dmf_tool
  29		beacon_interpreter			inets_dmf_mac
+ 30		rts_framing				inets_dmf_mac
  100+		frame_probe				inets_dmf_tool
 
 

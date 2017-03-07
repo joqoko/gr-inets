@@ -91,11 +91,20 @@
     <option>
       <name>No</name>
       <key>0</key>
+      <opt>hide_app:all</opt>
     </option>
     <option>
       <name>Yes</name>
       <key>1</key>
+      <opt>hide_app:part</opt>
     </option>
+  </param>
+  <param>
+    <name>Threshold (ED)</name>
+    <key>cs_threshold</key>
+    <value>0.005</value>
+    <type>raw</type>
+    <hide>$apply_cs.hide_app</hide>
   </param>
   <param>
     <name>Backoff time unit [ms]</name>
@@ -118,6 +127,14 @@
     <type>int</type>
     <hide>$backoff_type.hide_random</hide>
   </param>
+  <param>
+    <name>System time granularity [us]</name>
+    <key>system_time_granularity_us</key>
+    <value>1000</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
