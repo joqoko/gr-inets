@@ -92,16 +92,17 @@ namespace gr {
     {
       if(_develop_mode)
         std::cout << "frame type: "<< _frame_type << std::endl;
+      pmt::pmt_t generated_frame;
       if(pmt::is_dict(data_in))
       {
         if(_frame_type == 1)
-          data_frame_formation(data_in);
+          generated_frame = data_frame_formation(data_in);
         else if(_frame_type == 2)
         {
-          ack_frame_formation(data_in);
+          generated_frame = ack_frame_formation(data_in);
         }
         else if(_frame_type == 3)
-          beacon_frame_formation(data_in);
+          generated_frame = beacon_frame_formation(data_in);
         else if(_frame_type == 4)
           std::cout << "frame type 4 is rts frame. It is not generated here" << std::endl;
         else if(_frame_type == 5)
@@ -112,12 +113,16 @@ namespace gr {
           std::cout << "frame type 7 is amsdu frame. It is not aggregated here" << std::endl;
         else if(_frame_type == 8)
         {
-          ampdu_subframe_formation(data_in);
+          generated_frame = ampdu_subframe_formation(data_in);
         }
         else if(_frame_type == 9)
-          amsdu_subframe_formation(data_in);
+          generated_frame = amsdu_subframe_formation(data_in);
         else
           std::cout << "Error. wrong frame type in framing ID: " << _block_id << ". please check your connections." << std::endl;
+        if(pmt::dict_has_key(generated_frame, pmt::string_to_symbol("frame_pmt")))
+        {
+          message_port_pub(pmt::mp("frame_out"), generated_frame);
+        }
       }
       else
       {
@@ -163,7 +168,7 @@ namespace gr {
       return frame_info;
     }
 
-    void
+    pmt::pmt_t
     framing_impl::ampdu_subframe_formation(pmt::pmt_t rx_payload)
     {
       if(_develop_mode)
@@ -173,6 +178,7 @@ namespace gr {
       /*
        * Generate a ampdu subframe
        */
+      pmt::pmt_t ampdu_subframe_info;
       pmt::pmt_t mpdu_info;
       if(pmt::is_dict(rx_payload)) 
       {
@@ -207,7 +213,7 @@ namespace gr {
             std::cout << "MAC header + msdu + crc32, length " <<payload_array.size() << std::endl;
           payload_length = payload_array.size(); 
           std::vector<unsigned char> delimiter;
-	  pmt::pmt_t ampdu_subframe_info = ampdu_delimiter_formation(&delimiter, _reserved_field_ampdu, payload_length, _frame_type);
+	  ampdu_subframe_info = ampdu_delimiter_formation(&delimiter, _reserved_field_ampdu, payload_length, _frame_type);
           std::vector<unsigned char> ampdu_subframe;
           ampdu_subframe.insert(ampdu_subframe.end(), delimiter.begin(), delimiter.end());
           if(_develop_mode)
@@ -223,7 +229,6 @@ namespace gr {
             std::cout << "ampdu delimiter + mpdu + crc32, length " << payload_array.size() << std::endl;
           ampdu_subframe_info = pmt::dict_add(ampdu_subframe_info, pmt::string_to_symbol("subframe_pmt"), subframe_after_crc);
           ampdu_subframe_info = pmt::dict_add(ampdu_subframe_info, pmt::string_to_symbol("mpdu_info"), mpdu_info);
-          message_port_pub(pmt::mp("frame_out"), ampdu_subframe_info);
           message_port_pub(pmt::mp("frame_pmt_out"), subframe_after_crc);
           if(_develop_mode == 2)
           {
@@ -238,15 +243,17 @@ namespace gr {
       }
       else 
         std::cout << "pmt is not a pair" << std::endl;
+      return ampdu_subframe_info;
     }
 
-    void
+    pmt::pmt_t
     framing_impl::amsdu_subframe_formation(pmt::pmt_t rx_payload)
     {
       std::cout << "Under construction" << std::endl;
+      return rx_payload;
     }
 
-    void
+    pmt::pmt_t
     framing_impl::data_frame_formation(pmt::pmt_t rx_payload)
     {
       if(_develop_mode)
@@ -298,7 +305,6 @@ namespace gr {
       }
       else 
         std::cout << "pmt is not a pair" << std::endl;
-      message_port_pub(pmt::mp("frame_out"), frame_info);
       message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
       if(_develop_mode == 2)
       {
@@ -307,9 +313,10 @@ namespace gr {
         double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
         std::cout << "framing ID: " << _block_id << " data frame is generated at time " << current_time <<" s" <<  std::endl;
       }
+      return frame_info;
     }
 
-    void
+    pmt::pmt_t
     framing_impl::ack_frame_formation(pmt::pmt_t rx_data)
     {
       if(_develop_mode)
@@ -349,7 +356,6 @@ namespace gr {
       }
       else 
         std::cout << "Error: pmt is not a dict, cannot generate an ack frame. please check your connections." << std::endl;
-      message_port_pub(pmt::mp("frame_out"), frame_info);
       message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
       if(_develop_mode == 2)
       {
@@ -358,22 +364,23 @@ namespace gr {
         double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
         std::cout << "framing ID: " << _block_id << " ACK frame is generated at time " << current_time << " s" << std::endl;
       }
+      return frame_info;
     }
  
-    void
+    pmt::pmt_t
     framing_impl::beacon_frame_formation(pmt::pmt_t rx_beacon_info)
     {
       if(_develop_mode)
       {
         std::cout << "+++ Framing ID: " << _block_id << " beacon frame +++" << std::endl;
       }
+      pmt::pmt_t frame_info;
       /*
        * Generate a data frame
        */
       if(_node_list.size() == _slot_list_ms.size())
       {
         pmt::pmt_t meta = pmt::make_dict();
-        pmt::pmt_t frame_info;
         pmt::pmt_t frame_after_crc;
         std::vector<unsigned char> payload_array; 
         _frame_type = 3;
@@ -415,7 +422,6 @@ namespace gr {
      
          if(_develop_mode)
            std::cout << "frame header with payload with crc, length " << frame_after_crc_vector.size() << std::endl;
-        message_port_pub(pmt::mp("frame_out"), frame_info);
         message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
         if(_develop_mode == 2)
         {
@@ -429,6 +435,7 @@ namespace gr {
       {
         std::cout << "framing ID: " << _block_id << " node_list and the slot list should have the same length. " << std::endl;
       }
+      return frame_info;
     }
 
     pmt::pmt_t

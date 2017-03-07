@@ -59,11 +59,11 @@ namespace gr {
       boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
       void catagorization(pmt::pmt_t data_in);
-      void data_frame_formation(pmt::pmt_t rx_payload);
-      void ampdu_subframe_formation(pmt::pmt_t rx_payload);
-      void amsdu_subframe_formation(pmt::pmt_t rx_payload);
-      void ack_frame_formation(pmt::pmt_t rx_data);
-      void beacon_frame_formation(pmt::pmt_t rx_beacon_info);
+      pmt::pmt_t data_frame_formation(pmt::pmt_t rx_payload);
+      pmt::pmt_t ampdu_subframe_formation(pmt::pmt_t rx_payload);
+      pmt::pmt_t amsdu_subframe_formation(pmt::pmt_t rx_payload);
+      pmt::pmt_t ack_frame_formation(pmt::pmt_t rx_data);
+      pmt::pmt_t beacon_frame_formation(pmt::pmt_t rx_beacon_info);
       pmt::pmt_t frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission);
       pmt::pmt_t ampdu_delimiter_formation(std::vector<unsigned char> *delimiter, int reserved_field_I, int payload_length, int frame_type);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);

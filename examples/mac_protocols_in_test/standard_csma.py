@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Test_frame_buffer
+# Title: standard_csma
 # Author: PWA
-# Generated: Tue Mar  7 13:34:20 2017
+# Generated: Tue Mar  7 13:47:49 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -31,12 +31,12 @@ import sys
 from gnuradio import qtgui
 
 
-class Test_frame_buffer(gr.top_block, Qt.QWidget):
+class standard_csma(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Test_frame_buffer")
+        gr.top_block.__init__(self, "standard_csma")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Test_frame_buffer")
+        self.setWindowTitle("standard_csma")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -54,7 +54,7 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Test_frame_buffer")
+        self.settings = Qt.QSettings("GNU Radio", "standard_csma")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -126,7 +126,7 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Test_frame_buffer")
+        self.settings = Qt.QSettings("GNU Radio", "standard_csma")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -223,7 +223,7 @@ class Test_frame_buffer(gr.top_block, Qt.QWidget):
         self.cs_threshold = cs_threshold
 
 
-def main(top_block_cls=Test_frame_buffer, options=None):
+def main(top_block_cls=standard_csma, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

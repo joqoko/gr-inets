@@ -32,7 +32,7 @@ namespace gr {
   namespace inets {
 
     backoff::sptr
-    backoff::make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, int cs_threshold, int system_time_granularity_us)
+    backoff::make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us)
     {
       return gnuradio::get_initial_sptr
         (new backoff_impl(develop_mode, block_id, backoff_type, backoff_time_unit_ms, min_backoff_ms, max_backoff_ms, apply_cs, cs_threshold, system_time_granularity_us));
@@ -41,7 +41,7 @@ namespace gr {
     /*
      * the private constructor
      */
-    backoff_impl::backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, int cs_threshold, int system_time_granularity_us)
+    backoff_impl::backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us)
       : gr::block("backoff",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),

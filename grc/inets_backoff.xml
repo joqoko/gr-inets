@@ -103,7 +103,7 @@
     <name>Threshold (ED)</name>
     <key>cs_threshold</key>
     <value>0.005</value>
-    <type>raw</type>
+    <type>real</type>
     <hide>$apply_cs.hide_app</hide>
   </param>
   <param>
@@ -130,7 +130,7 @@
   <param>
     <name>System time granularity [us]</name>
     <key>system_time_granularity_us</key>
-    <value>1000</value>
+    <value>10</value>
     <type>int</type>
     <hide>part</hide>
   </param>

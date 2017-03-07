@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>Test_frame_buffer</value>
+      <value>standard_csma</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>Test_frame_buffer</value>
+      <value>standard_csma</value>
     </param>
   </block>
   <block>
@@ -726,6 +726,10 @@
   <block>
     <key>inets_backoff</key>
     <param>
+      <key>apply_cs</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>backoff_time_unit_ms</key>
       <value>10</value>
     </param>
@@ -780,6 +784,14 @@
     <param>
       <key>min_backoff_ms</key>
       <value>100</value>
+    </param>
+    <param>
+      <key>system_time_granularity_us</key>
+      <value>1000</value>
+    </param>
+    <param>
+      <key>cs_threshold</key>
+      <value>0.005</value>
     </param>
     <param>
       <key>backoff_type</key>
@@ -1699,6 +1711,38 @@
       <value>samp_rate</value>
     </param>
     <param>
+      <key>ack_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>ampdu_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>amsdu_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>beacon_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>cts_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>data_frame</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>rts_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>unknown_frame</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>constellation</key>
       <value>gnuradio.digital.constellation_qpsk().base()</value>
     </param>
@@ -1879,12 +1923,6 @@
     <sink_block_id>inets_carrier_sensing_0</sink_block_id>
     <source_key>resend_check_pass_out</source_key>
     <sink_key>info_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_sending_0</source_block_id>
-    <sink_block_id>inets_timeout_0</sink_block_id>
-    <source_key>tx_frame_info_out</source_key>
-    <sink_key>data_frame_info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_timeout_0</source_block_id>

@@ -39,7 +39,7 @@ namespace gr {
        int _n_backoff;
        int _apply_cs;
        bool _ch_busy;
-       int _cs_threshold;
+       double _cs_threshold;
        int _system_time_granularity_us;
        void start_backoff(pmt::pmt_t frame_info);
        void countdown_exp_backoff();
@@ -48,7 +48,7 @@ namespace gr {
        void countdown_random_backoff();
 
      public:
-      backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, int cs_threshold, int system_time_granularity_us);
+      backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us);
       ~backoff_impl();
 
     };

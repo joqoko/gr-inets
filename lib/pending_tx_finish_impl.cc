@@ -210,7 +210,8 @@ namespace gr {
             std::cout << "an unknown frame";
           message_port_pub(pmt::mp("unknown_frame_out"), tx_frame_info);
         } 
-        std::cout << " was transmitted at time " << start_time_show << "s and finishes at time " << current_time_show << "s. the required holding time is: " << _wait_time << " and the actual holding time is " << current_time - start_time << "s" << std::endl; 
+        if(_develop_mode)
+          std::cout << " was transmitted at time " << start_time_show << "s and finishes at time " << current_time_show << "s. the required holding time is: " << _wait_time << " and the actual holding time is " << current_time - start_time << "s" << std::endl; 
         _tx_queue.pop();
       } 
       else

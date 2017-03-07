@@ -152,6 +152,15 @@ namespace gr {
           );
 
           pmt::pmt_t out_pmt_vector = pmt::init_u8vector(packet.size(), packet);
+          if(_develop_mode)
+          {
+            std::cout << "random length   is: " << _padding << std::endl;
+            std::cout << "preamble length is: " << _preamble_packed.size() << std::endl;
+            std::cout << "header length   is: " << hdr_packed.size() << std::endl;
+            std::cout << "payload length  is: " << payload.size() << std::endl;
+            std::cout << "random length   is: " << _padding << std::endl;
+            std::cout << "overall length  is: " <<packet.size() << std::endl;
+          }
           pmt::pmt_t meta = pmt::make_dict();
           meta = pmt::dict_add(meta, pmt::mp("tx_time"), time_value);
           pmt::pmt_t pdu = pmt::cons(meta, out_pmt_vector);
