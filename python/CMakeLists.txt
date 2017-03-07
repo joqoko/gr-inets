@@ -38,7 +38,8 @@ GR_PYTHON_INSTALL(
     per_logger.py
     framing_py_v1.py
     sending.py
-    receiving.py DESTINATION ${GR_PYTHON_DIR}/inets
+    receiving.py
+    packetization.py DESTINATION ${GR_PYTHON_DIR}/inets
 )
 
 ########################################################################

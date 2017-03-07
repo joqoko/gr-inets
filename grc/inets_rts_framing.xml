@@ -2,7 +2,7 @@
 <block>
   <name>rts_framing</name>
   <key>inets_rts_framing</key>
-  <category>[inets]</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
   <make>inets.rts_framing($develop_mode, $block_id, $len_frame_type, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $len_num_transmission)</make>
 
