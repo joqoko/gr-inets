@@ -55,9 +55,12 @@ namespace gr {
       int _preamble_length;
       int _SIFS;
       int _slot_time;
+      pmt::pmt_t _data_frame;
+      pmt::pmt_t _rts_frame;
       std::vector<unsigned char> _preamble;
       double _bps;
       void framing(pmt::pmt_t data_frame);
+      void send_data(pmt::pmt_t cts_frame);
       void intToByte(int i, std::vector<unsigned char> *bytes, int size);
       pmt::pmt_t frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission);
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);

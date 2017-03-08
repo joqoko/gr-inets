@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: standard_csma
 # Author: PWA
-# Generated: Tue Mar  7 14:21:53 2017
+# Generated: Wed Mar  8 09:43:18 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -109,6 +109,7 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_frame_buffer_0, 'enqueue'))
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_backoff_0, 'frame_info_out'), (self.inets_resend_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_fail_out'), (self.inets_backoff_0, 'frame_info_in'))
         self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_pass_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_framing_0, 'data_in'))

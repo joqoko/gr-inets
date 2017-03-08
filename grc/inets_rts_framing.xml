@@ -262,6 +262,11 @@
     <type>message</type>
     <optional>1</optional>
   </sink>
+  <sink>
+    <name>cts_frame_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)

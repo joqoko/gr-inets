@@ -43,6 +43,34 @@
     <hide>$develop_mode.hide_control</hide>
   </param>
   <param>
+    <name>DATA-ACK timeout</name>
+    <key>data_ack</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Select</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>Not select</name>
+      <key>1</key>
+    </option>
+  </param>
+  <param>
+    <name>RTS-CTS timeout</name>
+    <key>rts_cts</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Select</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>Not select</name>
+      <key>1</key>
+    </option>
+  </param>
+  <param>
     <name>LLC protocol</name>
     <key>llc_protocol</key>
     <type>enum</type>
@@ -93,11 +121,25 @@
     <name>ack_frame_info_in</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$data_ack</hide>
   </sink>
   <sink>
     <name>data_frame_info_in</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$data_ack</hide>
+  </sink>
+  <sink>
+    <name>rts_frame_info_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$rts_cts</hide>
+  </sink>
+  <sink>
+    <name>cts_frame_info_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$rts_cts</hide>
   </sink>
 
   <source>

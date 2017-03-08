@@ -54,15 +54,25 @@ namespace gr {
       struct timeval t;
       gettimeofday(&t, NULL);
       _start_time = t.tv_sec + t.tv_usec / 1000000.0;
+      message_port_register_out(pmt::mp("frame_info_out"));
       message_port_register_in(pmt::mp("data_frame_info_in"));
       message_port_register_in(pmt::mp("ack_frame_info_in"));
-      message_port_register_out(pmt::mp("frame_info_out"));
       set_msg_handler(
         pmt::mp("data_frame_info_in"),
         boost::bind(&timeout_impl::start_timeout, this, _1)
       );
       set_msg_handler(
         pmt::mp("ack_frame_info_in"),
+        boost::bind(&timeout_impl::kill_timeout, this, _1)
+      );
+      message_port_register_in(pmt::mp("rts_frame_info_in"));
+      message_port_register_in(pmt::mp("cts_frame_info_in"));
+      set_msg_handler(
+        pmt::mp("rts_frame_info_in"),
+        boost::bind(&timeout_impl::start_timeout, this, _1)
+      );
+      set_msg_handler(
+        pmt::mp("cts_frame_info_in"),
         boost::bind(&timeout_impl::kill_timeout, this, _1)
       );
     }
@@ -103,28 +113,28 @@ namespace gr {
           if(_in_timeout)
           {
             //std::cout << "frame type: " << frame_type << " ack_dest: " << ack_dest << " wait_src: " << wait_src << " ack_src: " << ack_src << "wait_dest: " << wait_dest << " ack_index: " << ack_index << " wait_index: " << wait_index << std::endl;
-            if((frame_type == 2) && (ack_dest == wait_src) && (ack_src == wait_dest) && (ack_index == wait_index))
+            if((frame_type == 2 || frame_type == 5) && (ack_dest == wait_src) && (ack_src == wait_dest) && (ack_index == wait_index))
             { 
               _in_timeout = false;
               message_port_pub(pmt::mp("frame_info_out"), ack_frame_info);
               if(_develop_mode)
                 std::cout << "timeout is terminated by correctly received ack frame." << std::endl;
             }
-            else if(frame_type != 2)
+            else if(frame_type != 2 && frame_type != 5)
               if(_develop_mode)
-                std::cout << "Not an ack_frame_info dict." << std::endl;
+                std::cout << "timeout ID " << _block_id << "error: not an ack frame or rts frame." << std::endl;
             else if((ack_dest != wait_src) && (ack_src != wait_dest))
               if(_develop_mode)
-                std::cout << "address not correct." << std::endl;
+                std::cout << "timeout ID " << _block_id << "address not correct." << std::endl;
             else
               if(_develop_mode)
-                std::cout << "expecting the ack of the " << wait_index << "th frame but received the ack of the " << ack_index << "th frame." << std::endl;
+                std::cout << "timeout ID " << _block_id << "expecting the ack/cts frame of the " << wait_index << "th frame but received the ack/cts frame the " << ack_index << "th data/rts frame." << std::endl;
           }
           else
-            std::cout << "Receive a pmt dict out of timeout interval." << std::endl;
+            std::cout << "timeout ID " << _block_id << " received a frame out of timeout interval." << std::endl;
         }
         else
-          std::cout << "ack_frame_info: wrong data type. please check your connection." << std::endl;
+          std::cout << "timeout ID " << _block_id << " error: wrong data type. please check your connection." << std::endl;
       }
       // go-back-n arq 
       if(_llc_protocol == 1)
@@ -196,13 +206,13 @@ namespace gr {
           {
             pmt::pmt_t not_found;
             int data_type = pmt::to_long(pmt::dict_ref(data_frame_info, pmt::string_to_symbol("frame_type"), not_found));
-            if(data_type == 1)
+            if(data_type == 1 || data_type == 4)
             {
               if(_develop_mode)
               {
                 struct timeval t; 
                 gettimeofday(&t, NULL);
-                double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+                double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
                 std::cout << "* timeout ID: " << _block_id << " timeout timer is triggered at time " << current_time << " s" << std::endl;
               }
               _in_timeout = true;
@@ -211,13 +221,13 @@ namespace gr {
               boost::thread thrd(&timeout_impl::countdown_timeout, this);       
             }
             else
-              std::cout << "Not a data_frame_info dict." << std::endl;
+              std::cout << "timeout ID " << _block_id << " error: not a data frame or rts frame. frame type is: " << data_type << std::endl;
           }
           else
-            std::cout << "Cannot trigger the timeout timer before finishing the last one." << std::endl;
+            std::cout << "timeout ID " << _block_id << " error: cannot trigger the timeout timer before finishing the last one." << std::endl;
         }
         else
-          std::cout << "data_frame_info: wrong data type. please check your connection." << std::endl;
+          std::cout << "timeout ID " << _block_id << ". error: wrong data type. please check your connection." << std::endl;
       }
       // go-back-n
       else if(_llc_protocol == 1)
@@ -245,7 +255,7 @@ namespace gr {
               boost::thread thrd(&timeout_impl::countdown_timeout, this);       
             }
             else
-              std::cout << "Not a data_frame_info dict." << std::endl;
+              std::cout << "timeout ID " << _block_id << " error: llc protocol only support data frames." << std::endl;
           }
           else
           {

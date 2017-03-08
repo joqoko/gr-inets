@@ -65,13 +65,13 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>resend_check_pass_out</name>
+    <name>resend_check_fail_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>
 
   <source>
-    <name>resend_check_fail_out</name>
+    <name>resend_check_pass_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>

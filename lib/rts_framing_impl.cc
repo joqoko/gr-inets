@@ -70,6 +70,8 @@ namespace gr {
         std::cout << "develop_mode of rts_framing ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("data_frame_in"));
       set_msg_handler(pmt::mp("data_frame_in"), boost::bind(&rts_framing_impl::framing, this, _1 ));
+      message_port_register_in(pmt::mp("cts_frame_in"));
+      set_msg_handler(pmt::mp("cts_frame_in"), boost::bind(&rts_framing_impl::send_data, this, _1 ));
       message_port_register_out(pmt::mp("frame_out"));
       // only in develop_mode
       message_port_register_out(pmt::mp("frame_pmt_out"));
@@ -80,6 +82,8 @@ namespace gr {
         _frame_index = 0;
       }
       _preamble_length = _preamble.size() / 8;
+      _data_frame = pmt::from_long(0);
+      _rts_frame = pmt::from_long(0);
     }
 
     /*
@@ -87,8 +91,44 @@ namespace gr {
      */
     rts_framing_impl::~rts_framing_impl()
     {
+     
     }
 
+
+    void
+    rts_framing_impl::send_data(pmt::pmt_t cts_frame)
+    {
+      pmt::pmt_t not_found;
+      if(pmt::is_dict(_rts_frame))
+        std::cout << " error: rts_framing ID " << _block_id <<  " receives cts_frame before transmitting a rts_frame. " << std::endl;
+      else
+      {
+        int rts_index = pmt::to_long(pmt::dict_ref(_rts_frame, pmt::string_to_symbol("frame_index"), not_found));
+        int cts_index = pmt::to_long(pmt::dict_ref(cts_frame, pmt::string_to_symbol("frame_index"), not_found));
+        if(rts_index == cts_index)
+        {
+          if(pmt::is_dict(_data_frame))
+          {
+            message_port_pub(pmt::mp("frame_out"), _data_frame);
+            pmt::pmt_t frame_after_crc = pmt::dict_ref(_data_frame, pmt::string_to_symbol("frame_pmt"), not_found);
+            message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
+            _data_frame = pmt::from_long(0);
+            _rts_frame = pmt::from_long(0);
+            if(_develop_mode)
+              std::cout << "rts frame is correctly responsed by a cts frame. data frame is transmitting. " << std::endl;
+          }
+          else
+            std::cout << " error: rts_framing ID " << _block_id <<  " rts frame is correctly responsed by a cts_frame but no data frame are buffered. " << std::endl;
+
+            
+        } 
+        else
+        {
+          std::cout << " error: rts_framing ID " << _block_id <<  " received cts_frame does not fit the transmitted rts_frame. " << std::endl;
+        }
+      } 
+    }
+ 
     void
     rts_framing_impl::framing(pmt::pmt_t data_frame)
     {
@@ -97,6 +137,9 @@ namespace gr {
       {
         std::cout << "+++ rts_framing ID: " << _block_id << " +++" << std::endl;
       }
+      if(pmt::is_dict(_data_frame))
+        std::cout << " rts_framing ID " << _block_id <<  "warning: receive data_frame before transmitting/dropping the previous one. " << std::endl;
+      _data_frame = data_frame; 
       /*
        * data frame duration
        */
@@ -153,7 +196,8 @@ namespace gr {
       // std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
       // if(_develop_mode)
         // std::cout << "ack frame with crc (no payload), length " << frame_after_crc_vector.size() << std::endl;
-      message_port_pub(pmt::mp("frame_out"), frame_info);
+      _rts_frame = frame_info;
+      message_port_pub(pmt::mp("frame_out"), _rts_frame);
       message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
       if(_develop_mode == 2)
       {
