@@ -29,28 +29,33 @@ namespace gr {
   namespace inets {
 
     frame_probe::sptr
-    frame_probe::make(int develop_mode, int block_id, int print_frame)
+    frame_probe::make(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold)
     {
       return gnuradio::get_initial_sptr
-        (new frame_probe_impl(develop_mode, block_id, print_frame));
+        (new frame_probe_impl(develop_mode, block_id, print_frame, cs_mode, cs_threshold));
     }
 
     /*
      * The private constructor
      */
-    frame_probe_impl::frame_probe_impl(int develop_mode, int block_id, int print_frame)
+    frame_probe_impl::frame_probe_impl(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold)
       : gr::block("frame_probe",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
-	_print_frame(print_frame)
+	_print_frame(print_frame),
+        _cs_mode(cs_mode),
+        _cs_threshold(cs_threshold)
     {
       message_port_register_in(pmt::mp("info_in"));
       set_msg_handler(
         pmt::mp("info_in"),
         boost::bind(&frame_probe_impl::read_info, this, _1)
-      );
+      ); 
+      struct timeval t;
+      gettimeofday(&t, NULL);
+      _last_time = t.tv_sec + t.tv_usec / 1000000.0;
     }
 
     /*
@@ -63,12 +68,29 @@ namespace gr {
     void
     frame_probe_impl::read_info(pmt::pmt_t frame_info)
     { 
-      pmt::pmt_t not_found;
-      int find_frame = 0;
-      std::cout << "+++++++++ frame_probe ID: " << _block_id << " +++++++++" << std::endl;    
-      int frame_type = 0;
-      if(pmt::is_dict(frame_info))
+      if(_cs_mode)
       {
+        if(pmt::is_real(frame_info))
+        {
+          struct timeval t;
+          double power = pmt::to_double(frame_info);
+          gettimeofday(&t, NULL);
+          double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
+          double current_time = t.tv_sec + t.tv_usec / 1000000.0;
+          if(power > _cs_threshold)
+            std::cout << "rx power is " << power << ", received at " << current_time_show << " s, detection gap is " << current_time - _last_time << std::endl;
+          _last_time = current_time;
+        }
+        else
+          std::cout << "carrier_sensing ID " << _block_id << " error: not valid power signal" << std::endl;
+      }
+      else if(pmt::is_dict(frame_info))
+      {
+        std::cout << "+++++++++ frame_probe ID: " << _block_id << " +++++++++";    
+        pmt::pmt_t not_found;
+        int find_frame = 0;
+        print_time();
+        int frame_type = 0;
         if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_type")))
 	{
           frame_type = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found));
@@ -109,7 +131,6 @@ namespace gr {
 	    show_detail(frame_info);
 	  }
 	}
-
         if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("slot_time")))
 	{
           find_frame = 1;
@@ -177,7 +198,7 @@ namespace gr {
 	std::cout << std::endl;
       }
       else
-        std::cout << "Error. Input is not a frame_info structure. Please check your connections." << std::endl;
+        std::cout << "Error. Input is not a frame_info structure or carrier sensing reading. Please check your connections." << std::endl;
     }
   
     void
@@ -243,6 +264,19 @@ namespace gr {
         std::cout << static_cast<unsigned>(vec[i]) << ' ';
       std::cout << ". total length is: " << vec.size() << std::endl;
     }
+ 
+    void
+    frame_probe_impl::print_time()
+    {
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        std::cout << " at " << _block_id <<  current_time_show << "s " << std::endl;
+      }
+    }
+
   } /* namespace inets */
 } /* namespace gr */
 

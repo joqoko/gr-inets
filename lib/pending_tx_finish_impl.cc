@@ -129,7 +129,8 @@ namespace gr {
             _wait_time = pmt::to_double(tags[i].value) / _sample_rate;     
             if(_develop_mode)
             {
-              std::cout << "Frame transmission time is: " << _wait_time << std::endl;
+              std::cout << "samples are: " << pmt::to_double(tags[i].value);
+              std::cout << " and the frame transmission time is: " << _wait_time << std::endl;
             }
             break;
           }
@@ -144,8 +145,9 @@ namespace gr {
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
-      double start_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-
+      double start_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
+      if(_develop_mode == 2)
+        std::cout << "start pending tx at: " << start_time_show << std::endl;
       while(current_time < start_time + _wait_time - _countdown_bias_s)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
@@ -156,7 +158,7 @@ namespace gr {
       {
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
-        double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
         pmt::pmt_t tx_frame_info = _tx_queue.front();
         pmt::pmt_t not_found;
         _countdown_bias_s = _countdown_bias_s / 2 + current_time - start_time - _wait_time;

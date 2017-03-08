@@ -1244,7 +1244,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1072, 696)</value>
+      <value>(1088, 696)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1390,7 +1390,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1398,7 +1398,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 432)</value>
+      <value>(992, 468)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2415,7 +2415,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -2490,7 +2490,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1096, 544)</value>
+      <value>(1112, 544)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2605,6 +2605,12 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0_0_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <source_key>cts_frame_info_out</source_key>
+    <sink_key>info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_type_check_0_0_0</source_block_id>
     <sink_block_id>inets_timeout_0</sink_block_id>
     <source_key>cts_frame_info_out</source_key>
     <sink_key>cts_frame_info_in</sink_key>
@@ -2704,12 +2710,6 @@
     <sink_block_id>inets_timeout_0</sink_block_id>
     <source_key>rts_frame_out</source_key>
     <sink_key>rts_frame_info_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_timeout_0</source_block_id>
-    <sink_block_id>inets_frame_probe_0</sink_block_id>
-    <source_key>frame_info_out</source_key>
-    <sink_key>info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_timeout_0</source_block_id>

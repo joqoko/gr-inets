@@ -30,22 +30,22 @@ namespace gr {
   namespace inets {
 
     rx_switch_cc::sptr
-    rx_switch_cc::make(int develop_mode, int block_id)
+    rx_switch_cc::make(int develop_mode, int block_id, int num_fetch_per_cs)
     {
       return gnuradio::get_initial_sptr
-        (new rx_switch_cc_impl(develop_mode, block_id));
+        (new rx_switch_cc_impl(develop_mode, block_id, num_fetch_per_cs));
     }
 
     /*
      * The private constructor
      */
-    rx_switch_cc_impl::rx_switch_cc_impl(int develop_mode, int block_id)
+    rx_switch_cc_impl::rx_switch_cc_impl(int develop_mode, int block_id, int num_fetch_per_cs)
       : gr::sync_block("rx_switch_cc",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex))),
         _block_id(block_id),
         _develop_mode(develop_mode),
-        _num_fetch_per_cs(10),
+        _num_fetch_per_cs(num_fetch_per_cs),
         _is_receiving(1)
     {
       if(_develop_mode == 1)

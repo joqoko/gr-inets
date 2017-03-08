@@ -63,6 +63,11 @@ namespace gr {
         pmt::mp("info_in"),
         boost::bind(&carrier_sensing_impl::start_sensing, this, _1)
       );
+      message_port_register_in(pmt::mp("power_in"));
+      set_msg_handler(
+        pmt::mp("power_in"),
+        boost::bind(&carrier_sensing_impl::sensing, this, _1)
+      );
     }
 
     /*
@@ -72,6 +77,27 @@ namespace gr {
     {
     }
 
+    void carrier_sensing_impl::sensing(pmt::pmt_t power_in)
+    {
+      if(pmt::is_real(power_in))
+      {
+        if(_in_cca)
+        {
+          double power = pmt::to_double(power_in);
+          _in_cca = (_cs_threshold > power);
+          if(_develop_mode)
+          {
+            struct timeval t;
+            gettimeofday(&t, NULL);
+            double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+            std::cout << "in carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
+          }
+        }
+      }
+      else
+        std::cout << "carrier_sensing ID " << _block_id << " error: not valid power signal" << std::endl;
+    }
+    
     void carrier_sensing_impl::start_sensing(pmt::pmt_t info_in)
     {
       if(_cs_mode == 1)

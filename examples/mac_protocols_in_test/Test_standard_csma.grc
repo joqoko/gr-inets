@@ -594,7 +594,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(136, 344)</value>
+      <value>(56, 296)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -692,7 +692,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(976, 608)</value>
+      <value>(984, 624)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -751,7 +751,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -759,7 +759,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(304, 516)</value>
+      <value>(304, 524)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -830,7 +830,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 368)</value>
+      <value>(904, 384)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -858,7 +858,7 @@
     </param>
     <param>
       <key>cs_threshold</key>
-      <value>0.005</value>
+      <value>0.05</value>
     </param>
   </block>
   <block>
@@ -889,7 +889,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 172)</value>
+      <value>(1216, 148)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -936,7 +936,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(976, 528)</value>
+      <value>(976, 568)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1122,7 +1122,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(744, 568)</value>
+      <value>(744, 608)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1209,7 +1209,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(504, 480)</value>
+      <value>(504, 488)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1276,7 +1276,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 420)</value>
+      <value>(688, 340)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1411,7 +1411,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(152, 284)</value>
+      <value>(296, 268)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1530,7 +1530,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1538,7 +1538,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1016, 416)</value>
+      <value>(1152, 448)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1633,7 +1633,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(296, 384)</value>
+      <value>(304, 432)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1688,7 +1688,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(776, 252)</value>
+      <value>(912, 252)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1782,6 +1782,10 @@
       <value></value>
     </param>
     <param>
+      <key>data_ack</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>develop_mode</key>
       <value>0</value>
     </param>
@@ -1791,7 +1795,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 464)</value>
+      <value>(768, 472)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1812,6 +1816,10 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>rts_cts</key>
+      <value>1</value>
     </param>
     <param>
       <key>system_time_granularity_us</key>
@@ -1916,7 +1924,7 @@
     <source_block_id>inets_receiving_0</source_block_id>
     <sink_block_id>inets_carrier_sensing_0</sink_block_id>
     <source_key>rx_power_out</source_key>
-    <sink_key>info_in</sink_key>
+    <sink_key>power_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_resend_check_0</source_block_id>

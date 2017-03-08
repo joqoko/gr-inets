@@ -37,7 +37,7 @@ namespace gr {
      void kai_guan(pmt::pmt_t spark);
 
      public:
-      rx_switch_cc_impl(int develop_mode, int block_id);
+      rx_switch_cc_impl(int develop_mode, int block_id, int num_fetch_per_cs);
       ~rx_switch_cc_impl();
 
       // Where all the action really happens

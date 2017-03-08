@@ -147,7 +147,7 @@ namespace gr {
       int payload_length = pmt::to_long(pmt::dict_ref(data_frame, pmt::string_to_symbol("payload_length"), not_found));
       int data_mpdu_length = header_length + payload_length + 4;
       int data_ppdu_length = _padding + 4 + _preamble_length + _padding + data_mpdu_length;
-      int data_tx_time_us = data_ppdu_length * 8 * 1000000 / _bps;
+      int data_tx_time_us = data_ppdu_length * 8 * (1000000 / double(_bps));
       if(_develop_mode)
         std::cout << "calculated data frame mpdu length is: " << data_mpdu_length << " and measured mpdu length is: " << pmt::u8vector_elements(pmt::cdr(pmt::dict_ref(data_frame, pmt::string_to_symbol("frame_pmt"), not_found))).size() << std::endl;
       if(_develop_mode)
@@ -157,13 +157,13 @@ namespace gr {
        */
       int cts_mpdu_length = header_length + _len_rts_cts_payload + 4;
       int cts_ppdu_length = _padding + 4 + _preamble_length + _padding + cts_mpdu_length;
-      int cts_tx_time_us = cts_ppdu_length * 8 * 1000000 / _bps;
+      int cts_tx_time_us = cts_ppdu_length * 8 * (1000000 / _bps);
       if(_develop_mode)
         std::cout << "cts  frame ppdu length is: " << cts_ppdu_length << ". with bitrate: " << _bps << ", the transmission time is: " << cts_tx_time_us << "us" << std::endl;
       // then calculate tx time of an ack frame
       int ack_mpdu_length = header_length + 4;
       int ack_ppdu_length = _padding + 4 + _preamble_length + _padding + ack_mpdu_length;
-      int ack_tx_time_us = ack_ppdu_length * 8 * 1000000 / _bps;
+      int ack_tx_time_us = ack_ppdu_length * 8 * (1000000 / _bps);
       if(_develop_mode)
         std::cout << "ack  frame ppdu length is: " << ack_ppdu_length << ". with bitrate: " << _bps << ", the transmission time is: " << ack_tx_time_us << "us" << std::endl;
       // plus three SIFS durations
@@ -203,7 +203,7 @@ namespace gr {
       {
         struct timeval t; 
         gettimeofday(&t, NULL);
-        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+        double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
         std::cout << "framing ID: " << _block_id << " rts frame is generated at time " << current_time << " s" << std::endl;
       }
     }

@@ -32,13 +32,17 @@ namespace gr {
       int _develop_mode;
       int _block_id;
       int _print_frame;
+      int _cs_mode;
+      double _cs_threshold;
+      double _last_time;
       void read_info(pmt::pmt_t frame_info);
       void show_detail(pmt::pmt_t frame_info);
       void disp_vec(std::vector<unsigned char> vec);
       void disp_int_vec(std::vector<uint32_t> vec);
+      void print_time();
 
      public:
-      frame_probe_impl(int develop_mode, int block_id, int print_frame);
+      frame_probe_impl(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold);
       ~frame_probe_impl();
 
     };

@@ -1255,6 +1255,10 @@
       <key>minoutbuf</key>
       <value>0</value>
     </param>
+    <param>
+      <key>num_fetch_per_cs</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_variable_rotator</key>
@@ -1784,7 +1788,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 432)</value>
+      <value>(400, 436)</value>
     </param>
     <param>
       <key>_rotation</key>

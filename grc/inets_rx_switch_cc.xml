@@ -4,7 +4,7 @@
   <key>inets_rx_switch_cc</key>
   <category>inets_dmf_phy</category>
   <import>import inets</import>
-  <make>inets.rx_switch_cc($develop_mode, $block_id)</make>
+  <make>inets.rx_switch_cc($develop_mode, $block_id, $num_fetch_per_cs)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -14,25 +14,42 @@
     <name>Develop mode</name>
     <key>develop_mode</key>
     <value>develop_mode</value>
-    <type>int</type>
-    <option>
-      <name>on</name>
-      <key>1</key>
-    </option>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
     <option>
       <name>off</name>
       <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
     <option>
       <name>time</name>
       <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
   </param>
+
   <param>
     <name>Block id</name>
     <key>block_id</key>
     <value>6</value>
     <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>N. fetch per CS</name>
+    <key>num_fetch_per_cs</key>
+    <value>1</value>
+    <type>int</type>
+    <hide>part</hide>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

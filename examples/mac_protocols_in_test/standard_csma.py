@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: standard_csma
 # Author: PWA
-# Generated: Wed Mar  8 09:43:18 2017
+# Generated: Wed Mar  8 20:58:04 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -90,7 +90,7 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self.inets_timeout_0 = inets.timeout(0, 10, 500, 1000, 0)
         self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency)
         self.inets_resend_check_0 = inets.resend_check(1, 24, 6)
-        self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
+        self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_framing_1 = inets.framing(0, 17, 2, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2)
         self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
@@ -98,8 +98,8 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_counter_1 = inets.counter(1, 100)
-        self.inets_carrier_sensing_0 = inets.carrier_sensing(0, 11, 2, 100, 0.005, 1000)
-        self.inets_backoff_0 = inets.backoff(1, 11, 1, 10, 100, 400, 0, 0.005, 1000)
+        self.inets_carrier_sensing_0 = inets.carrier_sensing(0, 11, 2, 100, 0.05, 1000)
+        self.inets_backoff_0 = inets.backoff(0, 11, 1, 10, 100, 400, 0, 0.005, 1000)
         self.inets_address_check_0 = inets.address_check(0, 17, source_address)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
@@ -120,7 +120,7 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_frame_buffer_0, 'dequeue'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_carrier_sensing_0, 'info_in'))
         self.msg_connect((self.inets_framing_1, 'frame_out'), (self.inets_sending_0, 'in'))
-        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'info_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'power_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
         self.msg_connect((self.inets_resend_check_0, 'resend_check_pass_out'), (self.inets_carrier_sensing_0, 'info_in'))
         self.msg_connect((self.inets_resend_check_0, 'resend_check_fail_out'), (self.inets_frame_buffer_0, 'dequeue'))

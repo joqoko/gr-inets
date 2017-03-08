@@ -49,7 +49,7 @@ namespace gr {
         _last_tx_time(0),
         _bps(bps)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
         std::cout << "develop_mode of framing_cpp ID: " << _block_id << " is activated." << std::endl;
     }
 
@@ -89,9 +89,9 @@ namespace gr {
 
       if(process_tags_info(tags))
       {
-        if(_develop_mode == 1)
+        if(_develop_mode)
         {
-          std::cout << "++++++++++   t_control_tx_cc ID: " << _block_id << "  ++++++++++" << std::endl;
+          //std::cout << "++++++++++   t_control_tx_cc ID: " << _block_id << "  ++++++++++" << std::endl;
         }
         /*
           JUA parketizer code starts 
@@ -156,17 +156,19 @@ namespace gr {
         {
           _packet_len_tag = tags[i];          
           tag_detected = 1;
-          if(_develop_mode == 1)
+          if(_develop_mode)
           {
-            std::cout << "packet_len tag found." << std::endl;
+            std::cout << "packet_len tag found";
           }
           if(_develop_mode == 2)
           {
             struct timeval t; 
             gettimeofday(&t, NULL);
-            double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-            std::cout << "* t_control ID: " << _block_id << " finds packet_len tag at time " << current_time << " s" << std::endl;
+            double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
+            std::cout << "* t_control ID: " << _block_id << " finds packet_len tag at time " << current_time_show << " s" << std::endl;
           }
+          else
+            std::cout << "." << std::endl;
           break;
         }
       }

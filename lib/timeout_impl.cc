@@ -87,7 +87,8 @@ namespace gr {
     void timeout_impl::kill_timeout(pmt::pmt_t ack_frame_info) 
     {
       if(_develop_mode)
-        std::cout << "++++++++++++  timeout ID: " << _block_id << "  +++++++++++++" << std::endl;
+        std::cout << "+++  timeout ID: " << _block_id << " kill timeout  +++";
+      print_time();
       if(_develop_mode == 2)
       {
         struct timeval t; 
@@ -197,7 +198,8 @@ namespace gr {
     void timeout_impl::start_timeout(pmt::pmt_t data_frame_info) 
     {
       if(_develop_mode)
-        std::cout << "+++++ timeout ID: " << _block_id << " start timeout ++++++" << std::endl;
+        std::cout << "+++ timeout ID: " << _block_id << " start timeout +++";
+      print_time();
       if(_llc_protocol == 0)
       {
         if(pmt::is_dict(data_frame_info))
@@ -208,13 +210,13 @@ namespace gr {
             int data_type = pmt::to_long(pmt::dict_ref(data_frame_info, pmt::string_to_symbol("frame_type"), not_found));
             if(data_type == 1 || data_type == 4)
             {
-              if(_develop_mode)
-              {
-                struct timeval t; 
-                gettimeofday(&t, NULL);
-                double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-                std::cout << "* timeout ID: " << _block_id << " timeout timer is triggered at time " << current_time << " s" << std::endl;
-              }
+//              if(_develop_mode)
+ //             {
+ //               struct timeval t; 
+ //               gettimeofday(&t, NULL);
+ //               double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+ //               std::cout << "* timeout ID: " << _block_id << " timeout timer is triggered at time " << current_time << " s" << std::endl;
+ //             }
               _in_timeout = true;
               _waiting_frame_info = data_frame_info;
               // std::cout << "When timeout is started, the index is: " << pmt::to_long(pmt::dict_ref(_waiting_frame_info, pmt::string_to_symbol("frame_index"), not_found)) << std::endl;
@@ -240,13 +242,13 @@ namespace gr {
             int data_type = pmt::to_long(pmt::dict_ref(data_frame_info, pmt::string_to_symbol("frame_type"), not_found));
             if(data_type == 1)
             {
-              if(_develop_mode)
-              {
-                struct timeval t; 
-                gettimeofday(&t, NULL);
-                double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-                std::cout << "* timeout ID: " << _block_id << " timeout timer is triggered at time " << current_time << " s" << std::endl;
-              }
+ //             if(_develop_mode)
+ //             {
+ //               struct timeval t; 
+ //               gettimeofday(&t, NULL);
+ //               double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+ //               std::cout << "* timeout ID: " << _block_id << " timeout timer is triggered at time " << current_time << " s" << std::endl;
+ //             }
               _in_timeout = true;
               _window.push(data_frame_info);
               if(_develop_mode)
@@ -272,7 +274,7 @@ namespace gr {
                 {
                   struct timeval t; 
                   gettimeofday(&t, NULL);
-                  double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+                  double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
                   std::cout << "* timeout ID: " << _block_id << " timeout timer is reset at time " << current_time << " s" << std::endl;
                 }
               //}
@@ -302,7 +304,7 @@ namespace gr {
       struct timeval t;
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
-      double start_time_show = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+      double start_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
       _start_time = current_time;
       double current_time_show = start_time_show;
       if(_develop_mode)
@@ -318,7 +320,7 @@ namespace gr {
       if(_develop_mode)
       {
         gettimeofday(&t, NULL);
-        double current_time_show = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
         if(_in_timeout)
         std::cout << "* timeout ID: " << _block_id << " timeout timer is expired at time " << current_time_show << " s. " << " timeout duration is: " << _timeout_duration_ms << " [ms]" << std::endl;
         else
@@ -358,6 +360,18 @@ namespace gr {
       }
     }  
  
+    void
+    timeout_impl::print_time()
+    {
+      if(_develop_mode == 2)
+      {
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        std::cout << " at " << _block_id <<  current_time_show << "s " << std::endl;
+      }
+    }
+
   } /* namespace inets */
 } /* namespace gr */
 

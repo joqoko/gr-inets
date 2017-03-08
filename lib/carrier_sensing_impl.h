@@ -42,6 +42,7 @@ namespace gr {
       pmt::pmt_t _frame_info;
       float _cs_threshold;
       void start_sensing(pmt::pmt_t frame_info);
+      void sensing(pmt::pmt_t power_in);
       void kill_sensing(pmt::pmt_t power_info);
       void countdown_sensing();
       void oneshot_sensing();

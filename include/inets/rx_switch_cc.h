@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::rx_switch_cc::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id);
+      static sptr make(int develop_mode, int block_id, int num_fetch_per_cs);
     };
 
   } // namespace inets

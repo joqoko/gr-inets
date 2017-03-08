@@ -44,6 +44,7 @@ namespace gr {
       void reset_timeout();
       void flush_window();
       void countdown_timeout();
+      void print_time();
 
      public:
       timeout_impl(int develop_mode, int block_id, float timeout_duration_ms, int system_time_granularity_us, int llc_protocol);

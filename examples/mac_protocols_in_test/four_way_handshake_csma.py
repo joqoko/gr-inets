@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: four_way_handshake_csma
 # Author: PWA
-# Generated: Wed Mar  8 16:04:06 2017
+# Generated: Wed Mar  8 16:36:45 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -90,7 +90,7 @@ class four_way_handshake_csma(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_timeout_0_0 = inets.timeout(0, 10, 100, 1000, 0)
-        self.inets_timeout_0 = inets.timeout(0, 10, 100, 1000, 0)
+        self.inets_timeout_0 = inets.timeout(1, 10, 100, 1000, 0)
         self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency)
         self.inets_rts_framing_0 = inets.rts_framing(0, 30, 1, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 3, padding, diff_preamble_128, gnuradio.digital.constellation_qpsk().bits_per_symbol() * (samp_rate / sps), 1000, 800)
         self.inets_resend_check_0_0 = inets.resend_check(0, 24, 6)
@@ -101,7 +101,7 @@ class four_way_handshake_csma(gr.top_block, Qt.QWidget):
         self.inets_frame_type_check_0_0_1 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
         self.inets_frame_type_check_0_0_0 = inets.frame_type_check(0, 25, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1)
         self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 25, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0)
+        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 1, 1)
@@ -129,6 +129,7 @@ class four_way_handshake_csma(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_frame_type_check_0_0, 'rts_frame_info_out'), (self.inets_backoff_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_type_check_0_0, 'cts_frame_info_out'), (self.inets_rts_framing_0, 'data_frame_in'))
         self.msg_connect((self.inets_frame_type_check_0_0_0, 'rts_frame_info_out'), (self.inets_cts_framing_0, 'rts_frame_info_in'))
+        self.msg_connect((self.inets_frame_type_check_0_0_0, 'cts_frame_info_out'), (self.inets_frame_probe_0, 'info_in'))
         self.msg_connect((self.inets_frame_type_check_0_0_0, 'data_frame_info_out'), (self.inets_framing_1, 'data_in'))
         self.msg_connect((self.inets_frame_type_check_0_0_0, 'cts_frame_info_out'), (self.inets_timeout_0, 'cts_frame_info_in'))
         self.msg_connect((self.inets_frame_type_check_0_0_0, 'ack_frame_info_out'), (self.inets_timeout_0_0, 'ack_frame_info_in'))
@@ -146,7 +147,6 @@ class four_way_handshake_csma(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_rts_framing_0, 'frame_out'), (self.inets_IFS_0, 'frame_in'))
         self.msg_connect((self.inets_sending_0, 'rts_frame_out'), (self.inets_timeout_0, 'rts_frame_info_in'))
         self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_timeout_0_0, 'data_frame_info_in'))
-        self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_probe_0, 'info_in'))
         self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
         self.msg_connect((self.inets_timeout_0_0, 'frame_info_out'), (self.inets_frame_type_check_0_0_1, 'frame_info_in'))
 
