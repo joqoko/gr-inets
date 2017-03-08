@@ -143,7 +143,7 @@
   <param>
     <name>SIFS [us]</name>
     <key>SIFS</key>
-    <value>10000</value>
+    <value>1000</value>
     <type>int</type>
     <hide>$default_cs_setting.hide</hide>
   </param>
@@ -151,7 +151,7 @@
   <param>
     <name>Slot time [us]</name>
     <key>slot_time</key>
-    <value>8000</value>
+    <value>800</value>
     <type>int</type>
     <hide>$default_cs_setting.hide</hide>
   </param>

@@ -22,6 +22,8 @@
 #define INCLUDED_INETS_RTS_FRAMING_IMPL_H
 
 #include <inets/rts_framing.h>
+#include <gnuradio/digital/crc32.h>
+#include <boost/crc.hpp>
 
 namespace gr {
   namespace inets {
@@ -48,10 +50,22 @@ namespace gr {
       int _payload_length;
       int _len_payload_length; // Bytes
       int _len_num_transmission;
+      int _len_rts_cts_payload;
+      int _padding;
+      int _preamble_length;
+      int _SIFS;
+      int _slot_time;
+      std::vector<unsigned char> _preamble;
+      double _bps;
       void framing(pmt::pmt_t data_frame);
+      void intToByte(int i, std::vector<unsigned char> *bytes, int size);
+      pmt::pmt_t frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission);
+      pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
+      int get_frame_header_length();
+      boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
  
      public:
-      rts_framing_impl(int develop_mode, int block_id, int len_frame_type, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int len_num_transmission);
+      rts_framing_impl(int develop_mode, int block_id, int len_frame_type, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int len_num_transmission, int len_rts_cts_payload, int padding, std::vector<unsigned char> preamble, double bps, int SIFS, int slot_time);
       ~rts_framing_impl();
     };
 

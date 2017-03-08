@@ -54,7 +54,7 @@ namespace gr {
       void frame_analysis(pmt::pmt_t rx_frame);
       int get_frame_header_length();
       int get_ampdu_delimiter_length();
-      int BytesToint(std::vector<unsigned char> *bytes);
+      int BytesToint(std::vector<unsigned char> bytes);
       pmt::pmt_t frame_decompose(pmt::pmt_t frame_pmt, int frame_type);
       void ampdu_decompose(pmt::pmt_t frame_pmt, int frame_type);
       void disp_vec(std::vector<unsigned char> vec);

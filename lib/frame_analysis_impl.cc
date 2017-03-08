@@ -131,11 +131,11 @@ namespace gr {
       // Get reserved field ampdu 
       int reserved_field_ampdu_pos = _len_frame_type;
       std::vector<unsigned char> reserved_field_ampdu_array(delimiter_array.begin() + reserved_field_ampdu_pos, delimiter_array.begin() + reserved_field_ampdu_pos + _len_reserved_field_I);
-      int reserved_field_ampdu = BytesToint(&reserved_field_ampdu_array);
+      int reserved_field_ampdu = BytesToint(reserved_field_ampdu_array);
       // Get mpdu length
       int mpdu_length_pos = reserved_field_ampdu_pos + _len_reserved_field_I;
       std::vector<unsigned char> mpdu_length_array(delimiter_array.begin() + mpdu_length_pos, delimiter_array.begin() + mpdu_length_pos + _len_payload_length);
-      int mpdu_length = BytesToint(&mpdu_length_array);
+      int mpdu_length = BytesToint(mpdu_length_array);
       
       if(_develop_mode)
         std::cout << "mpdu length: " << mpdu_length << " delimiter_length: " << delimiter_length << std::endl;
@@ -183,14 +183,14 @@ namespace gr {
     } 
 
     int 
-    frame_analysis_impl::BytesToint(std::vector<unsigned char> *bytes)
+    frame_analysis_impl::BytesToint(std::vector<unsigned char> bytes)
     {
       int int_num = 0;
-      int size = bytes->size();
+      int size = bytes.size();
       for(int i = 0; i < size; ++i)  
       {
-        int_num = static_cast<int>(bytes->back() << ((size - i - 1) * 8)) + int_num;
-        bytes->pop_back();
+        int_num = static_cast<int>(bytes.back() << ((size - i - 1) * 8)) + int_num;
+        bytes.pop_back();
       } 
       return int_num;
     }
@@ -210,19 +210,19 @@ namespace gr {
       int index_pos = _len_frame_type;
       std::vector<unsigned char> frame_index_array(frame_header_array.begin() + index_pos, frame_header_array.begin() + index_pos + _len_frame_index);
       // disp_vec(frame_index_array);
-      int frame_index = BytesToint(&frame_index_array);
+      int frame_index = BytesToint(frame_index_array);
 
       // Get destination address
       int dest_pos = index_pos + _len_frame_index;
       std::vector<unsigned char> dest_array(frame_header_array.begin() + dest_pos, frame_header_array.begin() + dest_pos + _len_destination_address);
       //disp_vec(dest_array);
-      int destination_address = BytesToint(&dest_array);
+      int destination_address = BytesToint(dest_array);
       
       // Get source address
       int src_pos = dest_pos + _len_destination_address;
       std::vector<unsigned char> src_array(frame_header_array.begin() + src_pos, frame_header_array.begin() + src_pos + _len_source_address);
       //disp_vec(src_array);
-      int source_address = BytesToint(&src_array);
+      int source_address = BytesToint(src_array);
       // now we can check the address to make sure that the rx frame is not send by myself
       int self_address_check;
       if(source_address != _my_address)
@@ -234,39 +234,45 @@ namespace gr {
       int ntrans_pos = src_pos + _len_source_address;
       std::vector<unsigned char> ntrans_array(frame_header_array.begin() + ntrans_pos, frame_header_array.begin() + ntrans_pos + _len_num_transmission);
       //disp_vec(ntrans_array);
-      int num_transmission = BytesToint(&ntrans_array);
+      int num_transmission = BytesToint(ntrans_array);
       
       // Get reserved field I
       int re_I_pos = ntrans_pos + _len_num_transmission;
       std::vector<unsigned char> re_I_array(frame_header_array.begin() + re_I_pos, frame_header_array.begin() + re_I_pos + _len_reserved_field_I);
       //disp_vec(re_I_array);
-      int reserved_field_I = BytesToint(&re_I_array);
+      int reserved_field_I = BytesToint(re_I_array);
       
       // Get reserved field II
       int re_II_pos = re_I_pos + _len_reserved_field_I;
       std::vector<unsigned char> re_II_array(frame_header_array.begin() + re_II_pos, frame_header_array.begin() + re_II_pos + _len_reserved_field_II);
       //disp_vec(re_II_array);
-      int reserved_field_II = BytesToint(&re_II_array);
+      int reserved_field_II = BytesToint(re_II_array);
       
       // Get payload length
       int payload_length_pos = re_II_pos + _len_reserved_field_II;
       std::vector<unsigned char> payload_length_array(frame_header_array.begin() + payload_length_pos, frame_header_array.begin() + payload_length_pos + _len_payload_length);
       //disp_vec(payload_length_array);
-      int payload_length = BytesToint(&payload_length_array);
+      int payload_length = BytesToint(payload_length_array);
       
       // Get payload
       int payload_pos = payload_length_pos + _len_payload_length;
       std::vector<unsigned char> payload_array(frame_array.begin() + payload_pos, frame_array.begin() + payload_pos + payload_length);
-      
+      // payload of rts or cts is the nav time
+      int nav_time_us = 0;
+      if(frame_type == 4 || frame_type == 5)
+      {
+        disp_vec(payload_array);
+        nav_time_us = BytesToint(payload_array);
+      }
+
       // Get CRC
       int crc_pos = payload_pos + payload_length;
       std::vector<unsigned char> crc_array(frame_array.begin() + crc_pos, frame_array.begin() + crc_pos + 4);
 
       if(_develop_mode == 1)
       {
-        std::cout << "Frame header array is: " << std::endl;
+        std::cout << "Frame header array is: ";
         disp_vec(frame_header_array);
-        std::cout << "length of frame_header_array is: " << frame_header_array.size() << std::endl;
         std::cout << "frame type is: " << frame_type << std::endl;
         std::cout << "frame index is: " << frame_index << std::endl;
         std::cout << "destination address is: " << destination_address << std::endl;
@@ -277,6 +283,8 @@ namespace gr {
         std::cout << "payload length is: " << payload_length << std::endl;
         std::cout << "frame header length is: " << header_length << std::endl;
         std::cout << "self address check is: " << self_address_check << std::endl;
+        if(frame_type == 4 || frame_type == 5)
+          std::cout << "nav time is: " << nav_time_us << "us" << std::endl;
         std::cout << "frame verification (good_frame) is initialized to: " << is_good_frame << std::endl;
         std::cout << "payload is: ";
         disp_vec(payload_array);
@@ -309,6 +317,7 @@ namespace gr {
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("self_address_check"),pmt::from_long(1));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"),pmt::from_long(0));
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(is_good_frame));
+        frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("nav_time"),pmt::from_long(nav_time_us));
         struct timeval t; 
         gettimeofday(&t, NULL);
         double current_time = t.tv_sec + t.tv_usec / 1000000.0;

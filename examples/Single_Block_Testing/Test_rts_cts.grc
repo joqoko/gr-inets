@@ -147,6 +147,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(128, 100)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>padding</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>64</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(8, 160)</value>
     </param>
     <param>
@@ -298,37 +325,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_message_debug</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1112, 328)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_message_debug_0</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_message_strobe</key>
     <param>
       <key>alias</key>
@@ -434,7 +430,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 144)</value>
+      <value>(224, 272)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -458,10 +454,101 @@
     </param>
     <param>
       <key>payload_length</key>
-      <value>300</value>
+      <value>1000</value>
     </param>
     <param>
       <key>source_type</key>
+      <value>2</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_analysis</key>
+    <param>
+      <key>apply_self_address_check</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>7</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>default_framing_setting</key>
+      <value>default</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(920, 356)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_analysis_0</value>
+    </param>
+    <param>
+      <key>len_destination_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_type</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_num_transmission</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_payload_length</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_I</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_II</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_source_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>my_address</key>
       <value>2</value>
     </param>
   </block>
@@ -493,7 +580,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(520, 304)</value>
+      <value>(984, 304)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -505,7 +592,7 @@
     </param>
     <param>
       <key>print_frame</key>
-      <value>0</value>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -548,7 +635,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(336, 140)</value>
+      <value>(432, 228)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -644,69 +731,6 @@
     </param>
   </block>
   <block>
-    <key>inets_packetization</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>31</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(824, 184)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_packetization_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>constellation</key>
-      <value>gnuradio.digital.constellation_qpsk().base()</value>
-    </param>
-    <param>
-      <key>preamble</key>
-      <value>diff_preamble_128</value>
-    </param>
-    <param>
-      <key>sps</key>
-      <value>sps</value>
-    </param>
-  </block>
-  <block>
     <key>inets_rts_framing</key>
     <param>
       <key>alias</key>
@@ -723,6 +747,14 @@
     <param>
       <key>affinity</key>
       <value></value>
+    </param>
+    <param>
+      <key>default_ifs_setting</key>
+      <value>default</value>
+    </param>
+    <param>
+      <key>default_PHY_setting</key>
+      <value>default</value>
     </param>
     <param>
       <key>default_framing_setting</key>
@@ -742,7 +774,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(568, 104)</value>
+      <value>(680, 232)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -751,6 +783,10 @@
     <param>
       <key>id</key>
       <value>inets_rts_framing_0</value>
+    </param>
+    <param>
+      <key>len_rts_cts_payload</key>
+      <value>3</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -794,7 +830,15 @@
     </param>
     <param>
       <key>output_frame_pmt</key>
-      <value>1</value>
+      <value>0</value>
+    </param>
+    <param>
+      <key>padding</key>
+      <value>padding</value>
+    </param>
+    <param>
+      <key>preamble</key>
+      <value>diff_preamble_128</value>
     </param>
     <param>
       <key>reserved_field_I</key>
@@ -805,12 +849,24 @@
       <value>524</value>
     </param>
     <param>
+      <key>SIFS</key>
+      <value>1000</value>
+    </param>
+    <param>
       <key>set_reserved_field</key>
       <value>1</value>
     </param>
     <param>
+      <key>slot_time</key>
+      <value>800</value>
+    </param>
+    <param>
       <key>source_address</key>
       <value>source_address</value>
+    </param>
+    <param>
+      <key>bps</key>
+      <value>gnuradio.digital.constellation_qpsk().bits_per_symbol() * (samp_rate / sps)</value>
     </param>
   </block>
   <block>
@@ -933,10 +989,10 @@
     <sink_key>data_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_framing_0</source_block_id>
-    <sink_block_id>inets_packetization_0</sink_block_id>
-    <source_key>frame_out</source_key>
-    <sink_key>frame_in</sink_key>
+    <source_block_id>inets_frame_analysis_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <source_key>frame_info_out</source_key>
+    <sink_key>info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_framing_0</source_block_id>
@@ -945,9 +1001,9 @@
     <sink_key>data_frame_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_packetization_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>packet_out</source_key>
-    <sink_key>print_pdu</sink_key>
+    <source_block_id>inets_rts_framing_0</source_block_id>
+    <sink_block_id>inets_frame_analysis_0</sink_block_id>
+    <source_key>frame_pmt_out</source_key>
+    <sink_key>frame_in</sink_key>
   </connection>
 </flow_graph>

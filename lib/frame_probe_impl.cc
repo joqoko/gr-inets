@@ -73,23 +73,23 @@ namespace gr {
 	{
           frame_type = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found));
           if(frame_type == 1)
-            std::cout << "data frame detected -- ";
+            std::cout << " ---- data frame detected ---- ";
           else if(frame_type == 2)
-            std::cout << "ack frame detected -- ";
+            std::cout << " ---- ack frame detected ---- ";
           else if(frame_type == 3)
-            std::cout << "beacon frame detected -- ";
+            std::cout << " ---- beacon frame detected ---- ";
           else if(frame_type == 4)
-            std::cout << "rts frame detected -- ";
+            std::cout << " ---- rts frame detected ---- ";
           else if(frame_type == 5)
-            std::cout << "cts frame detected -- ";
+            std::cout << " ---- cts frame detected ---- ";
           else if(frame_type == 6)
-            std::cout << "ampdu frame detected -- ";
+            std::cout << " ---- ampdu frame detected ---- ";
           else if(frame_type == 7)
-            std::cout << "amsdu frame detected -- ";
+            std::cout << " ---- amsdu frame detected ---- ";
           else if(frame_type == 8)
-            std::cout << "ampdu subframe detected -- ";
+            std::cout << " ---- ampdu subframe detected ---- ";
           else if(frame_type == 9)
-            std::cout << "amsdu subframe detected -- ";
+            std::cout << " ---- amsdu subframe detected ---- ";
           else
             std::cout << "Unknown frame type" << std::endl;
 	  // show detail of DATA, ACK, BEACON, RTS, CTS
@@ -185,6 +185,7 @@ namespace gr {
     {
       pmt::pmt_t not_found;
       pmt::pmt_t frame_pmt;
+      int frame_type = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found));
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_index")))
         std::cout << "frame index is:            " << pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_index"), not_found) << ";    ";
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("destination_address")))
@@ -201,6 +202,9 @@ namespace gr {
         std::cout << "payload length is:           " << pmt::dict_ref(frame_info, pmt::string_to_symbol("payload_length"), not_found) << ";    ";
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("header_length")))
         std::cout << "header length is:          " << pmt::dict_ref(frame_info, pmt::string_to_symbol("header_length"), not_found) << ";    ";
+      if(frame_type == 4 || frame_type == 5)
+        std::cout << "nav time      is:          " << pmt::dict_ref(frame_info, pmt::string_to_symbol("nav_time"), not_found) << ";    ";
+     
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("address_check")))
         std::cout << "address check is:          " << pmt::dict_ref(frame_info, pmt::string_to_symbol("address_check"), not_found) << ";    ";
       if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("good_frame")))
