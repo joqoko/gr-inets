@@ -68,6 +68,7 @@ install(FILES
     frame_index_check.h
     beacon_interpreter.h
     general_timer.h
-    rts_framing.h DESTINATION include/inets
+    rts_framing.h
+    cts_framing.h DESTINATION include/inets
 
 )

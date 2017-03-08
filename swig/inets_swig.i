@@ -55,6 +55,7 @@
 #include "inets/beacon_interpreter.h"
 #include "inets/general_timer.h"
 #include "inets/rts_framing.h"
+#include "inets/cts_framing.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -169,3 +170,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, beacon_interpreter);
 GR_SWIG_BLOCK_MAGIC2(inets, general_timer);
 %include "inets/rts_framing.h"
 GR_SWIG_BLOCK_MAGIC2(inets, rts_framing);
+%include "inets/cts_framing.h"
+GR_SWIG_BLOCK_MAGIC2(inets, cts_framing);

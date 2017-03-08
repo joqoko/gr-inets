@@ -71,7 +71,8 @@ list(APPEND inets_sources
     frame_index_check_impl.cc
     beacon_interpreter_impl.cc
     general_timer_impl.cc
-    rts_framing_impl.cc )
+    rts_framing_impl.cc
+    cts_framing_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

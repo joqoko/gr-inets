@@ -23,7 +23,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include "rts_framing_impl.h"
+#include "cts_framing_impl.h"
 #include <gnuradio/digital/crc32.h> 
 #include <volk/volk.h>
 #include <boost/crc.hpp>
@@ -31,18 +31,18 @@
 namespace gr {
   namespace inets {
 
-    rts_framing::sptr
-    rts_framing::make(int develop_mode, int block_id, int len_frame_type, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int len_num_transmission, int len_rts_cts_payload, int padding, std::vector<unsigned char> preamble, double bps, int SIFS, int slot_time)
+    cts_framing::sptr
+    cts_framing::make(int develop_mode, int block_id, int len_frame_type, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int len_num_transmission, int len_rts_cts_payload, int padding, std::vector<unsigned char> preamble, double bps, int SIFS, int slot_time)
     {
       return gnuradio::get_initial_sptr
-        (new rts_framing_impl(develop_mode, block_id, len_frame_type, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, len_num_transmission, len_rts_cts_payload, padding, preamble, bps, SIFS, slot_time));
+        (new cts_framing_impl(develop_mode, block_id, len_frame_type, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, len_num_transmission, len_rts_cts_payload, padding, preamble, bps, SIFS, slot_time));
     }
 
     /*
      * The private constructor
      */
-    rts_framing_impl::rts_framing_impl(int develop_mode, int block_id, int len_frame_type, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int len_num_transmission, int len_rts_cts_payload, int padding, std::vector<unsigned char> preamble, double bps, int SIFS, int slot_time)
-      : gr::block("rts_framing",
+    cts_framing_impl::cts_framing_impl(int develop_mode, int block_id, int len_frame_type, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int len_num_transmission, int len_rts_cts_payload, int padding, std::vector<unsigned char> preamble, double bps, int SIFS, int slot_time)
+      : gr::block("cts_framing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
@@ -67,9 +67,9 @@ namespace gr {
         _slot_time(slot_time)
     {
       if(_develop_mode)
-        std::cout << "develop_mode of rts_framing ID: " << _block_id << " is activated." << std::endl;
-      message_port_register_in(pmt::mp("data_frame_in"));
-      set_msg_handler(pmt::mp("data_frame_in"), boost::bind(&rts_framing_impl::framing, this, _1 ));
+        std::cout << "develop_mode of cts_framing ID: " << _block_id << " is activated." << std::endl;
+      message_port_register_in(pmt::mp("rts_frame_info_in"));
+      set_msg_handler(pmt::mp("rts_frame_info_in"), boost::bind(&cts_framing_impl::framing, this, _1 ));
       message_port_register_out(pmt::mp("frame_out"));
       // only in develop_mode
       message_port_register_out(pmt::mp("frame_pmt_out"));
@@ -85,63 +85,50 @@ namespace gr {
     /*
      * Our virtual destructor.
      */
-    rts_framing_impl::~rts_framing_impl()
+    cts_framing_impl::~cts_framing_impl()
     {
     }
 
     void
-    rts_framing_impl::framing(pmt::pmt_t data_frame)
+    cts_framing_impl::framing(pmt::pmt_t rts_frame)
     {
       pmt::pmt_t not_found;
       if(_develop_mode)
       {
-        std::cout << "+++ rts_framing ID: " << _block_id << " +++" << std::endl;
+        std::cout << "+++ cts_framing ID: " << _block_id << " +++" << std::endl;
       }
-      /*
-       * data frame duration
-       */
-      int header_length = pmt::to_long(pmt::dict_ref(data_frame, pmt::string_to_symbol("header_length"), not_found));
-      int payload_length = pmt::to_long(pmt::dict_ref(data_frame, pmt::string_to_symbol("payload_length"), not_found));
-      int data_mpdu_length = header_length + payload_length + 4;
-      int data_ppdu_length = _padding + 4 + _preamble_length + _padding + data_mpdu_length;
-      int data_tx_time_us = data_ppdu_length * 8 * 1000000 / _bps;
-      if(_develop_mode)
-        std::cout << "calculated data frame mpdu length is: " << data_mpdu_length << " and measured mpdu length is: " << pmt::u8vector_elements(pmt::cdr(pmt::dict_ref(data_frame, pmt::string_to_symbol("frame_pmt"), not_found))).size() << std::endl;
-      if(_develop_mode)
-        std::cout << "data frame ppdu length is: " << data_ppdu_length << ". with bitrate: " << _bps << ", the transmission time is: " << data_tx_time_us << "us" << std::endl;
       /*
        * cts frame duration
        */
+      int header_length = pmt::to_long(pmt::dict_ref(rts_frame, pmt::string_to_symbol("header_length"), not_found));
       int cts_mpdu_length = header_length + _len_rts_cts_payload + 4;
       int cts_ppdu_length = _padding + 4 + _preamble_length + _padding + cts_mpdu_length;
       int cts_tx_time_us = cts_ppdu_length * 8 * 1000000 / _bps;
       if(_develop_mode)
         std::cout << "cts  frame ppdu length is: " << cts_ppdu_length << ". with bitrate: " << _bps << ", the transmission time is: " << cts_tx_time_us << "us" << std::endl;
-      // then calculate tx time of an ack frame
-      int ack_mpdu_length = header_length + 4;
-      int ack_ppdu_length = _padding + 4 + _preamble_length + _padding + ack_mpdu_length;
-      int ack_tx_time_us = ack_ppdu_length * 8 * 1000000 / _bps;
-      if(_develop_mode)
-        std::cout << "ack  frame ppdu length is: " << ack_ppdu_length << ". with bitrate: " << _bps << ", the transmission time is: " << ack_tx_time_us << "us" << std::endl;
-      // plus three SIFS durations
+      int nav_rts_us = pmt::to_long(pmt::dict_ref(rts_frame, pmt::string_to_symbol("nav_time"), not_found));
        
-      int nav_rts_us = _SIFS * 3 + data_tx_time_us + cts_tx_time_us + ack_tx_time_us;
+      int nav_cts_us = nav_rts_us - _SIFS - cts_tx_time_us;
       if(_develop_mode)
-        std::cout << "overall transmission time is: " << nav_rts_us << "us" << std::endl;
+        std::cout << "overall transmission time is: " << nav_cts_us << "us" << std::endl;
       std::vector<unsigned char> vec_nav;
-      intToByte(nav_rts_us, &vec_nav, _len_rts_cts_payload);
+      intToByte(nav_cts_us, &vec_nav, _len_rts_cts_payload);
       /*
        * generating the frame 
        */
+      int reply_address = pmt::to_long(pmt::dict_ref(rts_frame, pmt::string_to_symbol("source_address"), not_found));
+      int target_address = pmt::to_long(pmt::dict_ref(rts_frame, pmt::string_to_symbol("destination_address"), not_found));
+      if(target_address != _source_address)
+        std::cout << "cts_framing ID " << _block_id << " warning: you are generating cts frame from a rts frame which is not sent to you. " << std::endl;
       pmt::pmt_t frame_info;
       pmt::pmt_t meta = pmt::make_dict();
       std::vector<unsigned char> frame_header;
-      frame_info = frame_header_formation(&frame_header, 4, 0, _destination_address, _source_address, _reserved_field_I, _reserved_field_II, _len_rts_cts_payload, 1);
+      frame_info = frame_header_formation(&frame_header, 5, 0, reply_address, _source_address, _reserved_field_I, _reserved_field_II, _len_rts_cts_payload, 1);
       std::vector<unsigned char> frame;
       frame.insert(frame.end(), frame_header.begin(), frame_header.end());
       frame.insert(frame.end(), vec_nav.begin(), vec_nav.end());
       if(_develop_mode)
-        std::cout << "rts header with payload length " << frame.size() << std::endl;
+        std::cout << "cts header with payload length " << frame.size() << std::endl;
       // crc
       // crc32_bb_calc(&frame);
       // change frame to pmt::pmt_t
@@ -149,7 +136,8 @@ namespace gr {
       pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
       pmt::pmt_t frame_after_crc = crc32_bb_calc(frame_before_crc);
       frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_after_crc);
-      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("nav_time"), pmt::from_long(nav_rts_us));
+      frame_info = pmt::dict_delete(frame_info, pmt::string_to_symbol("nav_time"));
+      frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("nav_time"), pmt::from_long(nav_cts_us));
       // std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
       // if(_develop_mode)
         // std::cout << "ack frame with crc (no payload), length " << frame_after_crc_vector.size() << std::endl;
@@ -160,12 +148,12 @@ namespace gr {
         struct timeval t; 
         gettimeofday(&t, NULL);
         double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-        std::cout << "framing ID: " << _block_id << " rts frame is generated at time " << current_time << " s" << std::endl;
+        std::cout << "framing ID: " << _block_id << " cts frame is generated at time " << current_time << " s" << std::endl;
       }
     }
 
     pmt::pmt_t
-    rts_framing_impl::frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission)
+    cts_framing_impl::frame_header_formation(std::vector<unsigned char> *frame_header, int frame_type, int frame_index, int destination_address, int source_address, int reserved_field_I, int reserved_field_II, int payload_length, int num_transmission)
     {
       std::vector< unsigned char > vec_frame_header;
       std::vector< unsigned char > vec_frame_type;
@@ -235,7 +223,7 @@ namespace gr {
     }
 
     void 
-    rts_framing_impl::intToByte(int i, std::vector<unsigned char> *bytes, int size)
+    cts_framing_impl::intToByte(int i, std::vector<unsigned char> *bytes, int size)
     {
 //      std::cout << "Type is about to converted" << std::endl;
       bytes->insert(bytes->end(), (unsigned char) (0xff & i));
@@ -255,7 +243,7 @@ namespace gr {
     }
 
     pmt::pmt_t
-    rts_framing_impl::crc32_bb_calc(pmt::pmt_t msg)
+    cts_framing_impl::crc32_bb_calc(pmt::pmt_t msg)
     {
       // extract input pdu
       pmt::pmt_t meta(pmt::car(msg));
@@ -278,7 +266,7 @@ namespace gr {
     } 
 
     int
-    rts_framing_impl::get_frame_header_length()
+    cts_framing_impl::get_frame_header_length()
     {
       return _len_frame_type + _len_frame_index + _len_destination_address + _len_source_address + _len_num_transmission + _len_reserved_field_I + _len_reserved_field_II + _len_payload_length;
     } 

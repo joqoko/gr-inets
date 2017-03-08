@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_rts_cts
 # Author: PWA
-# Generated: Wed Mar  8 02:17:18 2017
+# Generated: Wed Mar  8 02:49:15 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -75,17 +75,21 @@ class Test_rts_cts(gr.top_block, Qt.QWidget):
         ##################################################
         self.inets_rts_framing_0 = inets.rts_framing(0, 30, 1, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 3, padding, diff_preamble_128, gnuradio.digital.constellation_qpsk().bits_per_symbol() * (samp_rate / sps), 1000, 800)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2)
+        self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1)
         self.inets_frame_probe_0 = inets.frame_probe(0, 100, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 0, 2)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 1000, 2, 1)
+        self.inets_cts_framing_0 = inets.cts_framing(0, 30, 1, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 3, padding, diff_preamble_128, gnuradio.digital.constellation_qpsk().bits_per_symbol() * (samp_rate / sps), 1000, 800)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_cts_framing_0, 'frame_out'), (self.inets_frame_probe_0, 'info_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_type_check_0, 'rts_frame_info_out'), (self.inets_cts_framing_0, 'rts_frame_info_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_rts_framing_0, 'data_frame_in'))
         self.msg_connect((self.inets_rts_framing_0, 'frame_pmt_out'), (self.inets_frame_analysis_0, 'frame_in'))
 

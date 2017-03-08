@@ -261,7 +261,6 @@ namespace gr {
       int nav_time_us = 0;
       if(frame_type == 4 || frame_type == 5)
       {
-        disp_vec(payload_array);
         nav_time_us = BytesToint(payload_array);
       }
 
