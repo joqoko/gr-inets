@@ -103,6 +103,22 @@
       <opt>hide:none</opt>
     </option>
   </param>
+  <param>
+    <name>Enable address check</name>
+    <key>address_check</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Disable</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Enable</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -135,5 +151,6 @@
     <name>address_check_out</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$address_check</hide>
   </source>
 </block>

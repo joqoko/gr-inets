@@ -60,6 +60,7 @@ namespace gr {
       set_msg_handler(pmt::mp("kill_timer_in"), boost::bind(&general_timer_impl::kill_timer, this, _1 ));
       message_port_register_out(pmt::mp("expire_signal_out"));
       message_port_register_out(pmt::mp("address_check_out"));
+      _frame_info = pmt::from_long(0);
     }
 
     /*
@@ -72,6 +73,8 @@ namespace gr {
     void
     general_timer_impl::start_timer(pmt::pmt_t trigger)
     {
+       if(pmt::is_dict(trigger))
+         _frame_info = trigger;
        pmt::pmt_t not_found;
        struct timeval t; 
        gettimeofday(&t, NULL);
@@ -280,9 +283,17 @@ namespace gr {
         else
           std::cout << "* general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time_show - start_time_show << " s" << std::endl;
       }
-      pmt::pmt_t expire = pmt::make_dict();
-      expire = pmt::dict_add(expire, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
-      message_port_pub(pmt::mp("expire_signal_out"), expire);
+      if(pmt::is_dict(_frame_info))
+      {
+        _frame_info = pmt::dict_add(_frame_info, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
+        message_port_pub(pmt::mp("expire_signal_out"), _frame_info);
+      }
+      else
+      {
+        pmt::pmt_t expire = pmt::make_dict();
+        expire = pmt::dict_add(expire, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
+        message_port_pub(pmt::mp("expire_signal_out"), expire);
+      }
       _in_active = false;
     }
  
@@ -320,9 +331,17 @@ namespace gr {
             std::cout << "* general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time_show - start_time_show << " s" << std::endl;
           }
         }
-        pmt::pmt_t expire = pmt::make_dict();
-        expire = pmt::dict_add(expire, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
-        message_port_pub(pmt::mp("expire_signal_out"), expire);
+        if(pmt::is_dict(_frame_info))
+        {
+          _frame_info = pmt::dict_add(_frame_info, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
+          message_port_pub(pmt::mp("expire_signal_out"), _frame_info);
+        }
+        else
+        {
+          pmt::pmt_t expire = pmt::make_dict();
+          expire = pmt::dict_add(expire, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
+          message_port_pub(pmt::mp("expire_signal_out"), expire);
+        }
       }
     }
 

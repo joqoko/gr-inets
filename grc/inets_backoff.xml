@@ -4,7 +4,7 @@
   <key>inets_backoff</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.backoff($develop_mode, $block_id, $backoff_type, $backoff_time_unit_ms, $min_backoff_ms, $max_backoff_ms, $apply_cs, $cs_threshold, $system_time_granularity_us)</make>
+  <make>inets.backoff($develop_mode, $block_id, $backoff_type, $backoff_time_unit_ms, $min_backoff_ms, $max_backoff_ms, $apply_cs, $cs_threshold, $system_time_granularity_us, $virtual_cs)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -90,12 +90,12 @@
     <hide>$backoff_type.hide_exp</hide>
     <option>
       <name>No</name>
-      <key>0</key>
+      <key>1</key>
       <opt>hide_app:all</opt>
     </option>
     <option>
       <name>Yes</name>
-      <key>1</key>
+      <key>0</key>
       <opt>hide_app:part</opt>
     </option>
   </param>
@@ -135,6 +135,20 @@
     <hide>part</hide>
   </param>
 
+  <param>
+    <name>Enable Virtual CS</name>
+    <key>virtual_cs</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -144,6 +158,20 @@
     <name>frame_info_in</name>
     <type>message</type>
     <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>power_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$apply_cs</hide>
+  </sink>
+
+  <sink>
+    <name>virtual_cs_frame_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$virtual_cs</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:

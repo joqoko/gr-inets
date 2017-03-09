@@ -40,15 +40,22 @@ namespace gr {
        int _apply_cs;
        bool _ch_busy;
        double _cs_threshold;
+       int _virtual_cs;
+       double _timer_bias_s;
+       int _nav_us;
+       double _power;
+       bool _in_backoff;
        int _system_time_granularity_us;
        void start_backoff(pmt::pmt_t frame_info);
-       void countdown_exp_backoff();
+//       void countdown_exp_backoff();
        void countdown_exp_backoff_cs();
        void countdown_const_backoff();
        void countdown_random_backoff();
+       void start_virtual_cs(pmt::pmt_t power_in);
+       void carrier_sensing(pmt::pmt_t rcts);
 
      public:
-      backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us);
+      backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us, int virtual_cs);
       ~backoff_impl();
 
     };

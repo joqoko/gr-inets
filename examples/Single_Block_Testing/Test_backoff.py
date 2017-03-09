@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Test_rts_cts
+# Title: Test_backoff
 # Author: PWA
-# Generated: Thu Mar  9 15:19:16 2017
+# Generated: Thu Mar  9 16:55:48 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -32,12 +32,12 @@ import sys
 from gnuradio import qtgui
 
 
-class Test_rts_cts(gr.top_block, Qt.QWidget):
+class Test_backoff(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Test_rts_cts")
+        gr.top_block.__init__(self, "Test_backoff")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Test_rts_cts")
+        self.setWindowTitle("Test_backoff")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -55,7 +55,7 @@ class Test_rts_cts(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Test_rts_cts")
+        self.settings = Qt.QSettings("GNU Radio", "Test_backoff")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -89,30 +89,32 @@ class Test_rts_cts(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency)
-        self.inets_rts_framing_0 = inets.rts_framing(1, 30, 1, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 3, padding, diff_preamble_128, gnuradio.digital.constellation_qpsk().bits_per_symbol() * (samp_rate / sps), 1000, 800)
+        self.inets_rts_framing_0 = inets.rts_framing(0, 30, 1, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 3, padding, diff_preamble_128, gnuradio.digital.constellation_qpsk().bits_per_symbol() * (samp_rate / sps), 1000, 800)
+        self.inets_resend_check_0 = inets.resend_check(0, 24, 6)
         self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
+        self.inets_general_timer_0 = inets.general_timer(0, 3, 0, 1000, 10, 0)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2)
-        self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1)
-        self.inets_frame_probe_1 = inets.frame_probe(1, 200, 0, 0, 0.01)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 1, 1, 0.002)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 1, 0.005)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
-        self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 0, 2)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 300, 2, 1)
-        self.inets_cts_framing_0 = inets.cts_framing(0, 30, 1, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 3, padding, diff_preamble_128, gnuradio.digital.constellation_qpsk().bits_per_symbol() * (samp_rate / sps), 1000, 800)
+        self.inets_backoff_0 = inets.backoff(2, 11, 1, 10, 100, 400, 0, 0.01, 10, 0)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_backoff_0, 'frame_info_out'), (self.inets_resend_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
-        self.msg_connect((self.inets_frame_type_check_0, 'rts_frame_info_out'), (self.inets_cts_framing_0, 'rts_frame_info_in'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_sending_0, 'in'))
-        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_rts_framing_0, 'data_frame_in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
+        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_backoff_0, 'power_in'))
+        self.msg_connect((self.inets_resend_check_0, 'resend_check_pass_out'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_backoff_0, 'frame_info_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Test_rts_cts")
+        self.settings = Qt.QSettings("GNU Radio", "Test_backoff")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -209,7 +211,7 @@ class Test_rts_cts(gr.top_block, Qt.QWidget):
         self.destination_address = destination_address
 
 
-def main(top_block_cls=Test_rts_cts, options=None):
+def main(top_block_cls=Test_backoff, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

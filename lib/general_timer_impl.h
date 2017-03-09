@@ -34,6 +34,7 @@ namespace gr {
       int _timer_type;
       bool _in_active;
       int _duration_ms;
+      pmt::pmt_t _frame_info;
       double _timer_bias_s;
       int _system_time_granularity_us;
       double _reserved_time_ms;
