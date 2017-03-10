@@ -50,7 +50,7 @@ namespace gr {
         _bps(bps)
     {
       if(_develop_mode)
-        std::cout << "develop_mode of framing_cpp ID: " << _block_id << " is activated." << std::endl;
+        std::cout << "develop_mode of t_control_tx ID: " << _block_id << " is activated." << std::endl;
     }
 
     /*
@@ -142,7 +142,8 @@ namespace gr {
       int tag_detected = 0; 
       for(int i = 0; i < tags.size(); i++)
       {
-        if(_develop_mode == 1)
+        /*
+        if(_develop_mode)
         {
           std::cout << "Index of tags: " << i << std::endl;
           std::cout << "Offset: " << tags[i].offset << std::endl;
@@ -150,6 +151,7 @@ namespace gr {
           std::cout << "Value: " << tags[i].value << std::endl;
           std::cout << "Srcid: " << tags[i].srcid << std::endl;
         }
+        */
           
           // std::cout << "string comapre: " << pmt::symbol_to_string(tags[i].key) << "packet_len" <<  (pmt::symbol_to_string(tags[i].key) == "packet_len") << std::endl;
         if(pmt::symbol_to_string(tags[i].key) == "packet_len")
@@ -158,14 +160,14 @@ namespace gr {
           tag_detected = 1;
           if(_develop_mode)
           {
-            std::cout << "packet_len tag found";
+            std::cout << "++++ t_control ID: " << _block_id << " gets a packet (packet_len tag) to send ";
           }
           if(_develop_mode == 2)
           {
             struct timeval t; 
             gettimeofday(&t, NULL);
             double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
-            std::cout << "* t_control ID: " << _block_id << " finds packet_len tag at time " << current_time_show << " s" << std::endl;
+            std::cout << " at time " << current_time_show << " s" << std::endl;
           }
           else
             std::cout << "." << std::endl;

@@ -68,137 +68,146 @@ namespace gr {
     void
     frame_probe_impl::read_info(pmt::pmt_t frame_info)
     { 
-      if(_cs_mode)
+      struct timeval t;
+      if(_develop_mode == 2)
+      { 
+        gettimeofday(&t, NULL);
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
+        std::cout << "++++ frame_probe ID: " << _block_id << " receives a frame at time " << current_time_show << "s ++++" << std::endl;   
+      } 
+      else
       {
-        if(pmt::is_real(frame_info))
+        if(_cs_mode)
         {
-          struct timeval t;
-          double power = pmt::to_double(frame_info);
-          gettimeofday(&t, NULL);
-          double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
-          double current_time = t.tv_sec + t.tv_usec / 1000000.0;
-          if(power > _cs_threshold)
-            std::cout << "rx power is " << power << ", received at " << current_time_show << " s, detection gap is " << current_time - _last_time << std::endl;
-          _last_time = current_time;
-        }
-        else
-          std::cout << "carrier_sensing ID " << _block_id << " error: not valid power signal" << std::endl;
-      }
-      else if(pmt::is_dict(frame_info))
-      {
-        std::cout << "+++++++++ frame_probe ID: " << _block_id << " +++++++++";    
-        pmt::pmt_t not_found;
-        int find_frame = 0;
-        print_time();
-        int frame_type = 0;
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_type")))
-	{
-          frame_type = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found));
-          if(frame_type == 1)
-            std::cout << " ---- data frame detected ---- ";
-          else if(frame_type == 2)
-            std::cout << " ---- ack frame detected ---- ";
-          else if(frame_type == 3)
-            std::cout << " ---- beacon frame detected ---- ";
-          else if(frame_type == 4)
-            std::cout << " ---- rts frame detected ---- ";
-          else if(frame_type == 5)
-            std::cout << " ---- cts frame detected ---- ";
-          else if(frame_type == 6)
-            std::cout << " ---- ampdu frame detected ---- ";
-          else if(frame_type == 7)
-            std::cout << " ---- amsdu frame detected ---- ";
-          else if(frame_type == 8)
-            std::cout << " ---- ampdu subframe detected ---- ";
-          else if(frame_type == 9)
-            std::cout << " ---- amsdu subframe detected ---- ";
-          else
-            std::cout << "Unknown frame type" << std::endl;
-	  // show detail of DATA, ACK, BEACON, RTS, CTS
-	  if(frame_type <= 5 && frame_type > 0)
+          if(pmt::is_real(frame_info))
           {
-            find_frame = 1;
-            show_detail(frame_info);
+            double power = pmt::to_double(frame_info);
+            gettimeofday(&t, NULL);
+            double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
+            double current_time = t.tv_sec + t.tv_usec / 1000000.0;
+            if(power > _cs_threshold)
+              std::cout << "rx power is " << power << ", received at " << current_time_show << " s, detection gap is " << current_time - _last_time << std::endl;
+            _last_time = current_time;
           }
-	  else if(frame_type == 6)
-	  { 
-            find_frame = 1;
-	    show_detail(frame_info);
-	  }
-	  else if(frame_type == 8)
-	  { 
-            find_frame = 1;
-	    show_detail(frame_info);
-	  }
-	}
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("slot_time")))
-	{
-          find_frame = 1;
-          std::cout << "tdma scheduling info detected. " << std::endl;
-          if(!pmt::is_integer(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found)))
+          else
+            std::cout << "carrier_sensing ID " << _block_id << " error: not valid power signal" << std::endl;
+        }
+        else if(!_cs_mode && pmt::is_dict(frame_info))
+        {
+          std::cout << "+++++++++ frame_probe ID: " << _block_id << " +++++++++";    
+          pmt::pmt_t not_found;
+          int find_frame = 0;
+          print_time();
+          int frame_type = 0;
+          if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("frame_type")))
           {
-            std::vector<uint32_t> node_id_list = pmt::u32vector_elements(pmt::dict_ref(frame_info, pmt::string_to_symbol("node_id"), not_found)); 
-            std::vector<uint32_t> slot_time_list = pmt::u32vector_elements(pmt::dict_ref(frame_info, pmt::string_to_symbol("slot_time"), not_found)); 
-            for(int i = 0; i < node_id_list.size(); i++)
+            frame_type = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found));
+            if(frame_type == 1)
+              std::cout << " ---- data frame detected ---- ";
+            else if(frame_type == 2)
+              std::cout << " ---- ack frame detected ---- ";
+            else if(frame_type == 3)
+              std::cout << " ---- beacon frame detected ---- ";
+            else if(frame_type == 4)
+              std::cout << " ---- rts frame detected ---- ";
+            else if(frame_type == 5)
+              std::cout << " ---- cts frame detected ---- ";
+            else if(frame_type == 6)
+              std::cout << " ---- ampdu frame detected ---- ";
+            else if(frame_type == 7)
+              std::cout << " ---- amsdu frame detected ---- ";
+            else if(frame_type == 8)
+              std::cout << " ---- ampdu subframe detected ---- ";
+            else if(frame_type == 9)
+              std::cout << " ---- amsdu subframe detected ---- ";
+            else
+              std::cout << "Unknown frame type" << std::endl;
+            // show detail of DATA, ACK, BEACON, RTS, CTS
+            if(frame_type <= 5 && frame_type > 0)
             {
-              std::cout << "time slot of node " << node_id_list[i] << " is " << slot_time_list[i] << " [ms]" << std::endl;
+              find_frame = 1;
+              show_detail(frame_info);
+            }
+            else if(frame_type == 6)
+            { 
+              find_frame = 1;
+              show_detail(frame_info);
+            }
+            else if(frame_type == 8)
+            { 
+              find_frame = 1;
+              show_detail(frame_info);
             }
           }
-          else
+          if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("slot_time")))
           {
-            int node_id = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found)); 
-            double slot_time = pmt::to_double(pmt::dict_ref(frame_info, pmt::string_to_symbol("slot_time"), not_found)); 
-            int address_check = pmt::to_double(pmt::dict_ref(frame_info, pmt::string_to_symbol("address_check"), not_found)); 
-            std::cout << "time slot of node " << node_id << " is " << slot_time << " [ms]" << " and address check";
-            if(address_check)
-              std::cout << " passed" << std::endl;
+            find_frame = 1;
+            std::cout << "tdma scheduling info detected. " << std::endl;
+            if(!pmt::is_integer(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found)))
+            {
+              std::vector<uint32_t> node_id_list = pmt::u32vector_elements(pmt::dict_ref(frame_info, pmt::string_to_symbol("node_id"), not_found)); 
+              std::vector<uint32_t> slot_time_list = pmt::u32vector_elements(pmt::dict_ref(frame_info, pmt::string_to_symbol("slot_time"), not_found)); 
+              for(int i = 0; i < node_id_list.size(); i++)
+              {
+                std::cout << "time slot of node " << node_id_list[i] << " is " << slot_time_list[i] << " [ms]" << std::endl;
+              }
+            }
             else
-              std::cout << " failed" << std::endl;
+            {
+              int node_id = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found)); 
+              double slot_time = pmt::to_double(pmt::dict_ref(frame_info, pmt::string_to_symbol("slot_time"), not_found)); 
+              int address_check = pmt::to_double(pmt::dict_ref(frame_info, pmt::string_to_symbol("address_check"), not_found)); 
+              std::cout << "time slot of node " << node_id << " is " << slot_time << " [ms]" << " and address check";
+              if(address_check)
+                std::cout << " passed" << std::endl;
+              else
+                std::cout << " failed" << std::endl;
+            }
           }
-        }
-	// show detail of ampdu subframe from the transmitter side
-	if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("mpdu_info")))
-	{
-          find_frame = 1;
-          pmt::pmt_t mpdu_info = pmt::dict_ref(frame_info, pmt::string_to_symbol("mpdu_info"), not_found);
-          show_detail(mpdu_info);
-          if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("subframe_pmt")))
+          // show detail of ampdu subframe from the transmitter side
+          if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("mpdu_info")))
           {
-            pmt::pmt_t subframe_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("subframe_pmt"), not_found);
-            std::vector<unsigned char> frame_array = pmt::u8vector_elements(pmt::cdr(subframe_pmt));
-            std::cout << "subframe info contains a subframe with length " << frame_array.size() << " bytes: ";
+            find_frame = 1;
+            pmt::pmt_t mpdu_info = pmt::dict_ref(frame_info, pmt::string_to_symbol("mpdu_info"), not_found);
+            show_detail(mpdu_info);
+            if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("subframe_pmt")))
+            {
+              pmt::pmt_t subframe_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("subframe_pmt"), not_found);
+              std::vector<unsigned char> frame_array = pmt::u8vector_elements(pmt::cdr(subframe_pmt));
+              std::cout << "subframe info contains a subframe with length " << frame_array.size() << " bytes: ";
+              if(_print_frame) 
+                disp_vec(frame_array);
+            }
+          }
+          // pure number
+          if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("beacon_address_check")))
+          {
+            pmt::pmt_t address_check_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("beacon_address_check"), not_found);
+            std::cout << " input pmt is: " << pmt::to_long(address_check_pmt) << std::endl;
+            find_frame = 1;
+          }
+          // show pure vector pmt
+          if(pmt::is_u8vector(pmt::cdr(frame_info)))
+          {
+            find_frame = 1;
+            std::vector<unsigned char> array = pmt::u8vector_elements(pmt::cdr(frame_info));
+            std::cout << "Input mac frame has length: " << array.size() << std::endl;
             if(_print_frame) 
-              disp_vec(frame_array);
-	  }
-	}
-        // pure number
-	if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("beacon_address_check")))
-	{
-          pmt::pmt_t address_check_pmt = pmt::dict_ref(frame_info, pmt::string_to_symbol("beacon_address_check"), not_found);
-          std::cout << " input pmt is: " << pmt::to_long(address_check_pmt) << std::endl;
-          find_frame = 1;
+              disp_vec(array);
+          }  
+          if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("time_stamp")))
+          {
+            find_frame = 1;
+            double time = pmt::to_double(pmt::dict_ref(frame_info, pmt::string_to_symbol("time_stamp"), not_found));
+            std::cout << "input time_stamp is: " << time - double(int(time/100)*100);
+          }
+          if(find_frame == 0)
+            std::cout << "Error. Unknow frame type. Please check your connections." << std::endl;
+          std::cout << std::endl;
         }
-	// show pure vector pmt
-	if(pmt::is_u8vector(pmt::cdr(frame_info)))
-	{
-          find_frame = 1;
-          std::vector<unsigned char> array = pmt::u8vector_elements(pmt::cdr(frame_info));
-          std::cout << "Input mac frame has length: " << array.size() << std::endl;
-          if(_print_frame) 
-            disp_vec(array);
-	}  
-        if(pmt::dict_has_key(frame_info, pmt::string_to_symbol("time_stamp")))
-	{
-          find_frame = 1;
-          double time = pmt::to_double(pmt::dict_ref(frame_info, pmt::string_to_symbol("time_stamp"), not_found));
-          std::cout << "input time_stamp is: " << time - double(int(time/100)*100);
-        }
-	if(find_frame == 0)
-          std::cout << "Error. Unknow frame type. Please check your connections." << std::endl;
-	std::cout << std::endl;
+        else
+          std::cout << "Error. Input is not a frame_info structure or carrier sensing reading. Please check your connections." << std::endl;
       }
-      else
-        std::cout << "Error. Input is not a frame_info structure or carrier sensing reading. Please check your connections." << std::endl;
     }
   
     void

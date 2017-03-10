@@ -31,7 +31,7 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>block_id</value>
+    <value>5</value>
     <type>int</type>
   </param>
   <param>

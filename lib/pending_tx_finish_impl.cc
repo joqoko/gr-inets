@@ -96,7 +96,7 @@ namespace gr {
       if(pmt::is_dict(tx_frame_info))
       {
         _tx_queue.push(tx_frame_info);
-        if(_develop_mode == 1)
+        if(_develop_mode)
           std::cout << "tx_frame_info received." << std::endl;
       }
       else
@@ -122,15 +122,14 @@ namespace gr {
           // std::cout << "string comapre: " << pmt::symbol_to_string(tags[i].key) << "packet_len" <<  (pmt::symbol_to_string(tags[i].key) == "packet_len") << std::endl;
           if(pmt::symbol_to_string(tags[i].key) == "packet_len")
           {
-            if(_develop_mode == 1)
-            {
-              std::cout << "+++++++++  pending_tx_finish ID: " << _block_id << "  ++++++++++" << std::endl;
-            }
-            _wait_time = pmt::to_double(tags[i].value) / _sample_rate;     
             if(_develop_mode)
             {
-              std::cout << "samples are: " << pmt::to_double(tags[i].value);
-              std::cout << " and the frame transmission time is: " << _wait_time << std::endl;
+              std::cout << "++++  pending_tx_finish ID: " << _block_id << " ";
+            }
+            _wait_time = pmt::to_double(tags[i].value) / _sample_rate;     
+            if(_develop_mode == 2)
+            {
+              std::cout << " number of samples: " << pmt::to_double(tags[i].value) << " in " << _wait_time << "s. ";
             }
             break;
           }
@@ -147,7 +146,7 @@ namespace gr {
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
       if(_develop_mode == 2)
-        std::cout << "start pending tx at: " << start_time_show << std::endl;
+        std::cout << "pending is started at: " << start_time_show << "s. ";
       while(current_time < start_time + _wait_time - _countdown_bias_s)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
@@ -167,53 +166,53 @@ namespace gr {
         if(frame_type == 1)
         {
           if(_develop_mode)
-            std::cout << "a data frame";
+            std::cout << "frame type: data";
           message_port_pub(pmt::mp("data_frame_out"), tx_frame_info);
         } 
         else if(frame_type == 2)
         {
           if(_develop_mode)
-            std::cout << "an ack frame";
+            std::cout << "frame type: ack";
           message_port_pub(pmt::mp("ack_frame_out"), tx_frame_info);
         } 
         else if(frame_type == 3)
         {
           if(_develop_mode)
-            std::cout << "a beacon frame";
+            std::cout << "frame type: beacon";
           message_port_pub(pmt::mp("beacon_frame_out"), tx_frame_info);
         } 
         else if(frame_type == 4)
         {
           if(_develop_mode)
-            std::cout << "a rts frame";
+            std::cout << "frame type: rts";
           message_port_pub(pmt::mp("rts_frame_out"), tx_frame_info);
         } 
         else if(frame_type == 5)
         {
           if(_develop_mode)
-            std::cout << "a cts frame";
+            std::cout << "frame type: cts";
           message_port_pub(pmt::mp("cts_frame_out"), tx_frame_info);
         } 
         else if(frame_type == 6)
         {
           if(_develop_mode)
-            std::cout << "an ampdu frame";
+            std::cout << "frame type: ampdu";
           message_port_pub(pmt::mp("ampdu_frame_out"), tx_frame_info);
         } 
         else if(frame_type == 7)
         {
           if(_develop_mode)
-            std::cout << "an amsdu frame";
+            std::cout << "frame type: amsdu";
           message_port_pub(pmt::mp("amsdu_frame_out"), tx_frame_info);
         } 
         else
         {
           if(_develop_mode)
-            std::cout << "an unknown frame";
+            std::cout << "frame type: unknown";
           message_port_pub(pmt::mp("unknown_frame_out"), tx_frame_info);
         } 
-        if(_develop_mode)
-          std::cout << " was transmitted at time " << start_time_show << "s and finishes at time " << current_time_show << "s. the required holding time is: " << _wait_time << " and the actual holding time is " << current_time - start_time << "s" << std::endl; 
+        if(_develop_mode == 2)
+          std::cout << ", starting tx time " << start_time_show << "s and finish time " << current_time_show << "s. the actual transmitting duration is " << current_time - start_time << "s" << std::endl; 
         _tx_queue.pop();
       } 
       else

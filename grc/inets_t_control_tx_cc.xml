@@ -32,7 +32,7 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>block_id</value>
+    <value>4</value>
     <type>int</type>
   </param>
   <param>

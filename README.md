@@ -36,7 +36,7 @@ Index		block name				Categories
  9		frame_check				inets_dmf_mac
                 (frame_verification_cpp)
  10		timeout_cpp				inets_dmf_mac
- 11		exponential_backoff_cpp			inets_dmf_mac
+ 11		backoff					inets_dmf_mac
  12		carrier_sensing_cpp_cc			inets_dmf_mac
  13		counter					inets_dmf_tool	
  14		decision_cpp				inets_dmf_tool
@@ -57,6 +57,7 @@ Index		block name				Categories
  29		beacon_interpreter			inets_dmf_mac
  30		rts_framing				inets_dmf_mac
  31		cts_framing				inets_dmf_mac
+ 32		packetizer				inets_dmf_phy
  100+		frame_probe				inets_dmf_tool
 
 

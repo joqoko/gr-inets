@@ -112,7 +112,7 @@ namespace gr {
           _ch_busy = false;
       }
       else
-        std::cout << "backoff ID " << _block_id << " error: port power_in receives unknown data type. please check your connections." << std::endl;
+        std::cout << "++++ backoff ID " << _block_id << " error: port power_in receives unknown data type. please check your connections." << std::endl;
     }
 
     void backoff_impl::start_virtual_cs(pmt::pmt_t rcts)
@@ -121,7 +121,7 @@ namespace gr {
       {
         if(_develop_mode)
         {
-          std::cout << "++++  backoff ID: " << _block_id << " start virtual carrier sensing ";
+          std::cout << "++++ backoff ID: " << _block_id << " start virtual carrier sensing ";
           if(_develop_mode == 2)
           {
             struct timeval t;
@@ -160,11 +160,11 @@ namespace gr {
       {
         if(pmt::is_dict(frame_info))
         {
+/*     
           if(_develop_mode)
           {
             std::cout << "++++  backoff ID: " << _block_id << " ++++" << std::endl;
           }
-/*     
           if(_develop_mode == 2)
           {
             struct timeval t;
@@ -206,7 +206,7 @@ namespace gr {
           else
           {
             // not a boolean pmt, most likely a gnuradio connection error
-            std::cout << "not correct input signal at block ID: " << _block_id << std::endl;
+            std::cout << "not correct input signal at backoff ID: " << _block_id << std::endl;
           }
         }
         else
@@ -227,7 +227,7 @@ namespace gr {
       {
         gettimeofday(&t, NULL);
         double current_time = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
-        std::cout << "* backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
+        std::cout << "++++ backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
       }
       message_port_pub(pmt::mp("frame_info_out"), _frame_info);
       _in_backoff = false;
@@ -241,13 +241,13 @@ namespace gr {
       //float backoff_time = std::rand() % std::pow(2, _n_backoff) + _min_bakcoff_ms;
       float backoff_time = std::rand() % (_max_backoff_ms - _min_backoff_ms) + _min_backoff_ms;
       if(_develop_mode)
-          std::cout << "in random backoff, the backoff time is: " << backoff_time << "[ms]." << std::endl;
+          std::cout << "++++ backoff ID: " << _block_id  << "the random backoff duration is: " << backoff_time << "ms." << std::endl;
       boost::this_thread::sleep(boost::posix_time::milliseconds(backoff_time));
       if(_develop_mode == 2)
       {
         gettimeofday(&t, NULL);
         double current_time = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
-        std::cout << "backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
+        std::cout << "++++ backoff ID: " << _block_id << "backoff timer is expired at time " << current_time << " s" << std::endl;
       }
       message_port_pub(pmt::mp("frame_info_out"), _frame_info);
       _in_backoff = false;
@@ -294,12 +294,17 @@ namespace gr {
         if(_nav_us == 0)
         {
           backoff_time_s = double(std::rand() % (int)std::pow(2, _n_backoff) * _backoff_time_unit_ms + _min_backoff_ms) / 1000;
-          std::cout << "backoff ID: " << _block_id << " starts the " << _n_backoff << "th backoff at " << start_time_show << "s and the backoff duration is: " << backoff_time_s << "s." << std::endl;
+          if(_develop_mode)
+          std::cout << "++++ backoff ID: " << _block_id << " starts the " << _n_backoff << "th backoff";
+          if(_develop_mode == 2)
+            std::cout << " at " << start_time_show << "s and the backoff duration is: " << backoff_time_s << "s." << std::endl;
+          else
+            std::cout << " " << std::endl;
         }
         else
         {
           backoff_time_s = double(_nav_us) / 1000000;
-          std::cout << "backoff ID: " << _block_id << " starts a NAV at " << start_time_show << "s and the NAV duration is: " << backoff_time_s << "s." << std::endl;
+          std::cout << "++++ backoff ID: " << _block_id << " starts a " << double(_nav_us) / 1000000 << "s NAV at " << start_time_show << "s" << std::endl;
         }
         _nav_us = 0;
         double remain_time_s = backoff_time_s;
@@ -308,9 +313,11 @@ namespace gr {
           gettimeofday(&t, NULL);
           if(_nav_us > 0)
           { 
-            std::cout << "backoff timer starts a " << double(_nav_us) / 1000000 << "s NAV when " << remain_time_s << "s left. ";
+
+            double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
+            std::cout << "++++ backoff ID: " << _block_id << " starts a " << double(_nav_us) / 1000000 << "s NAV when " << remain_time_s << "s left at time " << current_time_show << "s. ";
             remain_time_s = remain_time_s + double(_nav_us) / 1000000;
-            std::cout << " backoff timer is reset to " << remain_time_s << "s" << std::endl;
+            std::cout << " backoff timer is extended to " << remain_time_s << "s" << std::endl;
             _nav_us = 0;
           }
           boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
@@ -325,7 +332,7 @@ namespace gr {
             if(_develop_mode == 2)
             {
               double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
-              std::cout << "backoff ID: " << _block_id << " at time " << current_time_show << "s channel is busy (" << _power << "/" << _cs_threshold << "), so backoff timer is froze." << std::endl;
+              std::cout << "++++ backoff ID: " << _block_id << " at time " << current_time_show << "s channel is busy (" << _power << "/" << _cs_threshold << "), so backoff timer is froze." << std::endl;
             }
           }
           //std::cout << "remain_time_s is: " << remain_time_s << std::endl;
@@ -338,7 +345,7 @@ namespace gr {
         if(_develop_mode)
         {
           double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
-          std::cout << "backoff ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << "s and the timer bias is " << _timer_bias_s << "s" << std::endl;
+          std::cout << "++++ backoff ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << "s and the timer bias is " << _timer_bias_s << "s" << std::endl;
         }
       }
       else
