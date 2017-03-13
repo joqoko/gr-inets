@@ -95,7 +95,8 @@ namespace gr {
       {
         for(int i = 0; i < noutput_items; i++)
         {
-          out[i] = in[i] / 10000;
+          //out[i] = in[i] / 10000;
+          out[i] = complex_zero;
         }
       }
       _vec_average_pow.push_back(pow_sum / noutput_items);
