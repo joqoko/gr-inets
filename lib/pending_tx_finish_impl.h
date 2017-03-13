@@ -38,13 +38,14 @@ namespace gr {
       float _wait_time;
       int _system_time_granularity_us;
       double _countdown_bias_s;
+      double _interframe_interval_s;
       std::queue<pmt::pmt_t> _tx_queue;         
       int process_tags_info(std::vector <tag_t> tags);
       void buffer_tx_frame_info(pmt::pmt_t tx_frame_info);
       void countdown_waiting();
 
      public:
-      pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname);
+      pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s);
       ~pending_tx_finish_impl();
 
       // Where all the action really happens

@@ -99,7 +99,7 @@ namespace gr {
     rts_framing_impl::send_data(pmt::pmt_t cts_frame)
     {
       pmt::pmt_t not_found;
-      if(pmt::is_dict(_rts_frame))
+      if(!pmt::is_dict(_rts_frame))
         std::cout << " error: rts_framing ID " << _block_id <<  " receives cts_frame before transmitting a rts_frame. " << std::endl;
       else
       {

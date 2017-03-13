@@ -205,7 +205,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(304, 152)</value>
+      <value>(304, 136)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -382,7 +382,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4e8</value>
+      <value>3.9e8</value>
     </param>
   </block>
   <block>
@@ -544,7 +544,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4e8</value>
+      <value>3.9e8</value>
     </param>
   </block>
   <block>
@@ -752,6 +752,10 @@
     <param>
       <key>develop_mode</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>virtual_cs</key>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1831,12 +1835,6 @@
     </param>
   </block>
   <connection>
-    <source_block_id>blocks_socket_pdu_0</source_block_id>
-    <sink_block_id>inets_frame_buffer_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>enqueue</sink_key>
-  </connection>
-  <connection>
     <source_block_id>inets_address_check_0</source_block_id>
     <sink_block_id>inets_frame_type_check_0</sink_block_id>
     <source_key>address_check_pass_out</source_key>
@@ -1883,12 +1881,6 @@
     <sink_block_id>inets_framing_1</sink_block_id>
     <source_key>data_frame_info_out</source_key>
     <sink_key>data_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_frame_type_check_0_0</source_block_id>
-    <sink_block_id>inets_counter_1</sink_block_id>
-    <source_key>ack_frame_info_out</source_key>
-    <sink_key>message_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0_0</source_block_id>

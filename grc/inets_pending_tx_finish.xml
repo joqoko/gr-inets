@@ -4,7 +4,7 @@
   <key>inets_pending_tx_finish</key>
   <category>inets_dmf_phy</category>
   <import>import inets</import>
-  <make>inets.pending_tx_finish($develop_mode, $block_id, $system_time_granularity_us, $sample_rate, $lengthtagname)</make>
+  <make>inets.pending_tx_finish($develop_mode, $block_id, $system_time_granularity_us, $sample_rate, $lengthtagname, $interframe_interval_s)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -51,6 +51,12 @@
     <key>lengthtagname</key>
     <value>"packet_len"</value>
     <type>string</type>
+  </param>
+  <param>
+    <name>Interframe interval</name>
+    <key>interframe_interval_s</key>
+    <value>0.005</value>
+    <type>real</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -102,6 +108,10 @@
   </source>
   <source>
     <name>unknown_frame_out</name>
+    <type>message</type>
+  </source>
+  <source>
+    <name>rx_control_out</name>
     <type>message</type>
   </source>
 </block>

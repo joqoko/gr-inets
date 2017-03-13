@@ -48,7 +48,7 @@ namespace gr {
         _num_fetch_per_cs(num_fetch_per_cs),
         _is_receiving(1)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
         std::cout << "develop_mode of rx_switch_cc ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("rx_switch_in"));
       message_port_register_out(pmt::mp("power_out"));
@@ -95,7 +95,7 @@ namespace gr {
       {
         for(int i = 0; i < noutput_items; i++)
         {
-          out[i] = complex_zero;
+          out[i] = in[i] / 10000;
         }
       }
       _vec_average_pow.push_back(pow_sum / noutput_items);
@@ -114,33 +114,35 @@ namespace gr {
     void
     rx_switch_cc_impl::kai_guan(pmt::pmt_t spark)
     {
-      if(_develop_mode == 1)
+      if(_develop_mode)
       {
-	std::cout << "+++++++++++  rx_switch_cc ID: " << _block_id << "  +++++++++++++" << std::endl;
+	std::cout << "++++ rx_switch ID: " << _block_id;
       }
-      // std::cout << "received a message" << std::endl;
+      struct timeval t;
+      gettimeofday(&t, NULL);
+      double start_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
       if(pmt::is_bool(spark))
       {
         // std::cout << "received a pmt bool" << std::endl;
         if(pmt::to_bool(spark))
         {
-          if(_develop_mode == 1)
+          if(_develop_mode)
           {
             if(_is_receiving)
-              std::cout << "Continue receiving." << std::endl;
+              std::cout << " continue receiving at time ";
             else 
-              std::cout << "Start receiving." << std::endl;
+              std::cout << " start receiving at time ";
           }
           _is_receiving = 1;
         }
         else
         {
-          if(_develop_mode == 1)
+          if(_develop_mode)
           {
             if(_is_receiving)
-              std::cout << "Stop receiving." << std::endl;
+              std::cout << " stop receiving at time ";
             else 
-              std::cout << "Stay inactive mode." << std::endl;
+              std::cout << " stay inactive mode at time ";
           }
           _is_receiving = 0;
         }
@@ -148,8 +150,16 @@ namespace gr {
       else
       {
         // not a boolean pmt, most likely an import error
-        if(_develop_mode == 1)
-          std::cout << "not a spark signal" << std::endl;
+        std::cout << "++++ rx_switch ID: " << _block_id << " error: not a spark signal" << std::endl;
+      }
+      if(_develop_mode == 2)
+        std::cout << start_time_show << "s" << std::endl;
+      else
+      {
+        if(_develop_mode)
+        {
+          std::cout << " " << std::endl;
+        }
       }
     }
   } /* namespace inets */

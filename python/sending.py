@@ -38,7 +38,7 @@ class sending(gr.hier_block2):
     """
     docstring for block sending
     """
-    def __init__(self, develop_mode=1, block_id=20, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=[], samp_rate=4e6, sps=4, system_time_granularity_us=5, usrp_device_address="addr=10.0.0.6", center_frequency=400000000):
+    def __init__(self, develop_mode=1, block_id=20, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=[], samp_rate=4e6, sps=4, system_time_granularity_us=5, usrp_device_address="addr=10.0.0.6", center_frequency=400000000, interframe_interval_s=0.005):
         gr.hier_block2.__init__(self,
             "sending",
             gr.io_signature(0, 0, 0),  # Input signature
@@ -54,6 +54,7 @@ class sending(gr.hier_block2):
         self.message_port_register_hier_out("ampdu_frame_out")
         self.message_port_register_hier_out("amsdu_frame_out")
         self.message_port_register_hier_out("unknown_frame_out")
+        self.message_port_register_hier_out("rx_control_out")
 
         ##################################################
         # Blocks
@@ -62,6 +63,7 @@ class sending(gr.hier_block2):
             block_id=block_id,
             constellation=constellation,
             develop_mode=develop_mode,
+            interframe_interval_s=interframe_interval_s,
             preamble=preamble,
             samp_rate=samp_rate,
             sps=sps,
@@ -80,4 +82,5 @@ class sending(gr.hier_block2):
         self.msg_connect((self.send_frame_0, 'ampdu_frame_out'), (self, 'ampdu_frame_out'))    
         self.msg_connect((self.send_frame_0, 'amsdu_frame_out'), (self, 'amsdu_frame_out'))    
         self.msg_connect((self.send_frame_0, 'unknown_frame_out'), (self, 'unknown_frame_out'))    
+        self.msg_connect((self.send_frame_0, 'rx_control_out'), (self, 'rx_control_out'))    
         self.msg_connect((self, 'in'), (self.send_frame_0, 'in'))    

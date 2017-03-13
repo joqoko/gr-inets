@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::pending_tx_finish::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string& lengthtagname);
+      static sptr make(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string& lengthtagname, double interframe_interval_s);
     };
 
   } // namespace inets

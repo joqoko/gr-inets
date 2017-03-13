@@ -29,16 +29,16 @@ namespace gr {
   namespace inets {
 
     pending_tx_finish::sptr
-    pending_tx_finish::make(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
+    pending_tx_finish::make(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s)
     {
       return gnuradio::get_initial_sptr
-        (new pending_tx_finish_impl(develop_mode, block_id, system_time_granularity_us, sample_rate, lengthtagname));
+        (new pending_tx_finish_impl(develop_mode, block_id, system_time_granularity_us, sample_rate, lengthtagname, interframe_interval_s));
     }
 
     /*
      * The private constructor
      */
-    pending_tx_finish_impl::pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname)
+    pending_tx_finish_impl::pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s)
       : gr::sync_block("pending_tx_finish",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(0, 0, 0)),
@@ -47,7 +47,8 @@ namespace gr {
         _develop_mode(develop_mode),
         _block_id(block_id),
         _system_time_granularity_us(system_time_granularity_us),
-        _countdown_bias_s(0) 
+        _countdown_bias_s(0) ,
+        _interframe_interval_s(interframe_interval_s)
     {
       if(_develop_mode == 1)
         std::cout << "develop_mode of pending_tx_finish ID: " << _block_id << " is activated." << std::endl;
@@ -62,6 +63,7 @@ namespace gr {
       message_port_register_out(pmt::mp("ampdu_frame_out"));
       message_port_register_out(pmt::mp("amsdu_frame_out"));
       message_port_register_out(pmt::mp("unknown_frame_out"));
+      message_port_register_out(pmt::mp("rx_control_out"));
     }
 
     /*
@@ -147,7 +149,8 @@ namespace gr {
       double start_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
       if(_develop_mode == 2)
         std::cout << "pending is started at: " << start_time_show << "s. ";
-      while(current_time < start_time + _wait_time - _countdown_bias_s)
+      message_port_pub(pmt::mp("rx_control_out"), pmt::from_bool(false));
+      while(current_time < start_time + _wait_time + _interframe_interval_s - _countdown_bias_s)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
         gettimeofday(&t, NULL);
@@ -160,7 +163,7 @@ namespace gr {
         double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
         pmt::pmt_t tx_frame_info = _tx_queue.front();
         pmt::pmt_t not_found;
-        _countdown_bias_s = _countdown_bias_s / 2 + current_time - start_time - _wait_time;
+        _countdown_bias_s = _countdown_bias_s / 2 + current_time - start_time - _wait_time - _interframe_interval_s;
         int frame_type = pmt::to_long(pmt::dict_ref(tx_frame_info, pmt::string_to_symbol("frame_type"), not_found));
         
         if(frame_type == 1)
@@ -218,6 +221,7 @@ namespace gr {
       else
         std::cout << "pending_tx: tx_queue is empty. " << std::endl;
       _wait_time = 0;
+      message_port_pub(pmt::mp("rx_control_out"), pmt::from_bool(true));
     }
 
 

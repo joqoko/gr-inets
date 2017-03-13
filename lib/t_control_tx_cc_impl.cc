@@ -102,7 +102,8 @@ namespace gr {
         struct timeval t;
         gettimeofday(&t, NULL);
         double tx_time = t.tv_sec + t.tv_usec / 1000000.0;
-        double min_time_diff = (pmt::to_double(_packet_len_tag.value) * 8.0) / _bps; //Max packet len [bit] / bit rate 
+        //double min_time_diff = (pmt::to_double(_packet_len_tag.value) * 8.0) / _bps; //Max packet len [bit] / bit rate 
+        double min_time_diff = (1001 * 8.0) / _bps; //Max packet len [bit] / bit rate 
         // Ensure that frames are not overlap each other
         if((tx_time - _last_tx_time) <= min_time_diff) {
           tx_time = _last_tx_time + min_time_diff;

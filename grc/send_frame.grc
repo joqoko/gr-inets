@@ -1130,6 +1130,10 @@
       <value>inets_pending_tx_finish_0</value>
     </param>
     <param>
+      <key>interframe_interval_s</key>
+      <value>interframe_interval_s</value>
+    </param>
+    <param>
       <key>lengthtagname</key>
       <value>"packet_len"</value>
     </param>
@@ -1199,6 +1203,49 @@
     <param>
       <key>bps</key>
       <value>constellation.bits_per_symbol() * (samp_rate / sps)</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(192, 792)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>interframe_interval_s</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>interframe_interval_s</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.005</value>
     </param>
   </block>
   <block>
@@ -1387,6 +1434,49 @@
     <param>
       <key>label</key>
       <value>rts_frame_out</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(752, 708)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rx_control_out</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>message</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>rx_control_out</value>
     </param>
     <param>
       <key>num_streams</key>
@@ -2539,6 +2629,12 @@
     <source_block_id>inets_pending_tx_finish_0</source_block_id>
     <sink_block_id>rts_frame_out</sink_block_id>
     <source_key>rts_frame_out</source_key>
+    <sink_key>in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_pending_tx_finish_0</source_block_id>
+    <sink_block_id>rx_control_out</sink_block_id>
+    <source_key>rx_control_out</source_key>
     <sink_key>in</sink_key>
   </connection>
   <connection>

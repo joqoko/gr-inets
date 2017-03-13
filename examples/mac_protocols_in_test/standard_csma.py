@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: standard_csma
 # Author: PWA
-# Generated: Wed Mar  8 20:58:04 2017
+# Generated: Mon Mar 13 15:39:45 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -64,12 +64,12 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
-        self.tx_center_frequency = tx_center_frequency = 4e8
+        self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 1
         self.samp_rate = samp_rate = 1000000
         self.rx_gain = rx_gain = range_rx_gain
-        self.rx_center_frequency = rx_center_frequency = 4e8
+        self.rx_center_frequency = rx_center_frequency = 3.9e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
@@ -99,14 +99,13 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_counter_1 = inets.counter(1, 100)
         self.inets_carrier_sensing_0 = inets.carrier_sensing(0, 11, 2, 100, 0.05, 1000)
-        self.inets_backoff_0 = inets.backoff(0, 11, 1, 10, 100, 400, 0, 0.005, 1000)
+        self.inets_backoff_0 = inets.backoff(0, 11, 1, 10, 100, 400, 0, 0.005, 1000, 1)
         self.inets_address_check_0 = inets.address_check(0, 17, source_address)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.inets_frame_buffer_0, 'enqueue'))
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_backoff_0, 'frame_info_out'), (self.inets_resend_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_fail_out'), (self.inets_backoff_0, 'frame_info_in'))
@@ -116,7 +115,6 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_framing_1, 'data_in'))
         self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_0, 'ack_frame_info_in'))
         self.msg_connect((self.inets_frame_type_check_0_0, 'data_frame_info_out'), (self.inets_backoff_0, 'frame_info_in'))
-        self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_counter_1, 'message_in'))
         self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_frame_buffer_0, 'dequeue'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_carrier_sensing_0, 'info_in'))
         self.msg_connect((self.inets_framing_1, 'frame_out'), (self.inets_sending_0, 'in'))

@@ -4,7 +4,7 @@
   <key>inets_sending</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.sending(develop_mode=$develop_mode, block_id=$block_id, constellation=$constellation, preamble=$preamble, samp_rate=$samp_rate, sps=$sps, system_time_granularity_us=$system_time_granularity_us, usrp_device_address=$usrp_device_address, center_frequency=$center_frequency)</make>
+  <make>inets.sending(develop_mode=$develop_mode, block_id=$block_id, constellation=$constellation, preamble=$preamble, samp_rate=$samp_rate, sps=$sps, system_time_granularity_us=$system_time_granularity_us, usrp_device_address=$usrp_device_address, center_frequency=$center_frequency, interframe_interval_s=$interframe_interval_s)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -97,6 +97,15 @@
     <type>raw</type>
     <hide>part</hide>
   </param>
+
+  <param>
+    <name>Interframe Interval [s]</name>
+    <key>interframe_interval_s</key>
+    <value>0.005</value>
+    <type>raw</type>
+    <hide>part</hide>
+  </param>
+
 
   <param>
     <name>Show DATA frame</name>
@@ -229,6 +238,22 @@
       <opt>hide:none</opt>
     </option>
   </param>
+  <param>
+    <name>Show receiving control</name>
+    <key>rx_control</key>
+    <type>enum</type>
+    <hide>$rx_control.hide</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -292,5 +317,11 @@
     <type>message</type>
     <optional>1</optional>
     <hide>$unknown_frame</hide>
+  </source>
+  <source>
+    <name>rx_control_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$rx_control</hide>
   </source>
 </block>
