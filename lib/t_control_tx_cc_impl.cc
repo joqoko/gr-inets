@@ -47,11 +47,11 @@ namespace gr {
         _develop_mode(develop_mode),
         _block_id(block_id),
         _last_tx_time(0),
-        _t_pretx_interval_s(_t_pretx_interval_s),
+        _t_pretx_interval_s(t_pretx_interval_s),
         _bps(bps)
     {
       if(_develop_mode)
-        std::cout << "develop_mode of t_control_tx ID: " << _block_id << " is activated." << std::endl;
+        std::cout << "develop_mode of t_control_tx ID: " << _block_id << " is activated." << "and t_re is " << _t_pretx_interval_s << std::endl;
     }
 
     /*
@@ -103,18 +103,19 @@ namespace gr {
         struct timeval t;
         gettimeofday(&t, NULL);
         double tx_time = t.tv_sec + t.tv_usec / 1000000.0;
-        double min_time_diff = pmt::to_double(_packet_len_tag.value) / _bps; //Max packet len [bit] / bit rate 
-        //double min_time_diff = (1001 * 8.0) / _bps; //Max packet len [bit] / bit rate 
+        // double min_time_diff = pmt::to_double(_packet_len_tag.value) / _bps; //Max packet len [bit] / bit rate 
+        double min_time_diff = (1000 * 8.0) / _bps; //Max packet len [bit] / bit rate 
         // Ensure that frames are not overlap each other
         if((tx_time - _last_tx_time) <= min_time_diff) {
           tx_time = _last_tx_time + min_time_diff;
           if(_develop_mode)
-            std::cout << "in time packet" << std::endl;
+            std::cout << "t_control ID " << _block_id << " in time packet" << std::endl;
         }
         //std::cout << "tx time = " << std::fixed << tx_time << std::endl;
         // update the tx_time to the current packet
         _last_tx_time = tx_time;
         // question 1: why add 0.05?
+        std::cout << "t pretx is: " << _t_pretx_interval_s << std::endl;
         uhd::time_spec_t now = uhd::time_spec_t(tx_time)
           + uhd::time_spec_t(_t_pretx_interval_s);
         // the value of the tag is a tuple
