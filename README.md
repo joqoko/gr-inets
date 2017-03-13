@@ -25,20 +25,18 @@ How to use develop_mode to debug:
 1. Set parameter 'develop_mode' to the index of the blocks to display the debugging information. 
 
 Index		block name				Categories
- 1		idle_cpp				inets_dmf_mac
  2		decouple_frame_info			inets_dmf_phy
  3		general_timer				inets_dmf_mac
  4		t_control_tx_cc				inets_dmf_phy
  5		pending_tx_finish			inets_dmf_phy
  6		rx_switch_cc				inets_dmf_phy
- 7		frame_header_analysis			inets_dmf_mac
+ 7		frame_analysis				inets_dmf_mac
  8		address_check_cpp			inets_dmf_mac
  9		frame_check				inets_dmf_mac
                 (frame_verification_cpp)
  10		timeout_cpp				inets_dmf_mac
  11		backoff					inets_dmf_mac
  12		carrier_sensing_cpp_cc			inets_dmf_mac
- 13		counter					inets_dmf_tool	
  14		decision_cpp				inets_dmf_tool
  15             null_message_source			inets_dmf_tool
  16		frame_buffer				inets_dmf_mac
@@ -59,8 +57,10 @@ Index		block name				Categories
  31		cts_framing				inets_dmf_mac
  32		packetizer				inets_dmf_phy
  100+		frame_probe				inets_dmf_tool
+ 100+		counter					inets_dmf_tool	
 
 
+ x1		idle_cpp				inets_dmf_mac
  x101		analyze_frame_cpp			inets_dmf_draft
  x102		framing_cpp				inets_dmf_draft
  x103            framing_py_v1				inets_dmf_draft

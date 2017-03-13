@@ -103,8 +103,8 @@ namespace gr {
         struct timeval t;
         gettimeofday(&t, NULL);
         double tx_time = t.tv_sec + t.tv_usec / 1000000.0;
-        // double min_time_diff = pmt::to_double(_packet_len_tag.value) / _bps; //Max packet len [bit] / bit rate 
-        double min_time_diff = (1000 * 8.0) / _bps; //Max packet len [bit] / bit rate 
+        double min_time_diff = pmt::to_double(_packet_len_tag.value) / _bps; //Max packet len [bit] / bit rate 
+        // double min_time_diff = (1000 * 8.0) / _bps; //Max packet len [bit] / bit rate 
         // Ensure that frames are not overlap each other
         if((tx_time - _last_tx_time) <= min_time_diff) {
           tx_time = _last_tx_time + min_time_diff;
@@ -115,7 +115,6 @@ namespace gr {
         // update the tx_time to the current packet
         _last_tx_time = tx_time;
         // question 1: why add 0.05?
-        std::cout << "t pretx is: " << _t_pretx_interval_s << std::endl;
         uhd::time_spec_t now = uhd::time_spec_t(tx_time)
           + uhd::time_spec_t(_t_pretx_interval_s);
         // the value of the tag is a tuple
@@ -164,16 +163,16 @@ namespace gr {
           if(_develop_mode)
           {
             std::cout << "++++ t_control ID: " << _block_id << " gets a packet (packet_len tag) to send ";
-          }
-          if(_develop_mode == 2)
-          {
-            struct timeval t; 
-            gettimeofday(&t, NULL);
-            double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
-            std::cout << " at time " << current_time_show << " s" << std::endl;
-          }
-          else
-            std::cout << "." << std::endl;
+            if(_develop_mode == 2)
+            {
+              struct timeval t; 
+              gettimeofday(&t, NULL);
+              double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
+              std::cout << " at time " << current_time_show << " s" << std::endl;
+            }
+            else
+              std::cout << "." << std::endl;
+            }
           break;
         }
       }

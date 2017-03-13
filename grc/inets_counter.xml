@@ -4,7 +4,7 @@
   <key>inets_counter</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.counter($develop_mode, $counter_id)</make>
+  <make>inets.counter($develop_mode, $counter_id, $interval_mode)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -32,6 +32,23 @@
     <type>int</type>
   </param>
 
+  <param>
+    <name>Interval mode</name>
+    <key>interval_mode</key>
+    <type>enum</type>
+    <hide>$interval_mode.hide</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -41,6 +58,20 @@
     <name>message_in</name>
     <type>message</type>
     <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>start_counter_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$interval_mode</hide>
+  </sink>
+
+  <sink>
+    <name>stop_counter_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$interval_mode</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:

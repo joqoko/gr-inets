@@ -32,10 +32,15 @@ namespace gr {
       int _develop_mode;
       int _counter_id;
       int _counter;
+      int _in_counting;
+      int _virgin;
+      double _start_time;
       void counting(pmt::pmt_t message);
+      void start_counting(pmt::pmt_t message);
+      void stop_counting(pmt::pmt_t message);
 
      public:
-      counter_impl(int develop_mode, int counter_id);
+      counter_impl(int develop_mode, int counter_id, int interval_mode);
       ~counter_impl();
 
     };

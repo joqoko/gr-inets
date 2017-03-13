@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::counter::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int counter_id);
+      static sptr make(int develop_mode, int counter_id, int interval_mode);
     };
 
   } // namespace inets
