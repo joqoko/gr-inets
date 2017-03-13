@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: four_way_handshake_csma
 # Author: PWA
-# Generated: Mon Mar 13 11:01:45 2017
+# Generated: Mon Mar 13 14:11:55 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -96,14 +96,16 @@ class four_way_handshake_csma(gr.top_block, Qt.QWidget):
         self.inets_resend_check_0_0 = inets.resend_check(0, 24, 6)
         self.inets_resend_check_0 = inets.resend_check(0, 24, 6)
         self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
+        self.inets_null_message_source_0 = inets.null_message_source()
         self.inets_framing_1 = inets.framing(0, 17, 2, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2)
         self.inets_frame_type_check_0_0_1 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
         self.inets_frame_type_check_0_0_0 = inets.frame_type_check(0, 25, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1)
         self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 25, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1)
-        self.inets_frame_probe_1_0 = inets.frame_probe(2, 101, 0, 0, 0.01)
-        self.inets_frame_probe_1 = inets.frame_probe(2, 100, 0, 0, 0.01)
-        self.inets_frame_probe_0 = inets.frame_probe(2, 101, 0, 0, 0.01)
+        self.inets_frame_probe_1_1_0 = inets.frame_probe(2, 0, 0, 0, 0.01)
+        self.inets_frame_probe_1_1 = inets.frame_probe(2, 1, 0, 0, 0.01)
+        self.inets_frame_probe_1_0 = inets.frame_probe(2, 13, 0, 0, 0.01)
+        self.inets_frame_probe_1 = inets.frame_probe(2, 4, 0, 0, 0.01)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 1, 1)
@@ -114,7 +116,7 @@ class four_way_handshake_csma(gr.top_block, Qt.QWidget):
         self.inets_address_check_0_0_0 = inets.address_check(0, 17, source_address)
         self.inets_address_check_0_0 = inets.address_check(0, 17, source_address)
         self.inets_address_check_0 = inets.address_check(0, 17, source_address)
-        self.inets_IFS_0_0 = inets.IFS(1, 19, 1000, 800, 1, 0, 1, cs_threshold, system_time_granularity_us)
+        self.inets_IFS_0_0 = inets.IFS(0, 19, 1000, 800, 1, 0, 1, cs_threshold, system_time_granularity_us)
         self.inets_IFS_0 = inets.IFS(0, 19, 1000, 800, 3, 0, 1, cs_threshold, system_time_granularity_us)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
@@ -123,13 +125,13 @@ class four_way_handshake_csma(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
         self.msg_connect((self.inets_IFS_0, 'frame_info_fail_out'), (self.inets_backoff_0, 'frame_info_in'))
+        self.msg_connect((self.inets_IFS_0, 'frame_info_pass_out'), (self.inets_frame_probe_1_1, 'info_in'))
         self.msg_connect((self.inets_IFS_0, 'frame_info_pass_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_IFS_0_0, 'frame_info_pass_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_framing_1, 'data_in'))
         self.msg_connect((self.inets_address_check_0_0, 'address_check_fail_out'), (self.inets_backoff_0, 'virtual_cs_frame_in'))
         self.msg_connect((self.inets_address_check_0_0, 'address_check_pass_out'), (self.inets_cts_framing_0, 'rts_frame_info_in'))
         self.msg_connect((self.inets_address_check_0_0_0, 'address_check_fail_out'), (self.inets_backoff_0, 'frame_info_in'))
-        self.msg_connect((self.inets_address_check_0_0_0, 'address_check_pass_out'), (self.inets_frame_probe_0, 'info_in'))
         self.msg_connect((self.inets_address_check_0_0_0, 'address_check_pass_out'), (self.inets_timeout_0, 'cts_frame_info_in'))
         self.msg_connect((self.inets_address_check_0_1, 'address_check_pass_out'), (self.inets_timeout_0_0, 'ack_frame_info_in'))
         self.msg_connect((self.inets_backoff_0, 'frame_info_out'), (self.inets_resend_check_0, 'frame_info_in'))
@@ -143,10 +145,12 @@ class four_way_handshake_csma(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_frame_type_check_0_0_0, 'rts_frame_info_out'), (self.inets_address_check_0_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_type_check_0_0_0, 'cts_frame_info_out'), (self.inets_address_check_0_0_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_type_check_0_0_0, 'ack_frame_info_out'), (self.inets_address_check_0_1, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_type_check_0_0_0, 'cts_frame_info_out'), (self.inets_frame_probe_1_0, 'info_in'))
         self.msg_connect((self.inets_frame_type_check_0_0_1, 'ack_frame_info_out'), (self.inets_frame_buffer_0, 'dequeue'))
         self.msg_connect((self.inets_frame_type_check_0_0_1, 'data_frame_info_out'), (self.inets_resend_check_0_0, 'frame_info_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
         self.msg_connect((self.inets_framing_1, 'frame_out'), (self.inets_IFS_0_0, 'frame_in'))
+        self.msg_connect((self.inets_null_message_source_0, 'null_message_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_IFS_0, 'frame_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_IFS_0_0, 'frame_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_backoff_0, 'power_in'))
@@ -154,13 +158,12 @@ class four_way_handshake_csma(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_resend_check_0, 'resend_check_pass_out'), (self.inets_IFS_0, 'frame_in'))
         self.msg_connect((self.inets_resend_check_0, 'resend_check_fail_out'), (self.inets_frame_buffer_0, 'dequeue'))
         self.msg_connect((self.inets_resend_check_0_0, 'resend_check_fail_out'), (self.inets_frame_buffer_0, 'dequeue'))
-        self.msg_connect((self.inets_resend_check_0_0, 'resend_check_pass_out'), (self.inets_frame_probe_1_0, 'info_in'))
         self.msg_connect((self.inets_resend_check_0_0, 'resend_check_pass_out'), (self.inets_rts_framing_0, 'cts_frame_in'))
         self.msg_connect((self.inets_rts_framing_0, 'frame_out'), (self.inets_IFS_0, 'frame_in'))
+        self.msg_connect((self.inets_rts_framing_0, 'frame_out'), (self.inets_frame_probe_1_1_0, 'info_in'))
         self.msg_connect((self.inets_sending_0, 'rts_frame_out'), (self.inets_frame_probe_1, 'info_in'))
         self.msg_connect((self.inets_sending_0, 'rts_frame_out'), (self.inets_timeout_0, 'rts_frame_info_in'))
         self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_timeout_0_0, 'data_frame_info_in'))
-        self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
         self.msg_connect((self.inets_timeout_0_0, 'frame_info_out'), (self.inets_frame_type_check_0_0_1, 'frame_info_in'))
 
     def closeEvent(self, event):
