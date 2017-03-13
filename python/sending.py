@@ -38,7 +38,7 @@ class sending(gr.hier_block2):
     """
     docstring for block sending
     """
-    def __init__(self, develop_mode=1, block_id=20, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=[], samp_rate=4e6, sps=4, system_time_granularity_us=5, usrp_device_address="addr=10.0.0.6", center_frequency=400000000, interframe_interval_s=0.005):
+    def __init__(self, develop_mode=1, block_id=20, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=[], samp_rate=4e6, sps=4, system_time_granularity_us=5, usrp_device_address="addr=10.0.0.6", center_frequency=400000000, interframe_interval_s=0.005, t_pretx_interval_s=0.05):
         gr.hier_block2.__init__(self,
             "sending",
             gr.io_signature(0, 0, 0),  # Input signature
@@ -70,6 +70,7 @@ class sending(gr.hier_block2):
             system_time_granularity_us=system_time_granularity_us,
             usrp_device_address=usrp_device_address,
             center_frequency=center_frequency,
+            t_pretx_interval_s=t_pretx_interval_s,
         )
         ##################################################
         # Connections

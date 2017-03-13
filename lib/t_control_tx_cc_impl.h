@@ -34,12 +34,13 @@ namespace gr {
       int _block_id;
       double _last_tx_time;
       double _bps;
+      double _t_pretx_interval_s;
       tag_t _packet_len_tag;
       int process_tags_info(std::vector <tag_t> tags);
 
 
      public:
-      t_control_tx_cc_impl(int develop_mode, int block_id, double bps);
+      t_control_tx_cc_impl(int develop_mode, int block_id, double bps, double t_pretx_interval_s);
       ~t_control_tx_cc_impl();
 
       // Where all the action really happens

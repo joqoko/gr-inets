@@ -31,22 +31,23 @@ namespace gr {
   namespace inets {
 
     t_control_tx_cc::sptr
-    t_control_tx_cc::make(int develop_mode, int block_id, double bps)
+    t_control_tx_cc::make(int develop_mode, int block_id, double bps, double t_pretx_interval_s)
     {
       return gnuradio::get_initial_sptr
-        (new t_control_tx_cc_impl(develop_mode, block_id, bps));
+        (new t_control_tx_cc_impl(develop_mode, block_id, bps, t_pretx_interval_s));
     }
 
     /*
      * The private constructor
      */
-    t_control_tx_cc_impl::t_control_tx_cc_impl(int develop_mode, int block_id, double bps)
+    t_control_tx_cc_impl::t_control_tx_cc_impl(int develop_mode, int block_id, double bps, double t_pretx_interval_s)
       : gr::block("t_control_tx_cc",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex))),
         _develop_mode(develop_mode),
         _block_id(block_id),
         _last_tx_time(0),
+        _t_pretx_interval_s(_t_pretx_interval_s),
         _bps(bps)
     {
       if(_develop_mode)
@@ -102,8 +103,8 @@ namespace gr {
         struct timeval t;
         gettimeofday(&t, NULL);
         double tx_time = t.tv_sec + t.tv_usec / 1000000.0;
-        //double min_time_diff = (pmt::to_double(_packet_len_tag.value) * 8.0) / _bps; //Max packet len [bit] / bit rate 
-        double min_time_diff = (1001 * 8.0) / _bps; //Max packet len [bit] / bit rate 
+        double min_time_diff = pmt::to_double(_packet_len_tag.value) / _bps; //Max packet len [bit] / bit rate 
+        //double min_time_diff = (1001 * 8.0) / _bps; //Max packet len [bit] / bit rate 
         // Ensure that frames are not overlap each other
         if((tx_time - _last_tx_time) <= min_time_diff) {
           tx_time = _last_tx_time + min_time_diff;
@@ -115,7 +116,7 @@ namespace gr {
         _last_tx_time = tx_time;
         // question 1: why add 0.05?
         uhd::time_spec_t now = uhd::time_spec_t(tx_time)
-          + uhd::time_spec_t(0.00);
+          + uhd::time_spec_t(_t_pretx_interval_s);
         // the value of the tag is a tuple
         const pmt::pmt_t time_value = pmt::make_tuple(
           pmt::from_uint64(now.get_full_secs()),

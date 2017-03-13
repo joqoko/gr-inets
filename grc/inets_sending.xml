@@ -4,7 +4,7 @@
   <key>inets_sending</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.sending(develop_mode=$develop_mode, block_id=$block_id, constellation=$constellation, preamble=$preamble, samp_rate=$samp_rate, sps=$sps, system_time_granularity_us=$system_time_granularity_us, usrp_device_address=$usrp_device_address, center_frequency=$center_frequency, interframe_interval_s=$interframe_interval_s)</make>
+  <make>inets.sending(develop_mode=$develop_mode, block_id=$block_id, constellation=$constellation, preamble=$preamble, samp_rate=$samp_rate, sps=$sps, system_time_granularity_us=$system_time_granularity_us, usrp_device_address=$usrp_device_address, center_frequency=$center_frequency, interframe_interval_s=$interframe_interval_s, t_pretx_interval_s=$t_pretx_interval_s)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -99,9 +99,17 @@
   </param>
 
   <param>
-    <name>Interframe Interval [s]</name>
+    <name>Interframe interval [s]</name>
     <key>interframe_interval_s</key>
     <value>0.005</value>
+    <type>raw</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Pre tx interval [s]</name>
+    <key>t_pretx_interval_s</key>
+    <value>0.05</value>
     <type>raw</type>
     <hide>part</hide>
   </param>
