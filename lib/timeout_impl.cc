@@ -132,7 +132,10 @@ namespace gr {
                 std::cout << "timeout ID " << _block_id << "expecting the ack/cts frame of the " << wait_index << "th frame but received the ack/cts frame the " << ack_index << "th data/rts frame." << std::endl;
           }
           else
-            std::cout << "timeout ID " << _block_id << " received a frame out of timeout interval." << std::endl;
+          {
+            if(_develop_mode)
+              std::cout << "timeout ID " << _block_id << " received a frame out of timeout interval." << std::endl;
+          }
         }
         else
           std::cout << "timeout ID " << _block_id << " error: wrong data type. please check your connection." << std::endl;
@@ -183,7 +186,10 @@ namespace gr {
                 std::cout << "expecting the ack of the " << wait_index << "th frame but received the ack of the " << ack_index << "th frame." << std::endl;
           }
           else
-            std::cout << "Receive a pmt dict out of timeout interval." << std::endl;
+          {
+            if(_develop_mode)
+              std::cout << "Receive a pmt dict out of timeout interval." << std::endl;
+          }
         }
         else
           std::cout << "ack_frame_info: wrong data type. please check your connection." << std::endl;

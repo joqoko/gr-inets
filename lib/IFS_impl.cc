@@ -131,6 +131,7 @@ namespace gr {
         double power = pmt::to_double(frame_in);
 //        std::cout << "received power is: " << power << std::endl;
         _in_cca = (_cs_threshold > power);
+        /*
         if(_develop_mode && _in_cca)
         {
           struct timeval t;
@@ -138,6 +139,7 @@ namespace gr {
           double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
           std::cout << "in carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
         }
+        */
       }
     }
 
@@ -169,7 +171,7 @@ namespace gr {
       }
       _in_cca = false;
       double cs_time = current_time - start_time;
-      if(_develop_mode == 1)
+      if(_develop_mode)
         std::cout << "Carrier sensing time is: " << cs_time << " s" << std::endl;
     }
 
