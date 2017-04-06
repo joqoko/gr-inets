@@ -104,15 +104,17 @@ namespace gr {
         if(_develop_mode)
           // add the function that user can add name for counter
           std::cout << "the " << _counter_id << "th message counter has been visited " << _counter << " times "; 
-        if(_develop_mode == 2)
         {
-          struct timeval t; 
-          gettimeofday(&t, NULL);
-          double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-          std::cout << " at time " << current_time << " s" << std::endl;
+          if(_develop_mode == 2)
+          {
+            struct timeval t; 
+            gettimeofday(&t, NULL);
+            double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+            std::cout << " at time " << current_time << " s" << std::endl;
+          }
+          else
+            std::cout << " " << std::endl;
         }
-        else
-          std::cout << " " << std::endl;
       }
     }
 

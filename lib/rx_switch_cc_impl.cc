@@ -153,15 +153,8 @@ namespace gr {
         // not a boolean pmt, most likely an import error
         std::cout << "++++ rx_switch ID: " << _block_id << " error: not a spark signal" << std::endl;
       }
-      if(_develop_mode == 2)
+      if(_develop_mode)
         std::cout << start_time_show << "s" << std::endl;
-      else
-      {
-        if(_develop_mode)
-        {
-          std::cout << " " << std::endl;
-        }
-      }
     }
   } /* namespace inets */
 } /* namespace gr */

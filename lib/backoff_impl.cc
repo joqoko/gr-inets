@@ -298,8 +298,8 @@ namespace gr {
           std::cout << "++++ backoff ID: " << _block_id << " starts the " << _n_backoff << "th backoff";
           if(_develop_mode == 2)
             std::cout << " at " << start_time_show << "s and the backoff duration is: " << backoff_time_s << "s." << std::endl;
-          else
-            std::cout << " " << std::endl;
+          else if(_develop_mode == 1)
+            std::cout << ". " << std::endl;
         }
         else
         {
