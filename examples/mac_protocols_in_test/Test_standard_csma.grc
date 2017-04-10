@@ -436,7 +436,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1000000</value>
+      <value>2000000</value>
     </param>
   </block>
   <block>
@@ -657,7 +657,7 @@
     </param>
     <param>
       <key>mtu</key>
-      <value>300</value>
+      <value>10000</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -700,11 +700,11 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1264, 600)</value>
+      <value>(520, 712)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>0</value>
+      <value>180</value>
     </param>
     <param>
       <key>host</key>
@@ -932,7 +932,7 @@
     </param>
     <param>
       <key>cs_duration</key>
-      <value>100</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1137,7 +1137,7 @@
     </param>
     <param>
       <key>buffer_size</key>
-      <value>10</value>
+      <value>1000</value>
     </param>
     <param>
       <key>comment</key>
@@ -1688,53 +1688,6 @@
     </param>
   </block>
   <block>
-    <key>inets_get_payload</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>17</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(712, 216)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_get_payload_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>inets_receiving</key>
     <param>
       <key>alias</key>
@@ -1928,7 +1881,7 @@
     </param>
     <param>
       <key>interframe_interval_s</key>
-      <value>0.01</value>
+      <value>0.001</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -2120,6 +2073,12 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0</source_block_id>
+    <sink_block_id>blocks_socket_pdu_1</sink_block_id>
+    <source_key>data_frame_info_out</source_key>
+    <sink_key>pdus</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_type_check_0</source_block_id>
     <sink_block_id>inets_framing_1</sink_block_id>
     <source_key>data_frame_info_out</source_key>
     <sink_key>data_in</sink_key>
@@ -2147,12 +2106,6 @@
     <sink_block_id>inets_frame_buffer_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>enqueue</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_framing_1_0</source_block_id>
-    <sink_block_id>inets_get_payload_0</sink_block_id>
-    <source_key>frame_out</source_key>
-    <sink_key>frame_info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_receiving_0</source_block_id>
