@@ -56,6 +56,7 @@
 #include "inets/general_timer.h"
 #include "inets/rts_framing.h"
 #include "inets/cts_framing.h"
+#include "inets/get_payload.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -172,3 +173,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, general_timer);
 GR_SWIG_BLOCK_MAGIC2(inets, rts_framing);
 %include "inets/cts_framing.h"
 GR_SWIG_BLOCK_MAGIC2(inets, cts_framing);
+%include "inets/get_payload.h"
+GR_SWIG_BLOCK_MAGIC2(inets, get_payload);

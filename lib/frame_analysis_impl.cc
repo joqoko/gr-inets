@@ -327,7 +327,7 @@ namespace gr {
         frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), pmt::cons(meta, frame_pmt));
         if(_develop_mode == 2)
         {
-          double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+          double current_time = t.tv_sec - double(int(t.tv_sec/101)*100) + t.tv_usec / 1000000.0;
           if(frame_type == 1)
             std::cout << "* header analysis ID: " << _block_id << " get the " << num_transmission <<"th transmission of data frame "<< frame_index << " at time " << current_time << " s" << std::endl;
           else

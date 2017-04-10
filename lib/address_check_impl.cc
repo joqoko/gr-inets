@@ -1,4 +1,3 @@
-
 /* -*- c++ -*- */
 /* 
  * Copyright 2016 <+YOU OR YOUR COMPANY+>.
