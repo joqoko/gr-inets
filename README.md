@@ -56,6 +56,9 @@ Index		block name				Categories
  30		rts_framing				inets_dmf_mac
  31		cts_framing				inets_dmf_mac
  32		packetizer				inets_dmf_phy
+ 33		frame_index_selector			inets_dmf_mac
+ 34		general_timeout				inets_dmf_mac
+ 35		cogmac_ch_pool				inets_dmf_mac
  100+		frame_probe				inets_dmf_tool
  100+		counter					inets_dmf_tool	
 

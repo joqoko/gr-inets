@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>frame_index_selector</name>
-  <key>inets_frame_index_selector</key>
-  <category>inets_dmf_mac</category>
+  <name>cogmac_ch_pool</name>
+  <key>inets_cogmac_ch_pool</key>
+  <category>[inets]</category>
   <import>import inets</import>
-  <make>inets.frame_index_selector($develop_mode, $block_id, $selected_index, $output_unselected)</make>
+  <make>inets.cogmac_ch_pool($develop_mode, $block_id, $channel_number, $first_channel, $algorithm, $channel_gap)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -42,32 +42,48 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>33</value>
+    <value>35</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
 
   <param>
-    <name>Selected index</name>
-    <key>selected_index</key>
-    <value>1</value>
-    <type>int_vector</type>
+    <name>Number of channels</name>
+    <key>channel_number</key>
+    <value>4</value>
+    <type>int</type>
     <hide>part</hide>
   </param>
 
   <param>
-    <name>Output unselected frame</name>
-    <key>output_unselected</key>
+    <name>First frequency</name>
+    <key>first_channel</key>
+    <value>400000000</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Algorithm</name>
+    <key>algorithm</key>
     <type>enum</type>
     <hide>part</hide>
     <option>
-      <name>Yes</name>
+      <name>CogMAC</name>
       <key>0</key>
     </option>
     <option>
-      <name>No</name>
+      <name>CogMAC+</name>
       <key>1</key>
     </option>
+  </param>
+
+  <param>
+    <name>Channel gap</name>
+    <key>channel_gap</key>
+    <value>10000000</value>
+    <type>int</type>
+    <hide>part</hide>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -76,7 +92,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>frame_in</name>
+    <name>change_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
@@ -87,15 +103,8 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>frame_out</name>
+    <name>next_frequency_out</name>
     <type>message</type>
     <optional>1</optional>
-  </source>
-
-  <source>
-    <name>unselected_frame_out</name>
-    <type>message</type>
-    <optional>1</optional>
-    <hide>$output_unselected</hide>
   </source>
 </block>

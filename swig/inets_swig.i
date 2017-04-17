@@ -59,7 +59,9 @@
 #include "inets/get_payload.h"
 #include "inets/frame_index_selector.h"
 #include "inets/general_timeout.h"
+#include "inets/cogmac_ch_pool.h"
 #include "inets/general_timeout.h"
+#include "inets/cogmac_ch_pool.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -183,3 +185,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, frame_index_selector);
 %include "inets/general_timeout.h"
 GR_SWIG_BLOCK_MAGIC2(inets, general_timeout);
 
+%include "inets/cogmac_ch_pool.h"
+GR_SWIG_BLOCK_MAGIC2(inets, cogmac_ch_pool);

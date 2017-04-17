@@ -78,5 +78,5 @@ install(FILES
     inets_frame_index_selector.xml
     inets_general_timeout.xml
     inets_general_timeout.xml
-    DESTINATION share/gnuradio/grc/blocks
+    inets_cogmac_ch_pool.xml DESTINATION share/gnuradio/grc/blocks
 )

@@ -39,7 +39,7 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>43</value>
+    <value>34</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
