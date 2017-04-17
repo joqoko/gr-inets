@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<block>
+  <name>general_timeout</name>
+  <key>inets_general_timeout</key>
+  <category>inets_dmf_mac</category>
+  <import>import inets</import>
+  <make>inets.general_timeout($develop_mode, $block_id, $timeout_duration_ms, $system_time_granularity_us, $timeout_mode, $output_former)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>43</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Timeout duration [ms]</name>
+    <key>timeout_duration_ms</key>
+    <value>100</value>
+    <type>float</type>
+    <hide>part</hide>
+  </param>
+  
+  <param>
+    <name>System time granularity [us]</name>
+    <key>system_time_granularity_us</key>
+    <value>1000</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Timeout mode</name>
+    <key>timeout_mode</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Oneshot</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>Continue</name>
+      <key>1</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Frame to output</name>
+    <key>output_former</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Former</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Latter</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>frame_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>expired_frame_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+
+  <source>
+    <name>killed_frame_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+
+</block>

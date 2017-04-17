@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Test_decision
+# Title: Test_general_timeout
 # Author: PWA
-# Generated: Mon Apr 17 11:15:24 2017
+# Generated: Mon Apr 17 17:22:49 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -30,12 +30,12 @@ import sys
 from gnuradio import qtgui
 
 
-class Test_decision(gr.top_block, Qt.QWidget):
+class Test_general_timeout(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Test_decision")
+        gr.top_block.__init__(self, "Test_general_timeout")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Test_decision")
+        self.setWindowTitle("Test_general_timeout")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -53,38 +53,54 @@ class Test_decision(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Test_decision")
+        self.settings = Qt.QSettings("GNU Radio", "Test_general_timeout")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
         # Variables
         ##################################################
+        self.timeout_duration_ms = timeout_duration_ms = 1000
+        self.system_time_granularity_us = system_time_granularity_us = 1000
         self.samp_rate = samp_rate = 320000
-        self.develop_mode_list = develop_mode_list = [1, 3, 4, 14, 21, 22]
+        self.develop_mode_list = develop_mode_list = [1, 3, 4, 16]
 
         ##################################################
         # Blocks
         ##################################################
-        self.inets_null_message_source_0 = inets.null_message_source()
-        self.inets_decision_cpp_0 = inets.decision_cpp((develop_mode_list), 14)
-        self.inets_counter_0_0 = inets.counter(1, 22, 1)
-        self.inets_counter_0 = inets.counter(1, 21, 1)
-        self.blocks_message_strobe_random_0_0 = blocks.message_strobe_random(pmt.from_bool(False), blocks.STROBE_POISSON, 2000, 500)
-        self.blocks_message_strobe_random_0 = blocks.message_strobe_random(pmt.from_bool(True), blocks.STROBE_POISSON, 3000, 500)
+        self.inets_general_timeout_0 = inets.general_timeout(1, 43, 1000, 1000, 1, 1)
+        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, 1, 1, 2, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2)
+        self.inets_frame_probe_0_0 = inets.frame_probe(1, 101, 0, 0, 0.01)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 0, 0.01)
+        self.inets_frame_index_selector_0 = inets.frame_index_selector(0, 41, ([1,2,3,4,5]), 0)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 1, 1)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_random_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))
-        self.msg_connect((self.blocks_message_strobe_random_0_0, 'strobe'), (self.inets_decision_cpp_0, 'spark_in'))
-        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_t'), (self.inets_counter_0, 'message_in'))
-        self.msg_connect((self.inets_decision_cpp_0, 'spark_out_f'), (self.inets_counter_0_0, 'message_in'))
-        self.msg_connect((self.inets_null_message_source_0, 'null_message_out'), (self.inets_decision_cpp_0, 'spark_in'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.inets_frame_index_selector_0, 'frame_out'), (self.inets_general_timeout_0, 'frame_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_index_selector_0, 'frame_in'))
+        self.msg_connect((self.inets_general_timeout_0, 'expired_frame_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_general_timeout_0, 'killed_frame_out'), (self.inets_frame_probe_0_0, 'info_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Test_decision")
+        self.settings = Qt.QSettings("GNU Radio", "Test_general_timeout")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
+
+    def get_timeout_duration_ms(self):
+        return self.timeout_duration_ms
+
+    def set_timeout_duration_ms(self, timeout_duration_ms):
+        self.timeout_duration_ms = timeout_duration_ms
+
+    def get_system_time_granularity_us(self):
+        return self.system_time_granularity_us
+
+    def set_system_time_granularity_us(self, system_time_granularity_us):
+        self.system_time_granularity_us = system_time_granularity_us
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -99,7 +115,7 @@ class Test_decision(gr.top_block, Qt.QWidget):
         self.develop_mode_list = develop_mode_list
 
 
-def main(top_block_cls=Test_decision, options=None):
+def main(top_block_cls=Test_general_timeout, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

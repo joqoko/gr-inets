@@ -70,6 +70,10 @@ install(FILES
     general_timer.h
     rts_framing.h
     cts_framing.h
-    get_payload.h DESTINATION include/inets
+    get_payload.h
+    frame_index_selector.h
+    general_timeout.h
+    general_timeout.h
+    DESTINATION include/inets
 
 )

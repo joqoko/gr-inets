@@ -73,7 +73,11 @@ list(APPEND inets_sources
     general_timer_impl.cc
     rts_framing_impl.cc
     cts_framing_impl.cc
-    get_payload_impl.cc )
+    get_payload_impl.cc
+    frame_index_selector_impl.cc
+    general_timeout_impl.cc
+    general_timeout_impl.cc
+    )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)
