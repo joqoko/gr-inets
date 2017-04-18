@@ -50,6 +50,7 @@ namespace gr {
 	_keep_dequeue_state(keep_dequeue_state),
 	_dequeue_when_available(0),
 	_dequeue_first(1),
+	_show_am_empty(1),
         _auto_dequeue_full(auto_dequeue_full)
   //      _output_dequeue_element(output_dequeue_element)
     {
@@ -57,6 +58,8 @@ namespace gr {
         std::cout << "develop_mode of buffer ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("enqueue")); 
       set_msg_handler(pmt::mp("enqueue"), boost::bind(&frame_buffer_impl::enqueue, this, _1));
+      message_port_register_in(pmt::mp("indicate_empty")); 
+      set_msg_handler(pmt::mp("indicate_empty"), boost::bind(&frame_buffer_impl::indicate, this, _1));
       message_port_register_in(pmt::mp("dequeue")); 
       set_msg_handler(pmt::mp("dequeue"), boost::bind(&frame_buffer_impl::dequeue, this, _1));
       message_port_register_in(pmt::mp("flush")); 
@@ -72,6 +75,15 @@ namespace gr {
     {
     }
 
+    void frame_buffer_impl::indicate(pmt::pmt_t trigger)
+    {
+      if(_show_am_empty)
+      {
+        message_port_pub(pmt::mp("buffer_not_full"), pmt::from_long(1));
+        _show_am_empty = 0;
+      }
+    }
+    
     void frame_buffer_impl::enqueue(pmt::pmt_t enqueue_element)
     {
       if(_develop_mode)

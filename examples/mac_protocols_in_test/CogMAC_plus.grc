@@ -575,6 +575,53 @@
     </param>
   </block>
   <block>
+    <key>blocks_message_strobe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(128, 396)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_message_strobe_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>msg</key>
+      <value>pmt.intern("TEST")</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>period</key>
+      <value>1000</value>
+    </param>
+  </block>
+  <block>
     <key>import</key>
     <param>
       <key>alias</key>
@@ -668,11 +715,11 @@
     <key>inets_frame_buffer</key>
     <param>
       <key>auto_dequeue_first</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>auto_dequeue_full</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>alias</key>
@@ -684,7 +731,7 @@
     </param>
     <param>
       <key>buffer_size</key>
-      <value>10</value>
+      <value>4</value>
     </param>
     <param>
       <key>comment</key>
@@ -696,7 +743,7 @@
     </param>
     <param>
       <key>keep_dequeue_state</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>dequeue</key>
@@ -720,7 +767,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(376, 320)</value>
+      <value>(624, 320)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -729,6 +776,10 @@
     <param>
       <key>id</key>
       <value>inets_frame_buffer_0</value>
+    </param>
+    <param>
+      <key>indicate</key>
+      <value>0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -743,16 +794,226 @@
       <value>0</value>
     </param>
   </block>
+  <block>
+    <key>inets_frame_probe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>100</value>
+    </param>
+    <param>
+      <key>cs_threshold</key>
+      <value>0.01</value>
+    </param>
+    <param>
+      <key>cs_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(616, 208)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_probe_0</value>
+    </param>
+    <param>
+      <key>print_frame</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_framing</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>17</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>default_framing_setting</key>
+      <value>default</value>
+    </param>
+    <param>
+      <key>default_payload_length</key>
+      <value>300</value>
+    </param>
+    <param>
+      <key>destination_address</key>
+      <value>destination_address</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>frame_type</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(368, 316)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_framing_0</value>
+    </param>
+    <param>
+      <key>increase_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>frame_index</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>len_destination_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_type</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_num_transmission</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_payload_length</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_I</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_II</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_slot_time_beacon</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_source_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>node_list</key>
+      <value>[2, 3]</value>
+    </param>
+    <param>
+      <key>output_frame_pmt</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>reserved_field_I</key>
+      <value>318</value>
+    </param>
+    <param>
+      <key>reserved_field_II</key>
+      <value>524</value>
+    </param>
+    <param>
+      <key>reserved_field_ampdu</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>set_reserved_field</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>slot_list_ms</key>
+      <value>[1000, 1000]</value>
+    </param>
+    <param>
+      <key>source_address</key>
+      <value>source_address</value>
+    </param>
+    <param>
+      <key>default_payload</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>internal_index</key>
+      <value>1</value>
+    </param>
+  </block>
+  <connection>
+    <source_block_id>blocks_message_strobe_0</source_block_id>
+    <sink_block_id>inets_frame_buffer_0</sink_block_id>
+    <source_key>strobe</source_key>
+    <sink_key>indicate_empty</sink_key>
+  </connection>
   <connection>
     <source_block_id>inets_dummy_source_0</source_block_id>
-    <sink_block_id>inets_frame_buffer_0</sink_block_id>
+    <sink_block_id>inets_framing_0</sink_block_id>
     <source_key>output</source_key>
-    <sink_key>enqueue</sink_key>
+    <sink_key>data_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_buffer_0</source_block_id>
     <sink_block_id>inets_dummy_source_0</sink_block_id>
     <source_key>buffer_not_full</source_key>
     <sink_key>trigger</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_framing_0</source_block_id>
+    <sink_block_id>inets_frame_buffer_0</sink_block_id>
+    <source_key>frame_out</source_key>
+    <sink_key>enqueue</sink_key>
   </connection>
 </flow_graph>

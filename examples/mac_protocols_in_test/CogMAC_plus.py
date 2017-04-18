@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: CogMAC_plus
 # Author: PWA
-# Generated: Tue Apr 18 15:37:17 2017
+# Generated: Tue Apr 18 23:16:51 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -18,6 +18,7 @@ if __name__ == '__main__':
             print "Warning: failed to XInitThreads()"
 
 from PyQt4 import Qt
+from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio.eng_option import eng_option
@@ -26,6 +27,7 @@ from gnuradio.qtgui import Range, RangeWidget
 from optparse import OptionParser
 import gnuradio
 import inets
+import pmt
 import sys
 from gnuradio import qtgui
 
@@ -86,14 +88,19 @@ class CogMAC_plus(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_frame_buffer_0 = inets.frame_buffer(1, 16, 10, 1, 1, 1)
+        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 0, 0.01)
+        self.inets_frame_buffer_0 = inets.frame_buffer(1, 16, 4, 0, 0, 0)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 1, 100)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_frame_buffer_0, 'enqueue'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_frame_buffer_0, 'indicate_empty'))
+        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'buffer_not_full'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "CogMAC_plus")

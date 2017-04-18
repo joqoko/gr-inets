@@ -1,5 +1,3 @@
-
-
 /* -*- c++ -*- */
 /* 
  * Copyright 2017 <+YOU OR YOUR COMPANY+>.
@@ -40,9 +38,11 @@ namespace gr {
       int _auto_dequeue_first;
       int _dequeue_first;
       int _auto_dequeue_full;
+      int _show_am_empty;
 //      int _output_dequeue_element;
       std::queue<pmt::pmt_t> _buffer;
       void enqueue(pmt::pmt_t enqueue_element);
+      void indicate(pmt::pmt_t trigger);
       void dequeue(pmt::pmt_t dequeue_request);
 //      void preview(pmt::pmt_t preview_request);
       void flush(pmt::pmt_t flush_request);
