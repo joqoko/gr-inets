@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::frame_buffer::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int buffer_size, int auto_dequeue_first, int keep_dequeue_state);
+      static sptr make(int develop_mode, int block_id, int buffer_size, int auto_dequeue_first, int keep_dequeue_state, int auto_dequeue_full);
     };
 
   } // namespace inets

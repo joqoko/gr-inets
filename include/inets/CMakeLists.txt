@@ -74,6 +74,7 @@ install(FILES
     frame_index_selector.h
     general_timeout.h
     general_timeout.h
-    cogmac_ch_pool.h DESTINATION include/inets
+    cogmac_ch_pool.h
+    DESTINATION include/inets
 
 )

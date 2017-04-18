@@ -187,3 +187,4 @@ GR_SWIG_BLOCK_MAGIC2(inets, general_timeout);
 
 %include "inets/cogmac_ch_pool.h"
 GR_SWIG_BLOCK_MAGIC2(inets, cogmac_ch_pool);
+

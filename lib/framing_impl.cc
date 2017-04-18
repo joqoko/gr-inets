@@ -31,16 +31,16 @@ namespace gr {
   namespace inets {
 
     framing::sptr
-    framing::make(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu, std::vector<unsigned int> node_list, std::vector<unsigned int> slot_list_ms, int len_slot_time_beacon)
+    framing::make(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu, std::vector<unsigned int> node_list, std::vector<unsigned int> slot_list_ms, int len_slot_time_beacon, int default_payload, int default_payload_length, int internal_index)
     {
       return gnuradio::get_initial_sptr
-        (new framing_impl(develop_mode, block_id, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission, reserved_field_ampdu, node_list, slot_list_ms, len_slot_time_beacon));
+        (new framing_impl(develop_mode, block_id, frame_type, len_frame_type, frame_index, len_frame_index, destination_address, len_destination_address, source_address, len_source_address, reserved_field_I, len_reserved_field_I, reserved_field_II, len_reserved_field_II, len_payload_length, increase_index, len_num_transmission, reserved_field_ampdu, node_list, slot_list_ms, len_slot_time_beacon, default_payload, default_payload_length, internal_index));
     }
 
     /*
      * The private constructor
      */
-    framing_impl::framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu, std::vector<unsigned int> node_list, std::vector<unsigned int> slot_list_ms, int len_slot_time_beacon)
+    framing_impl::framing_impl(int develop_mode, int block_id, int frame_type, int len_frame_type, int frame_index, int len_frame_index, int destination_address, int len_destination_address, int source_address, int len_source_address, int reserved_field_I, int len_reserved_field_I, int reserved_field_II, int len_reserved_field_II, int len_payload_length, int increase_index, int len_num_transmission, int reserved_field_ampdu, std::vector<unsigned int> node_list, std::vector<unsigned int> slot_list_ms, int len_slot_time_beacon, int default_payload, int default_payload_length, int internal_index)
       : gr::block("framing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -64,7 +64,10 @@ namespace gr {
         _reserved_field_ampdu(reserved_field_ampdu),
         _node_list(node_list),
         _slot_list_ms(slot_list_ms),
-        _len_slot_time_beacon(len_slot_time_beacon)
+        _len_slot_time_beacon(len_slot_time_beacon),
+        _default_payload(default_payload),
+        _default_payload_length(default_payload_length),
+        _internal_index(internal_index)
     {
       if(_develop_mode)
         std::cout << "develop_mode of framing ID: " << _block_id << " is activated." << std::endl;
@@ -124,10 +127,18 @@ namespace gr {
           message_port_pub(pmt::mp("frame_out"), generated_frame);
         }
       }
+      else if(pmt::is_integer(data_in) && !_internal_index && _frame_type == 1)
+      {
+        generated_frame = data_frame_formation(data_in);
+        if(pmt::dict_has_key(generated_frame, pmt::string_to_symbol("frame_pmt")))
+        {
+          message_port_pub(pmt::mp("frame_out"), generated_frame);
+        }
+      } 
       else
       {
         if(_develop_mode)
-          std::cout << "framing ID: " << _block_id << "cannot framing input pmt. it is passed to the next blocks." << std::endl;
+          std::cout << "framing ID: " << _block_id << " cannot framing input pmt. it is passed to the next blocks." << std::endl;
         message_port_pub(pmt::mp("frame_out"), data_in);
         
       }
@@ -265,22 +276,38 @@ namespace gr {
        */
       pmt::pmt_t frame_info;
       pmt::pmt_t frame_after_crc;
-      if(pmt::is_pair(rx_payload)) 
+      if(pmt::is_pair(rx_payload) || _default_payload) 
       {
-        pmt::pmt_t meta = pmt::car(rx_payload);
-        pmt::pmt_t payload_pmt = pmt::cdr(rx_payload);
+        _frame_type = 1;
+        pmt::pmt_t payload_pmt;
         std::vector<unsigned char> payload_array; 
+        if(!_default_payload)
+        {
+          pmt::pmt_t meta = pmt::car(rx_payload);
+          payload_pmt = pmt::cdr(rx_payload);
+        }
+        else
+        {
+          std::vector<unsigned char> payload(_default_payload_length);
+          payload_pmt = pmt::init_u8vector(payload.size(), payload); 
+        }
         if(pmt::is_u8vector(payload_pmt))
         {
-          _frame_type = 1;
           payload_array = pmt::u8vector_elements(payload_pmt);
           _payload_length = payload_array.size(); 
           std::vector<unsigned char> frame_header;
-          if(_increase_index)
+          if(_internal_index)
           {
-            _frame_index++;
-            if(_frame_index > 255)
-              _frame_index = 0;
+            if(_increase_index)
+            {
+              _frame_index++;
+              if(_frame_index > 255)
+                _frame_index = 0;
+            }
+          }
+          else
+          {
+            _frame_index = pmt::to_long(rx_payload);
           }
           frame_info = frame_header_formation(&frame_header, 1, _frame_index, _destination_address, _source_address, _reserved_field_I, _reserved_field_II, _payload_length, 1);
           std::vector<unsigned char> frame;
@@ -292,27 +319,26 @@ namespace gr {
             std::cout << "frame header with payload, length " << frame.size() << std::endl;
           // crc
           pmt::pmt_t frame_before_crc_u8vector = pmt::init_u8vector(frame.size(), frame);
-          pmt::pmt_t frame_before_crc = pmt::cons(meta, frame_before_crc_u8vector); 
+          pmt::pmt_t frame_before_crc = pmt::cons(pmt::make_dict(), frame_before_crc_u8vector); 
           frame_after_crc = crc32_bb_calc(frame_before_crc);
           frame_info = pmt::dict_add(frame_info, pmt::string_to_symbol("frame_pmt"), frame_after_crc);
           std::vector<unsigned char> frame_after_crc_vector = pmt::u8vector_elements(pmt::cdr(frame_after_crc));
-
-           if(_develop_mode)
-             std::cout << "frame header with payload with crc, length " << frame_after_crc_vector.size() << std::endl;
+          message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
+          if(_develop_mode)
+            std::cout << "frame header with payload with crc, length " << frame_after_crc_vector.size() << std::endl;
+          if(_develop_mode == 2)
+          {
+            struct timeval t; 
+            gettimeofday(&t, NULL);
+            double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+            std::cout << "framing ID: " << _block_id << " data frame is generated at time " << current_time <<" s" <<  std::endl;
+          }
         }
         else
           std::cout << "pmt is not a u8vector" << std::endl;
       }
       else 
         std::cout << "pmt is not a pair" << std::endl;
-      message_port_pub(pmt::mp("frame_pmt_out"), frame_after_crc);
-      if(_develop_mode == 2)
-      {
-        struct timeval t; 
-        gettimeofday(&t, NULL);
-        double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-        std::cout << "framing ID: " << _block_id << " data frame is generated at time " << current_time <<" s" <<  std::endl;
-      }
       return frame_info;
     }
 

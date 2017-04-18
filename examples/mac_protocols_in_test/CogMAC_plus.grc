@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>standard_csma</value>
+      <value>CogMAC_plus</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>standard_csma</value>
+      <value>CogMAC_plus</value>
     </param>
   </block>
   <block>
@@ -532,7 +532,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(912, 84)</value>
+      <value>(920, 84)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -606,22 +606,14 @@
     </param>
   </block>
   <block>
-    <key>inets_frame_probe</key>
+    <key>inets_dummy_source</key>
     <param>
       <key>alias</key>
       <value></value>
     </param>
     <param>
       <key>block_id</key>
-      <value>100</value>
-    </param>
-    <param>
-      <key>cs_threshold</key>
-      <value>0.01</value>
-    </param>
-    <param>
-      <key>cs_mode</key>
-      <value>1</value>
+      <value>23</value>
     </param>
     <param>
       <key>comment</key>
@@ -641,7 +633,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(728, 456)</value>
+      <value>(168, 320)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -649,54 +641,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_frame_probe_0</value>
-    </param>
-    <param>
-      <key>print_frame</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>inets_receiving</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>21</value>
-    </param>
-    <param>
-      <key>center_frequency</key>
-      <value>rx_center_frequency</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(96, 352)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_receiving_0</value>
+      <value>inets_dummy_source_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -707,58 +652,107 @@
       <value>0</value>
     </param>
     <param>
-      <key>mu</key>
-      <value>mu</value>
+      <key>packet_rate</key>
+      <value>100</value>
     </param>
     <param>
-      <key>output_rss</key>
-      <value>0</value>
+      <key>payload_length</key>
+      <value>100</value>
     </param>
     <param>
-      <key>output_snr</key>
+      <key>source_type</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_buffer</key>
+    <param>
+      <key>auto_dequeue_first</key>
       <value>1</value>
     </param>
     <param>
-      <key>output_rx_frame</key>
+      <key>auto_dequeue_full</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>16</value>
+    </param>
+    <param>
+      <key>buffer_size</key>
+      <value>10</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>keep_dequeue_state</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>dequeue</key>
       <value>0</value>
     </param>
     <param>
-      <key>rx_gain</key>
-      <value>rx_gain</value>
+      <key>develop_mode</key>
+      <value>1</value>
     </param>
     <param>
-      <key>samp_rate</key>
-      <value>samp_rate</value>
+      <key>_enabled</key>
+      <value>True</value>
     </param>
     <param>
-      <key>threshold</key>
-      <value>30</value>
+      <key>enqueue</key>
+      <value>0</value>
     </param>
     <param>
-      <key>constellation</key>
-      <value>gnuradio.digital.constellation_qpsk().base()</value>
+      <key>flush</key>
+      <value>1</value>
     </param>
     <param>
-      <key>matched_filter_coeff</key>
-      <value>rrc</value>
+      <key>_coordinate</key>
+      <value>(376, 320)</value>
     </param>
     <param>
-      <key>preamble</key>
-      <value>diff_preamble_128</value>
+      <key>_rotation</key>
+      <value>0</value>
     </param>
     <param>
-      <key>sps</key>
-      <value>sps</value>
+      <key>id</key>
+      <value>inets_frame_buffer_0</value>
     </param>
     <param>
-      <key>usrp_device_address</key>
-      <value>usrp_device_address</value>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_empty</key>
+      <value>0</value>
     </param>
   </block>
   <connection>
-    <source_block_id>inets_receiving_0</source_block_id>
-    <sink_block_id>inets_frame_probe_0</sink_block_id>
-    <source_key>rx_power_out</source_key>
-    <sink_key>info_in</sink_key>
+    <source_block_id>inets_dummy_source_0</source_block_id>
+    <sink_block_id>inets_frame_buffer_0</sink_block_id>
+    <source_key>output</source_key>
+    <sink_key>enqueue</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_buffer_0</source_block_id>
+    <sink_block_id>inets_dummy_source_0</sink_block_id>
+    <source_key>buffer_not_full</source_key>
+    <sink_key>trigger</sink_key>
   </connection>
 </flow_graph>

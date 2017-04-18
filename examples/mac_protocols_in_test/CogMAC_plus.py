@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: standard_csma
+# Title: CogMAC_plus
 # Author: PWA
-# Generated: Tue Apr 18 13:56:05 2017
+# Generated: Tue Apr 18 15:37:17 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -30,12 +30,12 @@ import sys
 from gnuradio import qtgui
 
 
-class standard_csma(gr.top_block, Qt.QWidget):
+class CogMAC_plus(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "standard_csma")
+        gr.top_block.__init__(self, "CogMAC_plus")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("standard_csma")
+        self.setWindowTitle("CogMAC_plus")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -53,7 +53,7 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "standard_csma")
+        self.settings = Qt.QSettings("GNU Radio", "CogMAC_plus")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -86,16 +86,17 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 1, 0.01)
+        self.inets_frame_buffer_0 = inets.frame_buffer(1, 16, 10, 1, 1, 1)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 1, 100)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_frame_buffer_0, 'enqueue'))
+        self.msg_connect((self.inets_frame_buffer_0, 'buffer_not_full'), (self.inets_dummy_source_0, 'trigger'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "standard_csma")
+        self.settings = Qt.QSettings("GNU Radio", "CogMAC_plus")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -192,7 +193,7 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self.cs_threshold = cs_threshold
 
 
-def main(top_block_cls=standard_csma, options=None):
+def main(top_block_cls=CogMAC_plus, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

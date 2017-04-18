@@ -39,6 +39,7 @@ namespace gr {
       int _dequeue_when_available;
       int _auto_dequeue_first;
       int _dequeue_first;
+      int _auto_dequeue_full;
 //      int _output_dequeue_element;
       std::queue<pmt::pmt_t> _buffer;
       void enqueue(pmt::pmt_t enqueue_element);
@@ -47,7 +48,7 @@ namespace gr {
       void flush(pmt::pmt_t flush_request);
 
      public:
-      frame_buffer_impl(int develop_mode, int block_id, int buffer_size, int auto_dequeue_first, int keep_dequeue_state);
+      frame_buffer_impl(int develop_mode, int block_id, int buffer_size, int auto_dequeue_first, int keep_dequeue_state, int auto_dequeue_full);
       ~frame_buffer_impl();
     };
   } // namespace inets

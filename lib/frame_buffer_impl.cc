@@ -30,16 +30,16 @@ namespace gr {
   namespace inets {
 
     frame_buffer::sptr
-    frame_buffer::make(int develop_mode, int block_id, int buffer_size, int auto_dequeue_first, int keep_dequeue_state)
+    frame_buffer::make(int develop_mode, int block_id, int buffer_size, int auto_dequeue_first, int keep_dequeue_state, int auto_dequeue_full)
     {
       return gnuradio::get_initial_sptr
-        (new frame_buffer_impl(develop_mode, block_id, buffer_size, auto_dequeue_first, keep_dequeue_state));
+        (new frame_buffer_impl(develop_mode, block_id, buffer_size, auto_dequeue_first, keep_dequeue_state, auto_dequeue_full));
     }
 
     /*
      * The private constructor
      */
-    frame_buffer_impl::frame_buffer_impl(int develop_mode, int block_id, int buffer_size, int auto_dequeue_first, int keep_dequeue_state)
+    frame_buffer_impl::frame_buffer_impl(int develop_mode, int block_id, int buffer_size, int auto_dequeue_first, int keep_dequeue_state, int auto_dequeue_full)
       : gr::block("frame_buffer",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -49,7 +49,8 @@ namespace gr {
 	_auto_dequeue_first(auto_dequeue_first),
 	_keep_dequeue_state(keep_dequeue_state),
 	_dequeue_when_available(0),
-	_dequeue_first(1)
+	_dequeue_first(1),
+        _auto_dequeue_full(auto_dequeue_full)
   //      _output_dequeue_element(output_dequeue_element)
     {
       if(_develop_mode)
@@ -61,6 +62,7 @@ namespace gr {
       message_port_register_in(pmt::mp("flush")); 
       set_msg_handler(pmt::mp("flush"), boost::bind(&frame_buffer_impl::flush, this, _1));
       message_port_register_out(pmt::mp("dequeue_element"));
+      message_port_register_out(pmt::mp("buffer_not_full"));
     }
 
     /*
@@ -77,9 +79,28 @@ namespace gr {
       if(_buffer.size() < _buffer_size)
       {
         _buffer.push(enqueue_element);
+        if(_buffer.size() < _buffer_size)
+          message_port_pub(pmt::mp("buffer_not_full"), pmt::from_long(1));
+        else
+        {
+          if(_auto_dequeue_full)
+          {
+            message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
+            _buffer.pop();
+          }
+        }
         if(_develop_mode)
-          std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after enqueue." << std::endl;
-
+        {
+          std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements after enqueue, ";
+          if(_buffer.size() < _buffer_size)
+            std::cout << " and buffer is not full."  << std::endl;
+          else
+          {
+            std::cout << " and buffer is full.";
+            if(_auto_dequeue_full)
+              std::cout << " the first elements is dequeued." << std::endl;
+          }
+        }
         if(_develop_mode == 2)
         {
           struct timeval t; 

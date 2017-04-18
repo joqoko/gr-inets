@@ -4,7 +4,7 @@
   <key>inets_framing</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.framing($develop_mode, $block_id, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission, $reserved_field_ampdu, $node_list, $slot_list_ms, $len_slot_time_beacon)</make>
+  <make>inets.framing($develop_mode, $block_id, $frame_type, $len_frame_type, $frame_index, $len_frame_index, $destination_address, $len_destination_address, $source_address, $len_source_address, $reserved_field_I, $len_reserved_field_I, $reserved_field_II, $len_reserved_field_II, $len_payload_length, $increase_index, $len_num_transmission, $reserved_field_ampdu, $node_list, $slot_list_ms, $len_slot_time_beacon, $default_payload, $default_payload_length, $internal_index)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -45,6 +45,46 @@
     <value>17</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Use default payload</name>
+    <key>default_payload</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>0</key>
+      <opt>hide:all</opt>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Default payload length</name>
+    <key>default_payload_length</key>
+    <value>300</value>
+    <type>int</type>
+    <hide>$default_payload.hide</hide>
+  </param>
+
+  <param>
+    <name>Use internal index</name>
+    <key>internal_index</key>
+    <type>enum</type>
+    <hide>$default_payload.hide</hide>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
   </param>
 
   <param>

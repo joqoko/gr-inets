@@ -4,7 +4,7 @@
   <key>inets_frame_buffer</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.frame_buffer($develop_mode, $block_id, $buffer_size, $auto_dequeue_first, $keep_dequeue_state)</make>
+  <make>inets.frame_buffer($develop_mode, $block_id, $buffer_size, $auto_dequeue_first, $keep_dequeue_state, $auto_dequeue_full)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -86,6 +86,21 @@
   </param>
 
   <param>
+    <name>Auto-dq when full</name>
+    <key>auto_dequeue_full</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
     <name>Dequeue</name>
     <key>dequeue</key>
     <value>0</value>
@@ -117,6 +132,23 @@
     <option>
       <name>No</name>
       <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Show "not full" port</name>
+    <key>output_empty</key>
+    <type>enum</type>
+    <hide>$output_empty.hide</hide>
+    <option>
+      <name>Output</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Not output</name>
+      <key>1</key>
+      <opt>hide:part</opt>
     </option>
   </param>
 
@@ -210,5 +242,11 @@
     <name>dequeue_element</name>
     <type>message</type>
     <optional>1</optional>
+  </source>
+  <source>
+    <name>buffer_not_full</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_empty</hide>
   </source>
 </block>

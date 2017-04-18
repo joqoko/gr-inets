@@ -103,7 +103,7 @@ namespace gr {
         }
       }
       /*
-       * source_type 2: constant rate source. This type of the source offers infinite number of payload. Other part of the protocol need to pull the payload.
+       * source_type 2: constant rate source. 
        */
       else if(_source_type == 2)
       {  
