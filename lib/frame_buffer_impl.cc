@@ -151,8 +151,11 @@ namespace gr {
         }
       }
       else
+      {
         if(_develop_mode)
           std::cout << "buffer ID: " << _block_id << " is full. current element is discarded." << std::endl;
+      //  message_port_pub(pmt::mp("dequeue_element"), enqueue_element);
+      }
     }
     
     void frame_buffer_impl::dequeue(pmt::pmt_t dequeue_request)
@@ -281,8 +284,10 @@ namespace gr {
         }
       }
       else
+      {
         if(_develop_mode)
           std::cout << "buffer ID: " << _block_id << " is empty. no element is flushed." << std::endl;
+      }
     }
   } /* namespace inets */
 } /* namespace gr */

@@ -73,9 +73,12 @@ namespace gr {
         std::cout << "develop_mode of framing ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("data_in"));
       set_msg_handler(pmt::mp("data_in"), boost::bind(&framing_impl::catagorization, this, _1 ));
+      message_port_register_in(pmt::mp("reset_index"));
+      set_msg_handler(pmt::mp("reset_index"), boost::bind(&framing_impl::reset_frame_index, this, _1 ));
       message_port_register_out(pmt::mp("frame_out"));
       // only in develop_mode
       message_port_register_out(pmt::mp("frame_pmt_out"));
+      _default_index = _frame_index;
       if(_frame_index > 255 || _frame_index < 0)
       {
         std::cout << "frame index should in range [0, 255]. Frame index is set to 0." << std::endl;
@@ -91,6 +94,12 @@ namespace gr {
     }
 
     void 
+    framing_impl::reset_frame_index(pmt::pmt_t pmt_in)
+    {
+      _frame_index = _default_index;
+    }
+
+    void 
     framing_impl::catagorization(pmt::pmt_t data_in)
     {
       if(_develop_mode)
@@ -99,7 +108,9 @@ namespace gr {
       if(pmt::is_dict(data_in))
       {
         if(_frame_type == 1)
+        {
           generated_frame = data_frame_formation(data_in);
+        }
         else if(_frame_type == 2)
         {
           generated_frame = ack_frame_formation(data_in);
@@ -296,16 +307,7 @@ namespace gr {
           payload_array = pmt::u8vector_elements(payload_pmt);
           _payload_length = payload_array.size(); 
           std::vector<unsigned char> frame_header;
-          if(_internal_index)
-          {
-            if(_increase_index)
-            {
-              _frame_index++;
-              if(_frame_index > 255)
-                _frame_index = 0;
-            }
-          }
-          else
+          if(!_internal_index)
           {
             _frame_index = pmt::to_long(rx_payload);
           }
@@ -332,6 +334,21 @@ namespace gr {
             gettimeofday(&t, NULL);
             double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
             std::cout << "framing ID: " << _block_id << " data frame is generated at time " << current_time <<" s" <<  std::endl;
+          }
+          if(_internal_index)
+          {
+            if(_increase_index == 1)
+            {
+              _frame_index++;
+              if(_frame_index > 255)
+                _frame_index = 0;
+            }
+            else if(_increase_index == -1)
+            {
+              _frame_index--;
+              if(_frame_index < 0)
+                _frame_index = 255;
+            }
           }
         }
         else

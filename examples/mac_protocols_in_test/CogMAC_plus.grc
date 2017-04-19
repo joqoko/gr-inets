@@ -594,7 +594,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(128, 396)</value>
+      <value>(384, 500)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -680,7 +680,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(168, 320)</value>
+      <value>(80, 344)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -751,7 +751,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -767,7 +767,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(624, 320)</value>
+      <value>(672, 448)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -792,6 +792,61 @@
     <param>
       <key>output_empty</key>
       <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_index_selector</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>33</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(928, 448)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_index_selector_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_unselected</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>selected_index</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -830,7 +885,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(616, 208)</value>
+      <value>(976, 352)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -889,7 +944,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(368, 316)</value>
+      <value>(320, 352)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -901,11 +956,11 @@
     </param>
     <param>
       <key>increase_index</key>
-      <value>1</value>
+      <value>-1</value>
     </param>
     <param>
       <key>frame_index</key>
-      <value>0</value>
+      <value>4</value>
     </param>
     <param>
       <key>len_destination_address</key>
@@ -1011,9 +1066,21 @@
     <sink_key>trigger</sink_key>
   </connection>
   <connection>
+    <source_block_id>inets_frame_buffer_0</source_block_id>
+    <sink_block_id>inets_frame_index_selector_0</sink_block_id>
+    <source_key>dequeue_element</source_key>
+    <sink_key>frame_in</sink_key>
+  </connection>
+  <connection>
     <source_block_id>inets_framing_0</source_block_id>
     <sink_block_id>inets_frame_buffer_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>enqueue</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_framing_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <source_key>frame_out</source_key>
+    <sink_key>info_in</sink_key>
   </connection>
 </flow_graph>

@@ -55,6 +55,7 @@ namespace gr {
       int _len_num_transmission;
       int _len_slot_time_beacon;
       int _default_payload;
+      int _default_index;
       int _default_payload_length;
       int _internal_index;
       std::vector<unsigned int> _node_list;
@@ -62,6 +63,7 @@ namespace gr {
       boost::crc_optimal<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true> _crc_impl; 
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
       void catagorization(pmt::pmt_t data_in);
+      void reset_frame_index(pmt::pmt_t pmt_in);
       pmt::pmt_t data_frame_formation(pmt::pmt_t rx_payload);
       pmt::pmt_t ampdu_subframe_formation(pmt::pmt_t rx_payload);
       pmt::pmt_t amsdu_subframe_formation(pmt::pmt_t rx_payload);

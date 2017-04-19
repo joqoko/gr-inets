@@ -94,7 +94,7 @@ namespace gr {
           }
           if(_develop_mode)
             std::cout << "dummy infinite source ID: " << _block_id << " generate and output " << pmt::to_long(trig) << " payloads in a row." << std::endl;
-          message_port_pub(pmt::mp("output"), trig);
+//          message_port_pub(pmt::mp("output"), trig);
         }
         else
         {

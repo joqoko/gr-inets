@@ -217,6 +217,10 @@
       <name>constant</name>
       <key>0</key>
     </option>
+    <option>
+      <name>decrease</name>
+      <key>-1</key>
+    </option>
   </param>
 
   <param>

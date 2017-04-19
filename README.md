@@ -60,6 +60,7 @@ Index		block name				Categories
  34		general_timeout				inets_dmf_mac
  35		cogmac_ch_pool				inets_dmf_mac
  36		frame_counter				inets_dmf_mac
+ 37		frame_replicate				inets_dmf_mac
  100+		frame_probe				inets_dmf_tool
  100+		counter					inets_dmf_tool	
 

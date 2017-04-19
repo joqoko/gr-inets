@@ -78,7 +78,7 @@ list(APPEND inets_sources
     general_timeout_impl.cc
     general_timeout_impl.cc
     cogmac_ch_pool_impl.cc
-    )
+    frame_replicate_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)
