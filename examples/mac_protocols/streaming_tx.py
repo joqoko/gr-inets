@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: streaming_tx
 # Author: PWA
-# Generated: Tue Apr 11 08:45:50 2017
+# Generated: Thu Apr 20 16:58:57 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -88,9 +88,9 @@ class streaming_tx(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0.003)
-        self.inets_framing_1_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2)
+        self.inets_framing_1_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
         self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 0, 0.01)
-        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 1000, 1, 1)
+        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 1000, 1, 1, 1)
         self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
 
         ##################################################

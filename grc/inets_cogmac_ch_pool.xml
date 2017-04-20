@@ -2,7 +2,7 @@
 <block>
   <name>cogmac_ch_pool</name>
   <key>inets_cogmac_ch_pool</key>
-  <category>[inets]</category>
+  <category>inets_dmf_mac</category>
   <import>import inets</import>
   <make>inets.cogmac_ch_pool($develop_mode, $block_id, $channel_number, $first_channel, $algorithm, $channel_gap)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

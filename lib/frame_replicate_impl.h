@@ -29,19 +29,16 @@ namespace gr {
     class frame_replicate_impl : public frame_replicate
     {
      private:
-      // Nothing to declare in this block.
+      int _develop_mode;
+      int _block_id;
+      int _replicate_number;
+      void do_replicate(pmt::pmt_t frame_in);
+      void reset_number(pmt::pmt_t number_in);
 
      public:
       frame_replicate_impl(int develop_mode, int block_id, int replicate_number);
       ~frame_replicate_impl();
 
-      // Where all the action really happens
-      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
-
-      int general_work(int noutput_items,
-           gr_vector_int &ninput_items,
-           gr_vector_const_void_star &input_items,
-           gr_vector_void_star &output_items);
     };
 
   } // namespace inets

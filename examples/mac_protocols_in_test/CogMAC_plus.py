@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: CogMAC_plus
 # Author: PWA
-# Generated: Wed Apr 19 17:34:09 2017
+# Generated: Thu Apr 20 16:30:45 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -88,21 +88,35 @@ class CogMAC_plus(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
+        self.inets_general_timer_0 = inets.general_timer(0, 3, 0, 10000, 10, 0)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 4, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, -1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
+        self.inets_frame_replicate_0 = inets.frame_replicate(0, 37, 4)
+        self.inets_frame_probe_0_0 = inets.frame_probe(1, 101, 0, 0, 0.01)
         self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 0, 0.01)
-        self.inets_frame_index_selector_0 = inets.frame_index_selector(0, 33, (1, ), 0)
-        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 4, 0, 0, 0)
+        self.inets_frame_index_selector_0 = inets.frame_index_selector(0, 33, (4, ), 0)
+        self.inets_frame_buffer_0_0 = inets.frame_buffer(0, 16, 100, 0, 0, 0)
+        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 4, 0, 0, 1)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 1, 100)
+        self.blocks_message_strobe_0_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_frame_buffer_0, 'indicate_empty'))
+        self.msg_connect((self.blocks_message_strobe_0_0, 'strobe'), (self.inets_general_timer_0, 'active_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'buffer_not_full'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_frame_index_selector_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_frame_probe_0_0, 'info_in'))
+        self.msg_connect((self.inets_frame_buffer_0_0, 'dequeue_element'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_frame_index_selector_0, 'unselected_frame_out'), (self.inets_frame_buffer_0, 'dequeue'))
+        self.msg_connect((self.inets_frame_index_selector_0, 'unselected_frame_out'), (self.inets_frame_buffer_0_0, 'enqueue'))
+        self.msg_connect((self.inets_frame_index_selector_0, 'frame_out'), (self.inets_frame_replicate_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_replicate_0, 'complete_out'), (self.inets_frame_buffer_0, 'dequeue'))
+        self.msg_connect((self.inets_frame_replicate_0, 'replicate_out'), (self.inets_frame_buffer_0_0, 'enqueue'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_frame_buffer_0_0, 'flush'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "CogMAC_plus")

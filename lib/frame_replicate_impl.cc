@@ -48,12 +48,17 @@ namespace gr {
     {
       if(_develop_mode)
         std::cout << "develop_mode of frame_replicate id: " << _block_id << " is activated." << std::endl;
-      message_port_register_out(pmt::mp("replicated_out"));
+      message_port_register_out(pmt::mp("replicate_out"));
       message_port_register_out(pmt::mp("complete_out"));
       message_port_register_in(pmt::mp("frame_in"));
       set_msg_handler(
         pmt::mp("frame_in"),
-        boost::bind(&general_timeout_impl::do_replicate, this, _1)
+        boost::bind(&frame_replicate_impl::do_replicate, this, _1)
+      );
+      message_port_register_in(pmt::mp("reset_number_in"));
+      set_msg_handler(
+        pmt::mp("reset_number_in"),
+        boost::bind(&frame_replicate_impl::reset_number, this, _1)
       );
     }
 
@@ -62,6 +67,21 @@ namespace gr {
      */
     frame_replicate_impl::~frame_replicate_impl()
     {
+    }
+
+    void
+    frame_replicate_impl::reset_number(pmt::pmt_t number_in)
+    {
+      if(pmt::is_integer(number_in))
+      {
+        _replicate_number = pmt::to_long(number_in);
+        if(_develop_mode)
+          std::cout << "frame_replicate block ID " << _block_id << " is reset to " << _replicate_number << std::endl;
+      }
+      else   
+      {
+        std::cout << "error: frame_replicate block ID " << _block_id << " can only reassign number of replicates to a integer number." << std::endl;
+      }
     }
 
     void
