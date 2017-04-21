@@ -61,6 +61,8 @@ Index		block name				Categories
  35		cogmac_ch_pool				inets_dmf_mac
  36		frame_counter				inets_dmf_mac
  37		frame_replicate				inets_dmf_mac
+ 38		frame_and				inets_dmf_tool
+ 39		frame_path				inets_dmf_tool
  100+		frame_probe				inets_dmf_tool
  100+		counter					inets_dmf_tool	
 

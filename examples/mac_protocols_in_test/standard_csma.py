@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: standard_csma
 # Author: PWA
-# Generated: Tue Apr 18 13:56:05 2017
+# Generated: Fri Apr 21 10:34:05 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -18,6 +18,7 @@ if __name__ == '__main__':
             print "Warning: failed to XInitThreads()"
 
 from PyQt4 import Qt
+from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio.eng_option import eng_option
@@ -26,6 +27,7 @@ from gnuradio.qtgui import Range, RangeWidget
 from optparse import OptionParser
 import gnuradio
 import inets
+import pmt
 import sys
 from gnuradio import qtgui
 
@@ -86,13 +88,49 @@ class standard_csma(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
+        self.inets_timeout_0 = inets.timeout(1, 10, 500, 1000, 0)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.001, t_pretx_interval_s=0.003)
+        self.inets_resend_check_0 = inets.resend_check(0, 24, 6)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 1, 0.01)
+        self.inets_framing_1_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
+        self.inets_framing_1 = inets.framing(0, 17, 2, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
+        self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
+        self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 0, 0.01)
+        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 1000, 1, 1, 1)
+        self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 2, 100)
+        self.inets_carrier_sensing_0 = inets.carrier_sensing(0, 11, 2, 1, 0.05, 1000)
+        self.inets_backoff_0 = inets.backoff(0, 11, 1, 10, 100, 400, 0, 0.005, 1000, 1)
+        self.inets_address_check_0 = inets.address_check(0, 17, source_address)
+        self.blocks_socket_pdu_1 = blocks.socket_pdu("UDP_CLIENT", 'localhost', '1234', 300, False)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("UDP_SERVER", 'localhost', '52001', 10000, False)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_backoff_0, 'frame_info_out'), (self.inets_resend_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_fail_out'), (self.inets_backoff_0, 'frame_info_in'))
+        self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_pass_out'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_1_0, 'data_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_carrier_sensing_0, 'info_in'))
+        self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.blocks_socket_pdu_1, 'pdus'))
+        self.msg_connect((self.inets_frame_type_check_0, 'data_frame_info_out'), (self.inets_framing_1, 'data_in'))
+        self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_0, 'ack_frame_info_in'))
+        self.msg_connect((self.inets_frame_type_check_0_0, 'data_frame_info_out'), (self.inets_backoff_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_frame_buffer_0, 'dequeue'))
+        self.msg_connect((self.inets_framing_1, 'frame_out'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_framing_1_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
+        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'power_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
+        self.msg_connect((self.inets_resend_check_0, 'resend_check_pass_out'), (self.inets_carrier_sensing_0, 'info_in'))
+        self.msg_connect((self.inets_resend_check_0, 'resend_check_fail_out'), (self.inets_frame_buffer_0, 'dequeue'))
+        self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_timeout_0, 'data_frame_info_in'))
+        self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "standard_csma")

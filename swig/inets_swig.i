@@ -61,9 +61,13 @@
 #include "inets/general_timeout.h"
 #include "inets/cogmac_ch_pool.h"
 #include "inets/frame_replicate.h"
+#include "inets/frame_and.h"
+#include "inets/frame_path.h"
 #include "inets/general_timeout.h"
 #include "inets/cogmac_ch_pool.h"
 #include "inets/frame_replicate.h"
+#include "inets/frame_and.h"
+#include "inets/frame_path.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -192,3 +196,8 @@ GR_SWIG_BLOCK_MAGIC2(inets, cogmac_ch_pool);
 
 %include "inets/frame_replicate.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_replicate);
+
+%include "inets/frame_and.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_and);
+%include "inets/frame_path.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_path);

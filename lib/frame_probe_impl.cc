@@ -92,6 +92,11 @@ namespace gr {
           else
             std::cout << "carrier_sensing ID " << _block_id << " error: not valid power signal" << std::endl;
         }
+        else if(!_cs_mode && pmt::is_integer(frame_info))
+        {
+          std::cout << "+++++++++ frame_probe ID: " << _block_id << " +++++++++";    
+          std::cout << "receives number " << pmt::to_long(frame_info) << std::endl;
+        }
         else if(!_cs_mode && pmt::is_dict(frame_info))
         {
           std::cout << "+++++++++ frame_probe ID: " << _block_id << " +++++++++";    

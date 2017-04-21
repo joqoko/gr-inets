@@ -1128,6 +1128,10 @@
       <value>1</value>
     </param>
     <param>
+      <key>auto_dequeue_full</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>alias</key>
       <value></value>
     </param>
@@ -1184,11 +1188,19 @@
       <value>inets_frame_buffer_0</value>
     </param>
     <param>
+      <key>indicate</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
       <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_empty</key>
       <value>0</value>
     </param>
   </block>
@@ -1440,6 +1452,10 @@
       <value>default</value>
     </param>
     <param>
+      <key>default_payload_length</key>
+      <value>300</value>
+    </param>
+    <param>
       <key>destination_address</key>
       <value>destination_address</value>
     </param>
@@ -1551,6 +1567,14 @@
       <key>source_address</key>
       <value>source_address</value>
     </param>
+    <param>
+      <key>default_payload</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>internal_index</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_framing</key>
@@ -1573,6 +1597,10 @@
     <param>
       <key>default_framing_setting</key>
       <value>default</value>
+    </param>
+    <param>
+      <key>default_payload_length</key>
+      <value>300</value>
     </param>
     <param>
       <key>destination_address</key>
@@ -1685,6 +1713,14 @@
     <param>
       <key>source_address</key>
       <value>source_address</value>
+    </param>
+    <param>
+      <key>default_payload</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>internal_index</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -2024,10 +2060,10 @@
     </param>
   </block>
   <connection>
-    <source_block_id>blocks_socket_pdu_0</source_block_id>
-    <sink_block_id>inets_framing_1_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>data_in</sink_key>
+    <source_block_id>blocks_message_strobe_0</source_block_id>
+    <sink_block_id>inets_dummy_source_0</sink_block_id>
+    <source_key>strobe</source_key>
+    <sink_key>trigger</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_address_check_0</source_block_id>
@@ -2052,6 +2088,12 @@
     <sink_block_id>inets_sending_0</sink_block_id>
     <source_key>frame_info_pass_out</source_key>
     <sink_key>in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_dummy_source_0</source_block_id>
+    <sink_block_id>inets_framing_1_0</sink_block_id>
+    <source_key>output</source_key>
+    <sink_key>data_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_analysis_0</source_block_id>

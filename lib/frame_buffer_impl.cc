@@ -66,6 +66,7 @@ namespace gr {
       set_msg_handler(pmt::mp("flush"), boost::bind(&frame_buffer_impl::flush, this, _1));
       message_port_register_out(pmt::mp("dequeue_element"));
       message_port_register_out(pmt::mp("buffer_not_full"));
+      message_port_register_out(pmt::mp("buffer_empty"));
     }
 
     /*
@@ -81,6 +82,11 @@ namespace gr {
       {
         message_port_pub(pmt::mp("buffer_not_full"), pmt::from_long(1));
         _show_am_empty = 0;
+      }
+      else
+      {
+        if(pmt::is_dict(trigger))
+          message_port_pub(pmt::mp("buffer_not_full"), pmt::from_long(1));
       }
     }
     
@@ -226,6 +232,8 @@ namespace gr {
             double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
             std::cout << "buffer ID: " << _block_id << " dequeue at time " << current_time << " s" << std::endl;
           }
+//          if(_buffer.size() == 0)
+//            message_port_pub(pmt::mp("buffer_empty"), pmt::from_long(0));
         }
         else
         {
@@ -238,6 +246,7 @@ namespace gr {
           else
             if(_develop_mode)
               std::cout << "buffer ID: " << _block_id << " is empty. no element is popped." << std::endl;
+          message_port_pub(pmt::mp("buffer_empty"), pmt::make_dict());
         }
       }
     }

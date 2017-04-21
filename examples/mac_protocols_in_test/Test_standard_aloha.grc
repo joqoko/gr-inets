@@ -598,7 +598,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.6"</value>
+      <value>"addr=10.0.0.20"</value>
     </param>
   </block>
   <block>
@@ -938,6 +938,10 @@
       <value>1</value>
     </param>
     <param>
+      <key>auto_dequeue_full</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>alias</key>
       <value></value>
     </param>
@@ -994,12 +998,20 @@
       <value>inets_frame_buffer_0</value>
     </param>
     <param>
+      <key>indicate</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>output_empty</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1352,6 +1364,10 @@
       <value>customized</value>
     </param>
     <param>
+      <key>default_payload_length</key>
+      <value>300</value>
+    </param>
+    <param>
       <key>destination_address</key>
       <value>destination_address</value>
     </param>
@@ -1463,6 +1479,14 @@
       <key>source_address</key>
       <value>source_address</value>
     </param>
+    <param>
+      <key>default_payload</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>internal_index</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_framing</key>
@@ -1485,6 +1509,10 @@
     <param>
       <key>default_framing_setting</key>
       <value>default</value>
+    </param>
+    <param>
+      <key>default_payload_length</key>
+      <value>300</value>
     </param>
     <param>
       <key>destination_address</key>
@@ -1597,6 +1625,14 @@
     <param>
       <key>source_address</key>
       <value>source_address</value>
+    </param>
+    <param>
+      <key>default_payload</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>internal_index</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1900,7 +1936,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 512)</value>
+      <value>(776, 528)</value>
     </param>
     <param>
       <key>_rotation</key>

@@ -257,6 +257,21 @@
   </param>
 
   <param>
+    <name>Show reset index</name>
+    <key>show_reset_index</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
     <name>Default framing settings</name>
     <key>default_framing_setting</key>
     <type>enum</type>
@@ -338,6 +353,13 @@
     <name>data_in</name>
     <type>message</type>
     <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>reset_index</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$show_reset_index</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:

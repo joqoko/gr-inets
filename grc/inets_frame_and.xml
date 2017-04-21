@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<block>
+  <name>frame_and</name>
+  <key>inets_frame_and</key>
+  <category>ints_dmf_tool</category>
+  <import>import inets</import>
+  <make>inets.frame_and($develop_mode, $block_id, $output_mode)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>38</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>output_mode</name>
+    <key>output_mode</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>frame_I</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>frame_II</name>
+      <key>1</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Show force output</name>
+    <key>force_out</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Show reset</name>
+    <key>reset</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>frame_I_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>frame_II_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>force_output</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$force_out</hide>
+  </sink>
+
+  <sink>
+    <name>reset_end</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$reset</hide>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>frame_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+</block>

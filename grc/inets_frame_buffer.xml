@@ -141,12 +141,29 @@
     <type>enum</type>
     <hide>$output_empty.hide</hide>
     <option>
-      <name>Output</name>
+      <name>Yes</name>
       <key>0</key>
       <opt>hide:none</opt>
     </option>
     <option>
-      <name>Not output</name>
+      <name>No</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Show buffer empty</name>
+    <key>show_empty</key>
+    <type>enum</type>
+    <hide>$show_empty.hide</hide>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>No</name>
       <key>1</key>
       <opt>hide:part</opt>
     </option>
@@ -272,5 +289,11 @@
     <type>message</type>
     <optional>1</optional>
     <hide>$output_empty</hide>
+  </source>
+  <source>
+    <name>buffer_empty</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$show_empty</hide>
   </source>
 </block>

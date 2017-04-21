@@ -75,6 +75,8 @@ install(FILES
     general_timeout.h
     general_timeout.h
     cogmac_ch_pool.h
-    frame_replicate.h DESTINATION include/inets
+    frame_replicate.h
+    frame_and.h
+    frame_path.h DESTINATION include/inets
 
 )
