@@ -63,6 +63,7 @@ Index		block name				Categories
  37		frame_replicate				inets_dmf_mac
  38		frame_and				inets_dmf_tool
  39		frame_path				inets_dmf_tool
+ 40		frame_to_boolean			inets_dmf_tool
  100+		frame_probe				inets_dmf_tool
  100+		counter					inets_dmf_tool	
 

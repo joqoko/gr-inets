@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>cogmac_ch_pool</name>
-  <key>inets_cogmac_ch_pool</key>
-  <category>inets_dmf_protocol</category>
+  <name>frame_to_boolean</name>
+  <key>inets_frame_to_boolean</key>
+  <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.cogmac_ch_pool($develop_mode, $block_id, $channel_number, $first_channel, $algorithm, $channel_gap)</make>
+  <make>inets.frame_to_boolean($develop_mode, $block_id)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -21,69 +21,27 @@
       <key>0</key>
       <opt>hide:part</opt>
       <opt>hide_control:all</opt>
-      <opt>hide_pmt:all</opt>
     </option>
     <option>
       <name>on</name>
       <key>1</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
-      <opt>hide_pmt:part</opt>
     </option>
     <option>
       <name>time</name>
       <key>2</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
-      <opt>hide_pmt:part</opt>
     </option>
   </param>
 
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>35</value>
+    <value>40</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
-  </param>
-
-  <param>
-    <name>Number of channels</name>
-    <key>channel_number</key>
-    <value>4</value>
-    <type>int</type>
-    <hide>part</hide>
-  </param>
-
-  <param>
-    <name>First frequency</name>
-    <key>first_channel</key>
-    <value>400000000</value>
-    <type>int</type>
-    <hide>part</hide>
-  </param>
-
-  <param>
-    <name>Algorithm</name>
-    <key>algorithm</key>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>CogMAC</name>
-      <key>0</key>
-    </option>
-    <option>
-      <name>CogMAC+</name>
-      <key>1</key>
-    </option>
-  </param>
-
-  <param>
-    <name>Channel gap</name>
-    <key>channel_gap</key>
-    <value>10000000</value>
-    <type>int</type>
-    <hide>part</hide>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -92,7 +50,13 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>change_in</name>
+    <name>true_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>false_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
@@ -103,7 +67,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>next_frequency_out</name>
+    <name>boolean_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>

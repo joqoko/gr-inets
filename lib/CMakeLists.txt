@@ -80,7 +80,9 @@ list(APPEND inets_sources
     cogmac_ch_pool_impl.cc
     frame_replicate_impl.cc
     frame_and_impl.cc
-    frame_path_impl.cc )
+    frame_path_impl.cc
+    frame_to_boolean_impl.cc
+    frame_counter_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

@@ -81,5 +81,8 @@ install(FILES
     inets_cogmac_ch_pool.xml
     inets_frame_replicate.xml
     inets_frame_and.xml
-    inets_frame_path.xml DESTINATION share/gnuradio/grc/blocks
+    inets_frame_path.xml
+    inets_multichannel_receiving.xml
+    inets_frame_to_boolean.xml
+    inets_frame_counter.xml DESTINATION share/gnuradio/grc/blocks
 )

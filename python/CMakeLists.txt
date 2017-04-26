@@ -39,7 +39,8 @@ GR_PYTHON_INSTALL(
     framing_py_v1.py
     sending.py
     receiving.py
-    packetization.py DESTINATION ${GR_PYTHON_DIR}/inets
+    packetization.py
+    multichannel_receiving.py DESTINATION ${GR_PYTHON_DIR}/inets
 )
 
 ########################################################################

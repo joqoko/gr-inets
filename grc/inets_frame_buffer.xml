@@ -141,14 +141,14 @@
     <type>enum</type>
     <hide>$output_empty.hide</hide>
     <option>
-      <name>Yes</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
       <name>No</name>
       <key>1</key>
       <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
     </option>
   </param>
 
@@ -158,14 +158,14 @@
     <type>enum</type>
     <hide>$show_empty.hide</hide>
     <option>
-      <name>Yes</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
       <name>No</name>
       <key>1</key>
       <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
     </option>
   </param>
 

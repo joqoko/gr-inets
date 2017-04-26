@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>streaming_tx</value>
+      <value>Test_multichannel</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>streaming_tx</value>
+      <value>Test_multichannel</value>
     </param>
   </block>
   <block>
@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>3</value>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -436,7 +436,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>2000000</value>
+      <value>1000000</value>
     </param>
   </block>
   <block>
@@ -463,7 +463,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>2</value>
     </param>
   </block>
   <block>
@@ -571,11 +571,11 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.6"</value>
+      <value>"addr=10.0.0.20"</value>
     </param>
   </block>
   <block>
-    <key>blocks_socket_pdu</key>
+    <key>blocks_message_strobe</key>
     <param>
       <key>alias</key>
       <value></value>
@@ -590,47 +590,35 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(208, 304)</value>
+      <value>(184, 372)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
     </param>
     <param>
-      <key>host</key>
-      <value>localhost</value>
-    </param>
-    <param>
       <key>id</key>
-      <value>blocks_socket_pdu_0</value>
-    </param>
-    <param>
-      <key>mtu</key>
-      <value>10000</value>
+      <value>blocks_message_strobe_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
+      <key>msg</key>
+      <value>pmt.intern("TEST")</value>
+    </param>
+    <param>
       <key>minoutbuf</key>
       <value>0</value>
     </param>
     <param>
-      <key>port</key>
-      <value>52001</value>
-    </param>
-    <param>
-      <key>tcp_no_delay</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>"UDP_SERVER"</value>
+      <key>period</key>
+      <value>1000</value>
     </param>
   </block>
   <block>
@@ -665,14 +653,10 @@
     </param>
   </block>
   <block>
-    <key>inets_frame_buffer</key>
+    <key>inets_cogmac_ch_pool</key>
     <param>
-      <key>auto_dequeue_first</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>auto_dequeue_full</key>
-      <value>1</value>
+      <key>algorithm</key>
+      <value>0</value>
     </param>
     <param>
       <key>alias</key>
@@ -680,11 +664,11 @@
     </param>
     <param>
       <key>block_id</key>
-      <value>16</value>
+      <value>35</value>
     </param>
     <param>
-      <key>buffer_size</key>
-      <value>1000</value>
+      <key>channel_gap</key>
+      <value>10000000</value>
     </param>
     <param>
       <key>comment</key>
@@ -695,12 +679,67 @@
       <value></value>
     </param>
     <param>
-      <key>keep_dequeue_state</key>
+      <key>develop_mode</key>
       <value>1</value>
     </param>
     <param>
-      <key>dequeue</key>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>first_channel</key>
+      <value>390000000</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(408, 372)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_cogmac_ch_pool_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>channel_number</key>
+      <value>3</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_analysis</key>
+    <param>
+      <key>apply_self_address_check</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>7</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>default_framing_setting</key>
+      <value>customized</value>
     </param>
     <param>
       <key>develop_mode</key>
@@ -711,16 +750,8 @@
       <value>1</value>
     </param>
     <param>
-      <key>enqueue</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>flush</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>_coordinate</key>
-      <value>(688, 328)</value>
+      <value>(872, 352)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -728,10 +759,38 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_frame_buffer_0</value>
+      <value>inets_frame_analysis_0</value>
     </param>
     <param>
-      <key>indicate</key>
+      <key>len_destination_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_type</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_num_transmission</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_payload_length</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_I</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_II</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_source_address</key>
       <value>1</value>
     </param>
     <param>
@@ -743,12 +802,8 @@
       <value>0</value>
     </param>
     <param>
-      <key>output_empty</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>show_empty</key>
-      <value>0</value>
+      <key>my_address</key>
+      <value>source_address</value>
     </param>
   </block>
   <block>
@@ -787,7 +842,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(840, 416)</value>
+      <value>(1072, 352)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -803,14 +858,22 @@
     </param>
   </block>
   <block>
-    <key>inets_framing</key>
+    <key>inets_frame_probe</key>
     <param>
       <key>alias</key>
       <value></value>
     </param>
     <param>
       <key>block_id</key>
-      <value>17</value>
+      <value>100</value>
+    </param>
+    <param>
+      <key>cs_threshold</key>
+      <value>0.01</value>
+    </param>
+    <param>
+      <key>cs_mode</key>
+      <value>0</value>
     </param>
     <param>
       <key>comment</key>
@@ -821,32 +884,16 @@
       <value></value>
     </param>
     <param>
-      <key>default_framing_setting</key>
-      <value>default</value>
-    </param>
-    <param>
-      <key>default_payload_length</key>
-      <value>300</value>
-    </param>
-    <param>
-      <key>destination_address</key>
-      <value>destination_address</value>
-    </param>
-    <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>frame_type</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>_coordinate</key>
-      <value>(432, 324)</value>
+      <value>(872, 476)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -854,118 +901,26 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_framing_1_0</value>
+      <value>inets_frame_probe_0_0</value>
     </param>
     <param>
-      <key>increase_index</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>frame_index</key>
+      <key>print_frame</key>
       <value>0</value>
-    </param>
-    <param>
-      <key>len_destination_address</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>len_frame_index</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>len_frame_type</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>len_num_transmission</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>len_payload_length</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>len_reserved_field_I</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>len_reserved_field_II</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>len_slot_time_beacon</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>len_source_address</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>node_list</key>
-      <value>[2, 3]</value>
-    </param>
-    <param>
-      <key>output_frame_pmt</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>reserved_field_I</key>
-      <value>318</value>
-    </param>
-    <param>
-      <key>reserved_field_II</key>
-      <value>524</value>
-    </param>
-    <param>
-      <key>reserved_field_ampdu</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>set_reserved_field</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>show_reset_index</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>slot_list_ms</key>
-      <value>[1000, 1000]</value>
-    </param>
-    <param>
-      <key>source_address</key>
-      <value>source_address</value>
-    </param>
-    <param>
-      <key>default_payload</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>internal_index</key>
-      <value>1</value>
     </param>
   </block>
   <block>
-    <key>inets_sending</key>
+    <key>inets_receiving</key>
     <param>
       <key>alias</key>
       <value></value>
     </param>
     <param>
       <key>block_id</key>
-      <value>11</value>
+      <value>21</value>
     </param>
     <param>
       <key>center_frequency</key>
-      <value>tx_center_frequency</value>
+      <value>rx_center_frequency</value>
     </param>
     <param>
       <key>comment</key>
@@ -977,15 +932,15 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
       <value>1</value>
     </param>
     <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(848, 228)</value>
+      <value>(624, 344)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -993,11 +948,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_sending_0</value>
-    </param>
-    <param>
-      <key>interframe_interval_s</key>
-      <value>0.005</value>
+      <value>inets_receiving_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1008,52 +959,44 @@
       <value>0</value>
     </param>
     <param>
-      <key>t_pretx_interval_s</key>
-      <value>0.003</value>
+      <key>mu</key>
+      <value>mu</value>
+    </param>
+    <param>
+      <key>output_rss</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_snr</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>output_rx_frame</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>rx_gain</key>
+      <value>rx_gain</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>0</value>
     </param>
     <param>
       <key>samp_rate</key>
       <value>samp_rate</value>
     </param>
     <param>
-      <key>ack_frame</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>ampdu_frame</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>amsdu_frame</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>beacon_frame</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>cts_frame</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>data_frame</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>rts_frame</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>rx_control</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>unknown_frame</key>
-      <value>1</value>
+      <key>threshold</key>
+      <value>30</value>
     </param>
     <param>
       <key>constellation</key>
       <value>gnuradio.digital.constellation_qpsk().base()</value>
+    </param>
+    <param>
+      <key>matched_filter_coeff</key>
+      <value>rrc</value>
     </param>
     <param>
       <key>preamble</key>
@@ -1064,42 +1007,32 @@
       <value>sps</value>
     </param>
     <param>
-      <key>system_time_granularity_us</key>
-      <value>system_time_granularity_us</value>
-    </param>
-    <param>
       <key>usrp_device_address</key>
       <value>usrp_device_address</value>
     </param>
   </block>
   <connection>
-    <source_block_id>blocks_socket_pdu_0</source_block_id>
-    <sink_block_id>inets_framing_1_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>data_in</sink_key>
+    <source_block_id>blocks_message_strobe_0</source_block_id>
+    <sink_block_id>inets_cogmac_ch_pool_0</sink_block_id>
+    <source_key>strobe</source_key>
+    <sink_key>change_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_frame_buffer_0</source_block_id>
+    <source_block_id>inets_cogmac_ch_pool_0</source_block_id>
+    <sink_block_id>inets_receiving_0</sink_block_id>
+    <source_key>next_frequency_out</source_key>
+    <sink_key>rx_frequency_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_analysis_0</source_block_id>
     <sink_block_id>inets_frame_probe_0</sink_block_id>
-    <source_key>dequeue_element</source_key>
+    <source_key>frame_info_out</source_key>
     <sink_key>info_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_frame_buffer_0</source_block_id>
-    <sink_block_id>inets_sending_0</sink_block_id>
-    <source_key>dequeue_element</source_key>
-    <sink_key>in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_framing_1_0</source_block_id>
-    <sink_block_id>inets_frame_buffer_0</sink_block_id>
-    <source_key>frame_out</source_key>
-    <sink_key>enqueue</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_sending_0</source_block_id>
-    <sink_block_id>inets_frame_buffer_0</sink_block_id>
-    <source_key>data_frame_out</source_key>
-    <sink_key>dequeue</sink_key>
+    <source_block_id>inets_receiving_0</source_block_id>
+    <sink_block_id>inets_frame_analysis_0</sink_block_id>
+    <source_key>rx_frame_out</source_key>
+    <sink_key>frame_in</sink_key>
   </connection>
 </flow_graph>

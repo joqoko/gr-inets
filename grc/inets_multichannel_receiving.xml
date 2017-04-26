@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>receiving</name>
-  <key>inets_receiving</key>
-  <category>inets_dmf_mac</category>
+  <name>multichannel_receiving</name>
+  <key>inets_multichannel_receiving</key>
+  <category>[inets]</category>
   <import>import inets</import>
-  <make>inets.receiving($develop_mode, $block_id, $constellation, $matched_filter_coeff, $mu, $preamble, $rx_gain, $samp_rate, $sps, $threshold, $usrp_device_address, $center_frequency)</make>
+  <make>inets.multichannel_receiving($develop_mode, $block_id, $constellation, $matched_filter_coeff, $mu, $preamble, $rx_gain, $samp_rate, $sps, $threshold, $usrp_device_address, $center_frequency)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -39,7 +39,7 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>21</value>
+    <value>39</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
@@ -176,7 +176,6 @@
     <hide>part</hide>
   </param>
 
-
   <param>
     <name>Reset frequency</name>
     <key>reset</key>
@@ -205,7 +204,6 @@
     <type>message</type>
     <optional>1</optional>
   </sink>
-
 
   <sink>
     <name>rx_frequency_in</name>

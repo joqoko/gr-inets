@@ -1534,6 +1534,10 @@
       <value>1</value>
     </param>
     <param>
+      <key>auto_dequeue_full</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>alias</key>
       <value></value>
     </param>
@@ -1590,12 +1594,24 @@
       <value>inets_frame_buffer_0</value>
     </param>
     <param>
+      <key>indicate</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>output_empty</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>show_empty</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1832,7 +1848,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(880, 424)</value>
+      <value>(880, 432)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1880,6 +1896,10 @@
     <param>
       <key>default_framing_setting</key>
       <value>default</value>
+    </param>
+    <param>
+      <key>default_payload_length</key>
+      <value>300</value>
     </param>
     <param>
       <key>destination_address</key>
@@ -1986,12 +2006,24 @@
       <value>1</value>
     </param>
     <param>
+      <key>show_reset_index</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>slot_list_ms</key>
       <value>[1000, 1000]</value>
     </param>
     <param>
       <key>source_address</key>
       <value>source_address</value>
+    </param>
+    <param>
+      <key>default_payload</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>internal_index</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -2015,6 +2047,10 @@
     <param>
       <key>default_framing_setting</key>
       <value>default</value>
+    </param>
+    <param>
+      <key>default_payload_length</key>
+      <value>300</value>
     </param>
     <param>
       <key>destination_address</key>
@@ -2121,12 +2157,24 @@
       <value>1</value>
     </param>
     <param>
+      <key>show_reset_index</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>slot_list_ms</key>
       <value>[1000, 1000]</value>
     </param>
     <param>
       <key>source_address</key>
       <value>source_address</value>
+    </param>
+    <param>
+      <key>default_payload</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>internal_index</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -2271,6 +2319,10 @@
       <value>rx_gain</value>
     </param>
     <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>samp_rate</key>
       <value>samp_rate</value>
     </param>
@@ -2327,7 +2379,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(224, 352)</value>
+      <value>(224, 336)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2445,7 +2497,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 232)</value>
+      <value>(648, 232)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2572,7 +2624,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(984, 240)</value>
+      <value>(992, 256)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2620,7 +2672,7 @@
     </param>
     <param>
       <key>cts_frame</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>data_frame</key>
@@ -2691,7 +2743,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1048, 352)</value>
+      <value>(976, 360)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2758,7 +2810,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1112, 424)</value>
+      <value>(1096, 432)</value>
     </param>
     <param>
       <key>_rotation</key>

@@ -77,6 +77,8 @@ install(FILES
     cogmac_ch_pool.h
     frame_replicate.h
     frame_and.h
-    frame_path.h DESTINATION include/inets
+    frame_path.h
+    frame_to_boolean.h
+    frame_counter.h DESTINATION include/inets
 
 )

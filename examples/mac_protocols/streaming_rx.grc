@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>standard_csma</value>
+      <value>streaming_rx</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>standard_csma</value>
+      <value>streaming_rx</value>
     </param>
   </block>
   <block>
@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>3</value>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -436,7 +436,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>2000000</value>
+      <value>1000000</value>
     </param>
   </block>
   <block>
@@ -463,7 +463,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>2</value>
     </param>
   </block>
   <block>
@@ -517,7 +517,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1000</value>
+      <value>10</value>
     </param>
   </block>
   <block>
@@ -571,7 +571,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.6"</value>
+      <value>"addr=10.0.0.20"</value>
     </param>
   </block>
   <block>
@@ -815,6 +815,57 @@
     </param>
   </block>
   <block>
+    <key>inets_frame_probe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>100</value>
+    </param>
+    <param>
+      <key>cs_threshold</key>
+      <value>0.01</value>
+    </param>
+    <param>
+      <key>cs_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(512, 480)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_probe_0</value>
+    </param>
+    <param>
+      <key>print_frame</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>inets_frame_type_check</key>
     <param>
       <key>ack_frame</key>
@@ -972,6 +1023,10 @@
       <value>rx_gain</value>
     </param>
     <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>samp_rate</key>
       <value>samp_rate</value>
     </param>
@@ -1011,6 +1066,12 @@
     <sink_block_id>inets_address_check_0</sink_block_id>
     <source_key>frame_info_out</source_key>
     <sink_key>frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_analysis_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <source_key>frame_info_out</source_key>
+    <sink_key>info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0</source_block_id>

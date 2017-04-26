@@ -54,6 +54,7 @@ namespace gr {
       message_port_register_in(pmt::mp("change_in"));
       set_msg_handler(pmt::mp("change_in"), boost::bind(&cogmac_ch_pool_impl::next_channel, this, _1 ));
       message_port_register_out(pmt::mp("next_frequency_out"));
+      _channel = 0;
       for(int i = 0; i < _channel_number; i++)
       {
         _channel_pool.push_back(_first_channel + i * _channel_gap);
@@ -70,11 +71,21 @@ namespace gr {
     void
     cogmac_ch_pool_impl::next_channel(pmt::pmt_t change_in)
     {
+      
+      if(_develop_mode)
+        std::cout << "+++  cogmac_ch_pool ID: " << _block_id << " next channel +++" << std::endl;
       if(_channel < _channel_number - 1)
         _channel++;
       else
+      {
         _channel = 0;
-      message_port_pub(pmt::mp("next_frequency_out"), pmt::from_long(_channel_pool[_channel]));
+      }
+      int frequency = _channel_pool[_channel];
+      std::cout << "frequency is: " << frequency << std::endl;
+      pmt::pmt_t command = pmt::make_dict(); 
+      command = pmt::dict_add(command, pmt::mp("freq"), pmt::mp(frequency));
+      command = pmt::dict_add(command, pmt::mp("chan"), pmt::mp(0));
+      message_port_pub(pmt::mp("next_frequency_out"), command);
     }
 
   } /* namespace inets */

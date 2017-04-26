@@ -33,23 +33,27 @@ from receiving_phy import receiving_phy # grc-generated hier_block
 import inets
 import numpy
 import time
+import pmt
 
-class receiving(gr.hier_block2):
+class multichannel_receiving(gr.basic_block):
     """
-    docstring for block receiving
+    docstring for block multichannel_receiving
     """
     def __init__(self, develop_mode, block_id, constellation, matched_filter_coeff, mu, preamble, rx_gain, samp_rate, sps, threshold, usrp_device_address, center_frequency):
-        gr.hier_block2.__init__(self,
-            "receiving",
-            gr.io_signature(0, 0, 0),  # Input signature
-            gr.io_signature(0, 0, 0)
-        ) # Output signature
+        gr.basic_block.__init__(self,
+            name="multichannel_receiving",
+            in_sig=[],
+            out_sig=[])
 
-        self.message_port_register_hier_in("rx_switch_in")
-        self.message_port_register_hier_in("rx_frequency_in")
-        self.message_port_register_hier_out("rx_frame_out")
-        self.message_port_register_hier_out("snr_out")
-        self.message_port_register_hier_out("rx_power_out")
+        self.message_port_register_in(pmt.intern('rx_switch_in'))
+        self.message_port_register_in(pmt.intern("rx_frequency_in"))
+        self.message_port_register_out(pmt.intern('rx_frame_out'))
+        self.message_port_register_out(pmt.intern('snr_out'))
+        self.message_port_register_out(pmt.intern('rx_power_out'))
+        self.set_msg_handler(pmt.intern('rx_frequency_in'), self.handle_reset_frequency)
+
+    def handle_reset_frequency(self, msg_pmt):
+        self.center_frequency = pmt.to_long(msg_pmt)
 
         ##################################################
         # Blocks
@@ -73,4 +77,3 @@ class receiving(gr.hier_block2):
         self.msg_connect((self.receiving_phy_0, 'snr_out'), (self, 'snr_out'))    
         self.msg_connect((self.receiving_phy_0, 'rx_power_out'), (self, 'rx_power_out'))    
         self.msg_connect((self, 'rx_switch_in'), (self.receiving_phy_0, 'rx_switch_in'))    
-        self.msg_connect((self, 'rx_frequency_in'), (self.receiving_phy_0, 'rx_frequency_in'))    
