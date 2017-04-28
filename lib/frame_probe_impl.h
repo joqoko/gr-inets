@@ -33,8 +33,11 @@ namespace gr {
       int _block_id;
       int _print_frame;
       int _cs_mode;
+      int _record_on;
       double _cs_threshold;
       double _last_time;
+      std::string _file_name_str;
+      std::string _file_name_extension;
       void read_info(pmt::pmt_t frame_info);
       void show_detail(pmt::pmt_t frame_info);
       void disp_vec(std::vector<unsigned char> vec);
@@ -42,7 +45,7 @@ namespace gr {
       void print_time();
 
      public:
-      frame_probe_impl(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold);
+      frame_probe_impl(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold, int record_on, std::string record_path, std::string fime_name_extension);
       ~frame_probe_impl();
 
     };

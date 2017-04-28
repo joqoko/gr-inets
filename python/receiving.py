@@ -50,6 +50,7 @@ class receiving(gr.hier_block2):
         self.message_port_register_hier_out("rx_frame_out")
         self.message_port_register_hier_out("snr_out")
         self.message_port_register_hier_out("rx_power_out")
+        self.message_port_register_hier_out("rx_switch_out")
 
         ##################################################
         # Blocks
@@ -70,6 +71,7 @@ class receiving(gr.hier_block2):
         )
 
         self.msg_connect((self.receiving_phy_0, 'rx_frame_out'), (self, 'rx_frame_out'))    
+        self.msg_connect((self.receiving_phy_0, 'rx_switch_out'), (self, 'rx_switch_out'))    
         self.msg_connect((self.receiving_phy_0, 'snr_out'), (self, 'snr_out'))    
         self.msg_connect((self.receiving_phy_0, 'rx_power_out'), (self, 'rx_power_out'))    
         self.msg_connect((self, 'rx_switch_in'), (self.receiving_phy_0, 'rx_switch_in'))    

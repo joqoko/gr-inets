@@ -88,7 +88,7 @@ namespace gr {
           std::cout << "Warning: frame_cluster does does not have payload. Please check your connection." << std::endl;
       }
       else
-        std::cout << "Warning: wrong pmt type. Please check your connection." << std::endl;
+        std::cout << "warning: decouple_frame ID " << _block_id << "receives wrong pmt type. please check your connection." << std::endl;
     }
 
   } /* namespace inets */

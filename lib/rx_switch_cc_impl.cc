@@ -52,6 +52,7 @@ namespace gr {
         std::cout << "develop_mode of rx_switch_cc ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("rx_switch_in"));
       message_port_register_out(pmt::mp("power_out"));
+      message_port_register_out(pmt::mp("rx_switch_out"));
       set_msg_handler(pmt::mp("rx_switch_in"), boost::bind(&rx_switch_cc_impl::kai_guan, this, _1 ));
     }
 
@@ -77,14 +78,6 @@ namespace gr {
       double pow_sum = 0;
       if(_is_receiving)
       {
-     //   if(_develop_mode == 2)
-     //   {
-     //     struct timeval t; 
-     //     gettimeofday(&t, NULL);
-     //     double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-     //     std::cout << "rx_switch_cc ID: " << _block_id << " received " << noutput_items << " at time " << current_time << " s" << std::endl;
-     //   }
-        //std::cout << "noutput_items" << noutput_items << std::endl;
         for(int i = 0; i < noutput_items; i++)
         {
           out[i] = in[i];
@@ -124,7 +117,7 @@ namespace gr {
       double start_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
       if(pmt::is_bool(spark))
       {
-        // std::cout << "received a pmt bool" << std::endl;
+        // true: receiving
         if(pmt::to_bool(spark))
         {
           if(_develop_mode)
@@ -135,7 +128,14 @@ namespace gr {
               std::cout << " start receiving at time ";
           }
           _is_receiving = 1;
+          struct timeval t;
+          gettimeofday(&t, NULL);
+          double start_rx_time = t.tv_sec + t.tv_usec / 1000000.0;
+          double tx_gap = start_rx_time - _stop_time;
+          if(_develop_mode)
+            std::cout << "tx_gap is: " << tx_gap << "s" << std::endl;
         }
+        // false: not receiving
         else
         {
           if(_develop_mode)
@@ -148,10 +148,22 @@ namespace gr {
           _is_receiving = 0;
         }
       }
+      // if spark is not a boolean, it should be a dict of frame_info. In this case, rececption should be stopped and output the frame immediately
       else
       {
-        // not a boolean pmt, most likely an import error
-        std::cout << "++++ rx_switch ID: " << _block_id << " error: not a spark signal" << std::endl;
+        // tx mode, stop receiving
+        if(_develop_mode)
+        {
+          if(_is_receiving)
+            std::cout << " stop receiving at time ";
+          else 
+            std::cout << " continues not to receive at time ";
+        }
+        _is_receiving = 0;
+        struct timeval t;
+        gettimeofday(&t, NULL);
+        _stop_time = t.tv_sec + t.tv_usec / 1000000.0;
+        message_port_pub(pmt::mp("rx_switch_out"), spark);
       }
       if(_develop_mode)
         std::cout << start_time_show << "s" << std::endl;

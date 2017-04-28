@@ -33,6 +33,7 @@ namespace gr {
      int _block_id;
      int _is_receiving;
      int _num_fetch_per_cs;
+     double _stop_time;
      std::vector<double> _vec_average_pow;
      void kai_guan(pmt::pmt_t spark);
 

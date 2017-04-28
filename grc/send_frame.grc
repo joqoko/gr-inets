@@ -1099,6 +1099,10 @@
       <value>0</value>
     </param>
     <param>
+      <key>record_on</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>system_time_granularity_us</key>
       <value>system_time_granularity_us</value>
     </param>

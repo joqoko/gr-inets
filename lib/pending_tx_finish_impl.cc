@@ -22,6 +22,11 @@
 #include "config.h"
 #endif
 
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <ctime>
 #include <gnuradio/io_signature.h>
 #include "pending_tx_finish_impl.h"
 
@@ -29,16 +34,16 @@ namespace gr {
   namespace inets {
 
     pending_tx_finish::sptr
-    pending_tx_finish::make(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s)
+    pending_tx_finish::make(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s, int record_on)
     {
       return gnuradio::get_initial_sptr
-        (new pending_tx_finish_impl(develop_mode, block_id, system_time_granularity_us, sample_rate, lengthtagname, interframe_interval_s));
+        (new pending_tx_finish_impl(develop_mode, block_id, system_time_granularity_us, sample_rate, lengthtagname, interframe_interval_s, record_on));
     }
 
     /*
      * The private constructor
      */
-    pending_tx_finish_impl::pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s)
+    pending_tx_finish_impl::pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s, int record_on)
       : gr::sync_block("pending_tx_finish",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(0, 0, 0)),
@@ -47,7 +52,8 @@ namespace gr {
         _develop_mode(develop_mode),
         _block_id(block_id),
         _system_time_granularity_us(system_time_granularity_us),
-        _countdown_bias_s(0) ,
+        _countdown_bias_s(0),
+        _record_on(record_on),
         _interframe_interval_s(interframe_interval_s)
     {
       if(_develop_mode == 1)
@@ -64,6 +70,15 @@ namespace gr {
       message_port_register_out(pmt::mp("amsdu_frame_out"));
       message_port_register_out(pmt::mp("unknown_frame_out"));
       message_port_register_out(pmt::mp("rx_control_out"));
+
+      if(_record_on)
+      {
+        time_t tt = time(0);   // get time now
+        struct tm * now = localtime( & tt );
+        std::ostringstream file_name;
+        file_name << "/home/inets/source/gr-inets/results/" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday << "_" << now->tm_hour << "_" << now->tm_min << "_" << now->tm_sec << "_block" << _block_id << "_pending_start_sending" << ".txt";
+        _file_name_str = file_name.str();
+      }
     }
 
     /*
@@ -84,7 +99,15 @@ namespace gr {
       get_tags_in_range(tags, 0, nitems_read(0), nitems_read(0) + noutput_items);// + packet_length);
       // If tag(s) is detected, we need to wait then send the spark signal.
       if(process_tags_info(tags))
-      {
+      { 
+        if(_record_on)
+        {
+          struct timeval t;
+          gettimeofday(&t, NULL);
+          std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
+          ofs << t.tv_sec << " " << t.tv_usec << "\n";
+          ofs.close();
+        }
         boost::thread thrd(&pending_tx_finish_impl::countdown_waiting, this);
       }
 
@@ -149,7 +172,6 @@ namespace gr {
       double start_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
       if(_develop_mode == 2)
         std::cout << "pending is started at: " << start_time_show << "s. ";
-      message_port_pub(pmt::mp("rx_control_out"), pmt::from_bool(false));
       while(current_time < start_time + _wait_time + _interframe_interval_s - _countdown_bias_s)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));

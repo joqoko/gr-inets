@@ -22,6 +22,10 @@
 #include "config.h"
 #endif
 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <ctime>
 #include <gnuradio/io_signature.h>
 #include "frame_probe_impl.h"
 
@@ -29,16 +33,16 @@ namespace gr {
   namespace inets {
 
     frame_probe::sptr
-    frame_probe::make(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold)
+    frame_probe::make(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold, int record_on, std::string record_path, std::string file_name_extension)
     {
       return gnuradio::get_initial_sptr
-        (new frame_probe_impl(develop_mode, block_id, print_frame, cs_mode, cs_threshold));
+        (new frame_probe_impl(develop_mode, block_id, print_frame, cs_mode, cs_threshold, record_on, record_path, file_name_extension));
     }
 
     /*
      * The private constructor
      */
-    frame_probe_impl::frame_probe_impl(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold)
+    frame_probe_impl::frame_probe_impl(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold, int record_on, std::string record_path, std::string file_name_extension)
       : gr::block("frame_probe",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -46,8 +50,11 @@ namespace gr {
         _block_id(block_id),
 	_print_frame(print_frame),
         _cs_mode(cs_mode),
+        _record_on(record_on),
+        _file_name_extension(file_name_extension),
         _cs_threshold(cs_threshold)
     {
+      message_port_register_out(pmt::mp("info_out"));
       message_port_register_in(pmt::mp("info_in"));
       set_msg_handler(
         pmt::mp("info_in"),
@@ -56,6 +63,15 @@ namespace gr {
       struct timeval t;
       gettimeofday(&t, NULL);
       _last_time = t.tv_sec + t.tv_usec / 1000000.0;
+
+      if(_record_on)
+      {
+        time_t tt = time(0);   // get time now
+        struct tm * now = localtime( & tt );
+        std::ostringstream file_name;
+        file_name << "/home/inets/source/gr-inets/results/" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday << "_" << now->tm_hour << "_" << now->tm_min << "_" << now->tm_sec << "_block" << _block_id << "_" << _file_name_extension << ".txt";
+        _file_name_str = file_name.str();
+      }
     }
 
     /*
@@ -72,8 +88,18 @@ namespace gr {
       if(_develop_mode == 2)
       { 
         gettimeofday(&t, NULL);
+        double current_time = t.tv_sec + t.tv_usec / 1000000.0;
         double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
         std::cout << "++++ frame_probe ID: " << _block_id << " receives a frame at time " << current_time_show << "s ++++" << std::endl;   
+        pmt::pmt_t time_info;
+        time_info = pmt::from_double(current_time);
+        message_port_pub(pmt::mp("info_out"), time_info);
+        if(_record_on)
+        {
+          std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
+          ofs << t.tv_sec << " " << t.tv_usec << "\n";
+          ofs.close();
+        }
       } 
       else
       {

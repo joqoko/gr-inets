@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::frame_probe::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold);
+      static sptr make(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold, int record_on, std::string record_path, std::string file_name_extension);
     };
 
   } // namespace inets

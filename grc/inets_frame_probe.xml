@@ -4,7 +4,7 @@
   <key>inets_frame_probe</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.frame_probe($develop_mode, $block_id, $print_frame, $cs_mode, $cs_threshold)</make>
+  <make>inets.frame_probe($develop_mode, $block_id, $print_frame, $cs_mode, $cs_threshold, $record_on, $record_path, $file_name_extension)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -84,16 +84,72 @@
     </option>
   </param>
 
+  <param>
+    <name>Output time info</name>
+    <key>output_time_info</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
+
+  <param>
+    <name>Record on</name>
+    <key>record_on</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Records path</name>
+    <key>record_path</key>
+    <value>"/home/inets/source/gr-inets/results/"</value>
+    <type>string</type>
+    <hide>$record_on.hide</hide>
+  </param>
+
+  <param>
+    <name>File name extension</name>
+    <key>file_name_extension</key>
+    <value>""</value>
+    <type>string</type>
+    <hide>$record_on.hide</hide>
+  </param>
+
   <sink>
     <name>info_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
+
+  <source>
+    <name>info_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_time_info</hide>
+  </source>
 
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)

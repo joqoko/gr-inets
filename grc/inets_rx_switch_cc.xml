@@ -79,4 +79,8 @@
     <name>power_out</name>
     <type>message</type>
   </source>
+  <source>
+    <name>rx_switch_out</name>
+    <type>message</type>
+  </source>
 </block>

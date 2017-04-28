@@ -95,6 +95,22 @@
     </option>
   </param>
 
+  <param>
+    <name>Output Rx switch</name>
+    <key>output_rx_switch</key>
+    <type>enum</type>
+    <hide>$output_rx_switch.hide</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
 
   <param>
     <name>constellation</name>
@@ -194,7 +210,6 @@
       <opt>hide:part</opt>
     </option>
   </param>
-
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -236,5 +251,11 @@
     <type>message</type>
     <optional>1</optional>
     <hide>$output_snr</hide>
+  </source>
+  <source>
+    <name>rx_switch_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_rx_switch</hide>
   </source>
 </block>
