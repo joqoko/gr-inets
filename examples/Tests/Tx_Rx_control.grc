@@ -621,7 +621,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(104, 436)</value>
+      <value>(176, 436)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -707,7 +707,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(312, 448)</value>
+      <value>(352, 448)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -971,7 +971,7 @@
     </param>
     <param>
       <key>file_name_extension</key>
-      <value>"t3"</value>
+      <value>"t2"</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1059,6 +1059,81 @@
     <param>
       <key>id</key>
       <value>inets_frame_probe_0_0_1_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_time_info</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>print_frame</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_probe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>103</value>
+    </param>
+    <param>
+      <key>cs_threshold</key>
+      <value>0.01</value>
+    </param>
+    <param>
+      <key>cs_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>file_name_extension</key>
+      <value>"t5"</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(800, 588)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_probe_0_0_1_0_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1387,7 +1462,7 @@
     </param>
     <param>
       <key>interframe_interval_s</key>
-      <value>0</value>
+      <value>0.004</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1473,6 +1548,12 @@
     <sink_block_id>inets_framing_0</sink_block_id>
     <source_key>output</source_key>
     <sink_key>data_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_path_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0_0_1_0_0</sink_block_id>
+    <source_key>frame_out</source_key>
+    <sink_key>info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_path_0</source_block_id>

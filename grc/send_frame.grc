@@ -1162,6 +1162,10 @@
       <value>t_pretx_interval_s</value>
     </param>
     <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>bps</key>
       <value>constellation.bits_per_symbol() * (samp_rate / sps)</value>
     </param>

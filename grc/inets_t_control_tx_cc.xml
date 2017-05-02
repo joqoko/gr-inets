@@ -4,7 +4,7 @@
   <key>inets_t_control_tx_cc</key>
   <category>inets_dmf_phy</category>
   <import>import inets</import>
-  <make>inets.t_control_tx_cc($develop_mode, $block_id, $bps, $t_pretx_interval_s)</make>
+  <make>inets.t_control_tx_cc($develop_mode, $block_id, $bps, $t_pretx_interval_s, $record_on)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -46,6 +46,19 @@
     <key>t_pretx_interval_s</key>
     <value>t_pretx_interval_s</value>
     <type>float</type>
+  </param>
+  <param>
+    <name>Record on</name>
+    <key>record_on</key>
+    <type>enum</type>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)

@@ -22,6 +22,10 @@
 #include "config.h"
 #endif
 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <ctime>
 #include <gnuradio/io_signature.h>
 #include "t_control_tx_cc_impl.h"
 #include <uhd/types/time_spec.hpp>
@@ -31,16 +35,16 @@ namespace gr {
   namespace inets {
 
     t_control_tx_cc::sptr
-    t_control_tx_cc::make(int develop_mode, int block_id, double bps, double t_pretx_interval_s)
+    t_control_tx_cc::make(int develop_mode, int block_id, double bps, double t_pretx_interval_s, int record_on)
     {
       return gnuradio::get_initial_sptr
-        (new t_control_tx_cc_impl(develop_mode, block_id, bps, t_pretx_interval_s));
+        (new t_control_tx_cc_impl(develop_mode, block_id, bps, t_pretx_interval_s, record_on));
     }
 
     /*
      * The private constructor
      */
-    t_control_tx_cc_impl::t_control_tx_cc_impl(int develop_mode, int block_id, double bps, double t_pretx_interval_s)
+    t_control_tx_cc_impl::t_control_tx_cc_impl(int develop_mode, int block_id, double bps, double t_pretx_interval_s, int record_on)
       : gr::block("t_control_tx_cc",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex))),
@@ -48,10 +52,19 @@ namespace gr {
         _block_id(block_id),
         _last_tx_time(0),
         _t_pretx_interval_s(t_pretx_interval_s),
+        _record_on(record_on),
         _bps(bps)
     {
       if(_develop_mode)
         std::cout << "develop_mode of t_control_tx ID: " << _block_id << " is activated." << "and t_re is " << _t_pretx_interval_s << std::endl;
+      if(_record_on)
+      {
+        time_t tt = time(0);   // get time now
+        struct tm * now = localtime( & tt );
+        std::ostringstream file_name;
+        file_name << "/home/inets/source/gr-inets/results/" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday << "_" << now->tm_hour << "_" << now->tm_min << "_" << now->tm_sec << "_block" << _block_id << "_" << "t3" << ".txt";
+        _file_name_str = file_name.str();
+      }
     }
 
     /*
@@ -106,7 +119,7 @@ namespace gr {
         double min_time_diff = pmt::to_double(_packet_len_tag.value) / _bps; //Max packet len [bit] / bit rate 
         // double min_time_diff = (1000 * 8.0) / _bps; //Max packet len [bit] / bit rate 
         // Ensure that frames are not overlap each other
-        if((tx_time - _last_tx_time) <= min_time_diff) {
+        if((tx_time - _last_tx_time) < (min_time_diff + _t_pretx_interval_s)) {
           tx_time = _last_tx_time + min_time_diff;
           if(_develop_mode)
             std::cout << "t_control ID " << _block_id << " in time packet" << std::endl;
@@ -115,8 +128,7 @@ namespace gr {
         // update the tx_time to the current packet
         _last_tx_time = tx_time;
         // question 1: why add 0.05?
-        uhd::time_spec_t now = uhd::time_spec_t(tx_time)
-          + uhd::time_spec_t(_t_pretx_interval_s);
+        uhd::time_spec_t now = uhd::time_spec_t(tx_time) + uhd::time_spec_t(_t_pretx_interval_s);
         // the value of the tag is a tuple
         const pmt::pmt_t time_value = pmt::make_tuple(
           pmt::from_uint64(now.get_full_secs()),
@@ -125,6 +137,12 @@ namespace gr {
         
         add_item_tag(0, _packet_len_tag.offset, time_key, time_value);
         
+        if(_record_on)
+        {
+          std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
+          ofs << t.tv_sec << " " << t.tv_usec << "\n";
+          ofs.close();
+        }
        /* 
          JUA parketizer code starts 
        */

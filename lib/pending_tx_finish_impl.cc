@@ -76,7 +76,7 @@ namespace gr {
         time_t tt = time(0);   // get time now
         struct tm * now = localtime( & tt );
         std::ostringstream file_name;
-        file_name << "/home/inets/source/gr-inets/results/" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday << "_" << now->tm_hour << "_" << now->tm_min << "_" << now->tm_sec << "_block" << _block_id << "_pending_start_sending" << ".txt";
+        file_name << "/home/inets/source/gr-inets/results/" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday << "_" << now->tm_hour << "_" << now->tm_min << "_" << now->tm_sec << "_block" << _block_id << "_t4" << ".txt";
         _file_name_str = file_name.str();
       }
     }
