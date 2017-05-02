@@ -51,6 +51,7 @@ namespace gr {
 	_print_frame(print_frame),
         _cs_mode(cs_mode),
         _record_on(record_on),
+        _last_cs_status(0),
         _file_name_extension(file_name_extension),
         _cs_threshold(cs_threshold)
     {
@@ -90,15 +91,52 @@ namespace gr {
         gettimeofday(&t, NULL);
         double current_time = t.tv_sec + t.tv_usec / 1000000.0;
         double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
-        std::cout << "++++ frame_probe ID: " << _block_id << " receives a frame at time " << current_time_show << "s ++++" << std::endl;   
         pmt::pmt_t time_info;
         time_info = pmt::from_double(current_time);
         message_port_pub(pmt::mp("info_out"), time_info);
-        if(_record_on)
+        if(_cs_mode)
         {
-          std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
-          ofs << t.tv_sec << " " << t.tv_usec << "\n";
-          ofs.close();
+          if(pmt::is_real(frame_info))
+          {
+            double power = pmt::to_double(frame_info);
+            int cs_status;
+            if(power > _cs_threshold)
+            {
+              cs_status = 1;
+              std::cout << "rx power is " << power << ", received at " << current_time_show << " s, detection gap is " << current_time - _last_time << std::endl;
+            }
+            else
+              cs_status = 0;
+            if(_record_on)
+            {
+              if(_last_cs_status == 1 && cs_status == 0) 
+              { 
+                std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
+                ofs << t.tv_sec << " " << t.tv_usec << "\n";
+                ofs.close();
+              }
+              else if(_last_cs_status == 0 && cs_status == 1)
+              { 
+                std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
+                ofs << t.tv_sec << " " << t.tv_usec << " ";
+                ofs.close();
+              }
+            }
+            _last_time = current_time;
+            _last_cs_status = cs_status;
+          }
+          else
+            std::cout << "carrier_sensing ID " << _block_id << " error: not valid power signal" << std::endl;
+        }
+        else
+        {
+          std::cout << "++++ frame_probe ID: " << _block_id << " receives a frame at time " << current_time_show << "s ++++" << std::endl;   
+          if(_record_on)
+          {
+            std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
+            ofs << t.tv_sec << " " << t.tv_usec << "\n";
+            ofs.close();
+          }
         }
       } 
       else

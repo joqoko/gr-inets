@@ -34,6 +34,7 @@ namespace gr {
       int _print_frame;
       int _cs_mode;
       int _record_on;
+      int _last_cs_status;
       double _cs_threshold;
       double _last_time;
       std::string _file_name_str;

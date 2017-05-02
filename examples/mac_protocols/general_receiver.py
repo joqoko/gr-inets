@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: general_receiver
 # Author: PWA
-# Generated: Fri Apr 28 12:11:47 2017
+# Generated: Tue May  2 16:18:20 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -86,8 +86,8 @@ class general_receiver(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_frame_probe_0_0 = inets.frame_probe(0, 100, 0, 1, 0.001)
-        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 1, 0.001)
+        self.inets_frame_probe_0_0 = inets.frame_probe(2, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "tRX1")
+        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "tRX2")
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
 
         ##################################################
