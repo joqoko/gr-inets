@@ -45,10 +45,45 @@
   </param>
 
   <param>
+    <name>Enable reset frequency</name>
+    <key>reset</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>No</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Enable RF switch</name>
+    <key>reset_rf</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>No</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+  <param>
     <name>Output received frame</name>
     <key>output_rx_frame</key>
     <type>enum</type>
-    <hide>$output_rx_frame.hide</hide>
+    <hide>part</hide>
     <option>
       <name>Yes</name>
       <key>0</key>
@@ -192,24 +227,6 @@
     <hide>part</hide>
   </param>
 
-
-  <param>
-    <name>Reset frequency</name>
-    <key>reset</key>
-    <value>1</value>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>Reset</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
-      <name>Not reset</name>
-      <key>1</key>
-      <opt>hide:part</opt>
-    </option>
-  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -219,6 +236,7 @@
     <name>rx_switch_in</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$reset_rf</hide>
   </sink>
 
 
