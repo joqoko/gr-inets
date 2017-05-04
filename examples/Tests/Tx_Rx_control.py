@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Tx_Rx_control
 # Author: PWA
-# Generated: Tue May  2 15:32:03 2017
+# Generated: Thu May  4 09:34:48 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -68,8 +68,8 @@ class Tx_Rx_control(gr.top_block, Qt.QWidget):
         self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
-        self.source_address = source_address = 1
-        self.samp_rate = samp_rate = 1000000
+        self.source_address = source_address = 3
+        self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = range_rx_gain
         self.rx_center_frequency = rx_center_frequency = 3.9e8
 
@@ -77,7 +77,7 @@ class Tx_Rx_control(gr.top_block, Qt.QWidget):
 
         self.mu = mu = range_mu
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
-        self.destination_address = destination_address = 2
+        self.destination_address = destination_address = 1
         self.cs_threshold = cs_threshold = 0.005
 
         ##################################################
@@ -92,14 +92,13 @@ class Tx_Rx_control(gr.top_block, Qt.QWidget):
         self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.004, t_pretx_interval_s=0)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
-        self.inets_frame_probe_0_0_1_0_0 = inets.frame_probe(2, 103, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "t5")
-        self.inets_frame_probe_0_0_1_0 = inets.frame_probe(2, 103, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "t4")
+        self.inets_frame_probe_0_0_1_0_0 = inets.frame_probe(2, 105, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "t5")
         self.inets_frame_probe_0_0_1 = inets.frame_probe(2, 102, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "t2")
         self.inets_frame_probe_0_0_0 = inets.frame_probe(2, 103, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "")
         self.inets_frame_probe_0_0 = inets.frame_probe(2, 101, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "t1")
         self.inets_frame_path_0 = inets.frame_path(0, 39)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 300, 2, 1)
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 2, 10)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 100)
 
         ##################################################
         # Connections
@@ -113,7 +112,6 @@ class Tx_Rx_control(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_receiving_0, 'rx_switch_out'), (self.inets_frame_probe_0_0_1, 'info_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_switch_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_sending_0, 'rx_control_out'), (self.inets_frame_path_0, 'frame_in'))
-        self.msg_connect((self.inets_sending_0, 'rx_control_out'), (self.inets_frame_probe_0_0_1_0, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Tx_Rx_control")

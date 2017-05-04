@@ -100,12 +100,12 @@ namespace gr {
       // If tag(s) is detected, we need to wait then send the spark signal.
       if(process_tags_info(tags))
       { 
-        if(_record_on)
-        {
+       if(_record_on)
+       {
           struct timeval t;
           gettimeofday(&t, NULL);
           std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
-          ofs << t.tv_sec << " " << t.tv_usec << "\n";
+          ofs << _wait_time << "\n";
           ofs.close();
         }
         boost::thread thrd(&pending_tx_finish_impl::countdown_waiting, this);

@@ -1163,7 +1163,7 @@
     </param>
     <param>
       <key>record_on</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>bps</key>
