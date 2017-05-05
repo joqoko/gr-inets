@@ -731,7 +731,7 @@
     </param>
     <param>
       <key>payload_length</key>
-      <value>1000</value>
+      <value>300</value>
     </param>
     <param>
       <key>source_type</key>

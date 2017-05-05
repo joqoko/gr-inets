@@ -9,6 +9,7 @@ tRX1e = []
 tRX2 = []
 tao12 = []
 tao23 = []
+tao13 = []
 tao34 = []
 tao35 = []
 tao15 = []
@@ -85,6 +86,7 @@ for i in range(len(tRX2) - 1):
 for i in range(len(t1)):
   tao12.append(t2[i] - t1[i])
   tao23.append(t3[i] - t2[i])
+  tao13.append(t3[i] - t1[i])
   tao35.append(t5[i] - t3[i])
   tao15.append(t5[i] - t1[i])
   tao3RX1.append(tRX1s[i] - t3[i])
@@ -94,6 +96,7 @@ for i in range(len(t1)):
 
 tao12_arr = numpy.array([tao12])
 tao23_arr = numpy.array([tao23])
+tao13_arr = numpy.array([tao13])
 tao34_arr = numpy.array([tao34])
 tao35_arr = numpy.array([tao35])
 tao15_arr = numpy.array([tao15])
@@ -104,6 +107,7 @@ tao5RX2_arr = numpy.array([tao5RX2])
 
 tao_12_mean = numpy.mean(tao12_arr)
 tao_23_mean = numpy.mean(tao23_arr)
+tao_13_mean = numpy.mean(tao13_arr)
 tao_34_mean = numpy.mean(tao34_arr)
 tao_35_mean = numpy.mean(tao35_arr)
 tao_15_mean = numpy.mean(tao15_arr)
@@ -115,6 +119,7 @@ tao_5RX2_mean = numpy.mean(tao5RX2_arr)
 print ("means:")
 print tao_12_mean
 print tao_23_mean
+print tao_13_mean
 print tao_34_mean
 print tao_35_mean
 print tao_15_mean
@@ -125,6 +130,7 @@ print tao_5RX2_mean
 
 tao_12_std = numpy.std(tao12_arr)
 tao_23_std = numpy.std(tao23_arr)
+tao_13_std = numpy.std(tao13_arr)
 tao_34_std = numpy.std(tao34_arr)
 tao_35_std = numpy.std(tao35_arr)
 tao_15_std = numpy.std(tao15_arr)
@@ -136,6 +142,7 @@ tao_5RX2_std = numpy.std(tao5RX2_arr)
 print ("std:")
 print tao_12_std
 print tao_23_std
+print tao_13_std
 print tao_34_std
 print tao_35_std
 print tao_15_std
@@ -149,6 +156,8 @@ with open("700_400k_result.txt", "w") as f:
   f.write(str(tao_12_mean))
   f.write(";\ntao_23_mean = \t\t")
   f.write(str(tao_23_mean))
+  f.write(";\ntao_13_mean = \t\t")
+  f.write(str(tao_13_mean))
   f.write(";\ntao_34_mean = \t\t")
   f.write(str(tao_34_mean))
   f.write(";\ntao_35_mean = \t\t")
@@ -167,6 +176,8 @@ with open("700_400k_result.txt", "w") as f:
   f.write(str(tao_12_std))
   f.write(";\ntao_23_std = \t\t")
   f.write(str(tao_23_std))
+  f.write(";\ntao_13_std = \t\t")
+  f.write(str(tao_13_std))
   f.write(";\ntao_34_std = \t\t")
   f.write(str(tao_34_std))
   f.write(";\ntao_35_std = \t\t")
