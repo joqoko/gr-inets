@@ -17,42 +17,42 @@ tao3RX1 = []
 taoRX1RX2 = []
 tao5RX2 = []
 
-with open("2017_5_4_7_35_51_block101_t1.txt") as file:
+with open("2017_5_5_11_59_55_block101_t1.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
     this_time = float(words[0]) + float(words[1]) / 1000000
     t1.append(this_time)
   
-with open("2017_5_4_7_35_51_block102_t2.txt") as file:
+with open("2017_5_5_11_59_55_block102_t2.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
     this_time = float(words[0]) + float(words[1]) / 1000000
     t2.append(this_time)
  
-with open("2017_5_4_7_35_50_block4_t3.txt") as file:
+with open("2017_5_5_11_59_55_block4_t3.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
     this_time = float(words[0]) + float(words[1]) / 1000000
     t3.append(this_time)
  
-with open("2017_5_4_7_35_50_block5_t4.txt") as file:
+with open("2017_5_5_11_59_55_block5_t4.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
     this_time = float(words[0])
     tao34.append(this_time)
  
-with open("2017_5_4_7_35_51_block105_t5.txt") as file:
+with open("2017_5_5_11_59_55_block105_t5.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
     this_time = float(words[0]) + float(words[1]) / 1000000
     t5.append(this_time)
  
-with open("2017_5_4_7_35_7_block100_tRX1.txt") as file:
+with open("2017_5_5_11_56_37_block100_tRX1.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
@@ -61,7 +61,7 @@ with open("2017_5_4_7_35_7_block100_tRX1.txt") as file:
     tRX1s.append(start_cs_time)
     tRX1e.append(end_cs_time)
  
-with open("2017_5_4_7_35_7_block100_tRX2.txt") as file:
+with open("2017_5_5_11_56_37_block100_tRX2.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
@@ -145,39 +145,40 @@ print tao_RX1RX2_std
 print tao_5RX2_std
 
 with open("900_400k_result.txt", "w") as f:
-  f.write("tao_12_mean \t\t")
+  f.write("tao_12_mean = \t\t")
   f.write(str(tao_12_mean))
-  f.write("\ntao_23_mean \t\t")
+  f.write(";\ntao_23_mean = \t\t")
   f.write(str(tao_23_mean))
-  f.write("\ntao_34_mean \t\t")
+  f.write(";\ntao_34_mean = \t\t")
   f.write(str(tao_34_mean))
-  f.write("\ntao_35_mean \t\t")
+  f.write(";\ntao_35_mean = \t\t")
   f.write(str(tao_35_mean))
-  f.write("\ntao_15_mean \t\t")
+  f.write(";\ntao_15_mean = \t\t")
   f.write(str(tao_15_mean))
-  f.write("\ntao_3RX1_mean \t\t")
+  f.write(";\ntao_3RX1_mean = \t")
   f.write(str(tao_3RX1_mean))
-  f.write("\ntao_cs_mean \t\t")
+  f.write(";\ntao_cs_mean = \t\t")
   f.write(str(tao_cs_mean))
-  f.write("\ntao_RX1RX2_mn \t\t")
+  f.write(";\ntao_RX1RX2_mn = \t")
   f.write(str(tao_RX1RX2_mean))
-  f.write("\ntao_5RX2_mean \t\t")
+  f.write(";\ntao_5RX2_mean = \t")
   f.write(str(tao_5RX2_mean))
-  f.write("\ntao_12_std \t\t")
+  f.write(";\ntao_12_std = \t\t")
   f.write(str(tao_12_std))
-  f.write("\ntao_23_std \t\t")
+  f.write(";\ntao_23_std = \t\t")
   f.write(str(tao_23_std))
-  f.write("\ntao_34_std \t\t")
+  f.write(";\ntao_34_std = \t\t")
   f.write(str(tao_34_std))
-  f.write("\ntao_35_std \t\t")
+  f.write(";\ntao_35_std = \t\t")
   f.write(str(tao_35_std))
-  f.write("\ntao_15_std \t\t")
+  f.write(";\ntao_15_std = \t\t")
   f.write(str(tao_15_std))
-  f.write("\ntao_3RX1_std \t\t")
+  f.write(";\ntao_3RX1_std = \t\t")
   f.write(str(tao_3RX1_std))
-  f.write("\ntao_cs_std \t\t")
+  f.write(";\ntao_cs_std = \t\t")
   f.write(str(tao_cs_std))
-  f.write("\ntao_RX1RX2_std \t\t")
+  f.write(";\ntao_RX1RX2_std = \t")
   f.write(str(tao_RX1RX2_std))
-  f.write("\ntao_5RX2_std \t\t")
+  f.write(";\ntao_5RX2_std = \t\t")
   f.write(str(tao_5RX2_std))
+  f.write(";")
