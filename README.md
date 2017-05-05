@@ -25,52 +25,53 @@ How to use develop_mode to debug:
 1. Set parameter 'develop_mode' to the index of the blocks to display the debugging information. 
 
 Index		block name				Categories
- 2		decouple_frame_info			inets_dmf_phy
- 3		general_timer				inets_dmf_mac
- 4		t_control_tx_cc				inets_dmf_phy
- 5		pending_tx_finish			inets_dmf_phy
- 6		rx_switch_cc				inets_dmf_phy
- 7		frame_analysis				inets_dmf_mac
- 8		address_check_cpp			inets_dmf_mac
- 9		frame_check				inets_dmf_mac
-                (frame_verification_cpp)
- 10		timeout_cpp				inets_dmf_mac
- 11		backoff					inets_dmf_mac
- 12		carrier_sensing_cpp_cc			inets_dmf_mac
- 14		decision_cpp				inets_dmf_tool
- 15             null_message_source			inets_dmf_tool
- 16		frame_buffer				inets_dmf_mac
- 17		framing					inets_dmf_mac
- 18		frame_aggregation			inets_dmf_mac
- 19		IFS					inets_dmf_mac
- 20		sending					inets_dmf_mac
- 21		receiving				inets_dmf_mac
- 22		slide_window				inets_dmf_mac
- 23		dummy_source				inets_dmf_tool
- 24		resend_check				inets_dmf_mac
- 25             frame_type_check			inets_dmf_mac
- 26		frame_filtering				inets_dmf_tool
- 27		frame_comparer				inets_dmf_tool
- 28		frame_index_check			inets_dmf_tool
- 29		beacon_interpreter			inets_dmf_mac
- 30		rts_framing				inets_dmf_mac
- 31		cts_framing				inets_dmf_mac
- 32		packetizer				inets_dmf_phy
- 33		frame_index_selector			inets_dmf_mac
- 34		general_timeout				inets_dmf_mac
- 35		cogmac_ch_pool				inets_dmf_mac
- 36		frame_counter				inets_dmf_mac
+ 1		sending					inets_dmf_mac
+ 1.1		t_control_tx_cc				inets_dmf_phy
+ 1.2		pending_tx_finish			inets_dmf_phy
+ 1.3		decouple_frame_info			inets_dmf_phy
+ 1.4		packetizer				inets_dmf_phy
+ 2		receiving				inets_dmf_mac
+ 2.1		rx_switch_cc				inets_dmf_phy
+
+ 3		framing					inets_dmf_mac
+ 3.1		rts_framing				inets_dmf_mac
+ 3.2		cts_framing				inets_dmf_mac
+ 4		frame_buffer				inets_dmf_mac
  37		frame_replicate				inets_dmf_mac
+
+ 18		frame_aggregation			inets_dmf_mac
+
+ x		carrier_sensing				inets_dmf_mac
+ 7		frame_analysis				inets_dmf_mac
+ 8		address_check				inets_dmf_mac
+ 25             frame_type_check			inets_dmf_mac
+ 9		frame_check				inets_dmf_mac
+ 28		frame_index_check			inets_dmf_tool
+ 33		frame_index_selector			inets_dmf_mac
+ 24		resend_check				inets_dmf_mac
+ 27		frame_comparer				inets_dmf_tool
+
+ 23		dummy_source				inets_dmf_tool
+
+ 3		general_timer				inets_dmf_mac
+ 34		general_timeout				inets_dmf_mac
+ 11		backoff					inets_dmf_mac
+ 19		IFS					inets_dmf_mac
+
+ 22		slide_window				inets_dmf_mac
+ 29		beacon_interpreter			inets_dmf_mac
+ 35		cogmac_ch_pool				inets_dmf_mac
+
+ 36		frame_counter				inets_dmf_mac
  38		frame_and				inets_dmf_tool
  39		frame_path				inets_dmf_tool
  40		frame_to_boolean			inets_dmf_tool
+
+
  100+		frame_probe				inets_dmf_tool
  100+		counter					inets_dmf_tool	
 
+ 14		decision_cpp				inets_dmf_tool
+ 15             null_message_source			inets_dmf_tool
+ 26		frame_filtering				inets_dmf_tool
 
- x1		idle_cpp				inets_dmf_mac
- x101		analyze_frame_cpp			inets_dmf_draft
- x102		framing_cpp				inets_dmf_draft
- x103            framing_py_v1				inets_dmf_draft
- x104		idle_cpp				inets_dmf_draft
- x105            tx_buffer				inets_dmf_draft
