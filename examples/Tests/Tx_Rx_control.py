@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Tx_Rx_control
 # Author: PWA
-# Generated: Fri May  5 15:50:57 2017
+# Generated: Fri May  5 16:13:44 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -97,7 +97,7 @@ class Tx_Rx_control(gr.top_block, Qt.QWidget):
         self.inets_frame_probe_0_0_0 = inets.frame_probe(2, 103, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "")
         self.inets_frame_probe_0_0 = inets.frame_probe(2, 101, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "t1")
         self.inets_frame_path_0 = inets.frame_path(0, 39)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 200, 2, 10)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 2, 10)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 100)
 
         ##################################################
