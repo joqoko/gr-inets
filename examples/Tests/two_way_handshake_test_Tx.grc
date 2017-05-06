@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>Tx_Rx_control</value>
+      <value>two_way_handshake_test_Tx</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>Tx_Rx_control</value>
+      <value>two_way_handshake_test_Tx</value>
     </param>
   </block>
   <block>
@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -463,7 +463,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>3</value>
+      <value>1</value>
     </param>
   </block>
   <block>
