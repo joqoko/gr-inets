@@ -34,6 +34,7 @@ namespace gr {
       int _block_id;
       int _record_on;
       std::string _file_name_str;
+      std::string _file_name_extension;
       double _last_tx_time;
       double _bps;
       double _t_pretx_interval_s;
@@ -42,7 +43,7 @@ namespace gr {
 
 
      public:
-      t_control_tx_cc_impl(int develop_mode, int block_id, double bps, double t_pretx_interval_s, int record_on);
+      t_control_tx_cc_impl(int develop_mode, int block_id, double bps, double t_pretx_interval_s, int record_on, std::string fime_name_extension);
       ~t_control_tx_cc_impl();
 
       // Where all the action really happens
