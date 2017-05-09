@@ -644,7 +644,7 @@
     </param>
     <param>
       <key>cs_threshold</key>
-      <value>0.01</value>
+      <value>0.001</value>
     </param>
     <param>
       <key>cs_mode</key>
@@ -668,7 +668,7 @@
     </param>
     <param>
       <key>file_name_extension</key>
-      <value>""</value>
+      <value>"rx1m"</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -700,7 +700,7 @@
     </param>
     <param>
       <key>record_on</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>record_path</key>
@@ -747,7 +747,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(400, 388)</value>
+      <value>(328, 388)</value>
     </param>
     <param>
       <key>_rotation</key>

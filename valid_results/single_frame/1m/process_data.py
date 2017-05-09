@@ -9,13 +9,13 @@ rowt = 0
 rowr = 0
 index = 0
 
-with open("2017_5_9_15_23_51_block100_cs.txt") as file:
+with open("2017_5_9_16_18_7_block100_rx1m.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
     this_time = float(words[1]) + float(words[2]) / 1000000
     this_power = float(words[0])
-    if this_time - last_time > 0.5:
+    if this_time - last_time > 0.01:
       rowr = rowr + 1
       index = 0
     else:
@@ -26,13 +26,13 @@ with open("2017_5_9_15_23_51_block100_cs.txt") as file:
 
 index = 0
 
-with open("2017_5_9_15_23_25_block100_tx.txt") as file:
+with open("2017_5_9_16_18_12_block100_tx.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
     this_time = float(words[1]) + float(words[2]) / 1000000
     this_power = float(words[0])
-    if this_time - last_time > 0.5:
+    if this_time - last_time > 0.01:
       rowt = rowt + 1
       index = 0
     else:
