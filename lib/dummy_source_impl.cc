@@ -54,6 +54,10 @@ namespace gr {
       message_port_register_in(pmt::mp("trigger")); 
       set_msg_handler(pmt::mp("trigger"), boost::bind(&dummy_source_impl::trigger, this, _1));
       message_port_register_out(pmt::mp("output"));
+      for (unsigned int i = 0; i < _payload_length; i++)
+      {
+        _payload.push_back(std::rand() % 255);
+      }  
     }
 
     /*
@@ -98,8 +102,7 @@ namespace gr {
         }
         else
         {
-          std::vector<unsigned char> payload(_payload_length);
-          message_port_pub(pmt::mp("output"), pmt::cons(pmt::make_dict(), pmt::init_u8vector(payload.size(), payload)));
+          message_port_pub(pmt::mp("output"), pmt::cons(pmt::make_dict(), pmt::init_u8vector(_payload.size(), _payload)));
         }
       }
       /*
@@ -115,8 +118,7 @@ namespace gr {
           boost::this_thread::sleep(boost::posix_time::microseconds(1 / _packet_rate * 1000000));
           gettimeofday(&t, NULL);
           double current_time = t.tv_sec + t.tv_usec / 1000000.0;
-          std::vector<unsigned char> payload(_payload_length);
-          message_port_pub(pmt::mp("output"), pmt::cons(pmt::make_dict(), pmt::init_u8vector(payload.size(), payload)));
+          message_port_pub(pmt::mp("output"), pmt::cons(pmt::make_dict(), pmt::init_u8vector(_payload.size(), _payload)));
           if(_develop_mode)
             std::cout << "dummy constant rate source ID: " << _block_id << " generate a payload." << std::endl;
         }

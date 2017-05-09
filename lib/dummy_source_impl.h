@@ -34,6 +34,7 @@ namespace gr {
       int _payload_length;
       int _source_type;
       double _packet_rate;
+      std::vector<unsigned char> _payload;
       int _start;
       void trigger(pmt::pmt_t trig);
       void constant_source();
