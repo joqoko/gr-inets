@@ -62,7 +62,6 @@ with open("single_frame_tx.txt", "w") as f:
     f.write(" ")
   f.write("];")
 
-with open("single_frame_rx.txt", "w") as f:
   f.write("rx = [")
   for i in range(50):
     f.write(str(pr_row[i]))
