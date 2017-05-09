@@ -37,6 +37,10 @@ namespace gr {
       int _last_cs_status;
       double _cs_threshold;
       double _last_time;
+      double _last_power;
+      int _last_tv_sec;
+      int _last_tv_usec;
+      int _temp_n;
       std::string _file_name_str;
       std::string _file_name_extension;
       void read_info(pmt::pmt_t frame_info);

@@ -52,6 +52,7 @@ namespace gr {
         _cs_mode(cs_mode),
         _record_on(record_on),
         _last_cs_status(0),
+        _temp_n(0),
         _file_name_extension(file_name_extension),
         _cs_threshold(cs_threshold)
     {
@@ -150,7 +151,42 @@ namespace gr {
             double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
             double current_time = t.tv_sec + t.tv_usec / 1000000.0;
             if(power > _cs_threshold)
+            {
               std::cout << "rx power is " << power << ", received at " << current_time_show << " s, detection gap is " << current_time - _last_time << std::endl;
+            }
+            if(_record_on)
+            {
+              if(power > _cs_threshold)
+              {
+                if(_last_tv_sec > 0)
+                {
+                  std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
+                  ofs << _last_power << " " << _last_tv_sec << " " << _last_tv_usec << "\n";
+                  ofs.close();
+                  _last_tv_sec = 0;
+                }
+                std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
+                ofs << power << " " << t.tv_sec << " " << t.tv_usec << "\n";
+                ofs.close();
+                _temp_n = 15;
+              }
+              else
+              {
+                if(_temp_n > 0)
+                {
+                  _temp_n--;
+                  std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
+                  ofs << power << " " << t.tv_sec << " " << t.tv_usec << "\n";
+                  ofs.close();
+                } 
+                _last_power = power;
+                _last_tv_sec = t.tv_sec;
+                _last_tv_usec = t.tv_usec;
+              }
+            }
+            else
+            {
+            }
             _last_time = current_time;
           }
           else
