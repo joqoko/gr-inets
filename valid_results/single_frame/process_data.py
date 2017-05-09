@@ -7,7 +7,7 @@ rowt = 0
 rowr = 0
 index = 0
 
-with open("2017_5_9_11_45_56_block100_cs.txt") as file:
+with open("2017_5_9_15_23_51_block100_cs.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
@@ -23,7 +23,7 @@ with open("2017_5_9_11_45_56_block100_cs.txt") as file:
 
 index = 0
 
-with open("2017_5_9_11_45_45_block100_tx.txt") as file:
+with open("2017_5_9_15_23_25_block100_tx.txt") as file:
   data = file.readlines()
   for line in data:
     words = line.split()
