@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: single_frame_transmission_test_rx
 # Author: PWA
-# Generated: Wed May 10 08:23:47 2017
+# Generated: Wed May 10 09:22:02 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -88,7 +88,7 @@ class single_frame_transmission_test_rx(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "rx2m")
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "rx3m")
 
         ##################################################
         # Connections
