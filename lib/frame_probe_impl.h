@@ -37,9 +37,9 @@ namespace gr {
       int _last_cs_status;
       double _cs_threshold;
       double _last_time;
-      double _last_power;
-      int _last_tv_sec;
-      int _last_tv_usec;
+      std::queue<double> _last_power;
+      std::queue<unsigned int> _last_tv_sec;
+      std::queue<unsigned int> _last_tv_usec;
       int _temp_n;
       std::string _file_name_str;
       std::string _file_name_extension;

@@ -26,6 +26,7 @@
 #include <fstream>
 #include <string>
 #include <ctime>
+#include <queue>
 #include <gnuradio/io_signature.h>
 #include "frame_probe_impl.h"
 
@@ -158,12 +159,18 @@ namespace gr {
             {
               if(power > _cs_threshold)
               {
-                if(_last_tv_sec > 0)
+                if(_last_power.size() > 0)
                 {
+                  for(int i = 0; i < _last_power.size(); i++)
+                  {
                   std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
-                  ofs << _last_power << " " << _last_tv_sec << " " << _last_tv_usec << "\n";
+                    ofs << _last_power.front() << " " << _last_tv_sec.front() << " " << _last_tv_usec.front() << "\n";
                   ofs.close();
-                  _last_tv_sec = 0;
+                    _last_power.pop();
+                    _last_tv_sec.pop();
+                    _last_tv_usec.pop();
+                  }
+                  std::cout << "size of queue is: " << _last_power.size() << std::endl;
                 }
                 std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
                 ofs << power << " " << t.tv_sec << " " << t.tv_usec << "\n";
@@ -179,9 +186,15 @@ namespace gr {
                   ofs << power << " " << t.tv_sec << " " << t.tv_usec << "\n";
                   ofs.close();
                 } 
-                _last_power = power;
-                _last_tv_sec = t.tv_sec;
-                _last_tv_usec = t.tv_usec;
+                _last_power.push(power);
+                _last_tv_sec.push(t.tv_sec);
+                _last_tv_usec.push(t.tv_usec);
+                if(_last_power.size() > 1)
+                {
+                  _last_power.pop();
+                  _last_tv_sec.pop();
+                  _last_tv_usec.pop();
+                }
               }
             }
             else
