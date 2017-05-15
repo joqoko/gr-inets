@@ -18,36 +18,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_DUMMY_SOURCE_IMPL_H
-#define INCLUDED_INETS_DUMMY_SOURCE_IMPL_H
 
-#include <inets/dummy_source.h>
+#ifndef INCLUDED_INETS_MESSAGE_STROBE_FILTER_H
+#define INCLUDED_INETS_MESSAGE_STROBE_FILTER_H
+
+#include <inets/api.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace inets {
 
-    class dummy_source_impl : public dummy_source
+    /*!
+     * \brief <+description of block+>
+     * \ingroup inets
+     *
+     */
+    class INETS_API message_strobe_filter : virtual public gr::block
     {
-     private:
-      int _develop_mode;
-      int _block_id;
-      int _payload_length;
-      int _source_type;
-      bool _generating;
-      double _packet_rate;
-      std::vector<unsigned char> _payload;
-      int _start;
-      void trigger(pmt::pmt_t trig);
-      void stop_generation(pmt::pmt_t trig);
-      void constant_source();
-
      public:
-      dummy_source_impl(int develop_mode, int block_id, int payload_length, int source_type, double packet_rate);
-      ~dummy_source_impl();
+      typedef boost::shared_ptr<message_strobe_filter> sptr;
+
+      /*!
+       * \brief Return a shared_ptr to a new instance of inets::message_strobe_filter.
+       *
+       * To avoid accidental use of raw pointers, inets::message_strobe_filter's
+       * constructor is in a private implementation
+       * class. inets::message_strobe_filter::make is the public interface for
+       * creating new instances.
+       */
+      static sptr make();
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_DUMMY_SOURCE_IMPL_H */
+#endif /* INCLUDED_INETS_MESSAGE_STROBE_FILTER_H */
 

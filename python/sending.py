@@ -46,6 +46,7 @@ class sending(gr.hier_block2):
         ) # Output signature
  
         self.message_port_register_hier_in("in")
+        self.message_port_register_hier_in("reconfig_in")
         self.message_port_register_hier_out("data_frame_out")
         self.message_port_register_hier_out("ack_frame_out")
         self.message_port_register_hier_out("beacon_frame_out")
@@ -85,3 +86,4 @@ class sending(gr.hier_block2):
         self.msg_connect((self.send_frame_0, 'unknown_frame_out'), (self, 'unknown_frame_out'))    
         self.msg_connect((self.send_frame_0, 'rx_control_out'), (self, 'rx_control_out'))    
         self.msg_connect((self, 'in'), (self.send_frame_0, 'in'))    
+        self.msg_connect((self, 'reconfig_in'), (self.send_frame_0, 'reconfig_in'))    

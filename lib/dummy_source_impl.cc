@@ -47,12 +47,15 @@ namespace gr {
         _payload_length(payload_length),
         _source_type(source_type),
         _packet_rate(packet_rate),
+        _generating(true),
         _start(0)
     {
       if(_develop_mode)
         std::cout << "develop_mode of dummy source ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("trigger")); 
       set_msg_handler(pmt::mp("trigger"), boost::bind(&dummy_source_impl::trigger, this, _1));
+      message_port_register_in(pmt::mp("stop_in")); 
+      set_msg_handler(pmt::mp("stop_in"), boost::bind(&dummy_source_impl::stop_generation, this, _1));
       message_port_register_out(pmt::mp("output"));
       for (unsigned int i = 0; i < _payload_length; i++)
       {
@@ -68,24 +71,17 @@ namespace gr {
     }
 
     void
+    dummy_source_impl::stop_generation(pmt::pmt_t trig)
+    {
+      if(_develop_mode)
+        std::cout << "dummy_source ID " << _block_id << " stops generating frame." << std::endl;
+      _generating = false;
+    }
+
+    void
     dummy_source_impl::trigger (pmt::pmt_t trig)
     {
-      /*
-      if(_start == 0)
-      { 
-        std::string trigger;
-        trigger = pmt::symbol_to_string(trig);
-        if(trigger.compare("TEST") == 0)
-        {
-          std::cout << "trigger test failed " << trigger << std::endl;
-          _start = 1;
-        }
-      }
-       */
-      /*
-       * source_type 1: infinite source. This type of the source offers infinite number of payload. Other part of the protocol need to pull the payload.
-       */
-      if(_source_type == 1)
+      if(_source_type == 1 && _generating)
       {
         if(pmt::is_integer(trig))
         {
@@ -108,12 +104,12 @@ namespace gr {
       /*
        * source_type 2: constant rate source. 
        */
-      else if(_source_type == 2)
+      else if(_source_type == 2 && _generating)
       {  
         if(_develop_mode)
           std::cout << "dummy source ID: " << _block_id << "starts generating payload with constant data rate." << std::endl;
         struct timeval t;
-        while(true)
+        while(_generating)
         {
           boost::this_thread::sleep(boost::posix_time::microseconds(1 / _packet_rate * 1000000));
           gettimeofday(&t, NULL);
@@ -122,6 +118,10 @@ namespace gr {
           if(_develop_mode)
             std::cout << "dummy constant rate source ID: " << _block_id << " generate a payload." << std::endl;
         }
+      }
+      else if(!_generating)
+      {  
+        std::cout << "dummy source is stopped." << std::endl; 
       }
       else
         std::cout << "The chosen source is not supported yet. Your contribution is welcome." << std::endl; 

@@ -43,6 +43,24 @@
   </param>
 
   <param>
+    <name>Enable reconfiguration</name>
+    <key>reset</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>No</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
     <name>constellation</name>
     <key>constellation</key>
     <value>gnuradio.digital.constellation_qpsk().base()</value>
@@ -271,6 +289,13 @@
     <name>in</name>
     <type>message</type>
     <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>reconfig_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$reset</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:

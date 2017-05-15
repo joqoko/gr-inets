@@ -1499,7 +1499,7 @@
     </param>
     <param>
       <key>label</key>
-      <value>rx_frequency_in</value>
+      <value>reconfig_in</value>
     </param>
     <param>
       <key>num_streams</key>

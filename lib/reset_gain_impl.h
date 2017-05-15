@@ -18,36 +18,32 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_DUMMY_SOURCE_IMPL_H
-#define INCLUDED_INETS_DUMMY_SOURCE_IMPL_H
+#ifndef INCLUDED_INETS_RESET_GAIN_IMPL_H
+#define INCLUDED_INETS_RESET_GAIN_IMPL_H
 
-#include <inets/dummy_source.h>
+#include <inets/reset_gain.h>
 
 namespace gr {
   namespace inets {
 
-    class dummy_source_impl : public dummy_source
+    class reset_gain_impl : public reset_gain
     {
      private:
       int _develop_mode;
       int _block_id;
-      int _payload_length;
-      int _source_type;
-      bool _generating;
-      double _packet_rate;
-      std::vector<unsigned char> _payload;
-      int _start;
-      void trigger(pmt::pmt_t trig);
-      void stop_generation(pmt::pmt_t trig);
-      void constant_source();
+      int _mode;
+      int _step;
+      int _gain;
+      std::vector<unsigned int> _gain_list;
+      void output_gain(pmt::pmt_t trigger);
 
      public:
-      dummy_source_impl(int develop_mode, int block_id, int payload_length, int source_type, double packet_rate);
-      ~dummy_source_impl();
-    };
+      reset_gain_impl(int develop_mode, int block_id, int mode, int step, int gain);
+      ~reset_gain_impl();
 
+    };
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_DUMMY_SOURCE_IMPL_H */
+#endif /* INCLUDED_INETS_RESET_GAIN_IMPL_H */
 

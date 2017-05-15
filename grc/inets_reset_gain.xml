@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <block>
-  <name>dummy_source</name>
-  <key>inets_dummy_source</key>
+  <name>reset_gain</name>
+  <key>inets_reset_gain</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.dummy_source($develop_mode, $block_id, $payload_length, $source_type, $packet_rate)</make>
+  <make>inets.reset_gain($develop_mode, $block_id, $mode, $step, $gain)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
+
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>
@@ -20,96 +21,105 @@
       <key>0</key>
       <opt>hide:part</opt>
       <opt>hide_control:all</opt>
+      <opt>hide_pmt:all</opt>
     </option>
     <option>
       <name>on</name>
       <key>1</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
+      <opt>hide_pmt:part</opt>
     </option>
     <option>
       <name>time</name>
       <key>2</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
+      <opt>hide_pmt:part</opt>
     </option>
   </param>
 
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>23</value>
+    <value>41</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
 
   <param>
-    <name>Payload length</name>
-    <key>payload_length</key>
-    <value>100</value>
-    <type>int</type>
-    <hide>part</hide>
-  </param>
-
-  <param>
-    <name>Show source switch</name>
-    <key>show</key>
-    <value>1</value>
+    <name>Mode</name>
+    <key>mode</key>
     <type>enum</type>
     <hide>part</hide>
     <option>
-      <name>show</name>
+      <name>ascending</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+      <opt>hide_fix:all</opt>
+    </option>
+    <option>
+      <name>descending</name>
       <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
-      <name>hide</name>
-      <key>1</key>
       <opt>hide:part</opt>
+      <opt>hide_fix:all</opt>
     </option>
-  </param>
-
-  <param>
-    <name>Source type</name>
-    <key>source_type</key>
-    <type>enum</type>
-    <hide>part</hide>
     <option>
-      <name>Infinite</name>
-      <key>1</key>
+      <name>fixed</name>
+      <key>-1</key>
       <opt>hide:all</opt>
-    </option>
-
-    <option>
-      <name>Constant rate</name>
-      <key>2</key>
-      <opt>hide:part</opt>
+      <opt>hide_fix:part</opt>
     </option>
   </param>
 
   <param>
-    <name>Packet rate</name>
-    <key>packet_rate</key>
-    <value>1</value>
-    <type>float</type>
-    <hide>$source_type.hide</hide>
+    <name>Step</name>
+    <key>step</key>
+    <type>enum</type>
+    <hide>$mode.hide</hide>
+    <option>
+      <name>1</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>2</name>
+      <key>2</key>
+    </option>
+    <option>
+      <name>3</name>
+      <key>3</key>
+    </option>
+    <option>
+      <name>4</name>
+      <key>4</key>
+    </option>
+    <option>
+      <name>5</name>
+      <key>5</key>
+    </option>
+    <option>
+      <name>10</name>
+      <key>10</key>
+    </option>
   </param>
+
+  <param>
+    <name>Gain</name>
+    <key>gain</key>
+    <value>5</value>
+    <type>int</type>
+    <hide>$mode.hide_fix</hide>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>trigger</name>
+    <name>trigger_in</name>
     <type>message</type>
     <optional>1</optional>
-  </sink>
-
-  <sink>
-    <name>stop_in</name>
-    <type>message</type>
-    <optional>1</optional>
-    <hide>$show</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -118,7 +128,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>output</name>
+    <name>gain_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>

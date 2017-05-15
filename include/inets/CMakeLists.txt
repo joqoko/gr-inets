@@ -79,6 +79,8 @@ install(FILES
     frame_and.h
     frame_path.h
     frame_to_boolean.h
-    frame_counter.h DESTINATION include/inets
+    frame_counter.h
+    reset_gain.h
+    message_strobe_filter.h DESTINATION include/inets
 
 )

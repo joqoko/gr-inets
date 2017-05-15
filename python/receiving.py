@@ -46,7 +46,7 @@ class receiving(gr.hier_block2):
         ) # Output signature
 
         self.message_port_register_hier_in("rx_switch_in")
-        self.message_port_register_hier_in("rx_frequency_in")
+        self.message_port_register_hier_in("reconfig_in")
         self.message_port_register_hier_out("rx_frame_out")
         self.message_port_register_hier_out("snr_out")
         self.message_port_register_hier_out("rx_power_out")
@@ -75,4 +75,4 @@ class receiving(gr.hier_block2):
         self.msg_connect((self.receiving_phy_0, 'snr_out'), (self, 'snr_out'))    
         self.msg_connect((self.receiving_phy_0, 'rx_power_out'), (self, 'rx_power_out'))    
         self.msg_connect((self, 'rx_switch_in'), (self.receiving_phy_0, 'rx_switch_in'))    
-        self.msg_connect((self, 'rx_frequency_in'), (self.receiving_phy_0, 'rx_frequency_in'))    
+        self.msg_connect((self, 'reconfig_in'), (self.receiving_phy_0, 'reconfig_in'))    

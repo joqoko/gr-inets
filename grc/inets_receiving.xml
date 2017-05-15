@@ -45,7 +45,7 @@
   </param>
 
   <param>
-    <name>Enable reset frequency</name>
+    <name>Enable reconfiguration</name>
     <key>reset</key>
     <value>1</value>
     <type>enum</type>
@@ -241,7 +241,7 @@
 
 
   <sink>
-    <name>rx_frequency_in</name>
+    <name>reconfig_in</name>
     <type>message</type>
     <optional>1</optional>
     <hide>$reset</hide>
