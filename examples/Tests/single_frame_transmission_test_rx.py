@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: single_frame_transmission_test_rx
 # Author: PWA
-# Generated: Wed May 10 09:56:36 2017
+# Generated: Tue May 16 19:52:04 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -62,11 +62,11 @@ class single_frame_transmission_test_rx(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
         self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
-        self.source_address = source_address = 1
+        self.source_address = source_address = 3
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = range_rx_gain
         self.rx_center_frequency = rx_center_frequency = 3.9e8
@@ -75,7 +75,7 @@ class single_frame_transmission_test_rx(gr.top_block, Qt.QWidget):
 
         self.mu = mu = range_mu
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
-        self.destination_address = destination_address = 3
+        self.destination_address = destination_address = 1
         self.cs_threshold = cs_threshold = 0.005
 
         ##################################################
@@ -88,12 +88,16 @@ class single_frame_transmission_test_rx(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "rx4m")
+        self.inets_frame_probe_0_0_1_0 = inets.frame_probe(2, 100, 0, 0, 0.001, 1, "/home/inets/source/gr-inets/results/", "t2RXe", 0)
+        self.inets_frame_probe_0_0_1 = inets.frame_probe(2, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "t2CS", 0)
+        self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_probe_0_0_1_0, 'info_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_frame_probe_0_0_1, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "single_frame_transmission_test_rx")

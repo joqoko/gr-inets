@@ -4,7 +4,7 @@
   <key>inets_sending</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.sending(develop_mode=$develop_mode, block_id=$block_id, constellation=$constellation, preamble=$preamble, samp_rate=$samp_rate, sps=$sps, system_time_granularity_us=$system_time_granularity_us, usrp_device_address=$usrp_device_address, center_frequency=$center_frequency, interframe_interval_s=$interframe_interval_s, t_pretx_interval_s=$t_pretx_interval_s)</make>
+  <make>inets.sending(develop_mode=$develop_mode, block_id=$block_id, constellation=$constellation, preamble=$preamble, samp_rate=$samp_rate, sps=$sps, system_time_granularity_us=$system_time_granularity_us, usrp_device_address=$usrp_device_address, center_frequency=$center_frequency, interframe_interval_s=$interframe_interval_s, t_pretx_interval_s=$t_pretx_interval_s, file_name_extension_t_control=$file_name_extension_t_control, file_name_extension_pending=$file_name_extension_pending, record_on=$record_on, name_with_timestamp=$name_with_timestamp)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -132,6 +132,51 @@
     <hide>part</hide>
   </param>
 
+  <param>
+    <name>Record on</name>
+    <key>record_on</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Name with timestamp</name>
+    <key>name_with_timestamp</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Log name ex. t_control</name>
+    <key>file_name_extension_t_control</key>
+    <value>"t1TXs"</value>
+    <type>raw</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Log name ex. pending</name>
+    <key>file_name_extension_pending</key>
+    <value>"Tfr"</value>
+    <type>raw</type>
+    <hide>part</hide>
+  </param>
 
   <param>
     <name>Show DATA frame</name>

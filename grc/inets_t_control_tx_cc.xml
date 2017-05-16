@@ -4,7 +4,7 @@
   <key>inets_t_control_tx_cc</key>
   <category>inets_dmf_phy</category>
   <import>import inets</import>
-  <make>inets.t_control_tx_cc($develop_mode, $block_id, $bps, $t_pretx_interval_s, $record_on, $file_name_extension)</make>
+  <make>inets.t_control_tx_cc($develop_mode, $block_id, $bps, $t_pretx_interval_s, $record_on, $file_name_extension, $name_with_timestamp)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -50,15 +50,8 @@
   <param>
     <name>Record on</name>
     <key>record_on</key>
-    <type>enum</type>
-    <option>
-      <name>No</name>
-      <key>0</key>
-    </option>
-    <option>
-      <name>Yes</name>
-      <key>1</key>
-    </option>
+    <value>record_on</value>
+    <type>int</type>
   </param>
 
   <param>
@@ -67,6 +60,13 @@
     <value>""</value>
     <type>string</type>
     <hide>none</hide>
+  </param>
+
+  <param>
+    <name>filename with timestamp</name>
+    <key>name_with_timestamp</key>
+    <value>name_with_timestamp</value>
+    <type>int</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

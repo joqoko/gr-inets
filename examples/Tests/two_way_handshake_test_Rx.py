@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: two_way_handshake_test_Rx
 # Author: PWA
-# Generated: Mon May  8 14:23:14 2017
+# Generated: Mon May 15 23:21:58 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -62,11 +62,11 @@ class two_way_handshake_test_Rx(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
         self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 1
-        self.samp_rate = samp_rate = 1000000
+        self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = range_rx_gain
         self.rx_center_frequency = rx_center_frequency = 3.9e8
 
@@ -86,7 +86,7 @@ class two_way_handshake_test_Rx(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0.05)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0, file_name_extension="t2TXs", record_on=1)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_framing_0 = inets.framing(0, 17, 2, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1)

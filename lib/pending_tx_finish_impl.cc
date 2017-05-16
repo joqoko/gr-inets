@@ -34,16 +34,16 @@ namespace gr {
   namespace inets {
 
     pending_tx_finish::sptr
-    pending_tx_finish::make(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s, int record_on)
+    pending_tx_finish::make(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s, int record_on, std::string file_name_extension, int name_with_timestamp)
     {
       return gnuradio::get_initial_sptr
-        (new pending_tx_finish_impl(develop_mode, block_id, system_time_granularity_us, sample_rate, lengthtagname, interframe_interval_s, record_on));
+        (new pending_tx_finish_impl(develop_mode, block_id, system_time_granularity_us, sample_rate, lengthtagname, interframe_interval_s, record_on, file_name_extension, name_with_timestamp));
     }
 
     /*
      * The private constructor
      */
-    pending_tx_finish_impl::pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s, int record_on)
+    pending_tx_finish_impl::pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s, int record_on, std::string file_name_extension, int name_with_timestamp)
       : gr::sync_block("pending_tx_finish",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(0, 0, 0)),
@@ -54,6 +54,8 @@ namespace gr {
         _system_time_granularity_us(system_time_granularity_us),
         _countdown_bias_s(0),
         _record_on(record_on),
+        _file_name_extension(file_name_extension),
+        _name_with_timestamp(name_with_timestamp),
         _interframe_interval_s(interframe_interval_s)
     {
       if(_develop_mode == 1)
@@ -76,7 +78,10 @@ namespace gr {
         time_t tt = time(0);   // get time now
         struct tm * now = localtime( & tt );
         std::ostringstream file_name;
-        file_name << "/home/inets/source/gr-inets/results/" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday << "_" << now->tm_hour << "_" << now->tm_min << "_" << now->tm_sec << "_block" << _block_id << "_t4" << ".txt";
+        if(_name_with_timestamp)
+          file_name << "/home/inets/source/gr-inets/results/" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday << "_" << now->tm_hour << "_" << now->tm_min << "_" << now->tm_sec << "_block" << _block_id << "_" << _file_name_extension << ".txt";
+        else
+          file_name << "/home/inets/source/gr-inets/results/" << _file_name_extension << ".txt";
         _file_name_str = file_name.str();
       }
     }

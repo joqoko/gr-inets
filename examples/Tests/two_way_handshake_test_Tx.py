@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: two_way_handshake_test_Tx
 # Author: PWA
-# Generated: Mon May  8 15:56:28 2017
+# Generated: Mon May 15 23:22:12 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -66,9 +66,8 @@ class two_way_handshake_test_Tx(gr.top_block, Qt.QWidget):
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
         self.tx_center_frequency = tx_center_frequency = 3.9e8
-        self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
-        self.source_address = source_address = 1
+        self.source_address = source_address = 3
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = range_rx_gain
         self.rx_center_frequency = rx_center_frequency = 3.9e8
@@ -77,7 +76,7 @@ class two_way_handshake_test_Tx(gr.top_block, Qt.QWidget):
 
         self.mu = mu = range_mu
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
-        self.destination_address = destination_address = 3
+        self.destination_address = destination_address = 1
         self.cs_threshold = cs_threshold = 0.005
 
         ##################################################
@@ -90,19 +89,20 @@ class two_way_handshake_test_Tx(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_timeout_0 = inets.timeout(0, 10, 100, system_time_granularity_us, 0)
-        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.004, t_pretx_interval_s=0)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0, file_name_extension="t1TXs", record_on=1)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1)
-        self.inets_frame_probe_0_0_1 = inets.frame_probe(2, 100, 0, 1, 0.01, 1, "/home/inets/source/gr-inets/results/", "t1RXs")
+        self.inets_frame_probe_0_0_2 = inets.frame_probe(1, 110, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "t1e")
+        self.inets_frame_probe_0_0_1 = inets.frame_probe(2, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "t1RXs")
         self.inets_frame_probe_0_0_0 = inets.frame_probe(2, 103, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "t1RXe")
         self.inets_frame_probe_0_0 = inets.frame_probe(2, 102, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "t1e")
         self.inets_frame_probe_0 = inets.frame_probe(2, 101, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "t11")
         self.inets_frame_path_0 = inets.frame_path(0, 39)
         self.inets_frame_check_0 = inets.frame_check(0, 9)
-        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1, 1)
+        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 1, 1, 0)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 1000, 2, 1)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 300, 2, 5)
         self.inets_address_check_0 = inets.address_check(0, 17, source_address)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 100)
 
@@ -113,10 +113,11 @@ class two_way_handshake_test_Tx(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
-        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_frame_probe_0_0, 'info_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_receiving_0, 'rx_switch_in'))
         self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_probe_0_0, 'info_in'))
         self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_receiving_0, 'rx_switch_in'))
+        self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_frame_probe_0_0_0, 'info_in'))
         self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_0, 'ack_frame_info_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
@@ -124,9 +125,9 @@ class two_way_handshake_test_Tx(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_frame_probe_0_0_1, 'info_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_switch_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_sending_0, 'rx_control_out'), (self.inets_frame_path_0, 'frame_in'))
-        self.msg_connect((self.inets_sending_0, 'rx_control_out'), (self.inets_frame_probe_0_0_0, 'info_in'))
         self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_timeout_0, 'data_frame_info_in'))
         self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_buffer_0, 'dequeue'))
+        self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_probe_0_0_2, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "two_way_handshake_test_Tx")
@@ -164,12 +165,6 @@ class two_way_handshake_test_Tx(gr.top_block, Qt.QWidget):
 
     def set_tx_center_frequency(self, tx_center_frequency):
         self.tx_center_frequency = tx_center_frequency
-
-    def get_timeout_duration_ms(self):
-        return self.timeout_duration_ms
-
-    def set_timeout_duration_ms(self, timeout_duration_ms):
-        self.timeout_duration_ms = timeout_duration_ms
 
     def get_system_time_granularity_us(self):
         return self.system_time_granularity_us

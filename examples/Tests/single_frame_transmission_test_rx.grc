@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>3</value>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -463,7 +463,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -598,7 +598,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.6"</value>
+      <value>"addr=10.0.0.20"</value>
     </param>
   </block>
   <block>
@@ -633,6 +633,97 @@
     </param>
   </block>
   <block>
+    <key>inets_frame_analysis</key>
+    <param>
+      <key>apply_self_address_check</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>7</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>default_framing_setting</key>
+      <value>default</value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(536, 360)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_analysis_0</value>
+    </param>
+    <param>
+      <key>len_destination_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_frame_type</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_num_transmission</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>len_payload_length</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_I</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_reserved_field_II</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>len_source_address</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>my_address</key>
+      <value>source_address</value>
+    </param>
+  </block>
+  <block>
     <key>inets_frame_probe</key>
     <param>
       <key>alias</key>
@@ -660,7 +751,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -668,11 +759,11 @@
     </param>
     <param>
       <key>file_name_extension</key>
-      <value>"rx4m"</value>
+      <value>"t2CS"</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(616, 424)</value>
+      <value>(536, 452)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -680,7 +771,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>inets_frame_probe_0</value>
+      <value>inets_frame_probe_0_0_1</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -705,6 +796,89 @@
     <param>
       <key>record_path</key>
       <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_probe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>100</value>
+    </param>
+    <param>
+      <key>cs_threshold</key>
+      <value>0.001</value>
+    </param>
+    <param>
+      <key>cs_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>file_name_extension</key>
+      <value>"t2RXe"</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(736, 340)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_probe_0_0_1_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_time_info</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>print_frame</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -819,8 +993,20 @@
     </param>
   </block>
   <connection>
+    <source_block_id>inets_frame_analysis_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0_0_1_0</sink_block_id>
+    <source_key>frame_info_out</source_key>
+    <sink_key>info_in</sink_key>
+  </connection>
+  <connection>
     <source_block_id>inets_receiving_0</source_block_id>
-    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <sink_block_id>inets_frame_analysis_0</sink_block_id>
+    <source_key>rx_frame_out</source_key>
+    <sink_key>frame_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_receiving_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0_0_1</sink_block_id>
     <source_key>rx_power_out</source_key>
     <sink_key>info_in</sink_key>
   </connection>

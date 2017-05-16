@@ -38,7 +38,7 @@ class sending(gr.hier_block2):
     """
     docstring for block sending
     """
-    def __init__(self, develop_mode=1, block_id=20, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=[], samp_rate=4e6, sps=4, system_time_granularity_us=5, usrp_device_address="addr=10.0.0.6", center_frequency=400000000, interframe_interval_s=0.005, t_pretx_interval_s=0.05):
+    def __init__(self, develop_mode=1, block_id=20, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=[], samp_rate=4e6, sps=4, system_time_granularity_us=5, usrp_device_address="addr=10.0.0.6", center_frequency=400000000, interframe_interval_s=0.005, t_pretx_interval_s=0.05, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=1, name_with_timestamp=1):
         gr.hier_block2.__init__(self,
             "sending",
             gr.io_signature(0, 0, 0),  # Input signature
@@ -64,6 +64,8 @@ class sending(gr.hier_block2):
             block_id=block_id,
             constellation=constellation,
             develop_mode=develop_mode,
+            file_name_extension_t_control=file_name_extension_t_control,
+            file_name_extension_pending=file_name_extension_pending,
             interframe_interval_s=interframe_interval_s,
             preamble=preamble,
             samp_rate=samp_rate,
@@ -72,6 +74,8 @@ class sending(gr.hier_block2):
             usrp_device_address=usrp_device_address,
             center_frequency=center_frequency,
             t_pretx_interval_s=t_pretx_interval_s,
+            record_on=record_on,
+            name_with_timestamp=name_with_timestamp,
         )
         ##################################################
         # Connections

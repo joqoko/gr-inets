@@ -35,6 +35,7 @@ namespace gr {
       int _cs_mode;
       int _record_on;
       int _last_cs_status;
+      int _name_with_timestamp;
       double _cs_threshold;
       double _last_time;
       std::queue<double> _last_power;
@@ -50,7 +51,7 @@ namespace gr {
       void print_time();
 
      public:
-      frame_probe_impl(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold, int record_on, std::string record_path, std::string fime_name_extension);
+      frame_probe_impl(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold, int record_on, std::string record_path, std::string fime_name_extension, int name_with_timestamp);
       ~frame_probe_impl();
 
     };

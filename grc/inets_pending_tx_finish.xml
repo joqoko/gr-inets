@@ -4,7 +4,7 @@
   <key>inets_pending_tx_finish</key>
   <category>inets_dmf_phy</category>
   <import>import inets</import>
-  <make>inets.pending_tx_finish($develop_mode, $block_id, $system_time_granularity_us, $sample_rate, $lengthtagname, $interframe_interval_s, $record_on)</make>
+  <make>inets.pending_tx_finish($develop_mode, $block_id, $system_time_granularity_us, $sample_rate, $lengthtagname, $interframe_interval_s, $record_on, $file_name_extension, $name_with_timestamp)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -74,6 +74,21 @@
       <key>1</key>
       <opt>hide:part</opt>
     </option>
+  </param>
+
+  <param>
+    <name>File name extension</name>
+    <key>file_name_extension</key>
+    <value>""</value>
+    <type>string</type>
+    <hide>none</hide>
+  </param>
+
+  <param>
+    <name>filename with timestamp</name>
+    <key>name_with_timestamp</key>
+    <value>name_with_timestamp</value>
+    <type>int</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

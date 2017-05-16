@@ -4,7 +4,7 @@
   <key>inets_frame_probe</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.frame_probe($develop_mode, $block_id, $print_frame, $cs_mode, $cs_threshold, $record_on, $record_path, $file_name_extension)</make>
+  <make>inets.frame_probe($develop_mode, $block_id, $print_frame, $cs_mode, $cs_threshold, $record_on, $record_path, $file_name_extension, $name_with_stamp)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -139,6 +139,22 @@
     <type>string</type>
     <hide>$record_on.hide</hide>
   </param>
+
+  <param>
+    <name>filename with timestamp</name>
+    <key>name_with_stamp</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+  </param>
+
 
   <sink>
     <name>info_in</name>

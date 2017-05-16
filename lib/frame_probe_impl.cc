@@ -34,16 +34,16 @@ namespace gr {
   namespace inets {
 
     frame_probe::sptr
-    frame_probe::make(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold, int record_on, std::string record_path, std::string file_name_extension)
+    frame_probe::make(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold, int record_on, std::string record_path, std::string file_name_extension, int name_with_timestamp)
     {
       return gnuradio::get_initial_sptr
-        (new frame_probe_impl(develop_mode, block_id, print_frame, cs_mode, cs_threshold, record_on, record_path, file_name_extension));
+        (new frame_probe_impl(develop_mode, block_id, print_frame, cs_mode, cs_threshold, record_on, record_path, file_name_extension, name_with_timestamp));
     }
 
     /*
      * The private constructor
      */
-    frame_probe_impl::frame_probe_impl(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold, int record_on, std::string record_path, std::string file_name_extension)
+    frame_probe_impl::frame_probe_impl(int develop_mode, int block_id, int print_frame, int cs_mode, double cs_threshold, int record_on, std::string record_path, std::string file_name_extension, int name_with_timestamp)
       : gr::block("frame_probe",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -55,6 +55,7 @@ namespace gr {
         _last_cs_status(0),
         _temp_n(0),
         _file_name_extension(file_name_extension),
+        _name_with_timestamp(name_with_timestamp),
         _cs_threshold(cs_threshold)
     {
       message_port_register_out(pmt::mp("info_out"));
@@ -72,7 +73,10 @@ namespace gr {
         time_t tt = time(0);   // get time now
         struct tm * now = localtime( & tt );
         std::ostringstream file_name;
-        file_name << "/home/inets/source/gr-inets/results/" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday << "_" << now->tm_hour << "_" << now->tm_min << "_" << now->tm_sec << "_block" << _block_id << "_" << _file_name_extension << ".txt";
+        if(_name_with_timestamp)
+          file_name << "/home/inets/source/gr-inets/results/" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday << "_" << now->tm_hour << "_" << now->tm_min << "_" << now->tm_sec << "_block" << _block_id << "_" << _file_name_extension << ".txt";
+        else
+          file_name << "/home/inets/source/gr-inets/results/" << _file_name_extension << ".txt";
         _file_name_str = file_name.str();
       }
     }

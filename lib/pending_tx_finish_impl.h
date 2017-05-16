@@ -38,6 +38,8 @@ namespace gr {
       float _wait_time;
       int _system_time_granularity_us;
       int _record_on;
+      std::string _file_name_extension;
+      int _name_with_timestamp;
       std::string _file_name_str;
       double _countdown_bias_s;
       double _interframe_interval_s;
@@ -47,7 +49,7 @@ namespace gr {
       void countdown_waiting();
 
      public:
-      pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s, int record_on);
+      pending_tx_finish_impl(int develop_mode, int block_id, int system_time_granularity_us, float sample_rate, const std::string &lengthtagname, double interframe_interval_s, int record_on, std::string file_name_extension, int name_with_timestamp);
       ~pending_tx_finish_impl();
 
       // Where all the action really happens

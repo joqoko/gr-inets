@@ -436,7 +436,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1000000</value>
+      <value>400000</value>
     </param>
   </block>
   <block>
@@ -571,7 +571,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.6"</value>
+      <value>"addr=10.0.0.20"</value>
     </param>
   </block>
   <block>
@@ -1411,6 +1411,10 @@
       <value>0</value>
     </param>
     <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
@@ -1440,7 +1444,11 @@
     </param>
     <param>
       <key>t_pretx_interval_s</key>
-      <value>0.05</value>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>1</value>
     </param>
     <param>
       <key>samp_rate</key>
@@ -1485,6 +1493,10 @@
     <param>
       <key>constellation</key>
       <value>gnuradio.digital.constellation_qpsk().base()</value>
+    </param>
+    <param>
+      <key>file_name_extension</key>
+      <value>"t2TXs"</value>
     </param>
     <param>
       <key>preamble</key>

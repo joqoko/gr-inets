@@ -846,6 +846,92 @@
     </param>
   </block>
   <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1088, 792)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>file_name_extension_pending</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>file name extension pending</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>string</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"t1Fr"</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(648, 792)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>file_name_extension_t_control</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>file name extension control</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>string</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"t1TXs"</value>
+    </param>
+  </block>
+  <block>
     <key>import</key>
     <param>
       <key>alias</key>
@@ -1071,6 +1157,10 @@
       <value>1</value>
     </param>
     <param>
+      <key>file_name_extension</key>
+      <value>file_name_extension_pending</value>
+    </param>
+    <param>
       <key>_coordinate</key>
       <value>(392, 472)</value>
     </param>
@@ -1100,11 +1190,15 @@
     </param>
     <param>
       <key>record_on</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>system_time_granularity_us</key>
       <value>system_time_granularity_us</value>
+    </param>
+    <param>
+      <key>name_with_timestamp</key>
+      <value>name_with_timestamp</value>
     </param>
     <param>
       <key>sample_rate</key>
@@ -1139,7 +1233,7 @@
     </param>
     <param>
       <key>file_name_extension</key>
-      <value>"1TXs"</value>
+      <value>file_name_extension_t_control</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1167,11 +1261,15 @@
     </param>
     <param>
       <key>record_on</key>
-      <value>0</value>
+      <value>record_on</value>
     </param>
     <param>
       <key>bps</key>
       <value>constellation.bits_per_symbol() * (samp_rate / sps)</value>
+    </param>
+    <param>
+      <key>name_with_timestamp</key>
+      <value>name_with_timestamp</value>
     </param>
   </block>
   <block>
@@ -1215,6 +1313,49 @@
     <param>
       <key>value</key>
       <value>0.005</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(920, 792)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>name_with_timestamp</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>name with timestamp</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1344,6 +1485,49 @@
     <param>
       <key>value</key>
       <value>[]</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(816, 792)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>record_on</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>record on</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
     </param>
   </block>
   <block>
