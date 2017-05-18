@@ -85,7 +85,10 @@ namespace gr {
            std::cout << "general_timer " << _block_id << " is triggered at time " << current_time << " s" << std::endl;
          _in_active = true;
          if(_timer_type == 0)
+         {
+           _frame_info = trigger;
            boost::thread thrd(&general_timer_impl::countdown_oneshot_timer, this);       
+         }
          else if(_timer_type == 1)
            boost::thread thrd(&general_timer_impl::countdown_periodic_timer, this);       
          else if(_timer_type == 2)
@@ -212,7 +215,7 @@ namespace gr {
             std::cout << "general timer ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << " [s]" << "and the time bias is: " << _timer_bias_s << std::endl;
           }
           else
-            std::cout << "general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time - start_time << " [s]" << std::endl;
+            std::cout << "general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << " [s]" << std::endl;
         }
         pmt::pmt_t expire = pmt::make_dict();
         expire = pmt::dict_add(expire, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
@@ -261,7 +264,7 @@ namespace gr {
       double start_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
       double current_time_show = start_time_show;
       if(_develop_mode)
-        std::cout << "timeout timer start time: " << start_time_show << std::endl;
+        std::cout << "timer start time: " << start_time_show << std::endl;
       while((current_time < start_time + double(_duration_ms) / 1000 - _timer_bias_s) && _in_active)
       {
         gettimeofday(&t, NULL);
@@ -278,10 +281,10 @@ namespace gr {
         if(_in_active)
         {
           _timer_bias_s = _timer_bias_s + current_time - start_time - double(_duration_ms)/1000;
-          std::cout << "* general timer ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << " [s]" << "and the time bias is: " << _timer_bias_s << std::endl;
+          std::cout << "general_timer ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << " [s]" << ". the time bias is: " << _timer_bias_s << std::endl;
         }
         else
-          std::cout << "* general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time_show - start_time_show << " s" << std::endl;
+          std::cout << "* general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual duration is: " << current_time_show - start_time_show << " s" << std::endl;
       }
       if(pmt::is_dict(_frame_info))
       {
@@ -292,7 +295,7 @@ namespace gr {
       {
         pmt::pmt_t expire = pmt::make_dict();
         expire = pmt::dict_add(expire, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
-        message_port_pub(pmt::mp("expire_signal_out"), expire);
+        message_port_pub(pmt::mp("expire_signal_out"), _frame_info);
       }
       _in_active = false;
     }
@@ -328,7 +331,7 @@ namespace gr {
           }
           else
           {
-            std::cout << "* general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual timeout duration is: " << current_time_show - start_time_show << " s" << std::endl;
+            std::cout << "* general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual duration is: " << current_time_show - start_time_show << " s" << std::endl;
           }
         }
         if(pmt::is_dict(_frame_info))
