@@ -568,7 +568,7 @@
     </param>
   </block>
   <block>
-    <key>blocks_message_strobe</key>
+    <key>blocks_message_debug</key>
     <param>
       <key>alias</key>
       <value></value>
@@ -587,7 +587,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 236)</value>
+      <value>(488, 424)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -595,23 +595,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>blocks_message_strobe_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>msg</key>
-      <value>pmt.intern("TEST")</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>period</key>
-      <value>1000</value>
+      <value>blocks_message_debug_0</value>
     </param>
   </block>
   <block>
@@ -666,11 +650,15 @@
     </param>
     <param>
       <key>payload_length</key>
-      <value>100</value>
+      <value>852</value>
+    </param>
+    <param>
+      <key>show</key>
+      <value>1</value>
     </param>
     <param>
       <key>source_type</key>
-      <value>1</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -682,6 +670,14 @@
     <param>
       <key>block_id</key>
       <value>100</value>
+    </param>
+    <param>
+      <key>cs_threshold</key>
+      <value>0.01</value>
+    </param>
+    <param>
+      <key>cs_mode</key>
+      <value>0</value>
     </param>
     <param>
       <key>comment</key>
@@ -700,8 +696,12 @@
       <value>True</value>
     </param>
     <param>
+      <key>file_name_extension</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(912, 256)</value>
+      <value>(912, 264)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -712,7 +712,31 @@
       <value>inets_frame_probe_0</value>
     </param>
     <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_time_info</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>print_frame</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
       <value>1</value>
     </param>
   </block>
@@ -739,12 +763,16 @@
       <value>default</value>
     </param>
     <param>
+      <key>default_payload_length</key>
+      <value>300</value>
+    </param>
+    <param>
       <key>destination_address</key>
       <value>destination_address</value>
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -756,7 +784,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(672, 252)</value>
+      <value>(696, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -803,6 +831,10 @@
       <value>2</value>
     </param>
     <param>
+      <key>len_slot_time_beacon</key>
+      <value>2</value>
+    </param>
+    <param>
       <key>len_source_address</key>
       <value>1</value>
     </param>
@@ -813,6 +845,10 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>node_list</key>
+      <value>[2, 3]</value>
     </param>
     <param>
       <key>output_frame_pmt</key>
@@ -835,16 +871,65 @@
       <value>1</value>
     </param>
     <param>
+      <key>show_reset_index</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>slot_list_ms</key>
+      <value>[1000, 1000]</value>
+    </param>
+    <param>
       <key>source_address</key>
       <value>source_address</value>
     </param>
+    <param>
+      <key>default_payload</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>internal_index</key>
+      <value>1</value>
+    </param>
   </block>
-  <connection>
-    <source_block_id>blocks_message_strobe_0</source_block_id>
-    <sink_block_id>inets_dummy_source_0</sink_block_id>
-    <source_key>strobe</source_key>
-    <sink_key>trigger</sink_key>
-  </connection>
+  <block>
+    <key>inets_run</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(328, 264)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_run_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>inets_dummy_source_0</source_block_id>
     <sink_block_id>inets_framing_0</sink_block_id>
@@ -856,5 +941,11 @@
     <sink_block_id>inets_frame_probe_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_run_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>trigger_out</source_key>
+    <sink_key>print</sink_key>
   </connection>
 </flow_graph>

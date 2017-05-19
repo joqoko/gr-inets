@@ -46,7 +46,7 @@
     <name>Timer type</name>
     <key>timer_type</key>
     <type>enum</type>
-    <hide>part</hide>
+    <hide>none</hide>
     <option>
       <name>One shot</name>
       <key>0</key>
@@ -61,6 +61,11 @@
       <name>Continual</name>
       <key>2</key>
       <opt>hide_reserve:part</opt>
+    </option>
+    <option>
+      <name>Oneshot exponential</name>
+      <key>3</key>
+      <opt>hide_reserve:all</opt>
     </option>
   </param>
 
@@ -93,12 +98,28 @@
     <type>enum</type>
     <hide>part</hide>
     <option>
-      <name>Disable</name>
+      <name>Off</name>
       <key>1</key>
       <opt>hide:part</opt>
     </option>
     <option>
-      <name>Enable</name>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
+  <param>
+    <name>Enable disable timer</name>
+    <key>disable_timer</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>On</name>
       <key>0</key>
       <opt>hide:none</opt>
     </option>
@@ -135,6 +156,13 @@
     <type>message</type>
     <optional>1</optional>
     <hide>$kill_timer</hide>
+  </sink>
+
+  <sink>
+    <name>disable_timer_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$disable_timer</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:

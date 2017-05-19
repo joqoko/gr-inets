@@ -575,53 +575,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_message_strobe</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(96, 292)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_message_strobe_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>msg</key>
-      <value>pmt.intern("TEST")</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>period</key>
-      <value>100</value>
-    </param>
-  </block>
-  <block>
     <key>import</key>
     <param>
       <key>alias</key>
@@ -680,7 +633,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(896, 304)</value>
+      <value>(856, 296)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -810,7 +763,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(720, 304)</value>
+      <value>(696, 296)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -921,7 +874,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(240, 408)</value>
+      <value>(120, 392)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -980,7 +933,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1072, 304)</value>
+      <value>(1016, 296)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1035,7 +988,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(568, 496)</value>
+      <value>(576, 496)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1094,7 +1047,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(432, 580)</value>
+      <value>(280, 436)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1173,7 +1126,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1000, 364)</value>
+      <value>(960, 348)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1252,7 +1205,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1240, 500)</value>
+      <value>(1200, 484)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1331,7 +1284,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(728, 348)</value>
+      <value>(728, 340)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1430,7 +1383,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1164, 376)</value>
+      <value>(1132, 360)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1648,7 +1601,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(488, 392)</value>
+      <value>(488, 376)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1720,6 +1673,45 @@
     </param>
   </block>
   <block>
+    <key>inets_run</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(200, 304)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_run_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>inets_sending</key>
     <param>
       <key>alias</key>
@@ -1755,7 +1747,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 440)</value>
+      <value>(712, 424)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1890,7 +1882,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1008, 504)</value>
+      <value>(944, 504)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1925,12 +1917,6 @@
       <value>100</value>
     </param>
   </block>
-  <connection>
-    <source_block_id>blocks_message_strobe_0</source_block_id>
-    <sink_block_id>inets_dummy_source_0</sink_block_id>
-    <source_key>strobe</source_key>
-    <sink_key>trigger</sink_key>
-  </connection>
   <connection>
     <source_block_id>inets_address_check_0</source_block_id>
     <sink_block_id>inets_frame_check_0</sink_block_id>
@@ -2008,6 +1994,12 @@
     <sink_block_id>inets_sending_0</sink_block_id>
     <source_key>rx_switch_out</source_key>
     <sink_key>in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_run_0</source_block_id>
+    <sink_block_id>inets_dummy_source_0</sink_block_id>
+    <source_key>trigger_out</source_key>
+    <sink_key>trigger</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_sending_0</source_block_id>

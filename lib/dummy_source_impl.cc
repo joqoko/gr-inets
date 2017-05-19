@@ -24,6 +24,8 @@
 
 #include <gnuradio/io_signature.h>
 #include "dummy_source_impl.h"
+#include "math.h"
+#include <math.h>
 
 namespace gr {
   namespace inets {
@@ -47,16 +49,17 @@ namespace gr {
         _payload_length(payload_length),
         _source_type(source_type),
         _packet_rate(packet_rate),
-        _generating(true),
         _start(0)
     {
       if(_develop_mode)
         std::cout << "develop_mode of dummy source ID: " << _block_id << " is activated." << std::endl;
+      _generating = false;
       message_port_register_in(pmt::mp("trigger")); 
       set_msg_handler(pmt::mp("trigger"), boost::bind(&dummy_source_impl::trigger, this, _1));
       message_port_register_in(pmt::mp("stop_in")); 
       set_msg_handler(pmt::mp("stop_in"), boost::bind(&dummy_source_impl::stop_generation, this, _1));
       message_port_register_out(pmt::mp("output"));
+      std::srand(std::time(0));
       for (unsigned int i = 0; i < _payload_length; i++)
       {
         _payload.push_back(std::rand() % 255);
@@ -73,15 +76,17 @@ namespace gr {
     void
     dummy_source_impl::stop_generation(pmt::pmt_t trig)
     {
+      _generating = false;
       if(_develop_mode)
         std::cout << "dummy_source ID " << _block_id << " stops generating frame." << std::endl;
-      _generating = false;
+      std::cout << "generating is set to false" << std::endl;
     }
 
     void
     dummy_source_impl::trigger (pmt::pmt_t trig)
     {
-      if(_source_type == 1 && _generating)
+      _generating = true;
+      if(_source_type == 1)
       {
         if(pmt::is_integer(trig))
         {
@@ -104,7 +109,7 @@ namespace gr {
       /*
        * source_type 2: constant rate source. 
        */
-      else if(_source_type == 2 && _generating)
+      else if(_source_type == 2)
       {  
         if(_develop_mode)
           std::cout << "dummy source ID: " << _block_id << "starts generating payload with constant data rate." << std::endl;
@@ -119,9 +124,11 @@ namespace gr {
             std::cout << "dummy constant rate source ID: " << _block_id << " generate a payload." << std::endl;
         }
       }
-      else if(!_generating)
+      else if(_source_type == 3)
       {  
-        std::cout << "dummy source is stopped." << std::endl; 
+        if(_develop_mode)
+          std::cout << "dummy source ID: " << _block_id << " generates an oneshot payload." << std::endl;
+        message_port_pub(pmt::mp("output"), pmt::cons(pmt::make_dict(), pmt::init_u8vector(_payload.size(), _payload)));
       }
       else
         std::cout << "The chosen source is not supported yet. Your contribution is welcome." << std::endl; 

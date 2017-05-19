@@ -87,5 +87,6 @@ install(FILES
     inets_frame_counter.xml
     inets_reset_gain.xml
     inets_msg_strobe_filter.xml
-    inets_run.xml DESTINATION share/gnuradio/grc/blocks
+    inets_run.xml
+    inets_dice.xml DESTINATION share/gnuradio/grc/blocks
 )

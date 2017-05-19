@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Test_dummy
 # Author: PWA
-# Generated: Wed Feb  8 11:35:42 2017
+# Generated: Fri May 19 17:56:24 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -25,7 +25,6 @@ from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import inets
-import pmt
 import sys
 from gnuradio import qtgui
 
@@ -81,17 +80,18 @@ class Test_dummy(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_framing_0 = inets.framing(1, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 1)
-        self.inets_dummy_source_0 = inets.dummy_source(1, 23, 100, 1, 1)
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
+        self.inets_run_0 = inets.run()
+        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 1, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_dummy_source_0 = inets.dummy_source(1, 23, 852, 3, 1)
+        self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_dummy_source_0, 'trigger'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.blocks_message_debug_0, 'print'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Test_dummy")

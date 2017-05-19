@@ -1150,7 +1150,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>develop_mode</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>

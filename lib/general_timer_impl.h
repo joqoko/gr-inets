@@ -32,6 +32,7 @@ namespace gr {
       int _develop_mode;
       int _block_id;
       int _timer_type;
+      int _disable_timer;
       bool _in_active;
       int _duration_ms;
       pmt::pmt_t _frame_info;
@@ -43,7 +44,9 @@ namespace gr {
       std::vector<int> _address_check_list;
       void start_timer(pmt::pmt_t trigger);
       void kill_timer(pmt::pmt_t trigger);
+      void disable_timer(pmt::pmt_t trigger);
       void countdown_oneshot_timer();
+      void countdown_oneshot_exp_timer();
       void countdown_periodic_timer();
       void countdown_continual_timer();
    

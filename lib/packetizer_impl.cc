@@ -153,6 +153,7 @@ namespace gr {
             pmt::from_double(now.get_frac_secs())
           );
 
+          */
           if(_develop_mode)
           {
             std::cout << "random length   is: " << _padding << std::endl;
@@ -162,7 +163,6 @@ namespace gr {
             std::cout << "random length   is: " << _padding << std::endl;
             std::cout << "overall length  is: " <<packet.size() << std::endl;
           }
-          */
           pmt::pmt_t meta = pmt::make_dict();
           //meta = pmt::dict_add(meta, pmt::mp("tx_time"), time_value);
           pmt::pmt_t pdu = pmt::cons(meta, out_pmt_vector);

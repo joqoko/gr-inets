@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>dummy_source</name>
-  <key>inets_dummy_source</key>
-  <category>inets_dmf_mac</category>
+  <name>dice</name>
+  <key>inets_dice</key>
+  <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.dummy_source($develop_mode, $block_id, $payload_length, $source_type, $packet_rate)</make>
+  <make>inets.dice($develop_mode, $block_id, $probability)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -20,102 +20,80 @@
       <key>0</key>
       <opt>hide:part</opt>
       <opt>hide_control:all</opt>
+      <opt>hide_pmt:all</opt>
     </option>
     <option>
       <name>on</name>
       <key>1</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
+      <opt>hide_pmt:part</opt>
     </option>
     <option>
       <name>time</name>
       <key>2</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
+      <opt>hide_pmt:part</opt>
     </option>
   </param>
 
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>23</value>
+    <value>41</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
 
   <param>
-    <name>Payload length</name>
-    <key>payload_length</key>
-    <value>100</value>
-    <type>int</type>
-    <hide>part</hide>
-  </param>
-
-  <param>
-    <name>Show stop port</name>
-    <key>show</key>
-    <value>1</value>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>show</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
-      <name>hide</name>
-      <key>1</key>
-      <opt>hide:part</opt>
-    </option>
-  </param>
-
-  <param>
-    <name>Source type</name>
-    <key>source_type</key>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>Infinite</name>
-      <key>1</key>
-      <opt>hide:all</opt>
-    </option>
-
-    <option>
-      <name>Constant rate</name>
-      <key>2</key>
-      <opt>hide:part</opt>
-    </option>
-
-    <option>
-      <name>Oneshot</name>
-      <key>3</key>
-      <opt>hide:part</opt>
-    </option>
-  </param>
-
-  <param>
-    <name>Packet rate</name>
-    <key>packet_rate</key>
-    <value>1</value>
+    <name>Probability</name>
+    <key>probability</key>
+    <value>0.5</value>
     <type>float</type>
-    <hide>$source_type.hide</hide>
   </param>
+
+  <param>
+    <name>Show win output</name>
+    <key>show_win</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>$show_win.hide</hide>
+    <option>
+      <name>Show</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Not show</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Show lose output</name>
+    <key>show_lose</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>$show_lose.hide</hide>
+    <option>
+      <name>Show</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Not show</name>
+      <key>0</key>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>trigger</name>
+    <name>in</name>
     <type>message</type>
     <optional>1</optional>
-  </sink>
-
-  <sink>
-    <name>stop_in</name>
-    <type>message</type>
-    <optional>1</optional>
-    <hide>$show</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -124,8 +102,15 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>output</name>
+    <name>win_out</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$show_win</hide>
+  </source>
+  <source>
+    <name>lose_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$show_lose</hide>
   </source>
 </block>
