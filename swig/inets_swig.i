@@ -65,6 +65,7 @@
 #include "inets/frame_path.h"
 #include "inets/frame_to_boolean.h"
 #include "inets/frame_counter.h"
+#include "inets/msg_strobe_filter.h"
 #include "inets/general_timeout.h"
 #include "inets/cogmac_ch_pool.h"
 #include "inets/frame_replicate.h"
@@ -72,6 +73,7 @@
 #include "inets/frame_path.h"
 #include "inets/frame_to_boolean.h"
 #include "inets/frame_counter.h"
+#include "inets/msg_strobe_filter.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -209,3 +211,6 @@ GR_SWIG_BLOCK_MAGIC2(inets, frame_path);
 GR_SWIG_BLOCK_MAGIC2(inets, frame_to_boolean);
 %include "inets/frame_counter.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_counter);
+%include "inets/msg_strobe_filter.h"
+GR_SWIG_BLOCK_MAGIC2(inets, msg_strobe_filter);
+

@@ -41,7 +41,7 @@ GR_PYTHON_INSTALL(
     receiving.py
     packetization.py
     multichannel_receiving.py
-    start.py DESTINATION ${GR_PYTHON_DIR}/inets
+    run.py DESTINATION ${GR_PYTHON_DIR}/inets
 )
 
 ########################################################################

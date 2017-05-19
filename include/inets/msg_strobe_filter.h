@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_MESSAGE_STROBE_FILTER_H
-#define INCLUDED_INETS_MESSAGE_STROBE_FILTER_H
+#ifndef INCLUDED_INETS_MSG_STROBE_FILTER_H
+#define INCLUDED_INETS_MSG_STROBE_FILTER_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,17 +33,17 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API message_strobe_filter : virtual public gr::block
+    class INETS_API msg_strobe_filter : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<message_strobe_filter> sptr;
+      typedef boost::shared_ptr<msg_strobe_filter> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::message_strobe_filter.
+       * \brief Return a shared_ptr to a new instance of inets::msg_strobe_filter.
        *
-       * To avoid accidental use of raw pointers, inets::message_strobe_filter's
+       * To avoid accidental use of raw pointers, inets::msg_strobe_filter's
        * constructor is in a private implementation
-       * class. inets::message_strobe_filter::make is the public interface for
+       * class. inets::msg_strobe_filter::make is the public interface for
        * creating new instances.
        */
       static sptr make();
@@ -52,5 +52,5 @@ namespace gr {
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_MESSAGE_STROBE_FILTER_H */
+#endif /* INCLUDED_INETS_MSG_STROBE_FILTER_H */
 

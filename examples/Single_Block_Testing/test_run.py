@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: Top Block
-# Generated: Fri May 19 09:12:46 2017
+# Title: Test Run
+# Generated: Fri May 19 09:29:56 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -24,17 +24,16 @@ from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import inets
-import pmt
 import sys
 from gnuradio import qtgui
 
 
-class top_block(gr.top_block, Qt.QWidget):
+class test_run(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Top Block")
+        gr.top_block.__init__(self, "Test Run")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Top Block")
+        self.setWindowTitle("Test Run")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -52,7 +51,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
+        self.settings = Qt.QSettings("GNU Radio", "test_run")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -63,18 +62,16 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_msg_strobe_filter_0 = inets.msg_strobe_filter()
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
+        self.inets_run_0 = inets.run()
         self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_msg_strobe_filter_0, 'msg_in'))
-        self.msg_connect((self.inets_msg_strobe_filter_0, 'start_out'), (self.blocks_message_debug_0, 'print'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.blocks_message_debug_0, 'print'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "top_block")
+        self.settings = Qt.QSettings("GNU Radio", "test_run")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -85,7 +82,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
 
 
-def main(top_block_cls=top_block, options=None):
+def main(top_block_cls=test_run, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

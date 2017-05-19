@@ -23,46 +23,46 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include "message_strobe_filter_impl.h"
+#include "msg_strobe_filter_impl.h"
 
 namespace gr {
   namespace inets {
 
-    message_strobe_filter::sptr
-    message_strobe_filter::make()
+    msg_strobe_filter::sptr
+    msg_strobe_filter::make()
     {
       return gnuradio::get_initial_sptr
-        (new message_strobe_filter_impl());
+        (new msg_strobe_filter_impl());
     }
 
     /*
      * The private constructor
      */
-    message_strobe_filter_impl::message_strobe_filter_impl()
-      : gr::block("message_strobe_filter",
+    msg_strobe_filter_impl::msg_strobe_filter_impl()
+      : gr::block("msg_strobe_filter",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(0, 0, 0)),
-        _started(false)
+              gr::io_signature::make(0, 0, 0))
     {
-      message_port_register_in(pmt::mp("message_strobe_in"));
-      set_msg_handler(pmt::mp("message_strobe_in"), boost::bind(&message_strobe_filter_impl::filtering, this, _1 ));
-      message_port_register_out(pmt::mp("trigger_out"));
+      _started = false;
+      message_port_register_in(pmt::mp("msg_in"));
+      message_port_register_out(pmt::mp("start_out"));
+      set_msg_handler(pmt::mp("msg_in"), boost::bind(&msg_strobe_filter_impl::check_start, this, _1 ));
     }
 
     /*
      * Our virtual destructor.
      */
-    message_strobe_filter_impl::~message_strobe_filter_impl()
+    msg_strobe_filter_impl::~msg_strobe_filter_impl()
     {
     }
 
     void
-    message_strobe_filter_impl::filtering(pmt::pmt_t msg)
+    msg_strobe_filter_impl::check_start(pmt::pmt_t msg)
     {
       if(!_started)
       {
         _started = true;
-        message_port_pub(pmt::mp("trigger_out"), msg);
+        message_port_pub(pmt::mp("start_out"), msg);
       }
     }
 

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>message_strobe_filter</name>
-  <key>inets_message_strobe_filter</key>
+  <name>msg_strobe_filter</name>
+  <key>inets_msg_strobe_filter</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.message_strobe_filter()</make>
+  <make>inets.msg_strobe_filter()</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -17,9 +17,8 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>message_strobe_in</name>
+    <name>msg_in</name>
     <type>message</type>
-    <optional>1</optional>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -28,8 +27,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>trigger_out</name>
+    <name>start_out</name>
     <type>message</type>
-    <optional>1</optional>
   </source>
 </block>

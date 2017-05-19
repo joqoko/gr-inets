@@ -18,27 +18,28 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_MESSAGE_STROBE_FILTER_IMPL_H
-#define INCLUDED_INETS_MESSAGE_STROBE_FILTER_IMPL_H
+#ifndef INCLUDED_INETS_MSG_STROBE_FILTER_IMPL_H
+#define INCLUDED_INETS_MSG_STROBE_FILTER_IMPL_H
 
-#include <inets/message_strobe_filter.h>
+#include <inets/msg_strobe_filter.h>
 
 namespace gr {
   namespace inets {
 
-    class message_strobe_filter_impl : public message_strobe_filter
+    class msg_strobe_filter_impl : public msg_strobe_filter
     {
      private:
       bool _started;
-      void filtering(pmt::pmt_t msg); 
+      void check_start(pmt::pmt_t msg);
 
      public:
-      message_strobe_filter_impl();
-      ~message_strobe_filter_impl();
+      msg_strobe_filter_impl();
+      ~msg_strobe_filter_impl();
+
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_MESSAGE_STROBE_FILTER_IMPL_H */
+#endif /* INCLUDED_INETS_MSG_STROBE_FILTER_IMPL_H */
 

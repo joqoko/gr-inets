@@ -19,19 +19,21 @@
 # Boston, MA 02110-1301, USA.
 # 
 
+import os
+import sys
+sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
 from gnuradio import gr
 from gnuradio import blocks
 import inets
 import pmt
-import sys
 
-class start(gr.hier_block2):
+class run(gr.hier_block2):
     """
-    docstring for block start
+    docstring for block run
     """
     def __init__(self):
         gr.hier_block2.__init__(self,
-            "start",
+            "run",
             gr.io_signature(0, 0, 0),  # Input signature
             gr.io_signature(0, 0, 0)) # Output signature
 
@@ -39,11 +41,11 @@ class start(gr.hier_block2):
         ##################################################
         # Blocks
         ##################################################
-
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("START"), 100)
-        self.inets_message_strobe_filter_0 = inets.message_strobe_filter()
+        self.inets_msg_strobe_filter_0 = inets.msg_strobe_filter()
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
+  
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_message_strobe_filter_0, 'message_strobe_in'))
-        self.msg_connect((self.inets_message_strobe_filter_0, 'trigger_out'), (self, 'trigger_out'))    
+        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_msg_strobe_filter_0, 'msg_in'))
+        self.msg_connect((self.inets_msg_strobe_filter_0, 'start_out'), (self, 'trigger_out'))

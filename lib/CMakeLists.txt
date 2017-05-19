@@ -84,7 +84,8 @@ list(APPEND inets_sources
     frame_to_boolean_impl.cc
     frame_counter_impl.cc
     reset_gain_impl.cc
-    message_strobe_filter_impl.cc )
+    msg_strobe_filter_impl.cc
+    )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

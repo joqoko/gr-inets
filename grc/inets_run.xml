@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
 <block>
-  <name>start</name>
-  <key>inets_start</key>
+  <name>run</name>
+  <key>inets_run</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.start()</make>
+  <make>inets.run()</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
-
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -25,6 +24,5 @@
   <source>
     <name>trigger_out</name>
     <type>message</type>
-    <optional>message</optional>
   </source>
 </block>
