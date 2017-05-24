@@ -31,7 +31,7 @@ class run(gr.hier_block2):
     """
     docstring for block run
     """
-    def __init__(self):
+    def __init__(self, start_next_time_s=4, system_time_granularity_us=5):
         gr.hier_block2.__init__(self,
             "run",
             gr.io_signature(0, 0, 0),  # Input signature
@@ -41,7 +41,7 @@ class run(gr.hier_block2):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_msg_strobe_filter_0 = inets.msg_strobe_filter()
+        self.inets_msg_strobe_filter_0 = inets.msg_strobe_filter(start_next_time_s=start_next_time_s, system_time_granularity_us=system_time_granularity_us)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
   
         ##################################################

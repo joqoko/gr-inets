@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::msg_strobe_filter::make is the public interface for
        * creating new instances.
        */
-      static sptr make();
+      static sptr make(int start_next_time_s, int system_time_granularity_us);
     };
 
   } // namespace inets

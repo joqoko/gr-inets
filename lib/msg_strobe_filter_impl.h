@@ -30,10 +30,12 @@ namespace gr {
     {
      private:
       bool _started;
+      int _start_next_time_s;
+      int _system_time_granularity_us;
       void check_start(pmt::pmt_t msg);
 
      public:
-      msg_strobe_filter_impl();
+      msg_strobe_filter_impl(int start_next_time_s, int system_time_granularity_us);
       ~msg_strobe_filter_impl();
 
     };

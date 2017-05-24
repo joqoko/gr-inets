@@ -96,7 +96,7 @@ namespace gr {
       { 
         gettimeofday(&t, NULL);
         double current_time = t.tv_sec + t.tv_usec / 1000000.0;
-        double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
         pmt::pmt_t time_info;
         time_info = pmt::from_double(current_time);
         message_port_pub(pmt::mp("info_out"), time_info);

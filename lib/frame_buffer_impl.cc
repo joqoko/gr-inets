@@ -244,8 +244,10 @@ namespace gr {
               std::cout << "buffer ID: " << _block_id << " has " << _buffer.size() << " elements. dequeue will be executed after next enqueue." << std::endl;
           }
           else
+          {
             if(_develop_mode)
               std::cout << "buffer ID: " << _block_id << " is empty. no element is popped." << std::endl;
+          }
           message_port_pub(pmt::mp("buffer_empty"), pmt::make_dict());
         }
       }

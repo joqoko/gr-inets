@@ -298,7 +298,7 @@ namespace gr {
         std::cout << "timer start time: " << start_time_show << std::endl;
       double exp =  (double)rand()/(double)(RAND_MAX);
       double next_time = - log(exp) * _duration_ms;
-      while((current_time < start_time + double(next_time) / 1000 - _timer_bias_s) && _in_active)
+      while((current_time < start_time + double(next_time) / 1000) && _in_active)
       {
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;

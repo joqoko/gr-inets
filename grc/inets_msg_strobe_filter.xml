@@ -4,7 +4,22 @@
   <key>inets_msg_strobe_filter</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.msg_strobe_filter()</make>
+  <make>inets.msg_strobe_filter($start_next_time_s, $system_time_granularity_us)</make>
+
+  <param>
+    <name>Start in next multiple of [s]</name>
+    <key>start_next_time_s</key>
+    <value>5</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+  <param>
+    <name>System time granularity [us]</name>
+    <key>system_time_granularity_us</key>
+    <value>10</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name

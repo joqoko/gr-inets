@@ -24,24 +24,27 @@
 
 #include <gnuradio/io_signature.h>
 #include "msg_strobe_filter_impl.h"
+#include "math.h"
 
 namespace gr {
   namespace inets {
 
     msg_strobe_filter::sptr
-    msg_strobe_filter::make()
+    msg_strobe_filter::make(int start_next_time_s, int system_time_granularity_us)
     {
       return gnuradio::get_initial_sptr
-        (new msg_strobe_filter_impl());
+        (new msg_strobe_filter_impl(start_next_time_s, system_time_granularity_us));
     }
 
     /*
      * The private constructor
      */
-    msg_strobe_filter_impl::msg_strobe_filter_impl()
+    msg_strobe_filter_impl::msg_strobe_filter_impl(int start_next_time_s, int system_time_granularity_us)
       : gr::block("msg_strobe_filter",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(0, 0, 0))
+              gr::io_signature::make(0, 0, 0)),
+        _start_next_time_s(start_next_time_s),
+        _system_time_granularity_us(system_time_granularity_us)
     {
       _started = false;
       message_port_register_in(pmt::mp("msg_in"));
@@ -62,6 +65,17 @@ namespace gr {
       if(!_started)
       {
         _started = true;
+        struct timeval t; 
+        gettimeofday(&t, NULL);
+        double current_time_s = t.tv_sec;
+        double start_time_s = t.tv_sec;
+       
+        while(current_time_s - _start_next_time_s * floor(start_time_s / _start_next_time_s) < _start_next_time_s)
+        {
+          boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
+          gettimeofday(&t, NULL);
+          current_time_s = t.tv_sec + t.tv_usec / 1000000.0;
+        }
         message_port_pub(pmt::mp("start_out"), msg);
       }
     }
