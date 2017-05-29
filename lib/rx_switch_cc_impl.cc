@@ -94,7 +94,7 @@ namespace gr {
       }
       _vec_average_pow.push_back(pow_sum / noutput_items);
 
-      if(_vec_average_pow.size() > _num_fetch_per_cs)
+      if(_vec_average_pow.size() >= _num_fetch_per_cs)
       {
         double pow_average_all_fetch = std::accumulate(_vec_average_pow.begin(), _vec_average_pow.end(), 0.0) / _num_fetch_per_cs;
         message_port_pub(pmt::mp("power_out"), pmt::from_double(pow_average_all_fetch));

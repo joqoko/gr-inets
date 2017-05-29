@@ -81,17 +81,15 @@ namespace gr {
     {
       if(pmt::is_real(power_in))
       {
-        if(_in_cca)
+        double power = pmt::to_double(power_in);
+        // _cca true means the channel is free 
+        _cca = (_cs_threshold > power);
+        if(_develop_mode == 3)
         {
-          double power = pmt::to_double(power_in);
-          _in_cca = (_cs_threshold > power);
-          if(_develop_mode)
-          {
-            struct timeval t;
-            gettimeofday(&t, NULL);
-            double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-            std::cout << "in carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
-          }
+          struct timeval t;
+          gettimeofday(&t, NULL);
+          double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+          std::cout << "in carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
         }
       }
       else
@@ -265,16 +263,17 @@ namespace gr {
 
     void carrier_sensing_impl::unlimited_sensing()
     {
-      _in_cca = true;
       struct timeval t;
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
-      while(_in_cca)
+      while(1)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us)); 
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
+        if(_cca)
+          break;
       }
       if(_develop_mode == 1)
         std::cout << "Carrier sensing passed. " << std::endl;

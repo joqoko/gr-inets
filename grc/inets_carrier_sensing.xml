@@ -34,6 +34,12 @@
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
     </option>
+    <option>
+      <name>CCA</name>
+      <key>3</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
   </param>
   <param>
     <name>Block id</name>
@@ -85,9 +91,27 @@
   <param>
     <name>System time granularity [us]</name>
     <key>system_time_granularity_us</key>
-    <value>1000</value>
+    <value>system_time_granularity_us</value>
     <type>int</type>
     <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Show port for failed CS</name>
+    <key>show_fail</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>show</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Not show</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -96,16 +120,16 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
+    <name>power_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+  <sink>
     <name>info_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
 
-  <sink>
-    <name>power_in</name>
-    <type>message</type>
-    <optional>1</optional>
-  </sink>
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -120,5 +144,6 @@
     <name>frame_info_fail_out</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$show_fail</hide>
   </source>
 </block>

@@ -82,6 +82,7 @@ install(FILES
     frame_counter.h
     reset_gain.h
     msg_strobe_filter.h
-    dice.h DESTINATION include/inets
+    dice.h
+    random_filter.h DESTINATION include/inets
 
 )

@@ -345,7 +345,7 @@ namespace gr {
       double current_time_show = start_time_show;
       if(_develop_mode)
         std::cout << "timer start time: " << start_time_show << std::endl;
-      while((current_time < start_time + double(_duration_ms) / 1000 - _timer_bias_s) && _in_active)
+      while((current_time < start_time + double(_duration_ms) / 1000) && _in_active)
       {
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
@@ -366,18 +366,26 @@ namespace gr {
         else
           std::cout << "* general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual duration is: " << current_time_show - start_time_show << " s" << std::endl;
       }
+      _in_active = false;
       if(pmt::is_dict(_frame_info))
       {
+        if(_develop_mode)
+        {
+          std::cout << "* general timer ID: " << _block_id << " output input pmt" << std::endl;
+        }
         _frame_info = pmt::dict_add(_frame_info, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
         message_port_pub(pmt::mp("expire_signal_out"), _frame_info);
       }
       else
       {
+        if(_develop_mode)
+        {
+          std::cout << "* general timer ID: " << _block_id << " output new pmt" << std::endl;
+        }
         pmt::pmt_t expire = pmt::make_dict();
         expire = pmt::dict_add(expire, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
         message_port_pub(pmt::mp("expire_signal_out"), _frame_info);
       }
-      _in_active = false;
     }
  
     void
