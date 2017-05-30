@@ -47,7 +47,7 @@
   <param>
     <name>My address</name>
     <key>my_address</key>
-    <value>1</value>
+    <value>source_address</value>
     <type>int</type>
     <hide>part</hide>
   </param>

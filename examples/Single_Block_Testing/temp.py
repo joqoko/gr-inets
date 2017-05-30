@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: temp
-# Generated: Mon May 22 12:57:36 2017
+# Generated: Tue May 30 10:39:27 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -16,14 +16,18 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
+import os
+import sys
+sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
+
 from PyQt4 import Qt
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
+from send_frame import send_frame  # grc-generated hier_block
 import inets
-import sys
 from gnuradio import qtgui
 
 
@@ -61,13 +65,30 @@ class temp(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+        self.send_frame_0 = send_frame(
+            block_id=4,
+            center_frequency=400000000,
+            constellation=1,
+            develop_mode=1,
+            file_name_extension_pending="t1Fr",
+            file_name_extension_t_control="t1TXs",
+            interframe_interval_s=0.005,
+            name_with_timestamp=1,
+            preamble=[],
+            record_on=1,
+            samp_rate=4e6,
+            sps=4,
+            system_time_granularity_us=5,
+            t_pretx_interval_s=0.05,
+            usrp_device_address="addr=10.0.0.6",
+            tx_gain=0,
+        )
         self.inets_run_0 = inets.run(5, 10)
-        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.send_frame_0, 'in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "temp")

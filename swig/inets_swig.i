@@ -45,7 +45,6 @@
 #include "inets/frame_aggregation.h"
 #include "inets/frame_analysis.h"
 #include "inets/frame_check.h"
-#include "inets/IFS.h"
 #include "inets/dummy_source.h"
 #include "inets/resend_check.h"
 #include "inets/slide_window.h"
@@ -171,8 +170,7 @@ GR_SWIG_BLOCK_MAGIC2(inets, frame_aggregation);
 GR_SWIG_BLOCK_MAGIC2(inets, frame_analysis);
 %include "inets/frame_check.h"
 GR_SWIG_BLOCK_MAGIC2(inets, frame_check);
-%include "inets/IFS.h"
-GR_SWIG_BLOCK_MAGIC2(inets, IFS);
+
 
 %include "inets/dummy_source.h"
 GR_SWIG_BLOCK_MAGIC2(inets, dummy_source);

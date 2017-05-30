@@ -35,21 +35,26 @@ namespace gr {
       int _block_id;
       int _cs_mode;
       int _system_time_granularity_us;
+      int _nf_initial_n;
       bool _in_cca;
       bool _cca;
+      bool _stop_sensing;
+      std::vector<double> _noise_floor;
       double _cs_duration;
       double _cs_time; 
       pmt::pmt_t _frame_info;
       float _cs_threshold;
       void start_sensing(pmt::pmt_t frame_info);
+      void stop_sensing(pmt::pmt_t frame_info);
       void sensing(pmt::pmt_t power_in);
       void kill_sensing(pmt::pmt_t power_info);
       void countdown_sensing();
       void oneshot_sensing();
+      void continuous_sensing();
       void unlimited_sensing();
 
      public:
-      carrier_sensing_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us);
+      carrier_sensing_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n);
       ~carrier_sensing_impl();
 
     };

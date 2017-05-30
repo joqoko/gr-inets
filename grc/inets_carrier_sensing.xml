@@ -4,7 +4,7 @@
   <key>inets_carrier_sensing</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.carrier_sensing($develop_mode, $block_id, $cs_mode, $cs_duration, $cs_threshold, $system_time_granularity_us)</make>
+  <make>inets.carrier_sensing($develop_mode, $block_id, $cs_mode, $cs_duration, $cs_threshold, $system_time_granularity_us, $nf_initial_n)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -73,13 +73,36 @@
       <opt>hide_fix:all</opt>
       <opt>hide_until:part</opt>
     </option>
+    <option>
+      <name>Continuous</name>
+      <key>4</key>
+      <opt>hide_oneshot:all</opt>
+      <opt>hide_fix:all</opt>
+      <opt>hide_until:all</opt>
+    </option>
+  </param>
+  <param>
+    <name>CS threshold mode</name>
+    <key>nf_initial_n</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Adaptive</name>
+      <key>100</key>
+      <opt>hide:all</opt>
+    </option>
+    <option>
+      <name>Fixed threshold</name>
+      <key>-1</key>
+      <opt>hide:part</opt>
+    </option>
   </param>
   <param>
     <name>Threshold (ED)</name>
     <key>cs_threshold</key>
     <value>0.005</value>
     <type>float</type>
-    <hide>part</hide>
+    <hide>$nf_initial_n.hide</hide>
   </param>
   <param>
     <name>Duration</name>
@@ -97,7 +120,7 @@
   </param>
 
   <param>
-    <name>Show port for failed CS</name>
+    <name>Show failed CS port</name>
     <key>show_fail</key>
     <value>1</value>
     <type>enum</type>
@@ -111,6 +134,24 @@
       <name>Not show</name>
       <key>1</key>
       <opt>hide:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Show stop CS port</name>
+    <key>show_stop</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Not show</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>show</name>
+      <key>0</key>
+      <opt>hide:none</opt>
     </option>
   </param>
 
@@ -128,6 +169,13 @@
     <name>info_in</name>
     <type>message</type>
     <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>stop_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$show_fail</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:

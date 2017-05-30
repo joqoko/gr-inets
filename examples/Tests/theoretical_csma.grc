@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4</value>
+      <value>2</value>
     </param>
   </block>
   <block>
@@ -186,133 +186,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>range_mu</value>
-    </param>
-  </block>
-  <block>
-    <key>variable_qtgui_range</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
       <value>0.6</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(976, 8)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value>2,0,1,1</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>range_mu</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>BB Derotation Gain</value>
-    </param>
-    <param>
-      <key>min_len</key>
-      <value>200</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.Horizontal</value>
-    </param>
-    <param>
-      <key>start</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>0.01</value>
-    </param>
-    <param>
-      <key>stop</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>rangeType</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>counter_slider</value>
-    </param>
-  </block>
-  <block>
-    <key>variable_qtgui_range</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(248, 8)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value>1,0,1,1</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>range_rx_gain</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Rx Gain</value>
-    </param>
-    <param>
-      <key>min_len</key>
-      <value>200</value>
-    </param>
-    <param>
-      <key>orient</key>
-      <value>Qt.Horizontal</value>
-    </param>
-    <param>
-      <key>start</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>stop</key>
-      <value>60</value>
-    </param>
-    <param>
-      <key>rangeType</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>widget</key>
-      <value>counter_slider</value>
     </param>
   </block>
   <block>
@@ -409,7 +283,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>range_rx_gain</value>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -463,7 +337,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -598,7 +472,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.6"</value>
+      <value>"addr=10.0.0.20"</value>
     </param>
   </block>
   <block>
@@ -643,6 +517,10 @@
       <value>11</value>
     </param>
     <param>
+      <key>nf_initial_n</key>
+      <value>100</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -664,7 +542,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1048, 392)</value>
+      <value>(1048, 416)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -688,6 +566,10 @@
     </param>
     <param>
       <key>show_fail</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>show_stop</key>
       <value>1</value>
     </param>
     <param>
@@ -727,7 +609,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1392, 148)</value>
+      <value>(1376, 100)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -770,7 +652,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1456, 644)</value>
+      <value>(984, 652)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -856,7 +738,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1624, 684)</value>
+      <value>(1600, 460)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1139,7 +1021,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1240, 488)</value>
+      <value>(1240, 512)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1245,7 +1127,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1256, 620)</value>
+      <value>(1176, 716)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1538,7 +1420,7 @@
     </param>
     <param>
       <key>duration_ms</key>
-      <value>100</value>
+      <value>200</value>
     </param>
     <param>
       <key>address_check</key>
@@ -1684,7 +1566,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>duration_ms</key>
@@ -1708,7 +1590,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1008, 484)</value>
+      <value>(1008, 508)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1767,7 +1649,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1272, 392)</value>
+      <value>(1272, 416)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2067,6 +1949,10 @@
       <value>1</value>
     </param>
     <param>
+      <key>tx_gain</key>
+      <value>9</value>
+    </param>
+    <param>
       <key>constellation</key>
       <value>gnuradio.digital.constellation_qpsk().base()</value>
     </param>
@@ -2194,6 +2080,12 @@
     <sink_block_id>inets_general_timer_0_0</sink_block_id>
     <source_key>trigger_out</source_key>
     <sink_key>active_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_sending_0</source_block_id>
+    <sink_block_id>inets_counter_0</sink_block_id>
+    <source_key>data_frame_out</source_key>
+    <sink_key>message_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_sending_0</source_block_id>

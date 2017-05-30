@@ -59,7 +59,6 @@ install(FILES
     frame_aggregation.h
     frame_analysis.h
     frame_check.h
-    IFS.h
     dummy_source.h
     resend_check.h
     slide_window.h

@@ -31,16 +31,16 @@ namespace gr {
   namespace inets {
 
     carrier_sensing::sptr
-    carrier_sensing::make(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us)
+    carrier_sensing::make(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n)
     {
       return gnuradio::get_initial_sptr
-        (new carrier_sensing_impl(develop_mode, block_id, cs_mode, cs_duration, cs_threshold, system_time_granularity_us));
+        (new carrier_sensing_impl(develop_mode, block_id, cs_mode, cs_duration, cs_threshold, system_time_granularity_us, nf_initial_n));
     }
 
     /*
      * the private constructor
      */
-    carrier_sensing_impl::carrier_sensing_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us)
+    carrier_sensing_impl::carrier_sensing_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n)
       : gr::block("carrier_sensing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -48,12 +48,14 @@ namespace gr {
         _block_id(block_id),
         _cs_mode(cs_mode),
         _cs_duration(cs_duration),
+        _nf_initial_n(nf_initial_n),
         _system_time_granularity_us(system_time_granularity_us),
         _cs_threshold(cs_threshold)
     {
       _in_cca = false;
       _cs_time = 0;
       _cca = false;
+      _stop_sensing = false;
       if(_develop_mode == 1)
         std::cout << "develop_mode of carrier sensing is activated." << std::endl;
       message_port_register_in(pmt::mp("info_in"));
@@ -62,6 +64,11 @@ namespace gr {
       set_msg_handler(
         pmt::mp("info_in"),
         boost::bind(&carrier_sensing_impl::start_sensing, this, _1)
+      );
+      message_port_register_in(pmt::mp("stop_in"));
+      set_msg_handler(
+        pmt::mp("stop_in"),
+        boost::bind(&carrier_sensing_impl::stop_sensing, this, _1)
       );
       message_port_register_in(pmt::mp("power_in"));
       set_msg_handler(
@@ -83,7 +90,30 @@ namespace gr {
       {
         double power = pmt::to_double(power_in);
         // _cca true means the channel is free 
-        _cca = (_cs_threshold > power);
+        if(_nf_initial_n > 0)
+        {
+          _nf_initial_n--;
+          _noise_floor.insert(_noise_floor.begin(), power);
+        }
+        else if(_nf_initial_n == 0)
+        {
+          int len = _noise_floor.size();
+          for(std::vector<double>::iterator it = _noise_floor.begin(); it != _noise_floor.end(); ++it)
+          {
+            if(_develop_mode)
+              std::cout << "the save noise level is: " << _noise_floor.back() << std::endl;
+            _cs_threshold = _cs_threshold + _noise_floor.back();
+            _noise_floor.pop_back();
+          }
+          _cs_threshold = _cs_threshold / len * 10;
+          if(_develop_mode)
+            std::cout << "the noise floor is " << _cs_threshold << std::endl;
+          _nf_initial_n = -1;
+        }
+        else
+        {
+          _cca = (_cs_threshold > power);
+        }
         if(_develop_mode == 3)
         {
           struct timeval t;
@@ -91,14 +121,39 @@ namespace gr {
           double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
           std::cout << "in carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
         }
+        
       }
       else
         std::cout << "carrier_sensing ID " << _block_id << " error: not valid power signal" << std::endl;
     }
     
+
+    void carrier_sensing_impl::stop_sensing(pmt::pmt_t info_in)
+    {
+      _stop_sensing = true;
+    }
+
     void carrier_sensing_impl::start_sensing(pmt::pmt_t info_in)
     {
-      if(_cs_mode == 1)
+
+      if(_cs_mode == 4)
+      {
+        _frame_info = info_in;
+        // continuous carrier sensing
+        if(pmt::is_dict(info_in))
+        {
+          if(_develop_mode == 1 || _develop_mode == 2)
+            std::cout << "+++++++++ cs ID: " << _block_id << " in mode continuous  +++++++++" << std::endl;    
+          _stop_sensing = false;
+          boost::thread thrd(&carrier_sensing_impl::continuous_sensing, this);
+        }
+        else
+        {
+          // not a dict pmt, most likely an import error
+          std::cout << "Warning: is not a valid input pmt. Please check your connections." << std::endl;
+        }
+      }
+      else if(_cs_mode == 1)
       {
         // Oneshot carrier sensing
         if(pmt::is_dict(info_in))
@@ -120,22 +175,6 @@ namespace gr {
             if(_develop_mode == 1)
               std::cout << "before sending a ack frame, no sensing" << std::endl;
             message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
-          }
-        }
-        else if(pmt::is_real(info_in))
-        {
-          if(_in_cca)
-          {
-            double power = pmt::to_double(info_in);
-            _in_cca = false;
-            _cca = (_cs_threshold > power);
-            if(_develop_mode == 1 && !_in_cca)
-            {
-              struct timeval t;
-              gettimeofday(&t, NULL);
-              double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-              std::cout << "in oneshot carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
-            }
           }
         }
         else
@@ -169,18 +208,6 @@ namespace gr {
             message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
           }
         }
-        else if(pmt::is_real(info_in))
-        {
-          double power = pmt::to_double(info_in);
-          _in_cca = (_cs_threshold > power);
-          if(_develop_mode == 1 && !_in_cca)
-          {
-            struct timeval t;
-            gettimeofday(&t, NULL);
-            double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-            std::cout << "in carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
-          }
-        }
         else
         {
           // not a dict pmt, most likely an import error
@@ -209,21 +236,6 @@ namespace gr {
             if(_develop_mode == 1)
               std::cout << "before sending a ack frame, no sensing" << std::endl;
             message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
-          }
-        }
-        else if(pmt::is_real(info_in))
-        {
-          if(_in_cca)
-          {
-            double power = pmt::to_double(info_in);
-            _in_cca = (_cs_threshold < power);
-            if(_develop_mode == 1)
-            {
-              struct timeval t;
-              gettimeofday(&t, NULL);
-              double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-              std::cout << "in carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
-            }
           }
         }
         else
@@ -259,6 +271,35 @@ namespace gr {
           std::cout << "Carrier sensing failed. " << std::endl;
         message_port_pub(pmt::mp("frame_info_fail_out"), _frame_info);
       }
+    }
+
+    void carrier_sensing_impl::continuous_sensing()
+    {
+      struct timeval t;
+      gettimeofday(&t, NULL);
+      double current_time = t.tv_sec + t.tv_usec / 1000000.0;
+      double start_time = t.tv_sec + t.tv_usec / 1000000.0;
+      while(!_stop_sensing && _cca)
+      {
+        boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us)); 
+        gettimeofday(&t, NULL);
+        current_time = t.tv_sec + t.tv_usec / 1000000.0;
+      }
+      if(_cca)
+      {
+        if(_develop_mode == 1)
+          std::cout << "Carrier sensing passed. " << std::endl;
+        message_port_pub(pmt::mp("frame_info_pass_out"), _frame_info);
+      }
+      else
+      {
+        if(_develop_mode == 1)
+          std::cout << "Carrier sensing failed. " << std::endl;
+        message_port_pub(pmt::mp("frame_info_fail_out"), _frame_info);
+      }
+      _cs_time = current_time - start_time;
+      if(_develop_mode == 1)
+        std::cout << "Carrier sensing time is: " << _cs_time << " s" << std::endl;
     }
 
     void carrier_sensing_impl::unlimited_sensing()

@@ -62,7 +62,6 @@ list(APPEND inets_sources
     frame_aggregation_impl.cc
     frame_analysis_impl.cc
     frame_check_impl.cc
-    IFS_impl.cc
     dummy_source_impl.cc
     resend_check_impl.cc
     slide_window_impl.cc

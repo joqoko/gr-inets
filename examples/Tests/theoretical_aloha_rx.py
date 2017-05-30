@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: theoretical_aloha_rx
 # Author: PWA
-# Generated: Fri May 19 18:21:50 2017
+# Generated: Tue May 30 16:06:55 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -90,13 +90,23 @@ class theoretical_aloha_rx(gr.top_block, Qt.QWidget):
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_frame_check_0 = inets.frame_check(0, 9)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
-        self.inets_counter_0 = inets.counter(2, 9, 1)
+        self.inets_counter_0_0_2 = inets.counter(2, 1, 1)
+        self.inets_counter_0_0_1 = inets.counter(2, 2, 1)
+        self.inets_counter_0_0_0 = inets.counter(2, 3, 1)
+        self.inets_counter_0_0 = inets.counter(2, 5, 1)
+        self.inets_counter_0 = inets.counter(2, 4, 1)
+        self.inets_address_check_0 = inets.address_check(0, 17, 1)
 
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_counter_0, 'message_in'))
+        self.msg_connect((self.inets_address_check_0, 'address_check_fail_out'), (self.inets_counter_0_0, 'message_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_counter_0_0_1, 'message_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
-        self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_counter_0, 'message_in'))
+        self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_check_0, 'bad_frame_info_out'), (self.inets_counter_0_0_0, 'message_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_counter_0_0_2, 'message_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
 
     def closeEvent(self, event):
