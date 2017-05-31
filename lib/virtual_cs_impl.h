@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /* 
- * Copyright 2016 <+YOU OR YOUR COMPANY+>.
+ * Copyright 2017 <+YOU OR YOUR COMPANY+>.
  * 
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,36 +18,41 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_COUNTER_IMPL_H
-#define INCLUDED_INETS_COUNTER_IMPL_H
+#ifndef INCLUDED_INETS_VIRTUAL_CS_IMPL_H
+#define INCLUDED_INETS_VIRTUAL_CS_IMPL_H
 
-#include <inets/counter.h>
+#include <inets/virtual_cs.h>
 
 namespace gr {
   namespace inets {
 
-    class counter_impl : public counter
+    class virtual_cs_impl : public virtual_cs
     {
      private:
       int _develop_mode;
-      int _counter_id;
-      int _counter;
-      int _in_counting;
-      int _virgin;
-      double _start_time; 
-      std::string _counter_name;
-      void counting(pmt::pmt_t message);
-      void start_counting(pmt::pmt_t message);
-      void stop_counting(pmt::pmt_t message);
+      int _block_id;
+      int _nav_us;
+      double _last_nav_s;
+      int _frame_type;
+      int _rts_index;
+      int _rts_src_addr;
+      int _rts_dest_addr;
+      double _timer_bias_s;
+      int _system_time_granularity_us;
+      pmt::pmt_t _tx_frame;
+      void check_nav(pmt::pmt_t command);
+      void set_nav(pmt::pmt_t command);
+      void countdown_nav();
 
      public:
-      counter_impl(int develop_mode, int counter_id, int interval_mode, std::string counter_name);
-      ~counter_impl();
+      virtual_cs_impl(int develop_mode, int block_id, int system_time_granularity_us);
+      ~virtual_cs_impl();
 
+      // Where all the action really happens
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_COUNTER_IMPL_H */
+#endif /* INCLUDED_INETS_VIRTUAL_CS_IMPL_H */
 

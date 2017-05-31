@@ -48,27 +48,16 @@ namespace gr {
       if(_develop_mode)
         std::cout << "develop_mode of frame_type check ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_info_in"));
-      if(data_frame == 0){
-        message_port_register_out(pmt::mp("data_frame_info_out"));
-      }
-      if(ack_frame == 0)
-        message_port_register_out(pmt::mp("ack_frame_info_out"));
-      if(beacon_frame == 0)
-        message_port_register_out(pmt::mp("beacon_frame_info_out"));
-      if(rts_frame == 0)
-        message_port_register_out(pmt::mp("rts_frame_info_out"));
-      if(cts_frame == 0)
-        message_port_register_out(pmt::mp("cts_frame_info_out"));
-      if(ampdu_frame == 0)
-        message_port_register_out(pmt::mp("ampdu_frame_info_out"));
-      if(amsdu_frame == 0)
-        message_port_register_out(pmt::mp("amsdu_frame_info_out"));
-      if(ampdu_subframe == 0)
-        message_port_register_out(pmt::mp("ampdu_subframe_info_out"));
-      if(amsdu_subframe == 0)
-        message_port_register_out(pmt::mp("amsdu_subframe_info_out"));
-      if(other_frame == 0)
-        message_port_register_out(pmt::mp("other_frame_info_out"));
+      message_port_register_out(pmt::mp("data_frame_info_out"));
+      message_port_register_out(pmt::mp("ack_frame_info_out"));
+      message_port_register_out(pmt::mp("beacon_frame_info_out"));
+      message_port_register_out(pmt::mp("rts_frame_info_out"));
+      message_port_register_out(pmt::mp("cts_frame_info_out"));
+      message_port_register_out(pmt::mp("ampdu_frame_info_out"));
+      message_port_register_out(pmt::mp("amsdu_frame_info_out"));
+      message_port_register_out(pmt::mp("ampdu_subframe_info_out"));
+      message_port_register_out(pmt::mp("amsdu_subframe_info_out"));
+      message_port_register_out(pmt::mp("other_frame_info_out"));
       set_msg_handler(pmt::mp("frame_info_in"), boost::bind(&frame_type_check_impl::selector, this, _1 ));
     }
 

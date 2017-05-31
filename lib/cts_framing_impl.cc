@@ -117,13 +117,14 @@ namespace gr {
        * generating the frame 
        */
       int reply_address = pmt::to_long(pmt::dict_ref(rts_frame, pmt::string_to_symbol("source_address"), not_found));
+      int rts_index = pmt::to_long(pmt::dict_ref(rts_frame, pmt::string_to_symbol("frame_index"), not_found));
       int target_address = pmt::to_long(pmt::dict_ref(rts_frame, pmt::string_to_symbol("destination_address"), not_found));
       if(target_address != _source_address)
         std::cout << "cts_framing ID " << _block_id << " warning: you are generating cts frame from a rts frame which is not sent to you. " << std::endl;
       pmt::pmt_t frame_info;
       pmt::pmt_t meta = pmt::make_dict();
       std::vector<unsigned char> frame_header;
-      frame_info = frame_header_formation(&frame_header, 5, 0, reply_address, _source_address, _reserved_field_I, _reserved_field_II, _len_rts_cts_payload, 1);
+      frame_info = frame_header_formation(&frame_header, 5, rts_index, reply_address, _source_address, _reserved_field_I, _reserved_field_II, _len_rts_cts_payload, 1);
       std::vector<unsigned char> frame;
       frame.insert(frame.end(), frame_header.begin(), frame_header.end());
       frame.insert(frame.end(), vec_nav.begin(), vec_nav.end());

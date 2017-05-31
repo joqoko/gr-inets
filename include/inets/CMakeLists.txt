@@ -82,6 +82,7 @@ install(FILES
     reset_gain.h
     msg_strobe_filter.h
     dice.h
-    random_filter.h DESTINATION include/inets
+    random_filter.h
+    virtual_cs.h DESTINATION include/inets
 
 )

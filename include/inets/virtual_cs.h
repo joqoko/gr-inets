@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /* 
- * Copyright 2016 <+YOU OR YOUR COMPANY+>.
+ * Copyright 2017 <+YOU OR YOUR COMPANY+>.
  * 
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,36 +18,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_COUNTER_IMPL_H
-#define INCLUDED_INETS_COUNTER_IMPL_H
 
-#include <inets/counter.h>
+#ifndef INCLUDED_INETS_VIRTUAL_CS_H
+#define INCLUDED_INETS_VIRTUAL_CS_H
+
+#include <inets/api.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace inets {
 
-    class counter_impl : public counter
+    /*!
+     * \brief <+description of block+>
+     * \ingroup inets
+     *
+     */
+    class INETS_API virtual_cs : virtual public gr::block
     {
-     private:
-      int _develop_mode;
-      int _counter_id;
-      int _counter;
-      int _in_counting;
-      int _virgin;
-      double _start_time; 
-      std::string _counter_name;
-      void counting(pmt::pmt_t message);
-      void start_counting(pmt::pmt_t message);
-      void stop_counting(pmt::pmt_t message);
-
      public:
-      counter_impl(int develop_mode, int counter_id, int interval_mode, std::string counter_name);
-      ~counter_impl();
+      typedef boost::shared_ptr<virtual_cs> sptr;
 
+      /*!
+       * \brief Return a shared_ptr to a new instance of inets::virtual_cs.
+       *
+       * To avoid accidental use of raw pointers, inets::virtual_cs's
+       * constructor is in a private implementation
+       * class. inets::virtual_cs::make is the public interface for
+       * creating new instances.
+       */
+      static sptr make(int develop_mode, int block_id, int system_time_granularity_us);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_COUNTER_IMPL_H */
+#endif /* INCLUDED_INETS_VIRTUAL_CS_H */
 

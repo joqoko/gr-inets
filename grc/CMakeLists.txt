@@ -88,5 +88,6 @@ install(FILES
     inets_msg_strobe_filter.xml
     inets_run.xml
     inets_dice.xml
-    inets_random_filter.xml DESTINATION share/gnuradio/grc/blocks
+    inets_random_filter.xml
+    inets_virtual_cs.xml DESTINATION share/gnuradio/grc/blocks
 )

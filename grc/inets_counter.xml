@@ -4,33 +4,74 @@
   <key>inets_counter</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.counter($develop_mode, $counter_id, $interval_mode)</make>
+  <make>inets.counter($develop_mode, $counter_id, $interval_mode, $counter_name)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
+
   <param>
-    <name>Develop mode</name>
+    <name>Display mode</name>
     <key>develop_mode</key>
     <type>enum</type>
-    <hide>part</hide>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
     <option>
       <name>on</name>
       <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
     <option>
       <name>time</name>
       <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
     </option>
   </param>
 
   <param>
-    <name>Counter id</name>
+    <name>Display mode</name>
+    <key>show_id</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>show name</name>
+      <key>0</key>
+      <opt>hide_id:part</opt>
+      <opt>hide_name:none</opt>
+    </option>
+    <option>
+      <name>show ID</name>
+      <key>1</key>
+      <opt>hide_id:none</opt>
+      <opt>hide_name:part</opt>
+    </option>
+  </param>
+
+
+  <param>
+    <name>ID</name>
     <key>counter_id</key>
     <value>100</value>
     <type>int</type>
+    <hide>$show_id.hide_id</hide>
   </param>
+
+  <param>
+    <name>Name</name>
+    <key>counter_name</key>
+    <value>""</value>
+    <type>string</type>
+    <hide>$show_id.hide_name</hide>
+  </param>
+
 
   <param>
     <name>Interval mode</name>

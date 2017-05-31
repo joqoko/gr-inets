@@ -70,14 +70,65 @@ namespace gr {
       {
         if(_develop_mode)
           std::cout <<"frame: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) <<  " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found)) << " is dropped because its max retransmission counter is reached. " << std::endl;
-        message_port_pub(pmt::mp("resend_check_fail_out"),frame_in);
+        message_port_pub(pmt::mp("resend_check_fail_out"), frame_in);
       }
       else
       {
-        if(_develop_mode)
-          std::cout << "frame: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found))  << " has been transmitted " << n_transmission  << "th time" << std::endl;
-          frame_in = pmt::dict_delete(frame_in, pmt::string_to_symbol("num_transmission"));
-          frame_in = pmt::dict_add(frame_in, pmt::string_to_symbol("num_transmission"), pmt::from_long(n_transmission + 1));
+        int frame_type = pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_type"), not_found));
+        if(frame_type == 1)
+        {
+          if(_develop_mode)
+            std::cout << "a data frame with index " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found))  << " has been transmitted " << n_transmission  << "th time" << std::endl;
+        } 
+        else if(frame_type == 2)
+        {
+          if(_develop_mode)
+            std::cout << "warning: resend_check ID " << _block_id << ", an ack frame should not be retransmitted. (it is still transmitted out)" << std::endl;
+        } 
+        else if(frame_type == 3)
+        {
+          if(_develop_mode)
+            std::cout << "a beacon frame with index " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found))  << " has been transmitted " << n_transmission  << "th time" << std::endl;
+        } 
+        else if(frame_type == 4)
+        {
+          if(_develop_mode)
+            std::cout << "a rts frame represents original data frame index " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found))  << " has been transmitted " << n_transmission  << "th time" << std::endl;
+        } 
+        else if(frame_type == 5)
+        {
+          if(_develop_mode)
+            std::cout << "warning: resend_check ID " << _block_id << ", a cts frame should not be retransmitted. (it is still transmitted out)" << std::endl;
+        } 
+        else if(frame_type == 6)
+        {
+          if(_develop_mode)
+            std::cout << "an ampdu frame with index " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found))  << " has been transmitted " << n_transmission  << "th time" << std::endl;
+        } 
+        else if(frame_type == 7)
+        {
+          if(_develop_mode)
+            std::cout << "an amsdu frame with index " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found))  << " has been transmitted " << n_transmission  << "th time" << std::endl;
+        } 
+        else if(frame_type == 8)
+        {
+          if(_develop_mode)
+            std::cout << "warning: resend_check ID " << _block_id << ", an ampdu subframe should not be retransmitted. (it is still transmitted out)" << std::endl;
+        } 
+        else if(frame_type == 9)
+        {
+          if(_develop_mode)
+            std::cout << "warning: resend_check ID " << _block_id << ", an amsdu subframe should not be retransmitted. (it is still transmitted out)" << std::endl;
+          if(_develop_mode)
+            std::cout << "an amsdu subframe" << std::endl;
+        } 
+        else
+        {
+          if(_develop_mode)
+            std::cout << "an unknown type frame with index " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found))  << " has been transmitted " << n_transmission  << "th time" << std::endl;
+        } 
+        frame_in = pmt::dict_delete(frame_in, pmt::string_to_symbol("num_transmission"));
+        frame_in = pmt::dict_add(frame_in, pmt::string_to_symbol("num_transmission"), pmt::from_long(n_transmission + 1));
         message_port_pub(pmt::mp("resend_check_pass_out"),frame_in);
       }
     }

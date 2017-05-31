@@ -67,6 +67,7 @@
 #include "inets/msg_strobe_filter.h"
 #include "inets/dice.h"
 #include "inets/random_filter.h"
+#include "inets/virtual_cs.h"
 #include "inets/general_timeout.h"
 #include "inets/cogmac_ch_pool.h"
 #include "inets/frame_replicate.h"
@@ -77,6 +78,7 @@
 #include "inets/msg_strobe_filter.h"
 #include "inets/dice.h"
 #include "inets/random_filter.h"
+#include "inets/virtual_cs.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -220,3 +222,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, msg_strobe_filter);
 GR_SWIG_BLOCK_MAGIC2(inets, dice);
 %include "inets/random_filter.h"
 GR_SWIG_BLOCK_MAGIC2(inets, random_filter);
+%include "inets/virtual_cs.h"
+GR_SWIG_BLOCK_MAGIC2(inets, virtual_cs);

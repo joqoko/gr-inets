@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Tx_Rx_control
 # Author: PWA
-# Generated: Mon May 15 21:53:15 2017
+# Generated: Tue May 30 17:48:57 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -17,10 +17,6 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
-import os
-import sys
-sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
-
 from PyQt4 import Qt
 from gnuradio import eng_notation
 from gnuradio import gr
@@ -28,9 +24,9 @@ from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from gnuradio.qtgui import Range, RangeWidget
 from optparse import OptionParser
-from send_frame import send_frame  # grc-generated hier_block
 import gnuradio
 import inets
+import sys
 from gnuradio import qtgui
 
 
@@ -66,7 +62,7 @@ class Tx_Rx_control(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
         self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
@@ -85,33 +81,28 @@ class Tx_Rx_control(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.send_frame_0 = send_frame(
-            block_id=4,
-            center_frequency=400000000,
-            constellation=gnuradio.digital.constellation_qpsk().base(),
-            develop_mode=1,
-            file_name_extension="t1TXs",
-            interframe_interval_s=0.005,
-            preamble=[],
-            samp_rate=4e6,
-            sps=4,
-            system_time_granularity_us=5,
-            t_pretx_interval_s=0.05,
-            usrp_device_address="addr=10.0.0.6",
-            record_on=1,
-        )
         self._range_rx_gain_range = Range(0, 60, 1, 0, 200)
         self._range_rx_gain_win = RangeWidget(self._range_rx_gain_range, self.set_range_rx_gain, 'Rx Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_rx_gain_win, 1,0,1,1)
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 1, 1)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=1, tx_gain=10)
+        self.inets_run_0 = inets.run(5, 10)
+        self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
+        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 2, 1)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.send_frame_0, 'in'))
+        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_receiving_0, 'rx_switch_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_switch_out'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_sending_0, 'rx_control_out'), (self.inets_receiving_0, 'rx_switch_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "Tx_Rx_control")

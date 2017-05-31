@@ -29,21 +29,22 @@ namespace gr {
   namespace inets {
 
     counter::sptr
-    counter::make(int develop_mode, int counter_id, int interval_mode)
+    counter::make(int develop_mode, int counter_id, int interval_mode, std::string counter_name)
     {
       return gnuradio::get_initial_sptr
-        (new counter_impl(develop_mode, counter_id, interval_mode));
+        (new counter_impl(develop_mode, counter_id, interval_mode, counter_name));
     }
 
     /*
      * The private constructor
      */
-    counter_impl::counter_impl(int develop_mode, int counter_id, int interval_mode)
+    counter_impl::counter_impl(int develop_mode, int counter_id, int interval_mode, std::string counter_name)
       : gr::block("counter",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _counter_id(counter_id),
+        _counter_name(counter_name),
         _counter(0),
         _virgin(0)
     {
@@ -79,7 +80,7 @@ namespace gr {
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double current_time_show = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
       double interval = current_time - _start_time;
-      std::cout << "counter ID " << _counter_id << " stop counting at time " << current_time_show << "s. in " << interval << "s, counter is visited " << _counter << " times" << std::endl;
+      std::cout << "counter " << _counter_name << " ID " << _counter_id << " stop counting at time " << current_time_show << "s. in " << interval << "s, counter is visited " << _counter << " times" << std::endl;
     }
 
     void counter_impl::start_counting(pmt::pmt_t message)
@@ -92,7 +93,7 @@ namespace gr {
         gettimeofday(&t, NULL);
         _start_time = t.tv_sec + t.tv_usec / 1000000.0;
         double start_time_show = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-        std::cout << "counter ID " << _counter_id << " start counting at time " << start_time_show << "s" << std::endl;
+        std::cout << "counter " << _counter_name << " ID " << _counter_id << " start counting at time " << start_time_show << "s" << std::endl;
       }
     }
 
@@ -103,18 +104,16 @@ namespace gr {
         _counter++;
         if(_develop_mode)
           // add the function that user can add name for counter
-          std::cout << "the " << _counter_id << "th message counter has been visited " << _counter << " times "; 
+          std::cout << "the " << _counter_id << "th message counter " << _counter_name << " has been visited " << _counter << " times "; 
+        if(_develop_mode == 2)
         {
-          if(_develop_mode == 2)
-          {
-            struct timeval t; 
-            gettimeofday(&t, NULL);
-            double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
-            std::cout << " at time " << current_time << " s" << std::endl;
-          }
-          else
-            std::cout << " " << std::endl;
+          struct timeval t; 
+          gettimeofday(&t, NULL);
+          double current_time = t.tv_sec - double(int(t.tv_sec/10000)*10000) + t.tv_usec / 1000000.0;
+          std::cout << " at " << current_time << " s" << std::endl;
         }
+        else if(_develop_mode != 2 && _develop_mode == 1)
+          std::cout << " " << std::endl;
       }
     }
 
