@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: general_receiver
 # Author: PWA
-# Generated: Tue May  2 16:18:20 2017
+# Generated: Tue Jun  6 19:13:58 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -62,12 +62,12 @@ class general_receiver(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
         self.system_time_granularity_us = system_time_granularity_us = 1000
-        self.source_address = source_address = 1
-        self.samp_rate = samp_rate = 1000000
+        self.source_address = source_address = 12
+        self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = range_rx_gain
-        self.rx_center_frequency = rx_center_frequency = 3.9e8
+        self.rx_center_frequency = rx_center_frequency = 4e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
@@ -86,16 +86,57 @@ class general_receiver(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_frame_probe_0_0 = inets.frame_probe(2, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "tRX1")
-        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "tRX2")
+        self.inets_frame_probe_0_0 = inets.frame_probe(2, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "tRX1", 1)
+        self.inets_frame_path_0 = inets.frame_path(0, 39)
+        self.inets_frame_index_selector_0_2 = inets.frame_index_selector(0, 33, (5, ), 1)
+        self.inets_frame_index_selector_0_1_0_0 = inets.frame_index_selector(0, 33, (9, ), 1)
+        self.inets_frame_index_selector_0_1_0 = inets.frame_index_selector(0, 33, (7, ), 1)
+        self.inets_frame_index_selector_0_1 = inets.frame_index_selector(0, 33, (3, ), 1)
+        self.inets_frame_index_selector_0_0_1 = inets.frame_index_selector(0, 33, (6, ), 1)
+        self.inets_frame_index_selector_0_0_0_0_0 = inets.frame_index_selector(0, 33, (10, ), 1)
+        self.inets_frame_index_selector_0_0_0_0 = inets.frame_index_selector(0, 33, (8, ), 1)
+        self.inets_frame_index_selector_0_0_0 = inets.frame_index_selector(0, 33, (4, ), 1)
+        self.inets_frame_index_selector_0_0 = inets.frame_index_selector(0, 33, (2, ), 1)
+        self.inets_frame_index_selector_0 = inets.frame_index_selector(0, 33, (1, ), 1)
+        self.inets_frame_check_0 = inets.frame_check(0, 9)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
+        self.inets_counter_7 = inets.counter(1, 100, 1, "5")
+        self.inets_counter_6 = inets.counter(1, 100, 1, "3")
+        self.inets_counter_5_0 = inets.counter(1, 100, 1, "9")
+        self.inets_counter_5 = inets.counter(1, 100, 1, "7")
+        self.inets_counter_4 = inets.counter(1, 100, 1, "2")
+        self.inets_counter_3 = inets.counter(1, 100, 1, "4")
+        self.inets_counter_2_0 = inets.counter(1, 100, 1, "10")
+        self.inets_counter_2 = inets.counter(1, 100, 1, "8")
+        self.inets_counter_1 = inets.counter(1, 100, 1, "6")
+        self.inets_counter_0 = inets.counter(1, 100, 1, "1")
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_frame_path_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_index_selector_0, 'frame_out'), (self.inets_counter_0, 'message_in'))
+        self.msg_connect((self.inets_frame_index_selector_0_0, 'frame_out'), (self.inets_counter_4, 'message_in'))
+        self.msg_connect((self.inets_frame_index_selector_0_0_0, 'frame_out'), (self.inets_counter_3, 'message_in'))
+        self.msg_connect((self.inets_frame_index_selector_0_0_0_0, 'frame_out'), (self.inets_counter_2, 'message_in'))
+        self.msg_connect((self.inets_frame_index_selector_0_0_0_0_0, 'frame_out'), (self.inets_counter_2_0, 'message_in'))
+        self.msg_connect((self.inets_frame_index_selector_0_0_1, 'frame_out'), (self.inets_counter_1, 'message_in'))
+        self.msg_connect((self.inets_frame_index_selector_0_1, 'frame_out'), (self.inets_counter_6, 'message_in'))
+        self.msg_connect((self.inets_frame_index_selector_0_1_0, 'frame_out'), (self.inets_counter_5, 'message_in'))
+        self.msg_connect((self.inets_frame_index_selector_0_1_0_0, 'frame_out'), (self.inets_counter_5_0, 'message_in'))
+        self.msg_connect((self.inets_frame_index_selector_0_2, 'frame_out'), (self.inets_counter_7, 'message_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_0_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_0_0_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_0_0_0_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_0_1, 'frame_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_1, 'frame_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_1_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_1_0_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_2, 'frame_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
-        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_frame_probe_0_0, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "general_receiver")

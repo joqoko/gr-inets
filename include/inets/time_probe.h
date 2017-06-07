@@ -18,35 +18,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_COGMAC_CH_POOL_IMPL_H
-#define INCLUDED_INETS_COGMAC_CH_POOL_IMPL_H
 
-#include <inets/cogmac_ch_pool.h>
+#ifndef INCLUDED_INETS_TIME_PROBE_H
+#define INCLUDED_INETS_TIME_PROBE_H
+
+#include <inets/api.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace inets {
 
-    class cogmac_ch_pool_impl : public cogmac_ch_pool
+    /*!
+     * \brief <+description of block+>
+     * \ingroup inets
+     *
+     */
+    class INETS_API time_probe : virtual public gr::block
     {
-     private:
-      int _develop_mode;
-      int _block_id;
-      int _channel_number;
-      int _first_channel;
-      int _channel_gap;
-      int _channel;
-      int _algorithm;
-      std::vector<unsigned int> _channel_pool;
-      void next_channel_CCA_one(pmt::pmt_t change_in);
-      void next_channel_CCA_CH(pmt::pmt_t change_in);
-
      public:
-      cogmac_ch_pool_impl(int develop_mode, int block_id, int channel_number, int first_channel, int algorithm, int channel_gap);
-      ~cogmac_ch_pool_impl();
+      typedef boost::shared_ptr<time_probe> sptr;
+
+      /*!
+       * \brief Return a shared_ptr to a new instance of inets::time_probe.
+       *
+       * To avoid accidental use of raw pointers, inets::time_probe's
+       * constructor is in a private implementation
+       * class. inets::time_probe::make is the public interface for
+       * creating new instances.
+       */
+      static sptr make(int develop_mode, int block_id);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_COGMAC_CH_POOL_IMPL_H */
+#endif /* INCLUDED_INETS_TIME_PROBE_H */
 

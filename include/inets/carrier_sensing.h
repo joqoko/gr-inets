@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::carrier_sensing::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n);
+      static sptr make(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n, int rx_sensitivity_dB);
     };
 
   } // namespace inets

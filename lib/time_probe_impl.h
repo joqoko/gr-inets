@@ -18,35 +18,31 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_COGMAC_CH_POOL_IMPL_H
-#define INCLUDED_INETS_COGMAC_CH_POOL_IMPL_H
+#ifndef INCLUDED_INETS_TIME_PROBE_IMPL_H
+#define INCLUDED_INETS_TIME_PROBE_IMPL_H
 
-#include <inets/cogmac_ch_pool.h>
+#include <inets/time_probe.h>
 
 namespace gr {
   namespace inets {
 
-    class cogmac_ch_pool_impl : public cogmac_ch_pool
+    class time_probe_impl : public time_probe
     {
      private:
       int _develop_mode;
       int _block_id;
-      int _channel_number;
-      int _first_channel;
-      int _channel_gap;
-      int _channel;
-      int _algorithm;
-      std::vector<unsigned int> _channel_pool;
-      void next_channel_CCA_one(pmt::pmt_t change_in);
-      void next_channel_CCA_CH(pmt::pmt_t change_in);
+      double _former_time;
+      void get_former(pmt::pmt_t cmd_in);
+      void calc_duration(pmt::pmt_t cmd_in);
 
      public:
-      cogmac_ch_pool_impl(int develop_mode, int block_id, int channel_number, int first_channel, int algorithm, int channel_gap);
-      ~cogmac_ch_pool_impl();
+      time_probe_impl(int develop_mode, int block_id);
+      ~time_probe_impl();
+
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_COGMAC_CH_POOL_IMPL_H */
+#endif /* INCLUDED_INETS_TIME_PROBE_IMPL_H */
 

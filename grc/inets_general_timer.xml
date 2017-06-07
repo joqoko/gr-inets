@@ -93,8 +93,24 @@
     <hide>part</hide>
   </param>
   <param>
-    <name>Enable kill timer</name>
-    <key>kill_timer</key>
+    <name>Enable suspend timer</name>
+    <key>suspend_timer</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
+  <param>
+    <name>Enable resume timer</name>
+    <key>resume_timer</key>
     <type>enum</type>
     <hide>part</hide>
     <option>
@@ -152,10 +168,17 @@
   </sink>
 
   <sink>
-    <name>kill_timer_in</name>
+    <name>suspend_timer_in</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>$kill_timer</hide>
+    <hide>$suspend_timer</hide>
+  </sink>
+
+  <sink>
+    <name>resume_timer_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$resume_timer</hide>
   </sink>
 
   <sink>

@@ -83,6 +83,7 @@ install(FILES
     msg_strobe_filter.h
     dice.h
     random_filter.h
-    virtual_cs.h DESTINATION include/inets
+    virtual_cs.h
+    time_probe.h DESTINATION include/inets
 
 )

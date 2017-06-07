@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
 <block>
-  <name>cogmac_ch_pool</name>
-  <key>inets_cogmac_ch_pool</key>
-  <category>inets_dmf_protocol</category>
+  <name>time_probe</name>
+  <key>inets_time_probe</key>
+  <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.cogmac_ch_pool($develop_mode, $block_id, $channel_number, $first_channel, $algorithm, $channel_gap)</make>
+  <make>inets.time_probe($develop_mode, $block_id)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
-
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>
@@ -42,48 +41,9 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>35</value>
+    <value>200</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
-  </param>
-
-  <param>
-    <name>Number of channels</name>
-    <key>channel_number</key>
-    <value>4</value>
-    <type>int</type>
-    <hide>part</hide>
-  </param>
-
-  <param>
-    <name>First frequency</name>
-    <key>first_channel</key>
-    <value>400000000</value>
-    <type>int</type>
-    <hide>part</hide>
-  </param>
-
-  <param>
-    <name>Algorithm</name>
-    <key>algorithm</key>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>CogMAC</name>
-      <key>0</key>
-    </option>
-    <option>
-      <name>CogMAC+</name>
-      <key>1</key>
-    </option>
-  </param>
-
-  <param>
-    <name>Channel gap</name>
-    <key>channel_gap</key>
-    <value>10000000</value>
-    <type>int</type>
-    <hide>part</hide>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -92,13 +52,13 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>CCA_one_in</name>
+    <name>time_former_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
 
   <sink>
-    <name>CCA_CH_in</name>
+    <name>time_later_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
@@ -108,15 +68,4 @@
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
-  <source>
-    <name>CCA_one_f_out</name>
-    <type>message</type>
-    <optional>1</optional>
-  </source>
-
-  <source>
-    <name>CCA_CH_f_out</name>
-    <type>message</type>
-    <optional>1</optional>
-  </source>
 </block>

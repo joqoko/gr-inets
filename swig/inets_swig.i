@@ -2,7 +2,7 @@
 
 #define INETS_API
 #define DIGITAL_API
-%include "gnuradio.i"			// the common stuff
+%include "gnuradio.i"  // the common stuff
 //load generated python docstrings
 %include "inets_swig_doc.i"
 
@@ -68,6 +68,7 @@
 #include "inets/dice.h"
 #include "inets/random_filter.h"
 #include "inets/virtual_cs.h"
+#include "inets/time_probe.h"
 #include "inets/general_timeout.h"
 #include "inets/cogmac_ch_pool.h"
 #include "inets/frame_replicate.h"
@@ -79,6 +80,7 @@
 #include "inets/dice.h"
 #include "inets/random_filter.h"
 #include "inets/virtual_cs.h"
+#include "inets/time_probe.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -224,3 +226,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, dice);
 GR_SWIG_BLOCK_MAGIC2(inets, random_filter);
 %include "inets/virtual_cs.h"
 GR_SWIG_BLOCK_MAGIC2(inets, virtual_cs);
+%include "inets/time_probe.h"
+GR_SWIG_BLOCK_MAGIC2(inets, time_probe);

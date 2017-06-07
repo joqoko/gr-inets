@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: theoretical_aloha_rx
 # Author: PWA
-# Generated: Wed May 31 09:18:50 2017
+# Generated: Thu Jun  1 15:09:10 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -66,7 +66,7 @@ class theoretical_aloha_rx(gr.top_block, Qt.QWidget):
         self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
-        self.source_address = source_address = 2
+        self.source_address = source_address = 3
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = range_rx_gain
         self.rx_center_frequency = rx_center_frequency = 3.9e8
@@ -90,11 +90,11 @@ class theoretical_aloha_rx(gr.top_block, Qt.QWidget):
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_frame_check_0 = inets.frame_check(0, 9)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
-        self.inets_counter_0_1 = inets.counter(2, 3, 1)
-        self.inets_counter_0_0_2 = inets.counter(2, 1, 1)
-        self.inets_counter_0_0_1 = inets.counter(2, 2, 1)
-        self.inets_counter_0_0 = inets.counter(2, 5, 1)
-        self.inets_counter_0 = inets.counter(2, 4, 1)
+        self.inets_counter_0_1 = inets.counter(2, 3, 1, "")
+        self.inets_counter_0_0_2 = inets.counter(2, 1, 1, "")
+        self.inets_counter_0_0_1 = inets.counter(2, 2, 1, "")
+        self.inets_counter_0_0 = inets.counter(2, 5, 1, "")
+        self.inets_counter_0 = inets.counter(2, 4, 1, "")
         self.inets_address_check_2 = inets.address_check(0, 17, source_address)
 
         ##################################################

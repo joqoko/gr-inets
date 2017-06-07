@@ -1,4 +1,3 @@
-
 /* -*- c++ -*- */
 /* 
  * Copyright 2016 <+YOU OR YOUR COMPANY+>.
@@ -44,6 +43,7 @@ namespace gr {
       double _cs_time; 
       pmt::pmt_t _frame_info;
       float _cs_threshold;
+      int _rx_sensitivity_dB;
       void start_sensing(pmt::pmt_t frame_info);
       void stop_sensing(pmt::pmt_t frame_info);
       void sensing(pmt::pmt_t power_in);
@@ -54,7 +54,7 @@ namespace gr {
       void unlimited_sensing();
 
      public:
-      carrier_sensing_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n);
+      carrier_sensing_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n, int rx_sensitivity_dB);
       ~carrier_sensing_impl();
 
     };

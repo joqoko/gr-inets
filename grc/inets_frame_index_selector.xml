@@ -70,6 +70,21 @@
     </option>
   </param>
 
+  <param>
+    <name>Output selected frame</name>
+    <key>output_selected</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -90,6 +105,7 @@
     <name>frame_out</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$output_selected</hide>
   </source>
 
   <source>

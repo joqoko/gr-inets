@@ -463,7 +463,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>2</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -706,12 +706,12 @@
       <value></value>
     </param>
     <param>
-      <key>counter_id</key>
-      <value>4</value>
-    </param>
-    <param>
       <key>develop_mode</key>
       <value>2</value>
+    </param>
+    <param>
+      <key>show_id</key>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -726,12 +726,20 @@
       <value>0</value>
     </param>
     <param>
+      <key>counter_id</key>
+      <value>4</value>
+    </param>
+    <param>
       <key>id</key>
       <value>inets_counter_0</value>
     </param>
     <param>
       <key>interval_mode</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>counter_name</key>
+      <value>""</value>
     </param>
   </block>
   <block>
@@ -749,12 +757,12 @@
       <value></value>
     </param>
     <param>
-      <key>counter_id</key>
-      <value>5</value>
-    </param>
-    <param>
       <key>develop_mode</key>
       <value>2</value>
+    </param>
+    <param>
+      <key>show_id</key>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -769,12 +777,20 @@
       <value>0</value>
     </param>
     <param>
+      <key>counter_id</key>
+      <value>5</value>
+    </param>
+    <param>
       <key>id</key>
       <value>inets_counter_0_0</value>
     </param>
     <param>
       <key>interval_mode</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>counter_name</key>
+      <value>""</value>
     </param>
   </block>
   <block>
@@ -792,12 +808,12 @@
       <value></value>
     </param>
     <param>
-      <key>counter_id</key>
+      <key>develop_mode</key>
       <value>2</value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>2</value>
+      <key>show_id</key>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -805,11 +821,15 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(624, 300)</value>
+      <value>(648, 276)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>counter_id</key>
+      <value>2</value>
     </param>
     <param>
       <key>id</key>
@@ -819,6 +839,10 @@
       <key>interval_mode</key>
       <value>1</value>
     </param>
+    <param>
+      <key>counter_name</key>
+      <value>""</value>
+    </param>
   </block>
   <block>
     <key>inets_counter</key>
@@ -835,12 +859,12 @@
       <value></value>
     </param>
     <param>
-      <key>counter_id</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>develop_mode</key>
       <value>2</value>
+    </param>
+    <param>
+      <key>show_id</key>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -855,12 +879,20 @@
       <value>0</value>
     </param>
     <param>
+      <key>counter_id</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>id</key>
       <value>inets_counter_0_0_2</value>
     </param>
     <param>
       <key>interval_mode</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>counter_name</key>
+      <value>""</value>
     </param>
   </block>
   <block>
@@ -878,12 +910,12 @@
       <value></value>
     </param>
     <param>
-      <key>counter_id</key>
-      <value>3</value>
-    </param>
-    <param>
       <key>develop_mode</key>
       <value>2</value>
+    </param>
+    <param>
+      <key>show_id</key>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -898,12 +930,20 @@
       <value>0</value>
     </param>
     <param>
+      <key>counter_id</key>
+      <value>3</value>
+    </param>
+    <param>
       <key>id</key>
       <value>inets_counter_0_1</value>
     </param>
     <param>
       <key>interval_mode</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>counter_name</key>
+      <value>""</value>
     </param>
   </block>
   <block>

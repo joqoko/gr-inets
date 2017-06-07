@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: CogMAC_plus
 # Author: PWA
-# Generated: Wed Apr 26 13:56:35 2017
+# Generated: Fri Jun  2 17:44:39 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -18,7 +18,6 @@ if __name__ == '__main__':
             print "Warning: failed to XInitThreads()"
 
 from PyQt4 import Qt
-from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio.eng_option import eng_option
@@ -27,7 +26,6 @@ from gnuradio.qtgui import Range, RangeWidget
 from optparse import OptionParser
 import gnuradio
 import inets
-import pmt
 import sys
 from gnuradio import qtgui
 
@@ -64,11 +62,11 @@ class CogMAC_plus(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
         self.tx_center_frequency = tx_center_frequency = 3.9e8
-        self.system_time_granularity_us = system_time_granularity_us = 1000
+        self.system_time_granularity_us = system_time_granularity_us = 10
         self.source_address = source_address = 1
-        self.samp_rate = samp_rate = 1000000
+        self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = range_rx_gain
         self.rx_center_frequency = rx_center_frequency = 3.9e8
 
@@ -88,50 +86,63 @@ class CogMAC_plus(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0.003)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=1, tx_gain=0)
+        self.inets_run_0 = inets.run(5, 10)
         self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_general_timer_0 = inets.general_timer(0, 3, 1, 1000, 10, 0)
-        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 4, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, -1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
+        self.inets_general_timer_1 = inets.general_timer(0, 3, 0, 100, 10, 0)
+        self.inets_general_timer_0 = inets.general_timer(1, 15, 0, 1000, 10, 0)
+        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 10, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, -1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
         self.inets_frame_replicate_0 = inets.frame_replicate(0, 37, 4)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 0, 0.01)
+        self.inets_frame_probe_0_0 = inets.frame_probe(0, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 1, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
         self.inets_frame_path_0_0_2 = inets.frame_path(0, 39)
+        self.inets_frame_path_0_0_1_1_0 = inets.frame_path(0, 39)
         self.inets_frame_path_0_0_1_1 = inets.frame_path(0, 39)
+        self.inets_frame_path_0_0_1_0_2_0 = inets.frame_path(0, 39)
+        self.inets_frame_path_0_0_1_0_2 = inets.frame_path(0, 39)
+        self.inets_frame_path_0_0_1_0_0_0 = inets.frame_path(0, 39)
+        self.inets_frame_path_0_0_1_0_0 = inets.frame_path(0, 39)
         self.inets_frame_path_0_0_1_0 = inets.frame_path(0, 39)
-        self.inets_frame_path_0_0_1 = inets.frame_path(0, 39)
         self.inets_frame_path_0_0_0 = inets.frame_path(0, 39)
         self.inets_frame_path_0_0 = inets.frame_path(0, 39)
         self.inets_frame_path_0 = inets.frame_path(0, 39)
         self.inets_frame_index_selector_1 = inets.frame_index_selector(0, 33, (1, ), 0)
-        self.inets_frame_index_selector_0 = inets.frame_index_selector(0, 33, (4, ), 0)
+        self.inets_frame_index_selector_0 = inets.frame_index_selector(0, 33, (10, ), 0)
         self.inets_frame_counter_0 = inets.frame_counter(0, 36, 4)
+        self.inets_frame_check_0 = inets.frame_check(0, 9)
         self.inets_frame_buffer_0_0 = inets.frame_buffer(0, 16, 100, 0, 0, 0)
-        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 4, 0, 0, 1)
+        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 10, 0, 0, 1)
         self.inets_frame_and_0 = inets.frame_and(0, 38, 0)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 300, 1, 100)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 300, 3, 100)
         self.inets_cogmac_ch_pool_0 = inets.cogmac_ch_pool(1, 35, 3, 390000000, 0, 10000000)
-        self.inets_carrier_sensing_0 = inets.carrier_sensing(0, 11, 2, 100, 0.005, 1000)
-        self.inets_backoff_0 = inets.backoff(0, 11, 1, 10, 100, 400, 1, 0.005, 10, 1)
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("TEST"), 1000)
+        self.inets_carrier_sensing_0 = inets.carrier_sensing(1, 11, 2, 1000, 0.005, 1000, 100)
+        self.inets_backoff_0 = inets.backoff(0, 11, 3, 10, 1000, 4000, 1, 0.005, 10, 1)
+        self.inets_address_check_0 = inets.address_check(0, 17, source_address)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_frame_buffer_0, 'indicate_empty'))
-        self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.inets_general_timer_0, 'active_in'))
-        self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_fail_out'), (self.inets_backoff_0, 'frame_info_in'))
+        self.msg_connect((self.inets_backoff_0, 'frame_info_out'), (self.inets_frame_buffer_0, 'indicate_empty'))
         self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_pass_out'), (self.inets_frame_path_0_0_1_0, 'frame_in'))
-        self.msg_connect((self.inets_cogmac_ch_pool_0, 'next_frequency_out'), (self.inets_receiving_0, 'rx_frequency_in'))
+        self.msg_connect((self.inets_carrier_sensing_0, 'frame_info_fail_out'), (self.inets_frame_path_0_0_1_0_2, 'frame_in'))
+        self.msg_connect((self.inets_cogmac_ch_pool_0, 'next_frequency_out'), (self.inets_frame_path_0_0_1_0_0, 'frame_in'))
+        self.msg_connect((self.inets_cogmac_ch_pool_0, 'next_frequency_out'), (self.inets_sending_0, 'reconfig_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_frame_and_0, 'frame_out'), (self.inets_frame_path_0_0_1, 'frame_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_and_0, 'frame_out'), (self.inets_frame_counter_0, 'reset_in'))
+        self.msg_connect((self.inets_frame_and_0, 'frame_out'), (self.inets_frame_path_0_0_1_1_0, 'frame_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_frame_index_selector_0, 'frame_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'buffer_not_full'), (self.inets_frame_path_0_0, 'frame_in'))
         self.msg_connect((self.inets_frame_buffer_0, 'buffer_empty'), (self.inets_frame_path_0_0_0, 'frame_in'))
-        self.msg_connect((self.inets_frame_buffer_0_0, 'buffer_empty'), (self.inets_frame_and_0, 'frame_II_in'))
+        self.msg_connect((self.inets_frame_buffer_0_0, 'buffer_empty'), (self.inets_frame_path_0_0_1_0_2_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_buffer_0_0, 'dequeue_element'), (self.inets_general_timer_0, 'suspend_timer_in'))
         self.msg_connect((self.inets_frame_buffer_0_0, 'dequeue_element'), (self.inets_sending_0, 'in'))
+        self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_general_timer_1, 'active_in'))
         self.msg_connect((self.inets_frame_counter_0, 'select_out'), (self.inets_carrier_sensing_0, 'info_in'))
-        self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_frame_path_0_0_1_0, 'frame_in'))
         self.msg_connect((self.inets_frame_index_selector_0, 'unselected_frame_out'), (self.inets_frame_index_selector_1, 'frame_in'))
+        self.msg_connect((self.inets_frame_index_selector_0, 'frame_out'), (self.inets_frame_path_0, 'frame_in'))
         self.msg_connect((self.inets_frame_index_selector_0, 'unselected_frame_out'), (self.inets_frame_path_0, 'frame_in'))
         self.msg_connect((self.inets_frame_index_selector_0, 'frame_out'), (self.inets_frame_replicate_0, 'frame_in'))
         self.msg_connect((self.inets_frame_index_selector_1, 'frame_out'), (self.inets_frame_buffer_0_0, 'dequeue'))
@@ -141,16 +152,28 @@ class CogMAC_plus(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_frame_path_0_0, 'frame_out'), (self.inets_dummy_source_0, 'trigger'))
         self.msg_connect((self.inets_frame_path_0_0_0, 'frame_out'), (self.inets_framing_0, 'reset_index'))
         self.msg_connect((self.inets_frame_path_0_0_1_0, 'frame_out'), (self.inets_frame_buffer_0_0, 'dequeue'))
+        self.msg_connect((self.inets_frame_path_0_0_1_0, 'frame_out'), (self.inets_general_timer_0, 'suspend_timer_in'))
+        self.msg_connect((self.inets_frame_path_0_0_1_0_0, 'frame_out'), (self.inets_receiving_0, 'reconfig_in'))
+        self.msg_connect((self.inets_frame_path_0_0_1_0_0_0, 'frame_out'), (self.inets_general_timer_0, 'active_in'))
+        self.msg_connect((self.inets_frame_path_0_0_1_0_2, 'frame_out'), (self.inets_frame_buffer_0_0, 'flush'))
+        self.msg_connect((self.inets_frame_path_0_0_1_0_2, 'frame_out'), (self.inets_general_timer_0, 'suspend_timer_in'))
+        self.msg_connect((self.inets_frame_path_0_0_1_0_2_0, 'frame_out'), (self.inets_frame_and_0, 'frame_II_in'))
         self.msg_connect((self.inets_frame_path_0_0_1_1, 'frame_out'), (self.inets_frame_buffer_0_0, 'enqueue'))
+        self.msg_connect((self.inets_frame_path_0_0_1_1_0, 'frame_out'), (self.inets_backoff_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_path_0_0_1_1_0, 'frame_out'), (self.inets_general_timer_0, 'resume_timer_in'))
         self.msg_connect((self.inets_frame_path_0_0_2, 'frame_out'), (self.inets_frame_buffer_0, 'dequeue'))
-        self.msg_connect((self.inets_frame_replicate_0, 'replicate_out'), (self.inets_frame_buffer_0_0, 'enqueue'))
-        self.msg_connect((self.inets_frame_replicate_0, 'complete_out'), (self.inets_frame_path_0_0_2, 'frame_in'))
+        self.msg_connect((self.inets_frame_replicate_0, 'replicate_out'), (self.inets_frame_path_0_0_1_1, 'frame_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
-        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_frame_probe_0, 'info_in'))
+        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_cogmac_ch_pool_0, 'change_in'))
+        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_frame_path_0_0_1_0_0_0, 'frame_in'))
+        self.msg_connect((self.inets_general_timer_1, 'expire_signal_out'), (self.inets_general_timer_0, 'resume_timer_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'power_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_frame_buffer_0, 'indicate_empty'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0, 'active_in'))
         self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_frame_and_0, 'frame_I_in'))
         self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_frame_counter_0, 'counts_in'))
+        self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_frame_path_0_0_1_0, 'frame_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "CogMAC_plus")

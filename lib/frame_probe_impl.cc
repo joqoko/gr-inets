@@ -132,7 +132,7 @@ namespace gr {
             _last_cs_status = cs_status;
           }
           else
-            std::cout << "carrier_sensing ID " << _block_id << " error: not valid power signal" << std::endl;
+            std::cout << "frame_probe ID " << _block_id << " error: not valid power signal" << std::endl;
         }
         else
         {
@@ -329,11 +329,11 @@ namespace gr {
             std::cout << "input time_stamp is: " << time - double(int(time/100)*100);
           }
           if(find_frame == 0)
-            std::cout << "Error. Unknow frame type. Please check your connections." << std::endl;
+            std::cout << "++++ frame_probe ID: " << _block_id << " error. Unknow frame type. Please check your connections." << std::endl;
           std::cout << std::endl;
         }
         else
-          std::cout << "Error. Input is not a frame_info structure or carrier sensing reading. Please check your connections." << std::endl;
+          std::cout << "++++ frame_probe ID: " << _block_id << " error. Input is not a frame_info structure or carrier sensing reading. Please check your connections." << std::endl;
       }
     }
   

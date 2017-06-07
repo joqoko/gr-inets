@@ -37,13 +37,15 @@ namespace gr {
       int _duration_ms;
       pmt::pmt_t _frame_info;
       double _timer_bias_s;
+      double _start_time;
       int _system_time_granularity_us;
       double _reserved_time_ms;
       std::vector<uint32_t> _duration_list_ms;
       std::vector<int> _node_id_list;
       std::vector<int> _address_check_list;
       void start_timer(pmt::pmt_t trigger);
-      void kill_timer(pmt::pmt_t trigger);
+      void suspend_timer(pmt::pmt_t trigger);
+      void resume_timer(pmt::pmt_t trigger);
       void disable_timer(pmt::pmt_t trigger);
       void countdown_oneshot_timer();
       void countdown_oneshot_exp_timer();

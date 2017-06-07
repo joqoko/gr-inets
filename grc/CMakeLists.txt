@@ -89,5 +89,6 @@ install(FILES
     inets_run.xml
     inets_dice.xml
     inets_random_filter.xml
-    inets_virtual_cs.xml DESTINATION share/gnuradio/grc/blocks
+    inets_virtual_cs.xml
+    inets_time_probe.xml DESTINATION share/gnuradio/grc/blocks
 )

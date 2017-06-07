@@ -73,6 +73,7 @@ Index		block name				Categories
 
 
  100+		frame_probe				inets_dmf_tool
+ 200+		time_probe				inets_dmf_tool
  100+		counter					inets_dmf_tool	
 
  14		decision_cpp				inets_dmf_tool

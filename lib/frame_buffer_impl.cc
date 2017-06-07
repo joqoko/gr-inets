@@ -66,6 +66,7 @@ namespace gr {
       set_msg_handler(pmt::mp("flush"), boost::bind(&frame_buffer_impl::flush, this, _1));
       message_port_register_out(pmt::mp("dequeue_element"));
       message_port_register_out(pmt::mp("buffer_not_full"));
+      message_port_register_out(pmt::mp("buffer_full"));
       message_port_register_out(pmt::mp("buffer_empty"));
     }
 
@@ -101,6 +102,7 @@ namespace gr {
           message_port_pub(pmt::mp("buffer_not_full"), pmt::from_long(1));
         else
         {
+          message_port_pub(pmt::mp("buffer_full"), pmt::mp("buffer_is_full"));
           if(_auto_dequeue_full)
           {
             message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
@@ -115,6 +117,7 @@ namespace gr {
           else
           {
             std::cout << " and buffer is full.";
+            message_port_pub(pmt::mp("buffer_full"), pmt::from_long(1));
             if(_auto_dequeue_full)
               std::cout << " the first elements is dequeued." << std::endl;
           }
@@ -281,7 +284,7 @@ namespace gr {
       {
         for(int i = 0; i < flush_length; i++)
         {
-          message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
+//          message_port_pub(pmt::mp("dequeue_element"), _buffer.front());
           _buffer.pop();
         }
         if(_develop_mode)

@@ -69,6 +69,24 @@
     </option>
   </param>
 
+  <param>
+    <name>Indicate complete</name>
+    <key>show_complete</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>No</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -101,5 +119,6 @@
     <name>complete_out</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$show_complete</hide>
   </source>
 </block>

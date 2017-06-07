@@ -4,7 +4,7 @@
   <key>inets_carrier_sensing</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.carrier_sensing($develop_mode, $block_id, $cs_mode, $cs_duration, $cs_threshold, $system_time_granularity_us, $nf_initial_n)</make>
+  <make>inets.carrier_sensing($develop_mode, $block_id, $cs_mode, $cs_duration, $cs_threshold, $system_time_granularity_us, $nf_initial_n, $rx_sensitivity_dB)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -47,6 +47,13 @@
     <value>11</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
+  </param>
+  <param>
+    <name>CS sensitivity [dB]</name>
+    <key>rx_sensitivity_dB</key>
+    <value>20</value>
+    <type>int</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Mode</name>
@@ -175,7 +182,7 @@
     <name>stop_in</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>$show_fail</hide>
+    <hide>$show_stop</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:

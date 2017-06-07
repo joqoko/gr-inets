@@ -98,14 +98,13 @@ namespace gr {
       _frame_II = pmt::from_long(0);
       if(_develop_mode)
         std::cout << "frame_and block ID " << _block_id << " is reset" << std::endl;
-      
     }
 
     void
     frame_and_impl::frame_I_in(pmt::pmt_t frame_I)
     {
       _frame_I = frame_I;
-      if(pmt::is_dict(_frame_II))
+      if(!pmt::is_integer(_frame_II))
       {
         // output_mode 0: output former
         if(_output_mode == 0)
@@ -134,7 +133,7 @@ namespace gr {
     frame_and_impl::frame_II_in(pmt::pmt_t frame_II)
     {
       _frame_II = frame_II;
-      if(pmt::is_dict(_frame_I))
+      if(!pmt::is_integer(_frame_I))
       {
         // output_mode 0: output former
         if(_output_mode == 0)

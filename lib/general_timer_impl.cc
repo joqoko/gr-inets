@@ -56,8 +56,10 @@ namespace gr {
         std::cout << "develop_mode of general_timer ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("active_in"));
       set_msg_handler(pmt::mp("active_in"), boost::bind(&general_timer_impl::start_timer, this, _1 ));
-      message_port_register_in(pmt::mp("kill_timer_in"));
-      set_msg_handler(pmt::mp("kill_timer_in"), boost::bind(&general_timer_impl::kill_timer, this, _1 ));
+      message_port_register_in(pmt::mp("suspend_timer_in"));
+      set_msg_handler(pmt::mp("suspend_timer_in"), boost::bind(&general_timer_impl::suspend_timer, this, _1 ));
+      message_port_register_in(pmt::mp("resume_timer_in"));
+      set_msg_handler(pmt::mp("resume_timer_in"), boost::bind(&general_timer_impl::resume_timer, this, _1 ));
       message_port_register_in(pmt::mp("disable_timer_in"));
       set_msg_handler(pmt::mp("disable_timer_in"), boost::bind(&general_timer_impl::disable_timer, this, _1 ));
       message_port_register_out(pmt::mp("expire_signal_out"));
@@ -135,8 +137,11 @@ namespace gr {
         {
           if(_timer_type == 0)
           {
+            struct timeval t;
+            gettimeofday(&t, NULL);
+            _start_time = t.tv_sec + t.tv_usec / 1000000.0;
             if(_develop_mode)
-              std::cout << "general_timer ID: " << _block_id << " cannot be triggered before the last one finish." << std::endl;
+              std::cout << "warning: general_timer ID: " << _block_id << " is triggered before the last one finish." << std::endl;
           }
           if(_timer_type == 3)
           {
@@ -262,16 +267,32 @@ namespace gr {
     }
 
     void
-    general_timer_impl::kill_timer(pmt::pmt_t trigger)
+    general_timer_impl::suspend_timer(pmt::pmt_t trigger)
     {
       if(_in_active)
       {
         _in_active = false;
+        std::cout << "general_timer ID: " << _block_id << " is suspended. " << std::endl;
       }
       else
       {
         if(_develop_mode)
-          std::cout << "general_timer ID: " << _block_id << " cannot be killed in inactive node. " << std::endl;
+          std::cout << "warning: general_timer ID: " << _block_id << " is suspended in inactive node. " << std::endl;
+       
+      }
+    }
+
+    void
+    general_timer_impl::resume_timer(pmt::pmt_t trigger)
+    {
+      if(!_in_active)
+      {
+        _in_active = true;
+      }
+      else
+      {
+        if(_develop_mode)
+          std::cout << "general_timer ID: " << _block_id << " is already in active mode. " << std::endl;
        
       }
     }
@@ -291,14 +312,14 @@ namespace gr {
       struct timeval t;
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
-      double start_time = current_time;
+      _start_time = current_time;
       double start_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
       double current_time_show = start_time_show;
       if(_develop_mode)
         std::cout << "timer start time: " << start_time_show << std::endl;
       double exp =  (double)rand()/(double)(RAND_MAX);
       double next_time = - log(exp) * _duration_ms;
-      while((current_time < start_time + double(next_time) / 1000) && _in_active)
+      while((current_time < _start_time + double(next_time) / 1000) && _in_active)
       {
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
@@ -313,8 +334,8 @@ namespace gr {
         current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
         if(_in_active)
         {
-          _timer_bias_s = _timer_bias_s + current_time - start_time - double(_duration_ms)/1000;
-          std::cout << "general_timer ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << " [s]" << ". the time bias is: " << _timer_bias_s << std::endl;
+          _timer_bias_s = _timer_bias_s + current_time - _start_time - double(_duration_ms)/1000;
+          std::cout << "general_timer ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - _start_time << " [s]" << ". the time bias is: " << _timer_bias_s << std::endl;
         }
         else
           std::cout << "* general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual duration is: " << current_time_show - start_time_show << " s" << std::endl;
@@ -340,12 +361,13 @@ namespace gr {
       struct timeval t;
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
-      double start_time = current_time;
+      _start_time = current_time;
+      double local_start_time = current_time;
       double start_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
       double current_time_show = start_time_show;
       if(_develop_mode)
         std::cout << "timer start time: " << start_time_show << std::endl;
-      while((current_time < start_time + double(_duration_ms) / 1000) && _in_active)
+      while((current_time < _start_time + double(_duration_ms) / 1000) && _in_active)
       {
         gettimeofday(&t, NULL);
         current_time = t.tv_sec + t.tv_usec / 1000000.0;
@@ -360,32 +382,39 @@ namespace gr {
         current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
         if(_in_active)
         {
-          _timer_bias_s = _timer_bias_s + current_time - start_time - double(_duration_ms)/1000;
-          std::cout << "general_timer ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - start_time << " [s]" << ". the time bias is: " << _timer_bias_s << std::endl;
+          _timer_bias_s = _timer_bias_s + current_time - _start_time - double(_duration_ms)/1000;
+          std::cout << "general_timer ID: " << _block_id << " is expired at time " << current_time_show << " s. " << " actual duration is: " << current_time - local_start_time << " [s]" << ". the time bias is: " << _timer_bias_s << std::endl;
         }
         else
-          std::cout << "* general timer ID: " << _block_id << " is killed at time " << current_time_show << " s. " << " actual duration is: " << current_time_show - start_time_show << " s" << std::endl;
+          std::cout << "general timer ID: " << _block_id << " is suspended at time " << current_time_show << " s. " << " actual duration is: " << current_time_show - start_time_show << " s" << std::endl;
       }
-      _in_active = false;
-      if(pmt::is_dict(_frame_info))
+      if(_in_active)
       {
-        if(_develop_mode)
+        if(pmt::is_dict(_frame_info))
         {
-          std::cout << "* general timer ID: " << _block_id << " output input pmt" << std::endl;
+          if(_develop_mode)
+          {
+            std::cout << "* general timer ID: " << _block_id << " output input command" << std::endl;
+          }
+          _frame_info = pmt::dict_add(_frame_info, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
+          _in_active = false;
+          message_port_pub(pmt::mp("expire_signal_out"), _frame_info);
         }
-        _frame_info = pmt::dict_add(_frame_info, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
-        message_port_pub(pmt::mp("expire_signal_out"), _frame_info);
+        else
+        {
+          if(_develop_mode)
+          {
+            std::cout << "* general timer ID: " << _block_id << " output new command" << std::endl;
+          }
+          pmt::pmt_t expire = pmt::make_dict();
+          expire = pmt::dict_add(expire, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
+          _in_active = false;
+          message_port_pub(pmt::mp("expire_signal_out"), _frame_info);
+        }
       }
       else
-      {
         if(_develop_mode)
-        {
-          std::cout << "* general timer ID: " << _block_id << " output new pmt" << std::endl;
-        }
-        pmt::pmt_t expire = pmt::make_dict();
-        expire = pmt::dict_add(expire, pmt::string_to_symbol("time_stamp"), pmt::from_double(current_time));
-        message_port_pub(pmt::mp("expire_signal_out"), _frame_info);
-      }
+          std::cout << "general timer ID: " << _block_id << " is suspended so no output." << std::endl;
     }
  
     void

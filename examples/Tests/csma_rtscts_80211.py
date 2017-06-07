@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: csma_rtscts_80211
 # Author: PWA
-# Generated: Wed May 31 17:30:24 2017
+# Generated: Sat Jun  3 14:08:13 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -60,7 +60,7 @@ class csma_rtscts_80211(gr.top_block, Qt.QWidget):
         ##################################################
         self.sps = sps = 4
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
-        self.tx_center_frequency = tx_center_frequency = 3.9e8
+        self.tx_center_frequency = tx_center_frequency = 4e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
         self.source_address = source_address = 2
@@ -94,6 +94,7 @@ class csma_rtscts_80211(gr.top_block, Qt.QWidget):
         self.inets_framing_0_0 = inets.framing(0, 17, 2, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
         self.inets_frame_type_check_0_1 = inets.frame_type_check(0, 25, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1)
+        self.inets_frame_type_check_0_0_1 = inets.frame_type_check(0, 25, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1)
         self.inets_frame_type_check_0_0_0 = inets.frame_type_check(0, 25, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1)
         self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1)
@@ -169,6 +170,8 @@ class csma_rtscts_80211(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_frame_type_check_0_0, 'data_frame_info_out'), (self.inets_rts_framing_0, 'data_frame_in'))
         self.msg_connect((self.inets_frame_type_check_0_0_0, 'cts_frame_info_out'), (self.inets_frame_path_1_0_0_0_1_0, 'frame_in'))
         self.msg_connect((self.inets_frame_type_check_0_0_0, 'rts_frame_info_out'), (self.inets_frame_path_1_0_1, 'frame_in'))
+        self.msg_connect((self.inets_frame_type_check_0_0_1, 'data_frame_info_out'), (self.inets_general_timer_0_1_0, 'active_in'))
+        self.msg_connect((self.inets_frame_type_check_0_0_1, 'rts_frame_info_out'), (self.inets_virtual_cs_0, 'frame_cmd_in'))
         self.msg_connect((self.inets_frame_type_check_0_1, 'cts_frame_info_out'), (self.inets_virtual_cs_0, 'nav_cmd_in'))
         self.msg_connect((self.inets_frame_type_check_0_1, 'rts_frame_info_out'), (self.inets_virtual_cs_0, 'nav_cmd_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
@@ -182,7 +185,7 @@ class csma_rtscts_80211(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
         self.msg_connect((self.inets_resend_check_0, 'resend_check_fail_out'), (self.inets_frame_buffer_0, 'dequeue'))
         self.msg_connect((self.inets_resend_check_0, 'resend_check_pass_out'), (self.inets_frame_path_1_0, 'frame_in'))
-        self.msg_connect((self.inets_rts_framing_0, 'frame_out'), (self.inets_virtual_cs_0, 'frame_cmd_in'))
+        self.msg_connect((self.inets_rts_framing_0, 'frame_out'), (self.inets_frame_type_check_0_0_1, 'frame_info_in'))
         self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0, 'active_in'))
         self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0_0, 'active_in'))
         self.msg_connect((self.inets_sending_0, 'rts_frame_out'), (self.inets_counter_0_0, 'message_in'))

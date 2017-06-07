@@ -86,7 +86,8 @@ list(APPEND inets_sources
     msg_strobe_filter_impl.cc
     dice_impl.cc
     random_filter_impl.cc
-    virtual_cs_impl.cc )
+    virtual_cs_impl.cc
+    time_probe_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

@@ -31,16 +31,16 @@ namespace gr {
   namespace inets {
 
     carrier_sensing::sptr
-    carrier_sensing::make(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n)
+    carrier_sensing::make(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n, int rx_sensitivity_dB)
     {
       return gnuradio::get_initial_sptr
-        (new carrier_sensing_impl(develop_mode, block_id, cs_mode, cs_duration, cs_threshold, system_time_granularity_us, nf_initial_n));
+        (new carrier_sensing_impl(develop_mode, block_id, cs_mode, cs_duration, cs_threshold, system_time_granularity_us, nf_initial_n, rx_sensitivity_dB));
     }
 
     /*
      * the private constructor
      */
-    carrier_sensing_impl::carrier_sensing_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n)
+    carrier_sensing_impl::carrier_sensing_impl(int develop_mode, int block_id, int cs_mode, double cs_duration, float cs_threshold, int system_time_granularity_us, int nf_initial_n, int rx_sensitivity_dB)
       : gr::block("carrier_sensing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -50,6 +50,7 @@ namespace gr {
         _cs_duration(cs_duration),
         _nf_initial_n(nf_initial_n),
         _system_time_granularity_us(system_time_granularity_us),
+        _rx_sensitivity_dB(rx_sensitivity_dB),
         _cs_threshold(cs_threshold)
     {
       _in_cca = false;
@@ -105,9 +106,10 @@ namespace gr {
             _cs_threshold = _cs_threshold + _noise_floor.back();
             _noise_floor.pop_back();
           }
-          _cs_threshold = _cs_threshold / len * 10;
+          double rx_sens = pow(10, double(_rx_sensitivity_dB)/10);
+          _cs_threshold = _cs_threshold / len * rx_sens;
           if(_develop_mode)
-            std::cout << "the noise floor is " << _cs_threshold << std::endl;
+            std::cout << " rx_sensitivity is " << rx_sens << " and the noise floor is " << _cs_threshold << std::endl;
           _nf_initial_n = -1;
         }
         else
@@ -135,6 +137,9 @@ namespace gr {
 
     void carrier_sensing_impl::start_sensing(pmt::pmt_t info_in)
     {
+      struct timeval t;
+      gettimeofday(&t, NULL);
+      double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
 
       if(_cs_mode == 4)
       {
@@ -189,23 +194,34 @@ namespace gr {
         if(pmt::is_dict(info_in))
         {
           if(_develop_mode == 1 || _develop_mode == 2)
-            std::cout << "+++++++++ cs ID: " << _block_id << " in mode Fix duration +++++++++" << std::endl;    
+            std::cout << "carrier_sensing ID: " << _block_id << " start sensing in mode fix duration at " << "time " << current_time << "s" << std::endl;    
           // this function is fired
           pmt::pmt_t not_found;
-          int frame_type = pmt::to_long(pmt::dict_ref(info_in, pmt::string_to_symbol("frame_type"), not_found)); 
-          if(frame_type == 1)
+          if(pmt::dict_has_key(info_in, pmt::string_to_symbol("frame_type")))
           {
-            _frame_info = info_in;
-            _in_cca = true;
-            if(_develop_mode == 1)
-              std::cout << "before sending a data frame, start sensing" << std::endl;
-            boost::thread thrd(&carrier_sensing_impl::countdown_sensing, this);
+            int frame_type = pmt::to_long(pmt::dict_ref(info_in, pmt::string_to_symbol("frame_type"), not_found)); 
+            if(frame_type == 1)
+            {
+              _frame_info = info_in;
+              _in_cca = true;
+              if(_develop_mode == 1)
+                std::cout << "before sending a data frame, start sensing" << std::endl;
+              boost::thread thrd(&carrier_sensing_impl::countdown_sensing, this);
+            }
+            else
+            {
+              if(_develop_mode == 1)
+                std::cout << "before sending a ack frame, no sensing" << std::endl;
+              message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
+            }
           }
           else
           {
-            if(_develop_mode == 1)
-              std::cout << "before sending a ack frame, no sensing" << std::endl;
-            message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
+            _frame_info = info_in;
+            _in_cca = true;
+            if(_develop_mode == 1 || _develop_mode == 2)
+              std::cout << "start sensing" << std::endl;
+            boost::thread thrd(&carrier_sensing_impl::countdown_sensing, this);
           }
         }
         else
@@ -326,18 +342,17 @@ namespace gr {
 
     void carrier_sensing_impl::countdown_sensing()
     {
-      _in_cca = true;
       struct timeval t;
       gettimeofday(&t, NULL);
       double current_time = t.tv_sec + t.tv_usec / 1000000.0;
       double start_time = t.tv_sec + t.tv_usec / 1000000.0;
-      // std::cout << "start_countdown" << std::endl;
-      // std::cout << "cs duration is: " << _cs_duration << " in second: " << _cs_duration /1000 << std::endl;
-      // std::cout << "current time is: " << current_time << std::endl;
-      // std::cout << "_in_cca is: " << _in_cca << std::endl;
-      // std::cout << "time condition is: " << (start_time + (_cs_duration / 1000) - current_time) << std::endl;
-      // std::cout << ((current_time < start_time + _cs_duration / 1000) && _in_cca) << std::endl;
-      while((current_time < start_time + _cs_duration / 1000) && _in_cca)
+//      std::cout << "start_countdown" << std::endl;
+//      std::cout << "cs duration is: " << _cs_duration << " in second: " << _cs_duration /1000 << std::endl;
+//      std::cout << "current time is: " << current_time << std::endl;
+//      std::cout << "_in_cca is: " << _in_cca << std::endl;
+//      std::cout << "time condition is: " << (start_time + (_cs_duration / 1000) - current_time) << std::endl;
+//      std::cout << ((current_time < start_time + _cs_duration / 1000) && _in_cca) << std::endl;
+      while((current_time < start_time + _cs_duration / 1000) && _cca)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us)); 
         gettimeofday(&t, NULL);
@@ -346,7 +361,7 @@ namespace gr {
         // std::cout << "sensing status is: " << _in_cca << std::endl;
 //        std::cout << "in sensing " << start_time + _cs_duration / 1000 - current_time << std::endl;
       }
-      if(_in_cca)
+      if(_cca)
       {
         if(_develop_mode == 1)
           std::cout << "Carrier sensing passed. " << std::endl;
@@ -358,7 +373,6 @@ namespace gr {
           std::cout << "Carrier sensing failed. " << std::endl;
         message_port_pub(pmt::mp("frame_info_fail_out"), _frame_info);
       }
-      _in_cca = false;
       _cs_time = current_time - start_time;
       if(_develop_mode == 1)
         std::cout << "Carrier sensing time is: " << _cs_time << " s" << std::endl;

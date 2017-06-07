@@ -153,10 +153,27 @@
   </param>
 
   <param>
-    <name>Show buffer empty</name>
+    <name>Indicate buffer empty</name>
     <key>show_empty</key>
     <type>enum</type>
     <hide>$show_empty.hide</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Indicate buffer full</name>
+    <key>show_full</key>
+    <type>enum</type>
+    <hide>$show_full.hide</hide>
     <option>
       <name>No</name>
       <key>1</key>
@@ -289,6 +306,12 @@
     <type>message</type>
     <optional>1</optional>
     <hide>$output_empty</hide>
+  </source>
+  <source>
+    <name>buffer_full</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$show_full</hide>
   </source>
   <source>
     <name>buffer_empty</name>
