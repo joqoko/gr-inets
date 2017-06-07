@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: general_receiver
 # Author: PWA
-# Generated: Tue Jun  6 19:13:58 2017
+# Generated: Wed Jun  7 19:56:42 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -67,7 +67,7 @@ class general_receiver(gr.top_block, Qt.QWidget):
         self.source_address = source_address = 12
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = range_rx_gain
-        self.rx_center_frequency = rx_center_frequency = 4e8
+        self.rx_center_frequency = rx_center_frequency = 4.0e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
@@ -85,8 +85,10 @@ class general_receiver(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
+        self.inets_time_probe_0 = inets.time_probe(0, 200)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_frame_probe_0_0 = inets.frame_probe(2, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "tRX1", 1)
+        self.inets_frame_probe_0_0_0 = inets.frame_probe(2, 100, 0, 0, 0.001, 1, "/home/inets/source/gr-inets/results/", "tcogmac", 0)
+        self.inets_frame_probe_0_0 = inets.frame_probe(2, 100, 0, 1, 0.001, 1, "/home/inets/source/gr-inets/results/", "tcogmac", 0)
         self.inets_frame_path_0 = inets.frame_path(0, 39)
         self.inets_frame_index_selector_0_2 = inets.frame_index_selector(0, 33, (5, ), 1)
         self.inets_frame_index_selector_0_1_0_0 = inets.frame_index_selector(0, 33, (9, ), 1)
@@ -115,7 +117,7 @@ class general_receiver(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
-        self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_frame_path_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_frame_probe_0_0_0, 'info_in'))
         self.msg_connect((self.inets_frame_index_selector_0, 'frame_out'), (self.inets_counter_0, 'message_in'))
         self.msg_connect((self.inets_frame_index_selector_0_0, 'frame_out'), (self.inets_counter_4, 'message_in'))
         self.msg_connect((self.inets_frame_index_selector_0_0_0, 'frame_out'), (self.inets_counter_3, 'message_in'))
@@ -137,6 +139,7 @@ class general_receiver(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_1_0_0, 'frame_in'))
         self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_2, 'frame_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_frame_probe_0_0, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "general_receiver")

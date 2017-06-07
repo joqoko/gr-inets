@@ -124,11 +124,11 @@ namespace gr {
         double min_time_diff = pmt::to_double(_packet_len_tag.value) / _bps; //Max packet len [bit] / bit rate 
         // double min_time_diff = (1000 * 8.0) / _bps; //Max packet len [bit] / bit rate 
         // Ensure that frames are not overlap each other
-        if((tx_time - _last_tx_time) < (min_time_diff + _t_pretx_interval_s)) {
-          tx_time = _last_tx_time + min_time_diff;
-          if(_develop_mode)
-            std::cout << "t_control ID " << _block_id << " in time packet" << std::endl;
-        }
+//        if((tx_time - _last_tx_time) < (min_time_diff + _t_pretx_interval_s)) {
+//          tx_time = _last_tx_time + min_time_diff;
+//          if(_develop_mode)
+//            std::cout << "t_control ID " << _block_id << " in time packet" << std::endl;
+//        }
         //std::cout << "tx time = " << std::fixed << tx_time << std::endl;
         // update the tx_time to the current packet
         _last_tx_time = tx_time;

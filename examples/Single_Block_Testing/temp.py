@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: temp
-# Generated: Tue Jun  6 18:41:38 2017
+# Generated: Wed Jun  7 19:56:56 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -86,25 +86,22 @@ class temp(gr.top_block, Qt.QWidget):
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=1, tx_gain=0)
-        self.inets_run_0 = inets.run(5, 10)
+        self.inets_run_0 = inets.run(1, 10)
+        self.inets_general_timer_0 = inets.general_timer(0, 3, 0, 40, 10, 0)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
-        self.inets_frame_path_0 = inets.frame_path(0, 39)
-        self.inets_frame_index_selector_0 = inets.frame_index_selector(0, 33, (4, ), 1)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 100, 1, 1)
-        self.inets_cogmac_ch_pool_0 = inets.cogmac_ch_pool(0, 35, 2, 400000000, 0, 10000000)
+        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_frame_index_selector_0 = inets.frame_index_selector(0, 33, (10, ), 0)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 837, 1, 1)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_cogmac_ch_pool_0, 'CCA_CH_f_out'), (self.inets_sending_0, 'reconfig_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_frame_index_selector_0, 'frame_out'), (self.inets_cogmac_ch_pool_0, 'CCA_CH_in'))
-        self.msg_connect((self.inets_frame_index_selector_0, 'frame_out'), (self.inets_framing_0, 'reset_index'))
-        self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_dummy_source_0, 'trigger'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_index_selector_0, 'frame_in'))
+        self.msg_connect((self.inets_frame_index_selector_0, 'unselected_frame_out'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_probe_0, 'info_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_dummy_source_0, 'trigger'))
-        self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_frame_path_0, 'frame_in'))
+        self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_frame_index_selector_0, 'frame_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "temp")

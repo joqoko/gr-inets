@@ -382,7 +382,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4e8</value>
+      <value>4.0e8</value>
     </param>
   </block>
   <block>
@@ -1907,11 +1907,11 @@
     </param>
     <param>
       <key>file_name_extension</key>
-      <value>"tRX1"</value>
+      <value>"tcogmac"</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(336, 260)</value>
+      <value>(528, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1947,7 +1947,86 @@
     </param>
     <param>
       <key>name_with_stamp</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_probe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>100</value>
+    </param>
+    <param>
+      <key>cs_threshold</key>
+      <value>0.001</value>
+    </param>
+    <param>
+      <key>cs_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>file_name_extension</key>
+      <value>"tcogmac"</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(456, 364)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_probe_0_0_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_time_info</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>print_frame</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -2061,6 +2140,45 @@
       <value>usrp_device_address</value>
     </param>
   </block>
+  <block>
+    <key>inets_time_probe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(272, 688)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_time_probe_0</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>inets_frame_analysis_0</source_block_id>
     <sink_block_id>inets_frame_check_0</sink_block_id>
@@ -2069,9 +2187,9 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_check_0</source_block_id>
-    <sink_block_id>inets_frame_path_0</sink_block_id>
+    <sink_block_id>inets_frame_probe_0_0_0</sink_block_id>
     <source_key>good_frame_info_out</source_key>
-    <sink_key>frame_in</sink_key>
+    <sink_key>info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_index_selector_0</source_block_id>
@@ -2198,5 +2316,11 @@
     <sink_block_id>inets_frame_analysis_0</sink_block_id>
     <source_key>rx_frame_out</source_key>
     <sink_key>frame_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_receiving_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0_0</sink_block_id>
+    <source_key>rx_power_out</source_key>
+    <sink_key>info_in</sink_key>
   </connection>
 </flow_graph>

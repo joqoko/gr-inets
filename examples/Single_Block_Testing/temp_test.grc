@@ -606,69 +606,6 @@
     </param>
   </block>
   <block>
-    <key>inets_cogmac_ch_pool</key>
-    <param>
-      <key>algorithm</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>35</value>
-    </param>
-    <param>
-      <key>channel_gap</key>
-      <value>10000000</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>first_channel</key>
-      <value>400000000</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(720, 496)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_cogmac_ch_pool_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>channel_number</key>
-      <value>2</value>
-    </param>
-  </block>
-  <block>
     <key>inets_dummy_source</key>
     <param>
       <key>alias</key>
@@ -720,7 +657,7 @@
     </param>
     <param>
       <key>payload_length</key>
-      <value>100</value>
+      <value>837</value>
     </param>
     <param>
       <key>show</key>
@@ -779,26 +716,34 @@
     </param>
     <param>
       <key>output_selected</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>output_unselected</key>
       <value>1</value>
     </param>
     <param>
+      <key>output_unselected</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>selected_index</key>
-      <value>4</value>
+      <value>10</value>
     </param>
   </block>
   <block>
-    <key>inets_frame_path</key>
+    <key>inets_frame_probe</key>
     <param>
       <key>alias</key>
       <value></value>
     </param>
     <param>
       <key>block_id</key>
-      <value>39</value>
+      <value>100</value>
+    </param>
+    <param>
+      <key>cs_threshold</key>
+      <value>0.01</value>
+    </param>
+    <param>
+      <key>cs_mode</key>
+      <value>0</value>
     </param>
     <param>
       <key>comment</key>
@@ -810,23 +755,27 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
+      <key>file_name_extension</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(728, 296)</value>
+      <value>(984, 536)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>180</value>
+      <value>0</value>
     </param>
     <param>
       <key>id</key>
-      <value>inets_frame_path_0</value>
+      <value>inets_frame_probe_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -835,6 +784,26 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>output_time_info</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>print_frame</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -989,6 +958,85 @@
     </param>
   </block>
   <block>
+    <key>inets_general_timer</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>duration_ms</key>
+      <value>40</value>
+    </param>
+    <param>
+      <key>address_check</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>disable_timer</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>resume_timer</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>suspend_timer</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(504, 436)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_general_timer_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>reserved_time_ms</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>system_time_granularity_us</key>
+      <value>10</value>
+    </param>
+    <param>
+      <key>timer_type</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>inets_run</key>
     <param>
       <key>alias</key>
@@ -1028,7 +1076,7 @@
     </param>
     <param>
       <key>start_next_time_s</key>
-      <value>5</value>
+      <value>1</value>
     </param>
     <param>
       <key>system_time_granularity_us</key>
@@ -1179,12 +1227,6 @@
     </param>
   </block>
   <connection>
-    <source_block_id>inets_cogmac_ch_pool_0</source_block_id>
-    <sink_block_id>inets_sending_0</sink_block_id>
-    <source_key>CCA_CH_f_out</source_key>
-    <sink_key>reconfig_in</sink_key>
-  </connection>
-  <connection>
     <source_block_id>inets_dummy_source_0</source_block_id>
     <sink_block_id>inets_framing_0</sink_block_id>
     <source_key>output</source_key>
@@ -1192,27 +1234,15 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_index_selector_0</source_block_id>
-    <sink_block_id>inets_cogmac_ch_pool_0</sink_block_id>
-    <source_key>frame_out</source_key>
-    <sink_key>CCA_CH_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_frame_index_selector_0</source_block_id>
-    <sink_block_id>inets_framing_0</sink_block_id>
-    <source_key>frame_out</source_key>
-    <sink_key>reset_index</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_frame_path_0</source_block_id>
     <sink_block_id>inets_dummy_source_0</sink_block_id>
-    <source_key>frame_out</source_key>
+    <source_key>unselected_frame_out</source_key>
     <sink_key>trigger</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_framing_0</source_block_id>
-    <sink_block_id>inets_frame_index_selector_0</sink_block_id>
+    <sink_block_id>inets_frame_probe_0</sink_block_id>
     <source_key>frame_out</source_key>
-    <sink_key>frame_in</sink_key>
+    <sink_key>info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_framing_0</source_block_id>
@@ -1228,7 +1258,7 @@
   </connection>
   <connection>
     <source_block_id>inets_sending_0</source_block_id>
-    <sink_block_id>inets_frame_path_0</sink_block_id>
+    <sink_block_id>inets_frame_index_selector_0</sink_block_id>
     <source_key>data_frame_out</source_key>
     <sink_key>frame_in</sink_key>
   </connection>
