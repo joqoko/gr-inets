@@ -84,6 +84,8 @@ install(FILES
     dice.h
     random_filter.h
     virtual_cs.h
-    time_probe.h DESTINATION include/inets
+    time_probe.h
+    cogmac_rm_rep.h
+    cogmac_timing.h DESTINATION include/inets
 
 )

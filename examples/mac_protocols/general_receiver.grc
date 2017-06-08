@@ -544,7 +544,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.20"</value>
+      <value>"addr=10.0.0.6"</value>
     </param>
   </block>
   <block>
@@ -576,6 +576,61 @@
     <param>
       <key>import</key>
       <value>import gnuradio</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_cogmac_rm_rep</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>37</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(432, 312)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_cogmac_rm_rep_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>new</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>same</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1899,7 +1954,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>2</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1911,7 +1966,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(528, 260)</value>
+      <value>(744, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1939,7 +1994,7 @@
     </param>
     <param>
       <key>record_on</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>record_path</key>
@@ -2018,7 +2073,7 @@
     </param>
     <param>
       <key>record_on</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>record_path</key>
@@ -2187,9 +2242,9 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_check_0</source_block_id>
-    <sink_block_id>inets_frame_probe_0_0_0</sink_block_id>
+    <sink_block_id>inets_frame_path_0</sink_block_id>
     <source_key>good_frame_info_out</source_key>
-    <sink_key>info_in</sink_key>
+    <sink_key>frame_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_index_selector_0</source_block_id>

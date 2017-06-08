@@ -60,7 +60,8 @@ Index		block name				Categories
 
  22		slide_window				inets_dmf_mac
  29		beacon_interpreter			inets_dmf_mac
- 35		cogmac_ch_pool				inets_dmf_mac
+ 35		cogmac_ch_pool				inets_dmf_protocol
+ 37		cogmac_rm_rep				inets_dmf_protocol
  20		virtual_cs				inets_dmf_mac
 
  36		frame_counter				inets_dmf_mac

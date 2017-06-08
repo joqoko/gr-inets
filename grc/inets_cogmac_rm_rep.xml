@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<block>
+  <name>cogmac_rm_rep</name>
+  <key>inets_cogmac_rm_rep</key>
+  <category>inets_dmf_protocol</category>
+  <import>import inets</import>
+  <make>inets.cogmac_rm_rep($develop_mode, $block_id)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+      <opt>hide_pmt:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+      <opt>hide_pmt:part</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+      <opt>hide_pmt:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>37</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Port for new frame</name>
+    <key>new</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Show</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Not show</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+  
+  <param>
+    <name>Port for same frame</name>
+    <key>same</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Not show</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Show</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
+  
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>frame_cmd_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>new_cmd_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$new</hide>
+  </source>
+  <source>
+    <name>same_cmd_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$same</hide>
+  </source>
+</block>

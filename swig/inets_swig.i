@@ -69,6 +69,8 @@
 #include "inets/random_filter.h"
 #include "inets/virtual_cs.h"
 #include "inets/time_probe.h"
+#include "inets/cogmac_rm_rep.h"
+#include "inets/cogmac_timing.h"
 #include "inets/general_timeout.h"
 #include "inets/cogmac_ch_pool.h"
 #include "inets/frame_replicate.h"
@@ -81,6 +83,8 @@
 #include "inets/random_filter.h"
 #include "inets/virtual_cs.h"
 #include "inets/time_probe.h"
+#include "inets/cogmac_rm_rep.h"
+#include "inets/cogmac_timing.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -228,3 +232,7 @@ GR_SWIG_BLOCK_MAGIC2(inets, random_filter);
 GR_SWIG_BLOCK_MAGIC2(inets, virtual_cs);
 %include "inets/time_probe.h"
 GR_SWIG_BLOCK_MAGIC2(inets, time_probe);
+%include "inets/cogmac_rm_rep.h"
+GR_SWIG_BLOCK_MAGIC2(inets, cogmac_rm_rep);
+%include "inets/cogmac_timing.h"
+GR_SWIG_BLOCK_MAGIC2(inets, cogmac_timing);

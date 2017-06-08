@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<block>
+  <name>cogmac_timing</name>
+  <key>inets_cogmac_timing</key>
+  <category>inets_dmf_protocol</category>
+  <import>import inets</import>
+  <make>inets.cogmac_timing($develop_mode, $block_id, $frame_length, $bps, $sample_rate, $preamble, $padding, $CCA2_ms, $PU_time_ms, $tx_mode_ms, $rx_mode_ms)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+      <opt>hide_pmt:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+      <opt>hide_pmt:part</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+      <opt>hide_pmt:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>37</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Frame length</name>
+    <key>frame_length</key>
+    <value>frame_length</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>bitrate</name>
+    <key>bps</key>
+    <value>constellation.bits_per_symbol() * (samp_rate / sps)</value>
+    <type>float</type>
+  </param>
+
+  <param>
+    <name>Sample rate</name>
+    <key>sample_rate</key>
+    <value>samp_rate</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Preamble</name>
+    <key>preamble</key>
+    <value>diff_preamble_128</value>
+    <type>int_vector</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Padding</name>
+    <key>padding</key>
+    <value>64</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>CCA2 [ms]</name>
+    <key>CCA2_ms</key>
+    <value>CCA2_ms</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>PU time [ms]</name>
+    <key>PU_time_ms</key>
+    <value>PU_time_ms</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>TX mode [ms]</name>
+    <key>tx_mode_ms</key>
+    <value>tx_mode_ms</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>RX mode [ms]</name>
+    <key>rx_mode_ms</key>
+    <value>rx_mode_ms</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>trigger_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>packet_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+</block>

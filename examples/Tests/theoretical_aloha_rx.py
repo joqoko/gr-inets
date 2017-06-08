@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: theoretical_aloha_rx
 # Author: PWA
-# Generated: Thu Jun  1 15:09:10 2017
+# Generated: Wed Jun  7 21:11:07 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -62,8 +62,8 @@ class theoretical_aloha_rx(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
-        self.tx_center_frequency = tx_center_frequency = 3.9e8
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
+        self.tx_center_frequency = tx_center_frequency = 4e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
         self.source_address = source_address = 3
