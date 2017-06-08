@@ -59,8 +59,7 @@ namespace gr {
 
       message_port_register_in(pmt::mp("trigger_in"));
       set_msg_handler(pmt::mp("trigger_in"), boost::bind(&cogmac_timing_impl::calc, this, _1 ));
-      message_port_register_out(pmt::mp("packet_out"));
-
+      message_port_register_out(pmt::mp("cogmac_config_out"));
     }
 
     /*
@@ -73,7 +72,19 @@ namespace gr {
     void
     cogmac_timing_impl::calc(pmt::pmt_t trigger)
     {
-      message_port_pub(pmt::mp("packet_out"), pmt::make_dict());
+      int CCA1_ms = _CCA2_ms + _tx_mode_ms + _rx_mode_ms;
+   
+      if(_develop_mode)
+      {
+        std::cout
+      }
+      pmt::pmt_t cogmac_cmd = pmt::make_dict();
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("CCA1_ms"), pmt::from_long(CCA1_ms));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("CCA2_ms"), pmt::from_long(CCA2_ms));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("PU_time_ms"), pmt::from_long(_PU_time_ms));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("tx_mode_ms"), pmt::from_long(_tx_mode_ms));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("rx_mode_ms"), pmt::from_long(_rx_mode_ms));
+      message_port_pub(pmt::mp("cogmac_config_out"), cogmac_cmd);
     }
 
   } /* namespace inets */
