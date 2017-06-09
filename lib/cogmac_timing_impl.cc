@@ -24,21 +24,22 @@
 
 #include <gnuradio/io_signature.h>
 #include "cogmac_timing_impl.h"
+#include "math.h"
 
 namespace gr {
   namespace inets {
 
     cogmac_timing::sptr
-    cogmac_timing::make(int develop_mode, int block_id, int frame_length, double bps, float sample_rate, const std::vector<unsigned char> &preamble, int padding, int CCA2_ms, int PU_time_ms, int tx_mode_ms, int rx_mode_ms)
+    cogmac_timing::make(int develop_mode, int block_id, int frame_length, double bps, float sample_rate, const std::vector<unsigned char> &preamble, int padding, int CCA2_ms, int PU_time_ms, int tx_mode_ms, int rx_mode_ms, int len_mac_hdr, int len_phy_overhead, int inter_fr_ms, int ch_pool_size, int ch_switch_ms)
     {
       return gnuradio::get_initial_sptr
-        (new cogmac_timing_impl(develop_mode, block_id, frame_length, bps, sample_rate, preamble, padding, CCA2_ms, PU_time_ms, tx_mode_ms, rx_mode_ms));
+        (new cogmac_timing_impl(develop_mode, block_id, frame_length, bps, sample_rate, preamble, padding, CCA2_ms, PU_time_ms, tx_mode_ms, rx_mode_ms, len_mac_hdr, len_phy_overhead, inter_fr_ms, ch_pool_size, ch_switch_ms));
     }
 
     /*
      * The private constructor
      */
-    cogmac_timing_impl::cogmac_timing_impl(int develop_mode, int block_id, int frame_length, double bps, float sample_rate, const std::vector<unsigned char> &preamble, int padding, int CCA2_ms, int PU_time_ms, int tx_mode_ms, int rx_mode_ms)
+    cogmac_timing_impl::cogmac_timing_impl(int develop_mode, int block_id, int frame_length, double bps, float sample_rate, const std::vector<unsigned char> &preamble, int padding, int CCA2_ms, int PU_time_ms, int tx_mode_ms, int rx_mode_ms, int len_mac_hdr, int len_phy_overhead, int inter_fr_ms, int ch_pool_size, int ch_switch_ms)
       : gr::block("cogmac_timing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)), 
@@ -52,7 +53,12 @@ namespace gr {
         _CCA2_ms(CCA2_ms),
         _PU_time_ms(PU_time_ms),
         _tx_mode_ms(tx_mode_ms),
-        _rx_mode_ms(rx_mode_ms)
+        _rx_mode_ms(rx_mode_ms),
+        _len_mac_hdr(len_mac_hdr),
+        _len_phy_overhead(len_phy_overhead),
+        _inter_fr_ms(inter_fr_ms),
+        _ch_pool_size(ch_pool_size),
+        _ch_switch_ms(ch_switch_ms)
     {
       if(_develop_mode)
         std::cout << "develop_mode of cogmac_timing ID: " << _block_id << " is activated." << std::endl;
@@ -73,17 +79,38 @@ namespace gr {
     cogmac_timing_impl::calc(pmt::pmt_t trigger)
     {
       int CCA1_ms = _CCA2_ms + _tx_mode_ms + _rx_mode_ms;
-   
+      double frame_tx_time_ms = (_frame_length + _len_mac_hdr + _len_phy_overhead) * 8 * 1000 / _bps;
+
+      int N_PU = floor((_PU_time_ms - _rx_mode_ms - _tx_mode_ms + _inter_fr_ms) / (frame_tx_time_ms + _inter_fr_ms));
+      int t_probing_ms = N_PU * frame_tx_time_ms + (N_PU - 1) * _inter_fr_ms + _tx_mode_ms + _rx_mode_ms;
+      int g_PU = floor(((_ch_pool_size - 1) * (CCA1_ms + _ch_switch_ms) + _ch_switch_ms) / (t_probing_ms + _CCA2_ms));
+     // int n_re = ceil(((_ch_pool_size - 1) * (CCA1_ms + _ch_switch_ms) + _ch_switch_ms) / (frame_tx_time_ms + _inter_fr_ms) - () / ());
+
+
+
+
       if(_develop_mode)
       {
-        std::cout
+        std::cout << "Frame transmission time is " << frame_tx_time_ms << " [ms]" << std::endl;
+        std::cout << "CCA1 is " << CCA1_ms << " [ms]" << std::endl;
+        std::cout << "CCA2 is " << _CCA2_ms << " [ms]" << std::endl;
+        std::cout << "PU allowance time is " << _PU_time_ms << " [ms]" << std::endl;
+        std::cout << "TX mode time is " << _tx_mode_ms << " [ms]" << std::endl;
+        std::cout << "RX mode time is " << _rx_mode_ms << " [ms]" << std::endl;
+        std::cout << "N_PU is " << N_PU << std::endl;
+        std::cout << "t_probing is " << t_probing_ms << " [ms]" << std::endl;
+        std::cout << "g_PU is " << g_PU<< std::endl;
       }
       pmt::pmt_t cogmac_cmd = pmt::make_dict();
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("frame_time_ms"), pmt::from_long(frame_tx_time_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("CCA1_ms"), pmt::from_long(CCA1_ms));
-      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("CCA2_ms"), pmt::from_long(CCA2_ms));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("CCA2_ms"), pmt::from_long(_CCA2_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("PU_time_ms"), pmt::from_long(_PU_time_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("tx_mode_ms"), pmt::from_long(_tx_mode_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("rx_mode_ms"), pmt::from_long(_rx_mode_ms));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("N_PU"), pmt::from_long(N_PU));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("t_probing_ms"), pmt::from_long(t_probing_ms));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("g_PU"), pmt::from_long(g_PU));
       message_port_pub(pmt::mp("cogmac_config_out"), cogmac_cmd);
     }
 

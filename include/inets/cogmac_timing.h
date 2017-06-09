@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::cogmac_timing::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int frame_length, double bps, float sample_rate, const std::vector<unsigned char> &preamble, int padding, int CCA2_ms, int PU_time_ms, int tx_mode_ms, int rx_mode_ms);
+      static sptr make(int develop_mode, int block_id, int frame_length, double bps, float sample_rate, const std::vector<unsigned char> &preamble, int padding, int CCA2_ms, int PU_time_ms, int tx_mode_ms, int rx_mode_ms, int len_mac_hdr, int len_phy_overhead, int inter_fr_ms, int ch_pool_size, int ch_switch_ms);
     };
 
   } // namespace inets

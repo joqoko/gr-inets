@@ -4,7 +4,7 @@
   <key>inets_cogmac_timing</key>
   <category>inets_dmf_protocol</category>
   <import>import inets</import>
-  <make>inets.cogmac_timing($develop_mode, $block_id, $frame_length, $bps, $sample_rate, $preamble, $padding, $CCA2_ms, $PU_time_ms, $tx_mode_ms, $rx_mode_ms)</make>
+  <make>inets.cogmac_timing($develop_mode, $block_id, $frame_length, $bps, $sample_rate, $preamble, $padding, $CCA2_ms, $PU_time_ms, $tx_mode_ms, $rx_mode_ms, $len_mac_hdr, $len_phy_overhead, $inter_fr_ms, $ch_pool_size, $ch_switch_ms)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -114,6 +114,46 @@
     <name>RX mode [ms]</name>
     <key>rx_mode_ms</key>
     <value>rx_mode_ms</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Interframe interval [ms]</name>
+    <key>inter_fr_ms</key>
+    <value>inter_fr_ms</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Channel switch overhead [ms]</name>
+    <key>ch_switch_ms</key>
+    <value>ch_switch_ms</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>MAC header length [bytes]</name>
+    <key>len_mac_hdr</key>
+    <value>15</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>PHY overhead [bytes]</name>
+    <key>len_phy_overhead</key>
+    <value>148</value>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Channel pool size</name>
+    <key>ch_pool_size</key>
+    <value>4</value>
     <type>int</type>
     <hide>part</hide>
   </param>

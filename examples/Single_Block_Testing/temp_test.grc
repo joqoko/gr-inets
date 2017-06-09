@@ -147,6 +147,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(1048, 420)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ch_switch_ms</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>5</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(536, 4)</value>
     </param>
     <param>
@@ -241,6 +268,33 @@
     <param>
       <key>value</key>
       <value>837</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(952, 420)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inter_fr_ms</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>5</value>
     </param>
   </block>
   <block>
@@ -798,6 +852,14 @@
       <value>CCA2_ms</value>
     </param>
     <param>
+      <key>ch_pool_size</key>
+      <value>4</value>
+    </param>
+    <param>
+      <key>ch_switch_ms</key>
+      <value>ch_switch_ms</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
@@ -807,7 +869,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -830,12 +892,24 @@
       <value>inets_cogmac_timing_0</value>
     </param>
     <param>
+      <key>inter_fr_ms</key>
+      <value>inter_fr_ms</value>
+    </param>
+    <param>
+      <key>len_mac_hdr</key>
+      <value>15</value>
+    </param>
+    <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>len_phy_overhead</key>
+      <value>148</value>
     </param>
     <param>
       <key>PU_time_ms</key>
@@ -992,12 +1066,6 @@
       <value>10</value>
     </param>
   </block>
-  <connection>
-    <source_block_id>inets_cogmac_timing_0</source_block_id>
-    <sink_block_id>inets_frame_probe_0</sink_block_id>
-    <source_key>packet_out</source_key>
-    <sink_key>info_in</sink_key>
-  </connection>
   <connection>
     <source_block_id>inets_run_0</source_block_id>
     <sink_block_id>inets_cogmac_timing_0</sink_block_id>
