@@ -89,7 +89,8 @@ list(APPEND inets_sources
     virtual_cs_impl.cc
     time_probe_impl.cc
     cogmac_rm_rep_impl.cc
-    cogmac_timing_impl.cc )
+    cogmac_timing_impl.cc
+    unbundle_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

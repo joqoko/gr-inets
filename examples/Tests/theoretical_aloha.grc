@@ -598,7 +598,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.14"</value>
+      <value>"addr=10.0.0.20"</value>
     </param>
   </block>
   <block>
@@ -647,12 +647,12 @@
       <value></value>
     </param>
     <param>
-      <key>counter_id</key>
+      <key>develop_mode</key>
       <value>2</value>
     </param>
     <param>
-      <key>develop_mode</key>
-      <value>2</value>
+      <key>show_id</key>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -667,12 +667,20 @@
       <value>0</value>
     </param>
     <param>
+      <key>counter_id</key>
+      <value>2</value>
+    </param>
+    <param>
       <key>id</key>
       <value>inets_counter_0</value>
     </param>
     <param>
       <key>interval_mode</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>counter_name</key>
+      <value>""</value>
     </param>
   </block>
   <block>
@@ -690,12 +698,12 @@
       <value></value>
     </param>
     <param>
-      <key>counter_id</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>develop_mode</key>
       <value>2</value>
+    </param>
+    <param>
+      <key>show_id</key>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -703,11 +711,15 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(848, 276)</value>
+      <value>(848, 252)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>counter_id</key>
+      <value>1</value>
     </param>
     <param>
       <key>id</key>
@@ -716,6 +728,10 @@
     <param>
       <key>interval_mode</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>counter_name</key>
+      <value>""</value>
     </param>
   </block>
   <block>
@@ -848,6 +864,14 @@
       <value>inets_frame_buffer_0</value>
     </param>
     <param>
+      <key>show_empty</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>show_full</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>indicate</key>
       <value>1</value>
     </param>
@@ -861,10 +885,6 @@
     </param>
     <param>
       <key>output_empty</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>show_empty</key>
       <value>1</value>
     </param>
   </block>
@@ -1148,7 +1168,11 @@
       <value>0</value>
     </param>
     <param>
-      <key>kill_timer</key>
+      <key>resume_timer</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>suspend_timer</key>
       <value>1</value>
     </param>
     <param>
@@ -1223,7 +1247,11 @@
       <value>1</value>
     </param>
     <param>
-      <key>kill_timer</key>
+      <key>resume_timer</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>suspend_timer</key>
       <value>1</value>
     </param>
     <param>

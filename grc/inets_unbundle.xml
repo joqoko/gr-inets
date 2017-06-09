@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
 <block>
-  <name>cogmac_ch_pool</name>
-  <key>inets_cogmac_ch_pool</key>
-  <category>inets_dmf_protocol</category>
+  <name>unbundle</name>
+  <key>inets_unbundle</key>
+  <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.cogmac_ch_pool($develop_mode, $block_id, $channel_number, $first_channel, $algorithm, $channel_gap)</make>
+  <make>inets.unbundle($develop_mode, $block_id, $command_name)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
-
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>
@@ -21,70 +20,36 @@
       <key>0</key>
       <opt>hide:part</opt>
       <opt>hide_control:all</opt>
-      <opt>hide_pmt:all</opt>
     </option>
     <option>
       <name>on</name>
       <key>1</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
-      <opt>hide_pmt:part</opt>
     </option>
     <option>
       <name>time</name>
       <key>2</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
-      <opt>hide_pmt:part</opt>
     </option>
   </param>
 
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>35</value>
+    <value>16</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
 
   <param>
-    <name>Number of channels</name>
-    <key>channel_number</key>
-    <value>ch_pool_size</value>
-    <type>int</type>
-    <hide>part</hide>
+    <name>Name</name>
+    <key>command_name</key>
+    <value>""</value>
+    <type>string</type>
   </param>
 
-  <param>
-    <name>First frequency</name>
-    <key>first_channel</key>
-    <value>400000000</value>
-    <type>int</type>
-    <hide>part</hide>
-  </param>
-
-  <param>
-    <name>Algorithm</name>
-    <key>algorithm</key>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>CogMAC</name>
-      <key>0</key>
-    </option>
-    <option>
-      <name>CogMAC+</name>
-      <key>1</key>
-    </option>
-  </param>
-
-  <param>
-    <name>Channel gap</name>
-    <key>channel_gap</key>
-    <value>10000000</value>
-    <type>int</type>
-    <hide>part</hide>
-  </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -92,13 +57,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>CCA_one_in</name>
-    <type>message</type>
-    <optional>1</optional>
-  </sink>
-
-  <sink>
-    <name>CCA_CH_in</name>
+    <name>cmd_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
@@ -109,13 +68,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>CCA_one_f_out</name>
-    <type>message</type>
-    <optional>1</optional>
-  </source>
-
-  <source>
-    <name>CCA_CH_f_out</name>
+    <name>cmd_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>

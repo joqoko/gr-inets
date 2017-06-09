@@ -86,6 +86,7 @@ install(FILES
     virtual_cs.h
     time_probe.h
     cogmac_rm_rep.h
-    cogmac_timing.h DESTINATION include/inets
+    cogmac_timing.h
+    unbundle.h DESTINATION include/inets
 
 )

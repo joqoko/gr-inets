@@ -25,6 +25,7 @@
 #include <gnuradio/io_signature.h>
 #include "cogmac_timing_impl.h"
 #include "math.h"
+#include <algorithm> 
 
 namespace gr {
   namespace inets {
@@ -66,6 +67,7 @@ namespace gr {
       message_port_register_in(pmt::mp("trigger_in"));
       set_msg_handler(pmt::mp("trigger_in"), boost::bind(&cogmac_timing_impl::calc, this, _1 ));
       message_port_register_out(pmt::mp("cogmac_config_out"));
+      message_port_register_out(pmt::mp("cmd_out"));
     }
 
     /*
@@ -79,16 +81,14 @@ namespace gr {
     cogmac_timing_impl::calc(pmt::pmt_t trigger)
     {
       int CCA1_ms = _CCA2_ms + _tx_mode_ms + _rx_mode_ms;
-      double frame_tx_time_ms = (_frame_length + _len_mac_hdr + _len_phy_overhead) * 8 * 1000 / _bps;
+      double frame_tx_time_ms = double(_frame_length + _len_mac_hdr + _len_phy_overhead) * 8 * 1000 / _bps;
 
       int N_PU = floor((_PU_time_ms - _rx_mode_ms - _tx_mode_ms + _inter_fr_ms) / (frame_tx_time_ms + _inter_fr_ms));
       int t_probing_ms = N_PU * frame_tx_time_ms + (N_PU - 1) * _inter_fr_ms + _tx_mode_ms + _rx_mode_ms;
       int g_PU = floor(((_ch_pool_size - 1) * (CCA1_ms + _ch_switch_ms) + _ch_switch_ms) / (t_probing_ms + _CCA2_ms));
-     // int n_re = ceil(((_ch_pool_size - 1) * (CCA1_ms + _ch_switch_ms) + _ch_switch_ms) / (frame_tx_time_ms + _inter_fr_ms) - () / ());
-
-
-
-
+      int n_re = ceil(((_ch_pool_size - 1) * (CCA1_ms + _ch_switch_ms) + _ch_switch_ms) / (frame_tx_time_ms + _inter_fr_ms) - (g_PU * (_PU_time_ms - _CCA2_ms) - _inter_fr_ms) / (frame_tx_time_ms + _inter_fr_ms));
+      int N_Re_fr = g_PU * N_PU + !(n_re<N_PU)?N_PU:n_re + 1;
+      
       if(_develop_mode)
       {
         std::cout << "Frame transmission time is " << frame_tx_time_ms << " [ms]" << std::endl;
@@ -99,10 +99,12 @@ namespace gr {
         std::cout << "RX mode time is " << _rx_mode_ms << " [ms]" << std::endl;
         std::cout << "N_PU is " << N_PU << std::endl;
         std::cout << "t_probing is " << t_probing_ms << " [ms]" << std::endl;
-        std::cout << "g_PU is " << g_PU<< std::endl;
+        std::cout << "g_PU is " << g_PU << std::endl;
+        std::cout << "n_re is " << n_re << std::endl;
+        std::cout << "N_Re_fr is " << N_Re_fr << std::endl;
       }
       pmt::pmt_t cogmac_cmd = pmt::make_dict();
-      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("frame_time_ms"), pmt::from_long(frame_tx_time_ms));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("frame_time_ms"), pmt::from_double(frame_tx_time_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("CCA1_ms"), pmt::from_long(CCA1_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("CCA2_ms"), pmt::from_long(_CCA2_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("PU_time_ms"), pmt::from_long(_PU_time_ms));
@@ -111,7 +113,11 @@ namespace gr {
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("N_PU"), pmt::from_long(N_PU));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("t_probing_ms"), pmt::from_long(t_probing_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("g_PU"), pmt::from_long(g_PU));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("n_re"), pmt::from_long(n_re));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("N_Re_fr"), pmt::from_long(N_Re_fr));
       message_port_pub(pmt::mp("cogmac_config_out"), cogmac_cmd);
+      boost::this_thread::sleep(boost::posix_time::microseconds(100000));
+      message_port_pub(pmt::mp("cmd_out"), trigger);
     }
 
   } /* namespace inets */

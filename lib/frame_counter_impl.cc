@@ -61,6 +61,11 @@ namespace gr {
         pmt::mp("reset_in"),
         boost::bind(&frame_counter_impl::reset, this, _1)
       );
+      message_port_register_in(pmt::mp("set_n_counts_in"));
+      set_msg_handler(
+        pmt::mp("set_n_counts_in"),
+        boost::bind(&frame_counter_impl::set_counts, this, _1)
+      );
     }
 
     /*
@@ -68,6 +73,28 @@ namespace gr {
      */
     frame_counter_impl::~frame_counter_impl()
     {
+    }
+
+    void
+    frame_counter_impl::set_counts(pmt::pmt_t pmt_in)
+    {
+      if(pmt::is_integer(pmt_in))
+      {
+        _counts = pmt::to_long(pmt_in);
+        if(_develop_mode)
+          std::cout << "the number of counts in frame_counter block ID " << _block_id << " is reset to " << _counts << std::endl;
+      }
+      else if(pmt::dict_has_key(pmt_in, pmt::mp("N_PU")))
+      {
+        pmt::pmt_t not_found;
+        _counts = pmt::to_long(pmt::dict_ref(pmt_in, pmt::string_to_symbol("N_PU"), not_found));
+        if(_develop_mode)
+          std::cout << "the number of counts in frame_counter block ID " << _block_id << " is reset to " << _counts << " according to CogMAC protocol " << std::endl;
+      }
+      else   
+      {
+        std::cout << "error: frame_counter block ID " << _block_id << " can only reassign number of replicates to a integer number." << std::endl;
+      }
     }
 
     void

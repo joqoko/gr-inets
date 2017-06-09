@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: theoretical_aloha
 # Author: PWA
-# Generated: Tue May 30 18:13:12 2017
+# Generated: Fri Jun  9 13:33:32 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -96,8 +96,8 @@ class theoretical_aloha(gr.top_block, Qt.QWidget):
         self.inets_frame_path_0 = inets.frame_path(0, 39)
         self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 1000, 1, 1, 0)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 837, 3, 1)
-        self.inets_counter_0_0_0 = inets.counter(2, 1, 1)
-        self.inets_counter_0 = inets.counter(2, 2, 1)
+        self.inets_counter_0_0_0 = inets.counter(2, 1, 1, "")
+        self.inets_counter_0 = inets.counter(2, 2, 1, "")
 
         ##################################################
         # Connections

@@ -18,33 +18,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_FRAME_COUNTER_IMPL_H
-#define INCLUDED_INETS_FRAME_COUNTER_IMPL_H
 
-#include <inets/frame_counter.h>
+#ifndef INCLUDED_INETS_UNBUNDLE_H
+#define INCLUDED_INETS_UNBUNDLE_H
+
+#include <inets/api.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace inets {
 
-    class frame_counter_impl : public frame_counter
+    /*!
+     * \brief <+description of block+>
+     * \ingroup inets
+     *
+     */
+    class INETS_API unbundle : virtual public gr::block
     {
-     private:
-      int _develop_mode;
-      int _block_id;
-      int _current_count;
-      int _counts;
-      void counting(pmt::pmt_t pmt_in);
-      void reset(pmt::pmt_t pmt_in);
-      void set_counts(pmt::pmt_t pmt_in);
-
      public:
-      frame_counter_impl(int develop_mode, int block_id, int counts);
-      ~frame_counter_impl();
+      typedef boost::shared_ptr<unbundle> sptr;
 
+      /*!
+       * \brief Return a shared_ptr to a new instance of inets::unbundle.
+       *
+       * To avoid accidental use of raw pointers, inets::unbundle's
+       * constructor is in a private implementation
+       * class. inets::unbundle::make is the public interface for
+       * creating new instances.
+       */
+      static sptr make(int develop_mode, int block_id, std::string command_name);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_COUNTER_IMPL_H */
+#endif /* INCLUDED_INETS_UNBUNDLE_H */
 

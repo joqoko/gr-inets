@@ -18,33 +18,30 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_FRAME_COUNTER_IMPL_H
-#define INCLUDED_INETS_FRAME_COUNTER_IMPL_H
+#ifndef INCLUDED_INETS_UNBUNDLE_IMPL_H
+#define INCLUDED_INETS_UNBUNDLE_IMPL_H
 
-#include <inets/frame_counter.h>
+#include <inets/unbundle.h>
 
 namespace gr {
   namespace inets {
 
-    class frame_counter_impl : public frame_counter
+    class unbundle_impl : public unbundle
     {
      private:
       int _develop_mode;
       int _block_id;
-      int _current_count;
-      int _counts;
-      void counting(pmt::pmt_t pmt_in);
-      void reset(pmt::pmt_t pmt_in);
-      void set_counts(pmt::pmt_t pmt_in);
+      std::string _command_name;
+      void unbundle_cmd(pmt::pmt_t cmd_in_);
 
      public:
-      frame_counter_impl(int develop_mode, int block_id, int counts);
-      ~frame_counter_impl();
+      unbundle_impl(int develop_mode, int block_id, std::string command_name);
+      ~unbundle_impl();
 
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_COUNTER_IMPL_H */
+#endif /* INCLUDED_INETS_UNBUNDLE_IMPL_H */
 

@@ -78,6 +78,13 @@ namespace gr {
         if(_develop_mode)
           std::cout << "frame_replicate block ID " << _block_id << " is reset to " << _replicate_number << std::endl;
       }
+      else if(pmt::dict_has_key(number_in, pmt::mp("N_Re_fr")))
+      {
+        pmt::pmt_t not_found;
+        _replicate_number = pmt::to_long(pmt::dict_ref(number_in, pmt::string_to_symbol("N_Re_fr"), not_found));
+        if(_develop_mode)
+          std::cout << "frame_replicate block ID " << _block_id << " is reset to " << _replicate_number << " according to CogMAC protocol " << std::endl;
+      }
       else   
       {
         std::cout << "error: frame_replicate block ID " << _block_id << " can only reassign number of replicates to a integer number." << std::endl;

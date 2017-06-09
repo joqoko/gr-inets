@@ -153,7 +153,7 @@
   <param>
     <name>Channel pool size</name>
     <key>ch_pool_size</key>
-    <value>4</value>
+    <value>ch_pool_size</value>
     <type>int</type>
     <hide>part</hide>
   </param>
@@ -176,6 +176,11 @@
        * optional (set to 1 for optional inputs) -->
   <source>
     <name>cogmac_config_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+  <source>
+    <name>cmd_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: temp
-# Generated: Thu Jun  8 17:26:36 2017
+# Generated: Fri Jun  9 16:57:25 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -85,7 +85,8 @@ class temp(gr.top_block, Qt.QWidget):
         self.destination_address = destination_address = 3
         self.cs_threshold = cs_threshold = 0.005
         self.ch_switch_ms = ch_switch_ms = 5
-        self.PU_time_ms = PU_time_ms = 300
+        self.ch_pool_size = ch_pool_size = 5
+        self.PU_time_ms = PU_time_ms = 200
         self.CCA2_ms = CCA2_ms = 20
 
         ##################################################
@@ -97,14 +98,17 @@ class temp(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
+        self.inets_unbundle_0 = inets.unbundle(0, 16, 'CCA1_ms')
         self.inets_run_0 = inets.run(1, 10)
-        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
-        self.inets_cogmac_timing_0 = inets.cogmac_timing(1, 37, frame_length, constellation.bits_per_symbol() * (samp_rate / sps), samp_rate, (diff_preamble_128), 64, CCA2_ms, PU_time_ms, tx_mode_ms, rx_mode_ms, 15, 148, inter_fr_ms, 4, ch_switch_ms)
+        self.inets_frame_probe_0 = inets.frame_probe(1, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_cogmac_timing_0 = inets.cogmac_timing(1, 37, frame_length, constellation.bits_per_symbol() * (samp_rate / sps), samp_rate, (diff_preamble_128), 64, CCA2_ms, PU_time_ms, tx_mode_ms, rx_mode_ms, 15, 148, inter_fr_ms, ch_pool_size, ch_switch_ms)
 
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.inets_cogmac_timing_0, 'cogmac_config_out'), (self.inets_unbundle_0, 'cmd_in'))
         self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_cogmac_timing_0, 'trigger_in'))
+        self.msg_connect((self.inets_unbundle_0, 'cmd_out'), (self.inets_frame_probe_0, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "temp")
@@ -238,6 +242,12 @@ class temp(gr.top_block, Qt.QWidget):
 
     def set_ch_switch_ms(self, ch_switch_ms):
         self.ch_switch_ms = ch_switch_ms
+
+    def get_ch_pool_size(self):
+        return self.ch_pool_size
+
+    def set_ch_pool_size(self, ch_pool_size):
+        self.ch_pool_size = ch_pool_size
 
     def get_PU_time_ms(self):
         return self.PU_time_ms

@@ -92,5 +92,6 @@ install(FILES
     inets_virtual_cs.xml
     inets_time_probe.xml
     inets_cogmac_rm_rep.xml
-    inets_cogmac_timing.xml DESTINATION share/gnuradio/grc/blocks
+    inets_cogmac_timing.xml
+    inets_unbundle.xml DESTINATION share/gnuradio/grc/blocks
 )
