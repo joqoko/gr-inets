@@ -31,16 +31,16 @@ namespace gr {
   namespace inets {
 
     cogmac_timing::sptr
-    cogmac_timing::make(int develop_mode, int block_id, int frame_length, double bps, float sample_rate, const std::vector<unsigned char> &preamble, int padding, int CCA2_ms, int PU_time_ms, int tx_mode_ms, int rx_mode_ms, int len_mac_hdr, int len_phy_overhead, int inter_fr_ms, int ch_pool_size, int ch_switch_ms)
+    cogmac_timing::make(int develop_mode, int block_id, int frame_length, double bps, float sample_rate, const std::vector<unsigned char> &preamble, int padding, int CCA2_ms, int PU_time_ms, int tx_mode_ms, int rx_mode_ms, int len_mac_hdr, int len_phy_overhead, int inter_fr_ms, int ch_pool_size, int ch_switch_ms, int N_Mul_Fr)
     {
       return gnuradio::get_initial_sptr
-        (new cogmac_timing_impl(develop_mode, block_id, frame_length, bps, sample_rate, preamble, padding, CCA2_ms, PU_time_ms, tx_mode_ms, rx_mode_ms, len_mac_hdr, len_phy_overhead, inter_fr_ms, ch_pool_size, ch_switch_ms));
+        (new cogmac_timing_impl(develop_mode, block_id, frame_length, bps, sample_rate, preamble, padding, CCA2_ms, PU_time_ms, tx_mode_ms, rx_mode_ms, len_mac_hdr, len_phy_overhead, inter_fr_ms, ch_pool_size, ch_switch_ms, N_Mul_Fr));
     }
 
     /*
      * The private constructor
      */
-    cogmac_timing_impl::cogmac_timing_impl(int develop_mode, int block_id, int frame_length, double bps, float sample_rate, const std::vector<unsigned char> &preamble, int padding, int CCA2_ms, int PU_time_ms, int tx_mode_ms, int rx_mode_ms, int len_mac_hdr, int len_phy_overhead, int inter_fr_ms, int ch_pool_size, int ch_switch_ms)
+    cogmac_timing_impl::cogmac_timing_impl(int develop_mode, int block_id, int frame_length, double bps, float sample_rate, const std::vector<unsigned char> &preamble, int padding, int CCA2_ms, int PU_time_ms, int tx_mode_ms, int rx_mode_ms, int len_mac_hdr, int len_phy_overhead, int inter_fr_ms, int ch_pool_size, int ch_switch_ms, int N_Mul_Fr)
       : gr::block("cogmac_timing",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)), 
@@ -56,6 +56,7 @@ namespace gr {
         _tx_mode_ms(tx_mode_ms),
         _rx_mode_ms(rx_mode_ms),
         _len_mac_hdr(len_mac_hdr),
+        _N_Mul_Fr(N_Mul_Fr),
         _len_phy_overhead(len_phy_overhead),
         _inter_fr_ms(inter_fr_ms),
         _ch_pool_size(ch_pool_size),
@@ -86,14 +87,24 @@ namespace gr {
       int N_PU = floor((_PU_time_ms - _rx_mode_ms - _tx_mode_ms + _inter_fr_ms) / (frame_tx_time_ms + _inter_fr_ms));
       int t_probing_ms = N_PU * frame_tx_time_ms + (N_PU - 1) * _inter_fr_ms + _tx_mode_ms + _rx_mode_ms;
       int g_PU = floor(((_ch_pool_size - 1) * (CCA1_ms + _ch_switch_ms) + _ch_switch_ms) / (t_probing_ms + _CCA2_ms));
+      //std::cout << ((_ch_pool_size - 1) * (CCA1_ms + _ch_switch_ms) + _ch_switch_ms) << " and " << (t_probing_ms + _CCA2_ms) << std::endl;
       int n_re = ceil(((_ch_pool_size - 1) * (CCA1_ms + _ch_switch_ms) + _ch_switch_ms) / (frame_tx_time_ms + _inter_fr_ms) - (g_PU * (_PU_time_ms - _CCA2_ms) - _inter_fr_ms) / (frame_tx_time_ms + _inter_fr_ms));
-      int N_Re_fr = g_PU * N_PU + !(n_re<N_PU)?N_PU:n_re + 1;
+      //std::cout << ((_ch_pool_size - 1) * (CCA1_ms + _ch_switch_ms) + _ch_switch_ms) << " and " << (g_PU * (_PU_time_ms - _CCA2_ms) - _inter_fr_ms) << " and " << (frame_tx_time_ms + _inter_fr_ms) << std::endl;
+      int N_Re_fr;
+      if(n_re < N_PU)
+        N_Re_fr = g_PU * N_PU + n_re + 1;
+      else
+        N_Re_fr = g_PU * N_PU + N_PU + 1;
+      // be ware of the N_Mul_Fr, actually the N_Mul_Fr here is N_Mul_Fr + 1 in the paper.
+      int N_Fr = N_Re_fr + _N_Mul_Fr - 1;
       
       if(_develop_mode)
       {
         std::cout << "Frame transmission time is " << frame_tx_time_ms << " [ms]" << std::endl;
         std::cout << "CCA1 is " << CCA1_ms << " [ms]" << std::endl;
         std::cout << "CCA2 is " << _CCA2_ms << " [ms]" << std::endl;
+        std::cout << "channel pool size is " << _ch_pool_size << std::endl;
+        std::cout << "channel switch duration is " << _ch_switch_ms << " [ms]" << std::endl;
         std::cout << "PU allowance time is " << _PU_time_ms << " [ms]" << std::endl;
         std::cout << "TX mode time is " << _tx_mode_ms << " [ms]" << std::endl;
         std::cout << "RX mode time is " << _rx_mode_ms << " [ms]" << std::endl;
@@ -102,12 +113,15 @@ namespace gr {
         std::cout << "g_PU is " << g_PU << std::endl;
         std::cout << "n_re is " << n_re << std::endl;
         std::cout << "N_Re_fr is " << N_Re_fr << std::endl;
+        std::cout << "N_Fr is " << N_Fr << std::endl;
+        std::cout << "N_Mul_Fr is " << _N_Mul_Fr << std::endl;
       }
       pmt::pmt_t cogmac_cmd = pmt::make_dict();
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("frame_time_ms"), pmt::from_double(frame_tx_time_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("CCA1_ms"), pmt::from_long(CCA1_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("CCA2_ms"), pmt::from_long(_CCA2_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("PU_time_ms"), pmt::from_long(_PU_time_ms));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("ch_switch_ms"), pmt::from_long(_ch_switch_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("tx_mode_ms"), pmt::from_long(_tx_mode_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("rx_mode_ms"), pmt::from_long(_rx_mode_ms));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("N_PU"), pmt::from_long(N_PU));
@@ -115,6 +129,8 @@ namespace gr {
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("g_PU"), pmt::from_long(g_PU));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("n_re"), pmt::from_long(n_re));
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("N_Re_fr"), pmt::from_long(N_Re_fr));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("N_Fr"), pmt::from_long(N_Fr));
+      cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("N_Mul_Fr"), pmt::from_long(_N_Mul_Fr));
       message_port_pub(pmt::mp("cogmac_config_out"), cogmac_cmd);
       boost::this_thread::sleep(boost::posix_time::microseconds(100000));
       message_port_pub(pmt::mp("cmd_out"), trigger);

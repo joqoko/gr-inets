@@ -162,6 +162,24 @@
     </option>
   </param>
 
+  <param>
+    <name>Show reset duration port</name>
+    <key>reset_duration</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Not show</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>show</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -173,7 +191,7 @@
     <optional>1</optional>
   </sink>
   <sink>
-    <name>info_in</name>
+    <name>cmd_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
@@ -185,18 +203,25 @@
     <hide>$show_stop</hide>
   </sink>
 
+  <sink>
+    <name>reset_duration_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$reset_duration</hide>
+  </sink>
+
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>frame_info_pass_out</name>
+    <name>cmd_pass_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>
   <source>
-    <name>frame_info_fail_out</name>
+    <name>cmd_fail_out</name>
     <type>message</type>
     <optional>1</optional>
     <hide>$show_fail</hide>

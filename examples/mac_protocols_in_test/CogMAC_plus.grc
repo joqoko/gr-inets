@@ -754,6 +754,10 @@
       <value>11</value>
     </param>
     <param>
+      <key>rx_sensitivity_dB</key>
+      <value>20</value>
+    </param>
+    <param>
       <key>nf_initial_n</key>
       <value>100</value>
     </param>
@@ -1161,6 +1165,14 @@
       <value>inets_frame_buffer_0</value>
     </param>
     <param>
+      <key>show_empty</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>show_full</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>indicate</key>
       <value>0</value>
     </param>
@@ -1174,10 +1186,6 @@
     </param>
     <param>
       <key>output_empty</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>show_empty</key>
       <value>0</value>
     </param>
   </block>
@@ -1248,6 +1256,14 @@
       <value>inets_frame_buffer_0_0</value>
     </param>
     <param>
+      <key>show_empty</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>show_full</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>indicate</key>
       <value>1</value>
     </param>
@@ -1262,10 +1278,6 @@
     <param>
       <key>output_empty</key>
       <value>1</value>
-    </param>
-    <param>
-      <key>show_empty</key>
-      <value>0</value>
     </param>
   </block>
   <block>
@@ -1378,6 +1390,10 @@
       <value>0</value>
     </param>
     <param>
+      <key>set</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>unselect</key>
       <value>0</value>
     </param>
@@ -1426,6 +1442,10 @@
     </param>
     <param>
       <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_selected</key>
       <value>0</value>
     </param>
     <param>
@@ -1481,6 +1501,10 @@
     </param>
     <param>
       <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>output_selected</key>
       <value>0</value>
     </param>
     <param>
@@ -2206,6 +2230,10 @@
       <value>inets_frame_replicate_0</value>
     </param>
     <param>
+      <key>show_complete</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
@@ -2839,30 +2867,6 @@
     <sink_key>indicate_empty</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_carrier_sensing_0</source_block_id>
-    <sink_block_id>inets_frame_path_0_0_1_0_2</sink_block_id>
-    <source_key>frame_info_fail_out</source_key>
-    <sink_key>frame_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_carrier_sensing_0</source_block_id>
-    <sink_block_id>inets_frame_path_0_0_1_0</sink_block_id>
-    <source_key>frame_info_pass_out</source_key>
-    <sink_key>frame_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_cogmac_ch_pool_0</source_block_id>
-    <sink_block_id>inets_frame_path_0_0_1_0_0</sink_block_id>
-    <source_key>next_frequency_out</source_key>
-    <sink_key>frame_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_cogmac_ch_pool_0</source_block_id>
-    <sink_block_id>inets_sending_0</sink_block_id>
-    <source_key>next_frequency_out</source_key>
-    <sink_key>reconfig_in</sink_key>
-  </connection>
-  <connection>
     <source_block_id>inets_dummy_source_0</source_block_id>
     <sink_block_id>inets_framing_0</sink_block_id>
     <source_key>output</source_key>
@@ -2933,12 +2937,6 @@
     <sink_block_id>inets_general_timer_1</sink_block_id>
     <source_key>good_frame_info_out</source_key>
     <sink_key>active_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_frame_counter_0</source_block_id>
-    <sink_block_id>inets_carrier_sensing_0</sink_block_id>
-    <source_key>select_out</source_key>
-    <sink_key>info_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_index_selector_0</source_block_id>
@@ -3077,12 +3075,6 @@
     <sink_block_id>inets_frame_buffer_0</sink_block_id>
     <source_key>frame_out</source_key>
     <sink_key>enqueue</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_general_timer_0</source_block_id>
-    <sink_block_id>inets_cogmac_ch_pool_0</sink_block_id>
-    <source_key>expire_signal_out</source_key>
-    <sink_key>change_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_general_timer_0</source_block_id>

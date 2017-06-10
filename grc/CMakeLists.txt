@@ -29,7 +29,6 @@ install(FILES
     inets_per_logger.xml 
     inets_rssi.xml
     inets_framing_py_v1.xml
-    inets_carrier_sensing_cpp_cc.xml
     inets_exponential_backoff_cpp.xml
     inets_decision_cpp.xml
     inets_idle_cpp.xml

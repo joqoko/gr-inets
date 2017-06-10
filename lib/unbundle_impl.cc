@@ -64,7 +64,6 @@ namespace gr {
     void
     unbundle_impl::unbundle_cmd(pmt::pmt_t cmd_in)
     {
-      std::cout << _command_name << std::endl;
       if(pmt::dict_has_key(cmd_in, pmt::mp(_command_name)))
       {
         pmt::pmt_t not_found;

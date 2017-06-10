@@ -251,6 +251,22 @@
       <opt>hide:part</opt>
     </option>
   </param>
+  <param>
+    <name>Show reset size port</name>
+    <key>reset_size</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Off</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>On</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -289,6 +305,13 @@
     <type>message</type>
     <optional>1</optional>
     <hide>$indicate</hide>
+  </sink>
+
+  <sink>
+    <name>reset_size_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$reset_size</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:

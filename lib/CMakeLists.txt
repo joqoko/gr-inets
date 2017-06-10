@@ -31,7 +31,6 @@ list(APPEND inets_sources
     variable_rotator_impl.cc
     baseband_derotation_impl.cc
     rssi_impl.cc
-    carrier_sensing_cpp_cc_impl.cc
     exponential_backoff_cpp_impl.cc
     decision_cpp_impl.cc
     idle_cpp_impl.cc

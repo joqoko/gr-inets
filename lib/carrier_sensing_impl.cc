@@ -59,11 +59,11 @@ namespace gr {
       _stop_sensing = false;
       if(_develop_mode == 1)
         std::cout << "develop_mode of carrier sensing is activated." << std::endl;
-      message_port_register_in(pmt::mp("info_in"));
-      message_port_register_out(pmt::mp("frame_info_fail_out"));
-      message_port_register_out(pmt::mp("frame_info_pass_out"));
+      message_port_register_in(pmt::mp("cmd_in"));
+      message_port_register_out(pmt::mp("cmd_fail_out"));
+      message_port_register_out(pmt::mp("cmd_pass_out"));
       set_msg_handler(
-        pmt::mp("info_in"),
+        pmt::mp("cmd_in"),
         boost::bind(&carrier_sensing_impl::start_sensing, this, _1)
       );
       message_port_register_in(pmt::mp("stop_in"));
@@ -76,6 +76,11 @@ namespace gr {
         pmt::mp("power_in"),
         boost::bind(&carrier_sensing_impl::sensing, this, _1)
       );
+      message_port_register_in(pmt::mp("reset_duration_in"));
+      set_msg_handler(
+        pmt::mp("reset_duration_in"),
+        boost::bind(&carrier_sensing_impl::reset_duration, this, _1)
+      );
     }
 
     /*
@@ -83,6 +88,27 @@ namespace gr {
      */
     carrier_sensing_impl::~carrier_sensing_impl()
     {
+    }
+
+    void carrier_sensing_impl::reset_duration(pmt::pmt_t cmd_in)
+    {
+      if(pmt::is_integer(cmd_in))
+      {
+        _cs_duration = pmt::to_long(cmd_in);
+        if(_develop_mode)
+          std::cout << "cs duration of carrier_sensing block ID " << _block_id << " is reset to " << _cs_duration << std::endl;
+      }
+      else if(pmt::dict_has_key(cmd_in, pmt::mp("CCA1_ms")))
+      {
+        pmt::pmt_t not_found;
+        _cs_duration = pmt::to_long(pmt::dict_ref(cmd_in, pmt::string_to_symbol("CCA1_ms"), not_found));
+        if(_develop_mode)
+          std::cout << "cs duration of carrier_sensing block ID " << _block_id << " is reset to " << _cs_duration << " according to CogMAC protocol " << std::endl;
+      }
+      else   
+      {
+        std::cout << "error: carrier_sensing block ID " << _block_id << " can only reassign cs_duration to a integer number (in [ms])." << std::endl;
+      }
     }
 
     void carrier_sensing_impl::sensing(pmt::pmt_t power_in)
@@ -130,12 +156,12 @@ namespace gr {
     }
     
 
-    void carrier_sensing_impl::stop_sensing(pmt::pmt_t info_in)
+    void carrier_sensing_impl::stop_sensing(pmt::pmt_t cmd_in)
     {
       _stop_sensing = true;
     }
 
-    void carrier_sensing_impl::start_sensing(pmt::pmt_t info_in)
+    void carrier_sensing_impl::start_sensing(pmt::pmt_t cmd_in)
     {
       struct timeval t;
       gettimeofday(&t, NULL);
@@ -143,9 +169,9 @@ namespace gr {
 
       if(_cs_mode == 4)
       {
-        _frame_info = info_in;
+        _cmd = cmd_in;
         // continuous carrier sensing
-        if(pmt::is_dict(info_in))
+        if(pmt::is_dict(cmd_in))
         {
           if(_develop_mode == 1 || _develop_mode == 2)
             std::cout << "+++++++++ cs ID: " << _block_id << " in mode continuous  +++++++++" << std::endl;    
@@ -161,16 +187,16 @@ namespace gr {
       else if(_cs_mode == 1)
       {
         // Oneshot carrier sensing
-        if(pmt::is_dict(info_in))
+        if(pmt::is_dict(cmd_in))
         {
           if(_develop_mode == 1 || _develop_mode == 2)
             std::cout << "+++++++++ cs ID: " << _block_id << " in mode Oneshot  +++++++++" << std::endl;    
           // this function is fired
           pmt::pmt_t not_found;
-          int frame_type = pmt::to_long(pmt::dict_ref(info_in, pmt::string_to_symbol("frame_type"), not_found)); 
+          int frame_type = pmt::to_long(pmt::dict_ref(cmd_in, pmt::string_to_symbol("frame_type"), not_found)); 
           if(frame_type == 1)
           {
-            _frame_info = info_in;
+            _cmd = cmd_in;
             if(_develop_mode == 1)
               std::cout << "before sending a data frame, start sensing" << std::endl;
             boost::thread thrd(&carrier_sensing_impl::oneshot_sensing, this);
@@ -179,7 +205,7 @@ namespace gr {
           {
             if(_develop_mode == 1)
               std::cout << "before sending a ack frame, no sensing" << std::endl;
-            message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
+            message_port_pub(pmt::mp("cmd_pass_out"), cmd_in);
           }
         }
         else
@@ -191,18 +217,18 @@ namespace gr {
       // Fix duration carrier sensing
       else if(_cs_mode == 2)
       {
-        if(pmt::is_dict(info_in))
+        if(pmt::is_dict(cmd_in))
         {
           if(_develop_mode == 1 || _develop_mode == 2)
             std::cout << "carrier_sensing ID: " << _block_id << " start sensing in mode fix duration at " << "time " << current_time << "s" << std::endl;    
           // this function is fired
           pmt::pmt_t not_found;
-          if(pmt::dict_has_key(info_in, pmt::string_to_symbol("frame_type")))
+          if(pmt::dict_has_key(cmd_in, pmt::string_to_symbol("frame_type")))
           {
-            int frame_type = pmt::to_long(pmt::dict_ref(info_in, pmt::string_to_symbol("frame_type"), not_found)); 
+            int frame_type = pmt::to_long(pmt::dict_ref(cmd_in, pmt::string_to_symbol("frame_type"), not_found)); 
             if(frame_type == 1)
             {
-              _frame_info = info_in;
+              _cmd = cmd_in;
               _in_cca = true;
               if(_develop_mode == 1)
                 std::cout << "before sending a data frame, start sensing" << std::endl;
@@ -212,12 +238,12 @@ namespace gr {
             {
               if(_develop_mode == 1)
                 std::cout << "before sending a ack frame, no sensing" << std::endl;
-              message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
+              message_port_pub(pmt::mp("cmd_pass_out"), cmd_in);
             }
           }
           else
           {
-            _frame_info = info_in;
+            _cmd = cmd_in;
             _in_cca = true;
             if(_develop_mode == 1 || _develop_mode == 2)
               std::cout << "start sensing" << std::endl;
@@ -233,16 +259,16 @@ namespace gr {
       // Unlimited carrier sensing
       else if(_cs_mode == 3)
       {
-        if(pmt::is_dict(info_in))
+        if(pmt::is_dict(cmd_in))
         {
           if(_develop_mode == 1 || _develop_mode == 2)
             std::cout << "+++++++++ cs ID: " << _block_id << " in mode unlimited +++++++++" << std::endl;    
           // this function is fired
           pmt::pmt_t not_found;
-          int frame_type = pmt::to_long(pmt::dict_ref(info_in, pmt::string_to_symbol("frame_type"), not_found)); 
+          int frame_type = pmt::to_long(pmt::dict_ref(cmd_in, pmt::string_to_symbol("frame_type"), not_found)); 
           if(frame_type == 1)
           {
-            _frame_info = info_in;
+            _cmd = cmd_in;
             if(_develop_mode == 1)
               std::cout << "before sending a data frame, start unlimited sensing" << std::endl;
             boost::thread thrd(&carrier_sensing_impl::unlimited_sensing, this);
@@ -251,7 +277,7 @@ namespace gr {
           {
             if(_develop_mode == 1)
               std::cout << "before sending a ack frame, no sensing" << std::endl;
-            message_port_pub(pmt::mp("frame_info_pass_out"), info_in);
+            message_port_pub(pmt::mp("cmd_pass_out"), cmd_in);
           }
         }
         else
@@ -279,13 +305,13 @@ namespace gr {
       {
         if(_develop_mode == 1)
           std::cout << "Carrier sensing passed. " << std::endl;
-        message_port_pub(pmt::mp("frame_info_pass_out"), _frame_info);
+        message_port_pub(pmt::mp("cmd_pass_out"), _cmd);
       }
       else
       {
         if(_develop_mode == 1)
           std::cout << "Carrier sensing failed. " << std::endl;
-        message_port_pub(pmt::mp("frame_info_fail_out"), _frame_info);
+        message_port_pub(pmt::mp("cmd_fail_out"), _cmd);
       }
     }
 
@@ -305,13 +331,13 @@ namespace gr {
       {
         if(_develop_mode == 1)
           std::cout << "Carrier sensing passed. " << std::endl;
-        message_port_pub(pmt::mp("frame_info_pass_out"), _frame_info);
+        message_port_pub(pmt::mp("cmd_pass_out"), _cmd);
       }
       else
       {
         if(_develop_mode == 1)
           std::cout << "Carrier sensing failed. " << std::endl;
-        message_port_pub(pmt::mp("frame_info_fail_out"), _frame_info);
+        message_port_pub(pmt::mp("cmd_fail_out"), _cmd);
       }
       _cs_time = current_time - start_time;
       if(_develop_mode == 1)
@@ -334,7 +360,7 @@ namespace gr {
       }
       if(_develop_mode == 1)
         std::cout << "Carrier sensing passed. " << std::endl;
-      message_port_pub(pmt::mp("frame_info_pass_out"), _frame_info);
+      message_port_pub(pmt::mp("cmd_pass_out"), _cmd);
       _cs_time = current_time - start_time;
       if(_develop_mode == 1)
         std::cout << "Carrier sensing time is: " << _cs_time << " s" << std::endl;
@@ -365,13 +391,13 @@ namespace gr {
       {
         if(_develop_mode == 1)
           std::cout << "Carrier sensing passed. " << std::endl;
-        message_port_pub(pmt::mp("frame_info_pass_out"), _frame_info);
+        message_port_pub(pmt::mp("cmd_pass_out"), _cmd);
       }
       else
       {
         if(_develop_mode == 1)
           std::cout << "Carrier sensing failed. " << std::endl;
-        message_port_pub(pmt::mp("frame_info_fail_out"), _frame_info);
+        message_port_pub(pmt::mp("cmd_fail_out"), _cmd);
       }
       _cs_time = current_time - start_time;
       if(_develop_mode == 1)

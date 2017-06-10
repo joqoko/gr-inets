@@ -43,6 +43,7 @@ namespace gr {
       std::queue<pmt::pmt_t> _buffer;
       void enqueue(pmt::pmt_t enqueue_element);
       void indicate(pmt::pmt_t trigger);
+      void reset_size(pmt::pmt_t cmd_in);
       void dequeue(pmt::pmt_t dequeue_request);
 //      void preview(pmt::pmt_t preview_request);
       void flush(pmt::pmt_t flush_request);

@@ -28,7 +28,6 @@ install(FILES
     variable_rotator.h
     baseband_derotation.h
     rssi.h
-    carrier_sensing_cpp_cc.h
     exponential_backoff_cpp.h
     decision_cpp.h
     idle_cpp.h

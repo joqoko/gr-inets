@@ -41,15 +41,16 @@ namespace gr {
       std::vector<double> _noise_floor;
       double _cs_duration;
       double _cs_time; 
-      pmt::pmt_t _frame_info;
+      pmt::pmt_t _cmd;
       float _cs_threshold;
       int _rx_sensitivity_dB;
-      void start_sensing(pmt::pmt_t frame_info);
-      void stop_sensing(pmt::pmt_t frame_info);
+      void start_sensing(pmt::pmt_t cmd);
+      void stop_sensing(pmt::pmt_t cmd);
       void sensing(pmt::pmt_t power_in);
       void kill_sensing(pmt::pmt_t power_info);
       void countdown_sensing();
       void oneshot_sensing();
+      void reset_duration(pmt::pmt_t cmd_in);
       void continuous_sensing();
       void unlimited_sensing();
 

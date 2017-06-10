@@ -60,6 +60,8 @@ namespace gr {
       set_msg_handler(pmt::mp("suspend_timer_in"), boost::bind(&general_timer_impl::suspend_timer, this, _1 ));
       message_port_register_in(pmt::mp("resume_timer_in"));
       set_msg_handler(pmt::mp("resume_timer_in"), boost::bind(&general_timer_impl::resume_timer, this, _1 ));
+      message_port_register_in(pmt::mp("reset_duration_in"));
+      set_msg_handler(pmt::mp("reset_duration_in"), boost::bind(&general_timer_impl::reset_duration, this, _1 ));
       message_port_register_in(pmt::mp("disable_timer_in"));
       set_msg_handler(pmt::mp("disable_timer_in"), boost::bind(&general_timer_impl::disable_timer, this, _1 ));
       message_port_register_out(pmt::mp("expire_signal_out"));
@@ -73,6 +75,20 @@ namespace gr {
      */
     general_timer_impl::~general_timer_impl()
     {
+    }
+
+    void general_timer_impl::reset_duration(pmt::pmt_t cmd_in)
+    {
+      if(pmt::is_integer(cmd_in))
+      {
+        _duration_ms = pmt::to_long(cmd_in);
+        if(_develop_mode)
+          std::cout << "duration of general_timer block ID " << _block_id << " is reset to " << _duration_ms << " [ms] " << std::endl;
+      }
+      else   
+      {
+        std::cout << "error: general_timer block ID " << _block_id << " can only reassign duration to a integer number (in [ms])." << std::endl;
+      }
     }
 
     void

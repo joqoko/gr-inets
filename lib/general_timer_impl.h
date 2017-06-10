@@ -46,6 +46,7 @@ namespace gr {
       void start_timer(pmt::pmt_t trigger);
       void suspend_timer(pmt::pmt_t trigger);
       void resume_timer(pmt::pmt_t trigger);
+      void reset_duration(pmt::pmt_t cmd_in);
       void disable_timer(pmt::pmt_t trigger);
       void countdown_oneshot_timer();
       void countdown_oneshot_exp_timer();

@@ -64,6 +64,8 @@ namespace gr {
       set_msg_handler(pmt::mp("dequeue"), boost::bind(&frame_buffer_impl::dequeue, this, _1));
       message_port_register_in(pmt::mp("flush")); 
       set_msg_handler(pmt::mp("flush"), boost::bind(&frame_buffer_impl::flush, this, _1));
+      message_port_register_in(pmt::mp("reset_size_in")); 
+      set_msg_handler(pmt::mp("reset_size_in"), boost::bind(&frame_buffer_impl::reset_size, this, _1));
       message_port_register_out(pmt::mp("dequeue_element"));
       message_port_register_out(pmt::mp("buffer_not_full"));
       message_port_register_out(pmt::mp("buffer_full"));
@@ -77,6 +79,20 @@ namespace gr {
     {
     }
 
+    void frame_buffer_impl::reset_size(pmt::pmt_t cmd_in)
+    {
+      if(pmt::is_integer(cmd_in))
+      {
+        _buffer_size = pmt::to_long(cmd_in);
+        if(_develop_mode)
+          std::cout << "buffer_size of frame_buffer block ID " << _block_id << " is reset to " << _buffer_size << std::endl;
+      }
+      else   
+      {
+        std::cout << "error: frame_buffer block ID " << _block_id << " can only reassign buffer size to a integer number." << std::endl;
+      }
+    }
+    
     void frame_buffer_impl::indicate(pmt::pmt_t trigger)
     {
       if(_show_am_empty)
