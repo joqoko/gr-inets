@@ -39,7 +39,7 @@ from per_logger import per_logger
 from framing_py_v1 import framing_py_v1
 from sending import sending
 from receiving import receiving
-from packetization import packetization
+
 from multichannel_receiving import multichannel_receiving
 from run import run
 

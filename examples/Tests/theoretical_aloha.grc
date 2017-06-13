@@ -598,7 +598,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.20"</value>
+      <value>"addr=10.0.0.13"</value>
     </param>
   </block>
   <block>
@@ -885,6 +885,10 @@
     </param>
     <param>
       <key>output_empty</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>reset_size</key>
       <value>1</value>
     </param>
   </block>
@@ -1204,6 +1208,10 @@
       <value>0</value>
     </param>
     <param>
+      <key>reset_duration</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>system_time_granularity_us</key>
       <value>10</value>
     </param>
@@ -1281,6 +1289,10 @@
     <param>
       <key>reserved_time_ms</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>reset_duration</key>
+      <value>1</value>
     </param>
     <param>
       <key>system_time_granularity_us</key>
