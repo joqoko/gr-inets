@@ -18,39 +18,33 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_INETS_RAND_GENERATOR_IMPL_H
+#define INCLUDED_INETS_RAND_GENERATOR_IMPL_H
 
-#ifndef INCLUDED_INETS_FRAME_COUNTER_H
-#define INCLUDED_INETS_FRAME_COUNTER_H
-
-#include <inets/api.h>
-#include <gnuradio/block.h>
+#include <inets/rand_generator.h>
 
 namespace gr {
   namespace inets {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup inets
-     *
-     */
-    class INETS_API frame_counter : virtual public gr::block
+    class rand_generator_impl : public rand_generator
     {
-     public:
-      typedef boost::shared_ptr<frame_counter> sptr;
+     private:
+      int _develop_mode;
+      int _block_id;
+      int _mode;
+      double _min;
+      double _max;
+      double _distribution;
+      void creation(pmt::pmt_t cmd_in);
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of inets::frame_counter.
-       *
-       * To avoid accidental use of raw pointers, inets::frame_counter's
-       * constructor is in a private implementation
-       * class. inets::frame_counter::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(int develop_mode, int block_id, int counts, int mode);
+     public:
+      rand_generator_impl(int develop_mode, int block_id, int mode, double min, double max, int distribution);
+      ~rand_generator_impl();
+
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_COUNTER_H */
+#endif /* INCLUDED_INETS_RAND_GENERATOR_IMPL_H */
 

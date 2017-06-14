@@ -62,7 +62,7 @@ namespace gr {
         _virtual_cs(!virtual_cs)
     {
       if(_develop_mode == 1)
-        std::cout << "develop_mode of backoff is activated." << std::endl;
+        std::cout << "develop_mode of backoff ID " << _block_id << " is activated." << std::endl;
       _n_backoff = 0;
       std::srand((unsigned)time(NULL));  
       message_port_register_in(pmt::mp("frame_info_in"));

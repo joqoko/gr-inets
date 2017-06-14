@@ -33,12 +33,13 @@ namespace gr {
       int _block_id;
       int _current_count;
       int _counts;
+      int _mode;
       void counting(pmt::pmt_t pmt_in);
       void reset(pmt::pmt_t pmt_in);
       void set_counts(pmt::pmt_t pmt_in);
 
      public:
-      frame_counter_impl(int develop_mode, int block_id, int counts);
+      frame_counter_impl(int develop_mode, int block_id, int counts, int mode);
       ~frame_counter_impl();
 
     };

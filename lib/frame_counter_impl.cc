@@ -29,22 +29,23 @@ namespace gr {
   namespace inets {
 
     frame_counter::sptr
-    frame_counter::make(int develop_mode, int block_id, int counts)
+    frame_counter::make(int develop_mode, int block_id, int counts, int mode)
     {
       return gnuradio::get_initial_sptr
-        (new frame_counter_impl(develop_mode, block_id, counts));
+        (new frame_counter_impl(develop_mode, block_id, counts, mode));
     }
 
     /*
      * The private constructor
      */
-    frame_counter_impl::frame_counter_impl(int develop_mode, int block_id, int counts)
+    frame_counter_impl::frame_counter_impl(int develop_mode, int block_id, int counts, int mode)
       : gr::block("frame_counter",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
         _counts(counts),
+        _mode(mode),
         _current_count(0)
     {
       if(_develop_mode)
@@ -100,22 +101,42 @@ namespace gr {
     void
     frame_counter_impl::reset(pmt::pmt_t pmt_in)
     {
-      _current_count = 0;
+      if(_mode == 0)
+        _current_count = 0;
+      else
+        _current_count = _counts;
     }
 
     void
     frame_counter_impl::counting(pmt::pmt_t pmt_in)
     {
-      if(_current_count < _counts - 1)
+      // normal mode
+      if(_mode == 0)
       {
-        _current_count++;
-        message_port_pub(pmt::mp("unselect_out"), pmt_in);
+        if(_current_count < _counts - 1)
+        {
+          _current_count++;
+          message_port_pub(pmt::mp("unselect_out"), pmt_in);
+        }
+        else
+        {
+          _current_count = 0;
+          message_port_pub(pmt::mp("select_out"), pmt_in);
+        } 
       }
+      // countdown mode
       else
       {
-        _current_count = 0;
-        message_port_pub(pmt::mp("select_out"), pmt_in);
-      } 
+        if(_current_count > 0)
+        {
+          _current_count--;
+          message_port_pub(pmt::mp("unfinished_out"), pmt_in);
+        }
+        else
+        {
+          message_port_pub(pmt::mp("finished_out"), pmt_in);
+        } 
+      }
     }
 
   } /* namespace inets */

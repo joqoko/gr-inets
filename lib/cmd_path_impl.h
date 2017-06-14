@@ -18,39 +18,30 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_INETS_CMD_PATH_IMPL_H
+#define INCLUDED_INETS_CMD_PATH_IMPL_H
 
-#ifndef INCLUDED_INETS_FRAME_COUNTER_H
-#define INCLUDED_INETS_FRAME_COUNTER_H
-
-#include <inets/api.h>
-#include <gnuradio/block.h>
+#include <inets/cmd_path.h>
 
 namespace gr {
   namespace inets {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup inets
-     *
-     */
-    class INETS_API frame_counter : virtual public gr::block
+    class cmd_path_impl : public cmd_path
     {
-     public:
-      typedef boost::shared_ptr<frame_counter> sptr;
+     private:
+      int _develop_mode;
+      int _block_id;
+      int _switch_s;
+      void control(pmt::pmt_t cmd_in);
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of inets::frame_counter.
-       *
-       * To avoid accidental use of raw pointers, inets::frame_counter's
-       * constructor is in a private implementation
-       * class. inets::frame_counter::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(int develop_mode, int block_id, int counts, int mode);
+     public:
+      cmd_path_impl(int develop_mode, int block_id, int switch_s);
+      ~cmd_path_impl();
+
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_COUNTER_H */
+#endif /* INCLUDED_INETS_CMD_PATH_IMPL_H */
 

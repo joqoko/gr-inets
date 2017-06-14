@@ -79,7 +79,7 @@ namespace gr {
       _generating = false;
       if(_develop_mode)
         std::cout << "dummy_source ID " << _block_id << " stops generating frame." << std::endl;
-      std::cout << "generating is set to false" << std::endl;
+      std::cout << "dummy_source ID " << _block_id << " dummy frame generation is set to false" << std::endl;
     }
 
     void

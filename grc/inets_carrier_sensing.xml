@@ -107,7 +107,7 @@
   <param>
     <name>Threshold (ED)</name>
     <key>cs_threshold</key>
-    <value>0.005</value>
+    <value>cs_threshold</value>
     <type>float</type>
     <hide>$nf_initial_n.hide</hide>
   </param>

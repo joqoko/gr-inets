@@ -4,7 +4,7 @@
   <key>inets_frame_counter</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.frame_counter($develop_mode, $block_id, $counts)</make>
+  <make>inets.frame_counter($develop_mode, $block_id, $counts, $mode)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -96,6 +96,22 @@
       <key>0</key>
     </option>
   </param>
+
+  <param>
+    <name>Mode</name>
+    <key>mode</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Normal</name>
+      <key>0</key>
+    </option>
+    <option>
+      <name>Countdown</name>
+      <key>1</key>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -138,4 +154,5 @@
     <optional>1</optional>
     <hide>$unselect</hide>
   </source>
+
 </block>

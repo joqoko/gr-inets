@@ -86,6 +86,8 @@ install(FILES
     time_probe.h
     cogmac_rm_rep.h
     cogmac_timing.h
-    unbundle.h DESTINATION include/inets
+    unbundle.h
+    cmd_path.h
+    rand_generator.h DESTINATION include/inets
 
 )

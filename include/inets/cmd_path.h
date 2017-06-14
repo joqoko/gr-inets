@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_FRAME_COUNTER_H
-#define INCLUDED_INETS_FRAME_COUNTER_H
+#ifndef INCLUDED_INETS_CMD_PATH_H
+#define INCLUDED_INETS_CMD_PATH_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API frame_counter : virtual public gr::block
+    class INETS_API cmd_path : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<frame_counter> sptr;
+      typedef boost::shared_ptr<cmd_path> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::frame_counter.
+       * \brief Return a shared_ptr to a new instance of inets::cmd_path.
        *
-       * To avoid accidental use of raw pointers, inets::frame_counter's
+       * To avoid accidental use of raw pointers, inets::cmd_path's
        * constructor is in a private implementation
-       * class. inets::frame_counter::make is the public interface for
+       * class. inets::cmd_path::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int counts, int mode);
+      static sptr make(int develop_mode, int block_id, int switch_s);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_COUNTER_H */
+#endif /* INCLUDED_INETS_CMD_PATH_H */
 

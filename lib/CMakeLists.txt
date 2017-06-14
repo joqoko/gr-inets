@@ -89,7 +89,9 @@ list(APPEND inets_sources
     time_probe_impl.cc
     cogmac_rm_rep_impl.cc
     cogmac_timing_impl.cc
-    unbundle_impl.cc )
+    unbundle_impl.cc
+    cmd_path_impl.cc
+    rand_generator_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<block>
+  <name>rand_generator</name>
+  <key>inets_rand_generator</key>
+  <category>inets_dmf_tool</category>
+  <import>import inets</import>
+  <make>inets.rand_generator($develop_mode, $block_id, $mode, $min, $max, $distribution)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>45</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Mode</name>
+    <key>mode</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Random double</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Random integer</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <param>
+    <name>Min</name>
+    <key>min</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Max</name>
+    <key>max</key>
+    <value>1</value>
+    <type>float</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Distribution</name>
+    <key>distribution</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Uniform</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>Exponential</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>cmd_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <source>
+    <name>cmd_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+</block>

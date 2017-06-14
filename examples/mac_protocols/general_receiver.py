@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: general_receiver
 # Author: PWA
-# Generated: Thu Jun  8 00:38:31 2017
+# Generated: Wed Jun 14 16:10:42 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -62,12 +62,12 @@ class general_receiver(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
         self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 12
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = range_rx_gain
-        self.rx_center_frequency = rx_center_frequency = 4.0e8
+        self.rx_center_frequency = rx_center_frequency = 4.1e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
@@ -113,10 +113,13 @@ class general_receiver(gr.top_block, Qt.QWidget):
         self.inets_counter_1 = inets.counter(1, 100, 1, "6")
         self.inets_counter_0 = inets.counter(1, 100, 1, "1")
         self.inets_cogmac_rm_rep_0 = inets.cogmac_rm_rep(0, 37)
+        self.inets_cmd_path_0 = inets.cmd_path(0, 44, 1)
+        self.inets_carrier_sensing_0 = inets.carrier_sensing(3, 11, 4, 100, 0.005, system_time_granularity_us, 100, 20)
 
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.inets_cmd_path_0, 'cmd_out'), (self.inets_frame_analysis_0, 'frame_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_frame_path_0, 'frame_in'))
         self.msg_connect((self.inets_frame_index_selector_0, 'frame_out'), (self.inets_counter_0, 'message_in'))
@@ -139,8 +142,8 @@ class general_receiver(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_1_0, 'frame_in'))
         self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_1_0_0, 'frame_in'))
         self.msg_connect((self.inets_frame_path_0, 'frame_out'), (self.inets_frame_index_selector_0_2, 'frame_in'))
-        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
-        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_frame_probe_0_0, 'info_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'power_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_cmd_path_0, 'cmd_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "general_receiver")

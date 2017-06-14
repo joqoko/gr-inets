@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_FRAME_COUNTER_H
-#define INCLUDED_INETS_FRAME_COUNTER_H
+#ifndef INCLUDED_INETS_RAND_GENERATOR_H
+#define INCLUDED_INETS_RAND_GENERATOR_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API frame_counter : virtual public gr::block
+    class INETS_API rand_generator : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<frame_counter> sptr;
+      typedef boost::shared_ptr<rand_generator> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::frame_counter.
+       * \brief Return a shared_ptr to a new instance of inets::rand_generator.
        *
-       * To avoid accidental use of raw pointers, inets::frame_counter's
+       * To avoid accidental use of raw pointers, inets::rand_generator's
        * constructor is in a private implementation
-       * class. inets::frame_counter::make is the public interface for
+       * class. inets::rand_generator::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int counts, int mode);
+      static sptr make(int develop_mode, int block_id, int mode, double min, double max, int distribution);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_COUNTER_H */
+#endif /* INCLUDED_INETS_RAND_GENERATOR_H */
 
