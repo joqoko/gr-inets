@@ -598,7 +598,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.13"</value>
+      <value>"addr=10.0.0.20"</value>
     </param>
   </block>
   <block>
@@ -680,7 +680,7 @@
     </param>
     <param>
       <key>counter_name</key>
-      <value>""</value>
+      <value>"sent"</value>
     </param>
   </block>
   <block>
@@ -731,7 +731,7 @@
     </param>
     <param>
       <key>counter_name</key>
-      <value>""</value>
+      <value>"generated"</value>
     </param>
   </block>
   <block>
@@ -1161,7 +1161,7 @@
     </param>
     <param>
       <key>duration_ms</key>
-      <value>200</value>
+      <value>67</value>
     </param>
     <param>
       <key>address_check</key>
@@ -1244,7 +1244,7 @@
     </param>
     <param>
       <key>duration_ms</key>
-      <value>1000000</value>
+      <value>500000</value>
     </param>
     <param>
       <key>address_check</key>
@@ -1470,7 +1470,7 @@
     </param>
     <param>
       <key>tx_gain</key>
-      <value>5</value>
+      <value>0</value>
     </param>
     <param>
       <key>constellation</key>

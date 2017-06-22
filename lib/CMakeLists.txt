@@ -91,7 +91,8 @@ list(APPEND inets_sources
     cogmac_timing_impl.cc
     unbundle_impl.cc
     cmd_path_impl.cc
-    rand_generator_impl.cc )
+    rand_generator_impl.cc
+    standard_timer_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

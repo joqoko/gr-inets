@@ -73,6 +73,7 @@
 #include "inets/unbundle.h"
 #include "inets/cmd_path.h"
 #include "inets/rand_generator.h"
+#include "inets/standard_timer.h"
 #include "inets/general_timeout.h"
 #include "inets/cogmac_ch_pool.h"
 #include "inets/frame_replicate.h"
@@ -90,6 +91,7 @@
 #include "inets/unbundle.h"
 #include "inets/cmd_path.h"
 #include "inets/rand_generator.h"
+#include "inets/standard_timer.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -247,3 +249,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, cmd_path);
 
 %include "inets/rand_generator.h"
 GR_SWIG_BLOCK_MAGIC2(inets, rand_generator);
+%include "inets/standard_timer.h"
+GR_SWIG_BLOCK_MAGIC2(inets, standard_timer);

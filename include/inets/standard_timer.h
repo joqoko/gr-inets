@@ -18,32 +18,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_TIME_PROBE_IMPL_H
-#define INCLUDED_INETS_TIME_PROBE_IMPL_H
 
-#include <inets/time_probe.h>
+#ifndef INCLUDED_INETS_STANDARD_TIMER_H
+#define INCLUDED_INETS_STANDARD_TIMER_H
+
+#include <inets/api.h>
+#include <gnuradio/block.h>
 
 namespace gr {
   namespace inets {
 
-    class time_probe_impl : public time_probe
+    /*!
+     * \brief <+description of block+>
+     * \ingroup inets
+     *
+     */
+    class INETS_API standard_timer : virtual public gr::block
     {
-     private:
-      int _develop_mode;
-      int _block_id;
-      int _mode;
-      double _former_time;
-      void get_former(pmt::pmt_t cmd_in);
-      void calc_duration(pmt::pmt_t cmd_in);
-
      public:
-      time_probe_impl(int develop_mode, int block_id, int mode);
-      ~time_probe_impl();
+      typedef boost::shared_ptr<standard_timer> sptr;
 
+      /*!
+       * \brief Return a shared_ptr to a new instance of inets::standard_timer.
+       *
+       * To avoid accidental use of raw pointers, inets::standard_timer's
+       * constructor is in a private implementation
+       * class. inets::standard_timer::make is the public interface for
+       * creating new instances.
+       */
+      static sptr make(int develop_mode, int block_id, double duration, int system_time_granularity_us);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_TIME_PROBE_IMPL_H */
+#endif /* INCLUDED_INETS_STANDARD_TIMER_H */
 

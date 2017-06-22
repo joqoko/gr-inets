@@ -1174,7 +1174,7 @@
     </param>
     <param>
       <key>interframe_interval_s</key>
-      <value>0</value>
+      <value>interframe_interval_s</value>
     </param>
     <param>
       <key>lengthtagname</key>
@@ -1257,7 +1257,7 @@
     </param>
     <param>
       <key>t_pretx_interval_s</key>
-      <value>0</value>
+      <value>t_pretx_interval_s</value>
     </param>
     <param>
       <key>record_on</key>

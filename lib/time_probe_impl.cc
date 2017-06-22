@@ -29,21 +29,22 @@ namespace gr {
   namespace inets {
 
     time_probe::sptr
-    time_probe::make(int develop_mode, int block_id)
+    time_probe::make(int develop_mode, int block_id, int mode)
     {
       return gnuradio::get_initial_sptr
-        (new time_probe_impl(develop_mode, block_id));
+        (new time_probe_impl(develop_mode, block_id, mode));
     }
 
     /*
      * The private constructor
      */
-    time_probe_impl::time_probe_impl(int develop_mode, int block_id)
+    time_probe_impl::time_probe_impl(int develop_mode, int block_id, int mode)
       : gr::block("time_probe",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
-        _block_id(block_id)
+        _block_id(block_id),
+        _mode(mode)
     {
       if(_develop_mode)
         std::cout << "develop mode of time_probe ID: " << _block_id << " is activated." << std::endl;
@@ -51,6 +52,12 @@ namespace gr {
       set_msg_handler(pmt::mp("time_former_in"), boost::bind(&time_probe_impl::get_former, this, _1 ));
       message_port_register_in(pmt::mp("time_later_in"));
       set_msg_handler(pmt::mp("time_later_in"), boost::bind(&time_probe_impl::calc_duration, this, _1 ));
+      if(_mode == 1)
+      {
+        struct timeval t;
+        gettimeofday(&t, NULL);
+        _former_time = t.tv_sec + t.tv_usec / 1000000.0;
+      }
     }
 
     /*
@@ -75,6 +82,8 @@ namespace gr {
       gettimeofday(&t, NULL);
       double later_time = t.tv_sec + t.tv_usec / 1000000.0;
       std::cout << "time_probe ID " << _block_id << " duration is " << later_time - _former_time << " [s]" << std::endl;
+      if(_mode == 1)
+        _former_time = later_time;
     }
 
   } /* namespace inets */

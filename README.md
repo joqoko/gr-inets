@@ -53,14 +53,15 @@ Index		block name				Categories
 
  23		dummy_source				inets_dmf_tool
 
- 3		general_timer				inets_dmf_mac
+ 5		general_timer				inets_dmf_mac
+ 5.1		standard_timer				inets_dmf_mac
  34		general_timeout				inets_dmf_mac
  11		backoff					inets_dmf_mac
  19		IFS					inets_dmf_mac
 
  22		slide_window				inets_dmf_mac
  29		beacon_interpreter			inets_dmf_mac
- 35		cogmac_ch_pool				inets_dmf_protocol
+ 36		cogmac_ch_pool				inets_dmf_protocol
  37		cogmac_rm_rep				inets_dmf_protocol
  20		virtual_cs				inets_dmf_mac
 

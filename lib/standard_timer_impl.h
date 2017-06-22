@@ -18,32 +18,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_TIME_PROBE_IMPL_H
-#define INCLUDED_INETS_TIME_PROBE_IMPL_H
+#ifndef INCLUDED_INETS_STANDARD_TIMER_IMPL_H
+#define INCLUDED_INETS_STANDARD_TIMER_IMPL_H
 
-#include <inets/time_probe.h>
+#include <inets/standard_timer.h>
 
 namespace gr {
   namespace inets {
 
-    class time_probe_impl : public time_probe
+    class standard_timer_impl : public standard_timer
     {
      private:
       int _develop_mode;
       int _block_id;
-      int _mode;
-      double _former_time;
-      void get_former(pmt::pmt_t cmd_in);
-      void calc_duration(pmt::pmt_t cmd_in);
+      int _disable_timer;
+      bool _in_active;
+      int _duration_ms;
+      pmt::pmt_t _frame_info;
+      int _system_time_granularity_us;
+      void start_timer(pmt::pmt_t trigger);
+      void suspend_timer(pmt::pmt_t trigger);
+      void resume_timer(pmt::pmt_t trigger);
+      void reset_duration(pmt::pmt_t cmd_in);
+      void disable_timer(pmt::pmt_t trigger);
+      void countdown_standard_timer();
 
      public:
-      time_probe_impl(int develop_mode, int block_id, int mode);
-      ~time_probe_impl();
+      standard_timer_impl(int develop_mode, int block_id, double duration, int system_time_granularity_us);
+      ~standard_timer_impl();
 
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_TIME_PROBE_IMPL_H */
+#endif /* INCLUDED_INETS_STANDARD_TIMER_IMPL_H */
 

@@ -598,7 +598,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.8"</value>
+      <value>"addr=10.0.0.6"</value>
     </param>
   </block>
   <block>
@@ -660,7 +660,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 344)</value>
+      <value>(816, 328)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -719,7 +719,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(976, 324)</value>
+      <value>(992, 316)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -739,7 +739,7 @@
     </param>
     <param>
       <key>counter_name</key>
-      <value>""</value>
+      <value>"destined"</value>
     </param>
   </block>
   <block>
@@ -770,7 +770,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(984, 412)</value>
+      <value>(992, 396)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -790,7 +790,7 @@
     </param>
     <param>
       <key>counter_name</key>
-      <value>""</value>
+      <value>"not_destined"</value>
     </param>
   </block>
   <block>
@@ -821,7 +821,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(648, 276)</value>
+      <value>(616, 316)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -841,7 +841,7 @@
     </param>
     <param>
       <key>counter_name</key>
-      <value>""</value>
+      <value>"rx_mac_fr"</value>
     </param>
   </block>
   <block>
@@ -872,7 +872,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(456, 316)</value>
+      <value>(440, 324)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -892,7 +892,7 @@
     </param>
     <param>
       <key>counter_name</key>
-      <value>""</value>
+      <value>"rx_phy_pkt"</value>
     </param>
   </block>
   <block>
@@ -923,7 +923,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 460)</value>
+      <value>(808, 404)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -943,7 +943,7 @@
     </param>
     <param>
       <key>counter_name</key>
-      <value>""</value>
+      <value>"bad_fr"</value>
     </param>
   </block>
   <block>
@@ -1065,7 +1065,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(608, 376)</value>
+      <value>(624, 384)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1132,7 +1132,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(208, 360)</value>
+      <value>(264, 360)</value>
     </param>
     <param>
       <key>_rotation</key>

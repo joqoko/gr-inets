@@ -4,7 +4,7 @@
   <key>inets_time_probe</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.time_probe($develop_mode, $block_id)</make>
+  <make>inets.time_probe($develop_mode, $block_id, $mode)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -46,6 +46,22 @@
     <hide>$develop_mode.hide_control</hide>
   </param>
 
+  
+  <param>
+    <name>Mode</name>
+    <key>mode</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Single port</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Two ports</name>
+      <key>0</key>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -55,6 +71,7 @@
     <name>time_former_in</name>
     <type>message</type>
     <optional>1</optional>
+    <hide>$mode</hide>
   </sink>
 
   <sink>

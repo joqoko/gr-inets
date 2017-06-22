@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: theoretical_aloha
+# Title: theoretical_csma_rx
 # Author: PWA
-# Generated: Tue Jun 20 11:47:14 2017
+# Generated: Tue Jun 20 13:48:41 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -30,12 +30,12 @@ import sys
 from gnuradio import qtgui
 
 
-class theoretical_aloha(gr.top_block, Qt.QWidget):
+class theoretical_csma_rx(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "theoretical_aloha")
+        gr.top_block.__init__(self, "theoretical_csma_rx")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("theoretical_aloha")
+        self.setWindowTitle("theoretical_csma_rx")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -53,7 +53,7 @@ class theoretical_aloha(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "theoretical_aloha")
+        self.settings = Qt.QSettings("GNU Radio", "theoretical_csma_rx")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -62,7 +62,7 @@ class theoretical_aloha(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
         self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
@@ -75,7 +75,7 @@ class theoretical_aloha(gr.top_block, Qt.QWidget):
 
         self.mu = mu = range_mu
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
-        self.destination_address = destination_address = 3
+        self.destination_address = destination_address = 1
         self.cs_threshold = cs_threshold = 0.005
 
         ##################################################
@@ -87,41 +87,31 @@ class theoretical_aloha(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_time_probe_0 = inets.time_probe(0, 200, 1)
-        self.inets_standard_timer_0 = inets.standard_timer(0, 31, 40, 10)
-        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0, t_pretx_interval_s=0, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=0, tx_gain=0)
-        self.inets_run_0 = inets.run(10, 10)
-        self.inets_general_timer_1 = inets.general_timer(0, 3, 0, 2, 10, 0)
-        self.inets_general_timer_0_0 = inets.general_timer(1, 1, 0, 500000, 10, 0)
-        self.inets_general_timer_0 = inets.general_timer(0, 3, 3, 50, 10, 0)
-        self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
-        self.inets_frame_probe_0 = inets.frame_probe(1, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
-        self.inets_frame_path_1 = inets.frame_path(0, 39)
-        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 1000, 1, 0, 0)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 737, 3, 1)
-        self.inets_counter_0_0_0 = inets.counter(2, 1, 1, "generated")
-        self.inets_counter_0 = inets.counter(2, 2, 1, "sent")
+        self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
+        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_frame_check_0 = inets.frame_check(0, 9)
+        self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
+        self.inets_counter_0_0_2 = inets.counter(2, 1, 1, "")
+        self.inets_counter_0_0_1 = inets.counter(2, 2, 1, "")
+        self.inets_counter_0_0_0 = inets.counter(2, 3, 1, "")
+        self.inets_counter_0_0 = inets.counter(2, 5, 1, "")
+        self.inets_counter_0 = inets.counter(2, 4, 1, "")
+        self.inets_address_check_0 = inets.address_check(0, 17, source_address)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_general_timer_1, 'active_in'))
-        self.msg_connect((self.inets_frame_path_1, 'frame_out'), (self.inets_general_timer_0, 'active_in'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_0, 'enqueue'))
-        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_counter_0_0_0, 'message_in'))
-        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_dummy_source_0, 'trigger'))
-        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_frame_path_1, 'frame_in'))
-        self.msg_connect((self.inets_general_timer_0_0, 'expire_signal_out'), (self.inets_general_timer_0, 'disable_timer_in'))
-        self.msg_connect((self.inets_general_timer_1, 'expire_signal_out'), (self.inets_sending_0, 'in'))
-        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0, 'active_in'))
-        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0_0, 'active_in'))
-        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_standard_timer_0, 'active_in'))
-        self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_counter_0, 'message_in'))
-        self.msg_connect((self.inets_standard_timer_0, 'expire_cmd_out'), (self.inets_frame_buffer_0, 'dequeue'))
+        self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_counter_0, 'message_in'))
+        self.msg_connect((self.inets_address_check_0, 'address_check_fail_out'), (self.inets_counter_0_0, 'message_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_counter_0_0_1, 'message_in'))
+        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_check_0, 'bad_frame_info_out'), (self.inets_counter_0_0_0, 'message_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_counter_0_0_2, 'message_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "theoretical_aloha")
+        self.settings = Qt.QSettings("GNU Radio", "theoretical_csma_rx")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -224,7 +214,7 @@ class theoretical_aloha(gr.top_block, Qt.QWidget):
         self.cs_threshold = cs_threshold
 
 
-def main(top_block_cls=theoretical_aloha, options=None):
+def main(top_block_cls=theoretical_csma_rx, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

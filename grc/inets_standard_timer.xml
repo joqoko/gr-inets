@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <block>
-  <name>general_timer</name>
-  <key>inets_general_timer</key>
+  <name>standard_timer</name>
+  <key>inets_standard_timer</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.general_timer($develop_mode, $block_id, $timer_type, $duration_ms, $system_time_granularity_us, $reserved_time_ms)</make>
+  <make>inets.standard_timer($develop_mode, $block_id, $duration, $system_time_granularity_us)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
+
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>
@@ -37,49 +38,14 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>5</value>
+    <value>51</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
 
   <param>
-    <name>Timer type</name>
-    <key>timer_type</key>
-    <type>enum</type>
-    <hide>none</hide>
-    <option>
-      <name>One shot</name>
-      <key>0</key>
-      <opt>hide_reserve:all</opt>
-    </option>
-    <option>
-      <name>Periodic</name>
-      <key>1</key>
-      <opt>hide_reserve:all</opt>
-    </option>
-    <option>
-      <name>Continual</name>
-      <key>2</key>
-      <opt>hide_reserve:part</opt>
-    </option>
-    <option>
-      <name>Oneshot exponential</name>
-      <key>3</key>
-      <opt>hide_reserve:all</opt>
-    </option>
-  </param>
-
-  <param>
-    <name>Reserved time [ms]</name>
-    <key>reserved_time_ms</key>
-    <value>0</value>
-    <type>float</type>
-    <hide>$timer_type.hide_reserve</hide>
-  </param>
-
-  <param>
     <name>Duration [ms]</name>
-    <key>duration_ms</key>
+    <key>duration</key>
     <value>1000</value>
     <type>int</type>
     <hide>part</hide>
@@ -141,22 +107,6 @@
     </option>
   </param>
   <param>
-    <name>Enable address check</name>
-    <key>address_check</key>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>Disable</name>
-      <key>1</key>
-      <opt>hide:part</opt>
-    </option>
-    <option>
-      <name>Enable</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-  </param>
-  <param>
     <name>Show reset duration port</name>
     <key>reset_duration</key>
     <type>enum</type>
@@ -177,7 +127,7 @@
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
-  <sink>
+   <sink>
     <name>active_in</name>
     <type>message</type>
     <optional>1</optional>
@@ -211,20 +161,10 @@
     <hide>$reset_duration</hide>
   </sink>
 
-  <!-- Make one 'source' node per output. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
   <source>
-    <name>expire_signal_out</name>
+    <name>expire_cmd_out</name>
     <type>message</type>
     <optional>1</optional>
   </source>
-  <source>
-    <name>address_check_out</name>
-    <type>message</type>
-    <optional>1</optional>
-    <hide>$address_check</hide>
-  </source>
+
 </block>
