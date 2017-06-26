@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: temp
-# Generated: Wed Jun 14 17:18:31 2017
+# Generated: Sun Jun 25 03:10:39 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -32,7 +32,7 @@ from gnuradio import qtgui
 
 class temp(gr.top_block, Qt.QWidget):
 
-    def __init__(self, constellation=gnuradio.digital.constellation_qpsk().base()):
+    def __init__(self):
         gr.top_block.__init__(self, "temp")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("temp")
@@ -57,38 +57,25 @@ class temp(gr.top_block, Qt.QWidget):
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
-        # Parameters
-        ##################################################
-        self.constellation = constellation
-
-        ##################################################
         # Variables
         ##################################################
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
-        self.tx_mode_ms = tx_mode_ms = 5
         self.tx_center_frequency = tx_center_frequency = 4e8
         self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 1
         self.samp_rate = samp_rate = 400000
-        self.rx_mode_ms = rx_mode_ms = 5
         self.rx_gain = rx_gain = range_rx_gain
         self.rx_center_frequency = rx_center_frequency = 4e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
         self.mu = mu = range_mu
-        self.inter_fr_ms = inter_fr_ms = 5
-        self.frame_length = frame_length = 837
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
         self.destination_address = destination_address = 3
         self.cs_threshold = cs_threshold = 0.005
-        self.ch_switch_ms = ch_switch_ms = 5
-        self.ch_pool_size = ch_pool_size = 5
-        self.PU_time_ms = PU_time_ms = 200
-        self.CCA2_ms = CCA2_ms = 20
 
         ##################################################
         # Blocks
@@ -99,29 +86,26 @@ class temp(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_run_0 = inets.run(1, 10)
-        self.inets_rand_generator_0 = inets.rand_generator(0, 25, 0, 0, 1, 0)
-        self.inets_general_timer_0 = inets.general_timer(0, 3, 0, 100, 10, 0)
+        self.inets_run_0 = inets.run(5, 10)
+        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [0.1, 0.2, 0.3, 0.4, 0.5])
+        self.inets_general_timer_0_0 = inets.general_timer(0, 5, 1, 80, 10, 0)
+        self.inets_general_timer_0 = inets.general_timer(0, 5, 1, 1000, 10, 0)
+        self.inets_counter_1 = inets.counter(3, 100, 1, "addressed", 1, "/home/inets/source/gr-inets/results/", 0)
         self.blocks_message_debug_0 = blocks.message_debug()
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_rand_generator_0, 'cmd_in'))
-        self.msg_connect((self.inets_rand_generator_0, 'cmd_out'), (self.blocks_message_debug_0, 'print'))
-        self.msg_connect((self.inets_rand_generator_0, 'cmd_out'), (self.inets_general_timer_0, 'active_in'))
-        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_rand_generator_0, 'cmd_in'))
+        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_parameter_list_0, 'trigger_in'))
+        self.msg_connect((self.inets_general_timer_0_0, 'expire_signal_out'), (self.inets_counter_1, 'message_in'))
+        self.msg_connect((self.inets_parameter_list_0, 'parameter_out'), (self.inets_counter_1, 'reset_counter'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0, 'active_in'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0_0, 'active_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "temp")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
-
-    def get_constellation(self):
-        return self.constellation
-
-    def set_constellation(self, constellation):
-        self.constellation = constellation
 
     def get_sps(self):
         return self.sps
@@ -149,12 +133,6 @@ class temp(gr.top_block, Qt.QWidget):
     def set_usrp_device_address(self, usrp_device_address):
         self.usrp_device_address = usrp_device_address
 
-    def get_tx_mode_ms(self):
-        return self.tx_mode_ms
-
-    def set_tx_mode_ms(self, tx_mode_ms):
-        self.tx_mode_ms = tx_mode_ms
-
     def get_tx_center_frequency(self):
         return self.tx_center_frequency
 
@@ -178,12 +156,6 @@ class temp(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-
-    def get_rx_mode_ms(self):
-        return self.rx_mode_ms
-
-    def set_rx_mode_ms(self, rx_mode_ms):
-        self.rx_mode_ms = rx_mode_ms
 
     def get_rx_gain(self):
         return self.rx_gain
@@ -209,18 +181,6 @@ class temp(gr.top_block, Qt.QWidget):
     def set_mu(self, mu):
         self.mu = mu
 
-    def get_inter_fr_ms(self):
-        return self.inter_fr_ms
-
-    def set_inter_fr_ms(self, inter_fr_ms):
-        self.inter_fr_ms = inter_fr_ms
-
-    def get_frame_length(self):
-        return self.frame_length
-
-    def set_frame_length(self, frame_length):
-        self.frame_length = frame_length
-
     def get_diff_preamble_128(self):
         return self.diff_preamble_128
 
@@ -239,39 +199,8 @@ class temp(gr.top_block, Qt.QWidget):
     def set_cs_threshold(self, cs_threshold):
         self.cs_threshold = cs_threshold
 
-    def get_ch_switch_ms(self):
-        return self.ch_switch_ms
-
-    def set_ch_switch_ms(self, ch_switch_ms):
-        self.ch_switch_ms = ch_switch_ms
-
-    def get_ch_pool_size(self):
-        return self.ch_pool_size
-
-    def set_ch_pool_size(self, ch_pool_size):
-        self.ch_pool_size = ch_pool_size
-
-    def get_PU_time_ms(self):
-        return self.PU_time_ms
-
-    def set_PU_time_ms(self, PU_time_ms):
-        self.PU_time_ms = PU_time_ms
-
-    def get_CCA2_ms(self):
-        return self.CCA2_ms
-
-    def set_CCA2_ms(self, CCA2_ms):
-        self.CCA2_ms = CCA2_ms
-
-
-def argument_parser():
-    parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
-    return parser
-
 
 def main(top_block_cls=temp, options=None):
-    if options is None:
-        options, _ = argument_parser().parse_args()
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

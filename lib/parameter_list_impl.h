@@ -18,31 +18,31 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_RANDOM_FILTER_IMPL_H
-#define INCLUDED_INETS_RANDOM_FILTER_IMPL_H
+#ifndef INCLUDED_INETS_PARAMETER_LIST_IMPL_H
+#define INCLUDED_INETS_PARAMETER_LIST_IMPL_H
 
-#include <inets/random_filter.h>
+#include <inets/parameter_list.h>
 
 namespace gr {
   namespace inets {
 
-    class random_filter_impl : public random_filter
+    class parameter_list_impl : public parameter_list
     {
      private:
       int _develop_mode;
       int _block_id;
-      double _threshold;
-      void rolling(pmt::pmt_t pmt_in);
-      void set_threshold(pmt::pmt_t cmd_in);
+      std::vector<double> _list;
+      void kick(pmt::pmt_t cmd_in);
 
      public:
-      random_filter_impl(int develop_mode, int block_id, double threshold);
-      ~random_filter_impl();
+      parameter_list_impl(int develop_mode, int block_id, const std::vector<double> list);
+      ~parameter_list_impl();
+
 
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_RANDOM_FILTER_IMPL_H */
+#endif /* INCLUDED_INETS_PARAMETER_LIST_IMPL_H */
 

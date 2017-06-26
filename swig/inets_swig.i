@@ -74,6 +74,10 @@
 #include "inets/cmd_path.h"
 #include "inets/rand_generator.h"
 #include "inets/standard_timer.h"
+#include "inets/cmd_and.h"
+#include "inets/cmd_switch.h"
+#include "inets/cmd_port_control.h"
+#include "inets/parameter_list.h"
 #include "inets/general_timeout.h"
 #include "inets/cogmac_ch_pool.h"
 #include "inets/frame_replicate.h"
@@ -92,6 +96,10 @@
 #include "inets/cmd_path.h"
 #include "inets/rand_generator.h"
 #include "inets/standard_timer.h"
+#include "inets/cmd_and.h"
+#include "inets/cmd_switch.h"
+#include "inets/cmd_port_control.h"
+#include "inets/parameter_list.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -251,3 +259,11 @@ GR_SWIG_BLOCK_MAGIC2(inets, cmd_path);
 GR_SWIG_BLOCK_MAGIC2(inets, rand_generator);
 %include "inets/standard_timer.h"
 GR_SWIG_BLOCK_MAGIC2(inets, standard_timer);
+%include "inets/cmd_and.h"
+GR_SWIG_BLOCK_MAGIC2(inets, cmd_and);
+%include "inets/cmd_switch.h"
+GR_SWIG_BLOCK_MAGIC2(inets, cmd_switch);
+%include "inets/cmd_port_control.h"
+GR_SWIG_BLOCK_MAGIC2(inets, cmd_port_control);
+%include "inets/parameter_list.h"
+GR_SWIG_BLOCK_MAGIC2(inets, parameter_list);

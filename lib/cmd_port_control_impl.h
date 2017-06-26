@@ -18,31 +18,31 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_INETS_RANDOM_FILTER_IMPL_H
-#define INCLUDED_INETS_RANDOM_FILTER_IMPL_H
+#ifndef INCLUDED_INETS_CMD_PORT_CONTROL_IMPL_H
+#define INCLUDED_INETS_CMD_PORT_CONTROL_IMPL_H
 
-#include <inets/random_filter.h>
+#include <inets/cmd_port_control.h>
 
 namespace gr {
   namespace inets {
 
-    class random_filter_impl : public random_filter
+    class cmd_port_control_impl : public cmd_port_control
     {
      private:
       int _develop_mode;
       int _block_id;
-      double _threshold;
-      void rolling(pmt::pmt_t pmt_in);
-      void set_threshold(pmt::pmt_t cmd_in);
+      bool _switch;
+      void passing(pmt::pmt_t cmd_in);
+      void control(pmt::pmt_t cmd_in);
 
      public:
-      random_filter_impl(int develop_mode, int block_id, double threshold);
-      ~random_filter_impl();
+      cmd_port_control_impl(int develop_mode, int block_id);
+      ~cmd_port_control_impl();
 
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_RANDOM_FILTER_IMPL_H */
+#endif /* INCLUDED_INETS_CMD_PORT_CONTROL_IMPL_H */
 

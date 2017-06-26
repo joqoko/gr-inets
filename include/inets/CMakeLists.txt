@@ -89,6 +89,10 @@ install(FILES
     unbundle.h
     cmd_path.h
     rand_generator.h
-    standard_timer.h DESTINATION include/inets
+    standard_timer.h
+    cmd_and.h
+    cmd_switch.h
+    cmd_port_control.h
+    parameter_list.h DESTINATION include/inets
 
 )

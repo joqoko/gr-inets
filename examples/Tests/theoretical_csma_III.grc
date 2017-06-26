@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>theoretical_csma_I</value>
+      <value>theoretical_csma_III</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>theoretical_csma_I</value>
+      <value>theoretical_csma_III</value>
     </param>
   </block>
   <block>
@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>2</value>
     </param>
   </block>
   <block>
@@ -337,7 +337,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -472,7 +472,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.20"</value>
+      <value>"addr=10.0.0.14"</value>
     </param>
   </block>
   <block>
@@ -924,7 +924,7 @@
     </param>
     <param>
       <key>counter_name</key>
-      <value>"sent_4"</value>
+      <value>"sent_3"</value>
     </param>
     <param>
       <key>record_on</key>
@@ -2394,12 +2394,6 @@
     <sink_block_id>inets_cmd_path_0_0_0</sink_block_id>
     <source_key>data_frame_out</source_key>
     <sink_key>cmd_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_sending_0</source_block_id>
-    <sink_block_id>inets_counter_0</sink_block_id>
-    <source_key>data_frame_out</source_key>
-    <sink_key>message_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_sending_0</source_block_id>

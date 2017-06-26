@@ -94,5 +94,9 @@ install(FILES
     inets_unbundle.xml
     inets_cmd_path.xml
     inets_rand_generator.xml
-    inets_standard_timer.xml DESTINATION share/gnuradio/grc/blocks
+    inets_standard_timer.xml
+    inets_cmd_and.xml
+    inets_cmd_switch.xml
+    inets_cmd_port_control.xml
+    inets_parameter_list.xml DESTINATION share/gnuradio/grc/blocks
 )

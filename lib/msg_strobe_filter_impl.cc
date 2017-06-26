@@ -76,6 +76,9 @@ namespace gr {
           gettimeofday(&t, NULL);
           current_time_s = t.tv_sec + t.tv_usec / 1000000.0;
         }
+        gettimeofday(&t, NULL);
+        double current_time_show = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
+        std::cout << "node starts running at " << current_time_show << std::endl;
         message_port_pub(pmt::mp("start_out"), msg);
       }
     }

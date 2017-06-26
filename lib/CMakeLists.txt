@@ -92,7 +92,11 @@ list(APPEND inets_sources
     unbundle_impl.cc
     cmd_path_impl.cc
     rand_generator_impl.cc
-    standard_timer_impl.cc )
+    standard_timer_impl.cc
+    cmd_and_impl.cc
+    cmd_switch_impl.cc
+    cmd_port_control_impl.cc
+    parameter_list_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)

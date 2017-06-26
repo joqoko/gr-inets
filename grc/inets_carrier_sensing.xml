@@ -112,7 +112,7 @@
     <hide>$nf_initial_n.hide</hide>
   </param>
   <param>
-    <name>Duration</name>
+    <name>Duration [ms]</name>
     <key>cs_duration</key>
     <value>100</value>
     <type>real</type>

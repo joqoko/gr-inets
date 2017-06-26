@@ -4,7 +4,7 @@
   <key>inets_counter</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.counter($develop_mode, $counter_id, $interval_mode, $counter_name)</make>
+  <make>inets.counter($develop_mode, $counter_id, $interval_mode, $counter_name, $record_on, $record_path, $name_with_stamp)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -31,6 +31,12 @@
     <option>
       <name>time</name>
       <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>Record</name>
+      <key>3</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
     </option>
@@ -90,6 +96,63 @@
     </option>
   </param>
 
+  <param>
+    <name>Show reset port</name>
+    <key>reset</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Record on</name>
+    <key>record_on</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:all</opt>
+      <opt>hide_path:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_path:part</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Records path</name>
+    <key>record_path</key>
+    <value>"/home/inets/source/gr-inets/results/"</value>
+    <type>string</type>
+    <hide>$record_on.hide_path</hide>
+  </param>
+
+  <param>
+    <name>filename with timestamp</name>
+    <key>name_with_stamp</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Yes</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>No</name>
+      <key>0</key>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -102,6 +165,13 @@
   </sink>
 
   <sink>
+    <name>reset_counter</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$reset</hide>
+  </sink>
+
+  <sink>
     <name>start_counter_in</name>
     <type>message</type>
     <optional>1</optional>
@@ -111,8 +181,7 @@
   <sink>
     <name>stop_counter_in</name>
     <type>message</type>
-    <optional>1</optional>
-    <hide>$interval_mode</hide>
+    <optional>1</optional> <hide>$interval_mode</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:

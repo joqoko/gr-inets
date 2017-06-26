@@ -48,10 +48,12 @@ namespace gr {
     {
       if(_develop_mode)
         std::cout << "develop_mode of random_filter ID: " << _block_id << " is activated." << std::endl;
-      message_port_register_in(pmt::mp("pmt_in")); 
-      set_msg_handler(pmt::mp("pmt_in"), boost::bind(&random_filter_impl::rolling, this, _1));
-      message_port_register_out(pmt::mp("win_out"));
-      message_port_register_out(pmt::mp("lose_out"));
+      message_port_register_in(pmt::mp("cmd_in")); 
+      set_msg_handler(pmt::mp("cmd_in"), boost::bind(&random_filter_impl::rolling, this, _1));
+      message_port_register_in(pmt::mp("set_threshold")); 
+      set_msg_handler(pmt::mp("set_threshold"), boost::bind(&random_filter_impl::set_threshold, this, _1));
+      message_port_register_out(pmt::mp("win_cmd_out"));
+      message_port_register_out(pmt::mp("lose_cmd_out"));
     }
 
     /*
@@ -62,18 +64,24 @@ namespace gr {
     }
 
     void
+    random_filter_impl::set_threshold(pmt::pmt_t cmd_in)
+    {
+      _threshold = pmt::to_double(cmd_in);
+    }
+
+    void
     random_filter_impl::rolling(pmt::pmt_t pmt_in)
     {
       double exp =  (double)rand()/(double)(RAND_MAX);
       if(exp < _threshold)
       {
-        message_port_pub(pmt::mp("win_out"),pmt_in);
+        message_port_pub(pmt::mp("win_cmd_out"),pmt_in);
         if(_develop_mode)
           std::cout << "generated random number is" << exp << " and the threshold is " << _threshold << ". good luck. " << std::endl;
       }
       else
       {
-        message_port_pub(pmt::mp("lose_out"),pmt_in);
+        message_port_pub(pmt::mp("lose_cmd_out"),pmt_in);
         if(_develop_mode)
           std::cout << "generated random number is" << exp << " and the threshold is " << _threshold << ". bad luck and try next time. " << std::endl;
       }

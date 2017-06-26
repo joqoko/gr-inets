@@ -177,7 +177,7 @@ namespace gr {
       double start_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
       if(_develop_mode == 2)
         std::cout << "pending is started at: " << start_time_show << "s. ";
-      while(current_time < start_time + _wait_time + _interframe_interval_s - _countdown_bias_s)
+      while(current_time < start_time + _wait_time + _interframe_interval_s)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
         gettimeofday(&t, NULL);
@@ -190,7 +190,6 @@ namespace gr {
         double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
         pmt::pmt_t tx_frame_info = _tx_queue.front();
         pmt::pmt_t not_found;
-        _countdown_bias_s = _countdown_bias_s / 2 + current_time - start_time - _wait_time - _interframe_interval_s;
         int frame_type = pmt::to_long(pmt::dict_ref(tx_frame_info, pmt::string_to_symbol("frame_type"), not_found));
         
         if(frame_type == 1)

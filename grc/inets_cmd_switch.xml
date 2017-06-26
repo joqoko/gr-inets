@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>random_filter</name>
-  <key>inets_random_filter</key>
+  <name>cmd_switch</name>
+  <key>inets_cmd_switch</key>
   <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.random_filter($develop_mode, $block_id, $threshold)</make>
+  <make>inets.cmd_switch($develop_mode, $block_id)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -35,52 +35,13 @@
       <opt>hide_control:none</opt>
     </option>
   </param>
+
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>3</value>
+    <value>47</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
-  </param>
-
-  <param>
-    <name>Threshold</name>
-    <key>threshold</key>
-    <value>0.5</value>
-    <type>float</type>
-    <hide>part</hide>
-  </param>
-
-  <param>
-    <name>Show lose port</name>
-    <key>lose</key>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>Yes</name>
-      <key>0</key>
-      <opt>hide:none</opt>
-    </option>
-    <option>
-      <name>No</name>
-      <key>1</key>
-      <opt>hide:part</opt>
-    </option>
-  </param>
-
-  <param>
-    <name>Show reset port</name>
-    <key>reset</key>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>No</name>
-      <key>1</key>
-    </option>
-    <option>
-      <name>Yes</name>
-      <key>0</key>
-    </option>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -95,10 +56,15 @@
   </sink>
 
   <sink>
-    <name>set_threshold</name>
+    <name>switch_on</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>$reset</hide>
+  </sink>
+
+  <sink>
+    <name>switch_off</name>
+    <type>message</type>
+    <optional>1</optional>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -107,14 +73,8 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>win_cmd_out</name>
+    <name>cmd_out</name>
     <type>message</type>
     <optional>1</optional>
-  </source>
-  <source>
-    <name>lose_cmd_out</name>
-    <type>message</type>
-    <optional>1</optional>
-    <hide>$lose</hide>
   </source>
 </block>

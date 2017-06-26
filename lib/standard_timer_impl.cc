@@ -159,7 +159,7 @@ namespace gr {
     void
     standard_timer_impl::countdown_standard_timer()
     {
-      while(_in_active)
+      while(_in_active && (_disable_timer == 0))
       {
         struct timeval t;
         gettimeofday(&t, NULL);
@@ -169,7 +169,7 @@ namespace gr {
         double current_time_show = start_time_show;
         double next_ct = ceil((start_time + double(_duration_ms) / 1000 / 2) / (double(_duration_ms)/1000)) * (double(_duration_ms)/1000);
         double gap = next_ct - start_time;
-        while((current_time < next_ct) && _in_active)
+        while((current_time < next_ct) && _in_active && (_disable_timer == 0))
         {
           boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us));
           gettimeofday(&t, NULL);

@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /* 
- * Copyright 2016 <+YOU OR YOUR COMPANY+>.
+ * Copyright 2017 <+YOU OR YOUR COMPANY+>.
  * 
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_COUNTER_H
-#define INCLUDED_INETS_COUNTER_H
+#ifndef INCLUDED_INETS_CMD_PORT_CONTROL_H
+#define INCLUDED_INETS_CMD_PORT_CONTROL_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API counter : virtual public gr::block
+    class INETS_API cmd_port_control : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<counter> sptr;
+      typedef boost::shared_ptr<cmd_port_control> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::counter.
+       * \brief Return a shared_ptr to a new instance of inets::cmd_port_control.
        *
-       * To avoid accidental use of raw pointers, inets::counter's
+       * To avoid accidental use of raw pointers, inets::cmd_port_control's
        * constructor is in a private implementation
-       * class. inets::counter::make is the public interface for
+       * class. inets::cmd_port_control::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int counter_id, int interval_mode, std::string counter_name, int record_on, std::string record_path, int name_with_timestamp);
+      static sptr make(int develop_mode, int block_id);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_COUNTER_H */
+#endif /* INCLUDED_INETS_CMD_PORT_CONTROL_H */
 

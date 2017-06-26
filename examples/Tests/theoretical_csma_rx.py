@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: theoretical_csma_rx
 # Author: PWA
-# Generated: Tue Jun 20 13:48:41 2017
+# Generated: Mon Jun 26 13:59:23 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -87,15 +87,19 @@ class theoretical_csma_rx(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
+        self.inets_run_0 = inets.run(20, 10)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_frame_probe_0 = inets.frame_probe(0, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_general_timer_0 = inets.general_timer(0, 5, 0, 500000, 10, 0)
+        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 1, 0.0015, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_frame_counter_0 = inets.frame_counter(0, 36, 8, 0)
         self.inets_frame_check_0 = inets.frame_check(0, 9)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
-        self.inets_counter_0_0_2 = inets.counter(2, 1, 1, "")
-        self.inets_counter_0_0_1 = inets.counter(2, 2, 1, "")
-        self.inets_counter_0_0_0 = inets.counter(2, 3, 1, "")
-        self.inets_counter_0_0 = inets.counter(2, 5, 1, "")
-        self.inets_counter_0 = inets.counter(2, 4, 1, "")
+        self.inets_counter_0_0_2 = inets.counter(1, 1, 1, "", 0, "/home/inets/source/gr-inets/results/", 1)
+        self.inets_counter_0_0_1 = inets.counter(1, 2, 1, "", 0, "/home/inets/source/gr-inets/results/", 1)
+        self.inets_counter_0_0_0 = inets.counter(1, 3, 1, "", 0, "/home/inets/source/gr-inets/results/", 1)
+        self.inets_counter_0_0 = inets.counter(3, 5, 1, "not_addressed", 1, "/home/inets/source/gr-inets/results/", 0)
+        self.inets_counter_0 = inets.counter(3, 4, 1, "addressed", 1, "/home/inets/source/gr-inets/results/", 0)
+        self.inets_cmd_path_0 = inets.cmd_path(0, 44, 1)
         self.inets_address_check_0 = inets.address_check(0, 17, source_address)
 
         ##################################################
@@ -103,12 +107,15 @@ class theoretical_csma_rx(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_counter_0, 'message_in'))
         self.msg_connect((self.inets_address_check_0, 'address_check_fail_out'), (self.inets_counter_0_0, 'message_in'))
-        self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_counter_0_0_1, 'message_in'))
+        self.msg_connect((self.inets_cmd_path_0, 'cmd_out'), (self.inets_general_timer_0, 'active_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
-        self.msg_connect((self.inets_frame_check_0, 'bad_frame_info_out'), (self.inets_counter_0_0_0, 'message_in'))
-        self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_counter_0_0_2, 'message_in'))
+        self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_cmd_path_0, 'cmd_in'))
+        self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_counter_0, 'reset_counter'))
+        self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_counter_0_0, 'reset_counter'))
+        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_frame_counter_0, 'counts_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_frame_out'), (self.inets_frame_analysis_0, 'frame_in'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0, 'active_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "theoretical_csma_rx")

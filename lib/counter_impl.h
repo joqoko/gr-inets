@@ -34,14 +34,19 @@ namespace gr {
       int _counter;
       int _in_counting;
       int _virgin;
+      int _record_on;
+      int _name_with_timestamp;
       double _start_time; 
       std::string _counter_name;
+      std::string _file_name_str;
+      std::string _file_name_extension;
       void counting(pmt::pmt_t message);
+      void reset(pmt::pmt_t cmd_in);
       void start_counting(pmt::pmt_t message);
       void stop_counting(pmt::pmt_t message);
 
      public:
-      counter_impl(int develop_mode, int counter_id, int interval_mode, std::string counter_name);
+      counter_impl(int develop_mode, int counter_id, int interval_mode, std::string counter_name, int record_on, std::string record_path, int name_with_timestamp);
       ~counter_impl();
 
     };
