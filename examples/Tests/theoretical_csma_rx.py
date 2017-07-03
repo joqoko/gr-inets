@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: theoretical_csma_rx
 # Author: PWA
-# Generated: Mon Jun 26 13:59:23 2017
+# Generated: Mon Jul  3 16:08:43 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -62,14 +62,14 @@ class theoretical_csma_rx(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
-        self.tx_center_frequency = tx_center_frequency = 3.9e8
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.14"
+        self.tx_center_frequency = tx_center_frequency = 4.3e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
         self.source_address = source_address = 2
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = range_rx_gain
-        self.rx_center_frequency = rx_center_frequency = 3.9e8
+        self.rx_center_frequency = rx_center_frequency = 4.3e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
@@ -89,9 +89,9 @@ class theoretical_csma_rx(gr.top_block, Qt.QWidget):
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_run_0 = inets.run(20, 10)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_general_timer_0 = inets.general_timer(0, 5, 0, 500000, 10, 0)
-        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 1, 0.0015, 0, "/home/inets/source/gr-inets/results/", "", 1)
-        self.inets_frame_counter_0 = inets.frame_counter(0, 36, 8, 0)
+        self.inets_general_timer_0 = inets.general_timer(0, 5, 0, 1000000, 10, 0)
+        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 0, 0.0015, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_frame_counter_0 = inets.frame_counter(0, 36, 16, 0)
         self.inets_frame_check_0 = inets.frame_check(0, 9)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_counter_0_0_2 = inets.counter(1, 1, 1, "", 0, "/home/inets/source/gr-inets/results/", 1)
@@ -107,9 +107,12 @@ class theoretical_csma_rx(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_counter_0, 'message_in'))
         self.msg_connect((self.inets_address_check_0, 'address_check_fail_out'), (self.inets_counter_0_0, 'message_in'))
+        self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_counter_0_0_0, 'message_in'))
+        self.msg_connect((self.inets_address_check_0, 'address_check_fail_out'), (self.inets_counter_0_0_1, 'message_in'))
         self.msg_connect((self.inets_cmd_path_0, 'cmd_out'), (self.inets_general_timer_0, 'active_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_frame_check_0, 'good_frame_info_out'), (self.inets_address_check_0, 'frame_info_in'))
+        self.msg_connect((self.inets_frame_check_0, 'bad_frame_info_out'), (self.inets_counter_0_0_2, 'message_in'))
         self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_cmd_path_0, 'cmd_in'))
         self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_counter_0, 'reset_counter'))
         self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_counter_0_0, 'reset_counter'))

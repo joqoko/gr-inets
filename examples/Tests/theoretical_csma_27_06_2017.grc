@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>theoretical_csma_IV</value>
+      <value>theoretical_csma_I</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>theoretical_csma_IV</value>
+      <value>theoretical_csma_I</value>
     </param>
   </block>
   <block>
@@ -971,7 +971,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(776, 584)</value>
+      <value>(776, 600)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1793,7 +1793,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(784, 488)</value>
+      <value>(784, 512)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1975,7 +1975,7 @@
     </param>
     <param>
       <key>start_next_time_s</key>
-      <value>20</value>
+      <value>1</value>
     </param>
     <param>
       <key>system_time_granularity_us</key>
@@ -2169,7 +2169,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(280, 480)</value>
+      <value>(280, 496)</value>
     </param>
     <param>
       <key>_rotation</key>

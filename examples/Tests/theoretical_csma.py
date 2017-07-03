@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: theoretical_csma
 # Author: PWA
-# Generated: Mon Jun 26 13:59:18 2017
+# Generated: Mon Jun 26 17:11:00 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -60,13 +60,13 @@ class theoretical_csma(gr.top_block, Qt.QWidget):
         ##################################################
         self.sps = sps = 4
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.14"
-        self.tx_center_frequency = tx_center_frequency = 3.9e8
+        self.tx_center_frequency = tx_center_frequency = 4.3e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
         self.source_address = source_address = 3
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = 0
-        self.rx_center_frequency = rx_center_frequency = 3.9e8
+        self.rx_center_frequency = rx_center_frequency = 4.3e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 

@@ -382,7 +382,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>3.9e8</value>
+      <value>4.3e8</value>
     </param>
   </block>
   <block>
@@ -571,7 +571,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>3.9e8</value>
+      <value>4.3e8</value>
     </param>
   </block>
   <block>
@@ -598,7 +598,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.6"</value>
+      <value>"addr=10.0.0.14"</value>
     </param>
   </block>
   <block>
@@ -904,7 +904,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(800, 420)</value>
+      <value>(1120, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -971,7 +971,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(728, 220)</value>
+      <value>(1144, 364)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1038,7 +1038,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(416, 220)</value>
+      <value>(832, 420)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1275,7 +1275,7 @@
     </param>
     <param>
       <key>counts</key>
-      <value>8</value>
+      <value>16</value>
     </param>
     <param>
       <key>reset</key>
@@ -1306,7 +1306,7 @@
     </param>
     <param>
       <key>cs_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>comment</key>
@@ -1330,7 +1330,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(576, 224)</value>
+      <value>(584, 188)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1393,7 +1393,7 @@
     </param>
     <param>
       <key>duration_ms</key>
-      <value>500000</value>
+      <value>1000000</value>
     </param>
     <param>
       <key>address_check</key>
@@ -1492,7 +1492,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(136, 320)</value>
+      <value>(144, 376)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1618,7 +1618,19 @@
   </connection>
   <connection>
     <source_block_id>inets_address_check_0</source_block_id>
+    <sink_block_id>inets_counter_0_0_1</sink_block_id>
+    <source_key>address_check_fail_out</source_key>
+    <sink_key>message_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_address_check_0</source_block_id>
     <sink_block_id>inets_counter_0</sink_block_id>
+    <source_key>address_check_pass_out</source_key>
+    <sink_key>message_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_address_check_0</source_block_id>
+    <sink_block_id>inets_counter_0_0_0</sink_block_id>
     <source_key>address_check_pass_out</source_key>
     <sink_key>message_in</sink_key>
   </connection>
@@ -1633,6 +1645,12 @@
     <sink_block_id>inets_frame_check_0</sink_block_id>
     <source_key>frame_info_out</source_key>
     <sink_key>frame_info_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_check_0</source_block_id>
+    <sink_block_id>inets_counter_0_0_2</sink_block_id>
+    <source_key>bad_frame_info_out</source_key>
+    <sink_key>message_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_check_0</source_block_id>

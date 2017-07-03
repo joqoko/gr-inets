@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: theoretical_csma_I
+# Title: theoretical_csma_IV
 # Author: PWA
-# Generated: Wed Jun 28 16:59:29 2017
+# Generated: Thu Jun 29 14:57:38 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -29,12 +29,12 @@ import sys
 from gnuradio import qtgui
 
 
-class theoretical_csma_I(gr.top_block, Qt.QWidget):
+class theoretical_csma_IV(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "theoretical_csma_I")
+        gr.top_block.__init__(self, "theoretical_csma_IV")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("theoretical_csma_I")
+        self.setWindowTitle("theoretical_csma_IV")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -52,7 +52,7 @@ class theoretical_csma_I(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "theoretical_csma_I")
+        self.settings = Qt.QSettings("GNU Radio", "theoretical_csma_IV")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -79,21 +79,21 @@ class theoretical_csma_I(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         self.inets_time_probe_0 = inets.time_probe(1, 200, 0)
-        self.inets_standard_timer_0 = inets.standard_timer(0, 51, 2, 10)
-        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.004, t_pretx_interval_s=0, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=0, tx_gain=5)
+        self.inets_standard_timer_0 = inets.standard_timer(0, 51, 8, 10)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0, t_pretx_interval_s=0, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=0, tx_gain=0)
         self.inets_run_0 = inets.run(20, 10)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_random_filter_1 = inets.random_filter(0, 3, 0.019645)
         self.inets_random_filter_0 = inets.random_filter(0, 3, 0.03)
-        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [0.000457890972218 ,  0.000754934585558,   0.001244676709197 , 0.002052124965597, 0.003383382080915,   0.005578254003711, 0.009196986029286,   0.015163266492816, 0.025000000000000, 0.041218031767503,   0.067957045711476,   0.112042226758452, 0.184726402473266])
-        self.inets_general_timer_0_0 = inets.general_timer(1, 1, 0, 3000000, 10, 0)
-        self.inets_general_timer_0 = inets.general_timer(0, 5, 0, 2, 10, 0)
+        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [0.738905609893065,   0.448168907033806, 0.271828182845905,   0.164872127070013, 0.100000000000000, 0.060653065971263,   0.036787944117144,   0.022313016014843, 0.013533528323661,   0.008208499862390,   0.004978706836786, 0.003019738342232, 0.001831563888873])
+        self.inets_general_timer_0_0 = inets.general_timer(1, 1, 0, 600000, 10, 0)
+        self.inets_general_timer_0 = inets.general_timer(0, 5, 0, 8, 10, 0)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
         self.inets_frame_probe_1 = inets.frame_probe(2, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
-        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 1, 0.005, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 1, 0.001, 0, "/home/inets/source/gr-inets/results/", "", 1)
         self.inets_frame_counter_0 = inets.frame_counter(0, 36, 13, 0)
         self.inets_frame_buffer_1_0 = inets.frame_buffer(0, 16, 10, 0, 0, 0)
-        self.inets_frame_buffer_1 = inets.frame_buffer(0, 16, 1, 1, 1, 0)
+        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 1, 0, 0, 0)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 770, 3, 1)
         self.inets_counter_0_0_0_0 = inets.counter(3, 1, 1, "sent_4", 1, "/home/inets/source/gr-inets/results/", 0)
         self.inets_counter_0_0_0 = inets.counter(1, 1, 1, "", 0, "/home/inets/source/gr-inets/results/", 1)
@@ -106,15 +106,16 @@ class theoretical_csma_I(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.inets_carrier_sensing_0, 'cmd_pass_out'), (self.inets_frame_buffer_1_0, 'enqueue'))
+        self.msg_connect((self.inets_cmd_path_0, 'cmd_out'), (self.inets_frame_buffer_0, 'dequeue'))
         self.msg_connect((self.inets_cmd_path_0, 'cmd_out'), (self.inets_frame_buffer_1_0, 'dequeue'))
         self.msg_connect((self.inets_cmd_path_0_0_0, 'cmd_out'), (self.inets_counter_0_0_0_0, 'message_in'))
-        self.msg_connect((self.inets_cmd_path_0_0_0, 'cmd_out'), (self.inets_frame_buffer_1, 'dequeue'))
+        self.msg_connect((self.inets_cmd_path_0_0_0, 'cmd_out'), (self.inets_random_filter_1, 'cmd_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
-        self.msg_connect((self.inets_frame_buffer_1, 'dequeue_element'), (self.inets_carrier_sensing_0, 'cmd_in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_random_filter_1, 'cmd_in'))
         self.msg_connect((self.inets_frame_buffer_1_0, 'dequeue_element'), (self.inets_random_filter_0, 'cmd_in'))
         self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_general_timer_0_0, 'active_in'))
         self.msg_connect((self.inets_frame_counter_0, 'select_out'), (self.inets_standard_timer_0, 'disable_timer_in'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_buffer_1, 'enqueue'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_carrier_sensing_0, 'cmd_in'))
         self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_carrier_sensing_0, 'cmd_in'))
         self.msg_connect((self.inets_general_timer_0_0, 'expire_signal_out'), (self.inets_counter_0_0_0_0, 'reset_counter'))
         self.msg_connect((self.inets_general_timer_0_0, 'expire_signal_out'), (self.inets_frame_counter_0, 'counts_in'))
@@ -123,6 +124,7 @@ class theoretical_csma_I(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_random_filter_0, 'lose_cmd_out'), (self.inets_general_timer_0, 'active_in'))
         self.msg_connect((self.inets_random_filter_0, 'win_cmd_out'), (self.inets_receiving_0, 'rx_switch_in'))
         self.msg_connect((self.inets_random_filter_1, 'win_cmd_out'), (self.inets_dummy_source_0, 'trigger'))
+        self.msg_connect((self.inets_random_filter_1, 'lose_cmd_out'), (self.inets_frame_buffer_0, 'enqueue'))
         self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'power_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_switch_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0_0, 'active_in'))
@@ -135,7 +137,7 @@ class theoretical_csma_I(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_standard_timer_0, 'expire_cmd_out'), (self.inets_random_filter_1, 'cmd_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "theoretical_csma_I")
+        self.settings = Qt.QSettings("GNU Radio", "theoretical_csma_IV")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -224,7 +226,7 @@ class theoretical_csma_I(gr.top_block, Qt.QWidget):
         self.cs_threshold = cs_threshold
 
 
-def main(top_block_cls=theoretical_csma_I, options=None):
+def main(top_block_cls=theoretical_csma_IV, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

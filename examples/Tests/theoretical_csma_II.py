@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: theoretical_csma_II
 # Author: PWA
-# Generated: Mon Jun 26 13:59:21 2017
+# Generated: Mon Jun 26 17:12:05 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -60,13 +60,13 @@ class theoretical_csma_II(gr.top_block, Qt.QWidget):
         ##################################################
         self.sps = sps = 4
         self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
-        self.tx_center_frequency = tx_center_frequency = 3.9e8
+        self.tx_center_frequency = tx_center_frequency = 4.3e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
         self.source_address = source_address = 4
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = 0
-        self.rx_center_frequency = rx_center_frequency = 3.9e8
+        self.rx_center_frequency = rx_center_frequency = 4.3e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
@@ -118,6 +118,7 @@ class theoretical_csma_II(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_random_filter_0, 'win_cmd_out'), (self.inets_sending_0, 'in'))
         self.msg_connect((self.inets_random_filter_1, 'win_cmd_out'), (self.inets_dummy_source_0, 'trigger'))
         self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'power_in'))
+        self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_frame_probe_0, 'info_in'))
         self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0_0, 'active_in'))
         self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_parameter_list_0, 'trigger_in'))
         self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_standard_timer_0, 'active_in'))

@@ -256,7 +256,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>3.9e8</value>
+      <value>4.3e8</value>
     </param>
   </block>
   <block>
@@ -445,7 +445,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>3.9e8</value>
+      <value>4.3e8</value>
     </param>
   </block>
   <block>
@@ -587,57 +587,6 @@
     <param>
       <key>cs_threshold</key>
       <value>0.0015</value>
-    </param>
-  </block>
-  <block>
-    <key>inets_cmd_path</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>block_id</key>
-      <value>44</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>develop_mode</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(992, 664)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>180</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>inets_cmd_path_0_0_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>switch_s</key>
-      <value>1</value>
     </param>
   </block>
   <block>
@@ -2065,12 +2014,6 @@
     <sink_key>cmd_in</sink_key>
   </connection>
   <connection>
-    <source_block_id>inets_cmd_path_0_0_0</source_block_id>
-    <sink_block_id>inets_frame_buffer_0_0</sink_block_id>
-    <source_key>cmd_out</source_key>
-    <sink_key>dequeue</sink_key>
-  </connection>
-  <connection>
     <source_block_id>inets_dummy_source_0</source_block_id>
     <sink_block_id>inets_framing_0</sink_block_id>
     <source_key>output</source_key>
@@ -2155,6 +2098,12 @@
     <sink_key>power_in</sink_key>
   </connection>
   <connection>
+    <source_block_id>inets_receiving_0</source_block_id>
+    <sink_block_id>inets_frame_probe_0</sink_block_id>
+    <source_key>rx_power_out</source_key>
+    <sink_key>info_in</sink_key>
+  </connection>
+  <connection>
     <source_block_id>inets_run_0</source_block_id>
     <sink_block_id>inets_general_timer_0_0</sink_block_id>
     <source_key>trigger_out</source_key>
@@ -2174,12 +2123,6 @@
   </connection>
   <connection>
     <source_block_id>inets_sending_0</source_block_id>
-    <sink_block_id>inets_cmd_path_0_0_0</sink_block_id>
-    <source_key>data_frame_out</source_key>
-    <sink_key>cmd_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_sending_0</source_block_id>
     <sink_block_id>inets_counter_0</sink_block_id>
     <source_key>data_frame_out</source_key>
     <sink_key>message_in</sink_key>
@@ -2189,6 +2132,12 @@
     <sink_block_id>inets_counter_0_0_0</sink_block_id>
     <source_key>data_frame_out</source_key>
     <sink_key>message_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_sending_0</source_block_id>
+    <sink_block_id>inets_frame_buffer_0_0</sink_block_id>
+    <source_key>data_frame_out</source_key>
+    <sink_key>dequeue</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_standard_timer_0</source_block_id>
