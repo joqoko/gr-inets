@@ -98,5 +98,6 @@ install(FILES
     inets_cmd_and.xml
     inets_cmd_switch.xml
     inets_cmd_port_control.xml
-    inets_parameter_list.xml DESTINATION share/gnuradio/grc/blocks
+    inets_parameter_list.xml
+    inets_frame_redundancy_remover.xml DESTINATION share/gnuradio/grc/blocks
 )

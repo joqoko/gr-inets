@@ -45,6 +45,7 @@ namespace gr {
         _develop_mode(develop_mode),
         _block_id(block_id),
         _duration_ms(duration_ms),
+        _in_active(false),
         _system_time_granularity_us(system_time_granularity_us)
     {
       if(_develop_mode)
@@ -74,15 +75,15 @@ namespace gr {
 
     void standard_timer_impl::reset_duration(pmt::pmt_t cmd_in)
     {
-      if(pmt::is_integer(cmd_in))
+      if(pmt::is_number(cmd_in))
       {
-        _duration_ms = pmt::to_long(cmd_in);
+        _duration_ms = pmt::to_double(cmd_in);
         if(_develop_mode)
           std::cout << "duration of standard_timer block ID " << _block_id << " is reset to " << _duration_ms << " [ms] " << std::endl;
       }
       else   
       {
-        std::cout << "error: standard_timer block ID " << _block_id << " can only reassign duration to a integer number (in [ms])." << std::endl;
+        std::cout << "error: standard_timer block ID " << _block_id << " can only reassign duration to a number (in [ms])." << std::endl;
       }
     }
 

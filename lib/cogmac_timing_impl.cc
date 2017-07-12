@@ -60,6 +60,7 @@ namespace gr {
         _len_phy_overhead(len_phy_overhead),
         _inter_fr_ms(inter_fr_ms),
         _ch_pool_size(ch_pool_size),
+        _config_only(false),
         _ch_switch_ms(ch_switch_ms)
     {
       if(_develop_mode)
@@ -67,6 +68,8 @@ namespace gr {
 
       message_port_register_in(pmt::mp("trigger_in"));
       set_msg_handler(pmt::mp("trigger_in"), boost::bind(&cogmac_timing_impl::calc, this, _1 ));
+      message_port_register_in(pmt::mp("reset_N_Mul_Fr_in"));
+      set_msg_handler(pmt::mp("reset_N_Mul_Fr_in"), boost::bind(&cogmac_timing_impl::reset_N_Mul_Fr, this, _1 ));
       message_port_register_out(pmt::mp("cogmac_config_out"));
       message_port_register_out(pmt::mp("cmd_out"));
     }
@@ -78,6 +81,15 @@ namespace gr {
     {
     }
 
+    void
+    cogmac_timing_impl::reset_N_Mul_Fr(pmt::pmt_t trigger)
+    {
+      _N_Mul_Fr = pmt::to_double(trigger);
+      if(_develop_mode)
+        std::cout << "N_Mul_Fr is reset to " << _N_Mul_Fr << std::endl;
+      calc(trigger);
+    }
+ 
     void
     cogmac_timing_impl::calc(pmt::pmt_t trigger)
     {
@@ -133,7 +145,9 @@ namespace gr {
       cogmac_cmd = pmt::dict_add(cogmac_cmd, pmt::string_to_symbol("N_Mul_Fr"), pmt::from_long(_N_Mul_Fr));
       message_port_pub(pmt::mp("cogmac_config_out"), cogmac_cmd);
       boost::this_thread::sleep(boost::posix_time::microseconds(100000));
-      message_port_pub(pmt::mp("cmd_out"), trigger);
+      if(!_config_only)
+        message_port_pub(pmt::mp("cmd_out"), trigger);
+      _config_only = true;
     }
 
   } /* namespace inets */

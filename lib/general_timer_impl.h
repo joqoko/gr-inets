@@ -34,7 +34,7 @@ namespace gr {
       int _timer_type;
       int _disable_timer;
       bool _in_active;
-      int _duration_ms;
+      double _duration_ms;
       pmt::pmt_t _frame_info;
       double _timer_bias_s;
       double _start_time;
@@ -54,7 +54,7 @@ namespace gr {
       void countdown_continual_timer();
    
      public:
-      general_timer_impl(int develop_mode, int block_id, int timer_type, int duration_ms, int system_time_granularity_us, double reserved_time_ms);
+      general_timer_impl(int develop_mode, int block_id, int timer_type, double duration_ms, int system_time_granularity_us, double reserved_time_ms);
       ~general_timer_impl();
 
     };

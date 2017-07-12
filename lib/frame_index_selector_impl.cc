@@ -29,7 +29,7 @@ namespace gr {
   namespace inets {
 
     frame_index_selector::sptr
-    frame_index_selector::make(int develop_mode, int block_id, const std::vector<unsigned int> selected_index, int output_unselected)
+    frame_index_selector::make(int develop_mode, int block_id, std::vector<unsigned int> selected_index, int output_unselected)
     {
       return gnuradio::get_initial_sptr
         (new frame_index_selector_impl(develop_mode, block_id, selected_index, output_unselected));
@@ -38,7 +38,7 @@ namespace gr {
     /*
      * The private constructor
      */
-    frame_index_selector_impl::frame_index_selector_impl(int develop_mode, int block_id, const std::vector<unsigned int> selected_index, int output_unselected)
+    frame_index_selector_impl::frame_index_selector_impl(int develop_mode, int block_id, std::vector<unsigned int> selected_index, int output_unselected)
       : gr::block("frame_index_selector",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -51,6 +51,8 @@ namespace gr {
         std::cout << "develop_mode of frame_index_selector ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("frame_in"));
       set_msg_handler(pmt::mp("frame_in"), boost::bind(&frame_index_selector_impl::check_index, this, _1 ));
+      message_port_register_in(pmt::mp("reset_index_in"));
+      set_msg_handler(pmt::mp("reset_index_in"), boost::bind(&frame_index_selector_impl::reset_index, this, _1 ));
       message_port_register_out(pmt::mp("frame_out"));
       message_port_register_out(pmt::mp("unselected_frame_out"));
     }
@@ -61,6 +63,12 @@ namespace gr {
      */
     frame_index_selector_impl::~frame_index_selector_impl()
     {
+    }
+
+    void
+    frame_index_selector_impl::reset_index(pmt::pmt_t frame_in)
+    {
+      _selected_index[0] = int(pmt::to_double(frame_in));
     }
 
     void

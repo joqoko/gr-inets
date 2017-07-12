@@ -102,7 +102,11 @@ namespace gr {
     frame_counter_impl::reset(pmt::pmt_t pmt_in)
     {
       if(_mode == 0)
+      {
+        if(_develop_mode)
+          std::cout << "current counts is reset to 0 " << std::endl;
         _current_count = 0;
+      }
       else
         _current_count = _counts;
     }
@@ -113,14 +117,17 @@ namespace gr {
       // normal mode
       if(_mode == 0)
       {
-        if(_current_count < _counts - 1)
+        _current_count++;
+        if(_current_count < _counts)
         {
-          _current_count++;
+          if(_develop_mode)
+            std::cout << "current counts is :" << _current_count << ". target is " << _counts << std::endl;
           message_port_pub(pmt::mp("unselect_out"), pmt_in);
         }
         else
         {
-          _current_count = 0;
+          if(_develop_mode)
+            std::cout << "current counts is :" << _current_count << ". target is " << _counts << std::endl;
           message_port_pub(pmt::mp("select_out"), pmt_in);
         } 
       }

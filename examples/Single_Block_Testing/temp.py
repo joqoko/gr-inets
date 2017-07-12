@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: temp
-# Generated: Sun Jun 25 03:10:39 2017
+# Generated: Mon Jul  3 21:35:44 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -17,7 +17,6 @@ if __name__ == '__main__':
             print "Warning: failed to XInitThreads()"
 
 from PyQt4 import Qt
-from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio.eng_option import eng_option
@@ -86,21 +85,19 @@ class temp(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_run_0 = inets.run(5, 10)
-        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [0.1, 0.2, 0.3, 0.4, 0.5])
-        self.inets_general_timer_0_0 = inets.general_timer(0, 5, 1, 80, 10, 0)
-        self.inets_general_timer_0 = inets.general_timer(0, 5, 1, 1000, 10, 0)
-        self.inets_counter_1 = inets.counter(3, 100, 1, "addressed", 1, "/home/inets/source/gr-inets/results/", 0)
-        self.blocks_message_debug_0 = blocks.message_debug()
+        self.inets_time_probe_0 = inets.time_probe(0, 200, 0)
+        self.inets_standard_timer_0 = inets.standard_timer(0, 51, 14.444, 10)
+        self.inets_run_0 = inets.run(1, 10)
+        self.inets_cmd_path_0 = inets.cmd_path(0, 44, 1)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_parameter_list_0, 'trigger_in'))
-        self.msg_connect((self.inets_general_timer_0_0, 'expire_signal_out'), (self.inets_counter_1, 'message_in'))
-        self.msg_connect((self.inets_parameter_list_0, 'parameter_out'), (self.inets_counter_1, 'reset_counter'))
-        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0, 'active_in'))
-        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0_0, 'active_in'))
+        self.msg_connect((self.inets_cmd_path_0, 'cmd_out'), (self.inets_standard_timer_0, 'active_in'))
+        self.msg_connect((self.inets_cmd_path_0, 'cmd_out'), (self.inets_time_probe_0, 'time_former_in'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_standard_timer_0, 'active_in'))
+        self.msg_connect((self.inets_standard_timer_0, 'expire_cmd_out'), (self.inets_cmd_path_0, 'cmd_in'))
+        self.msg_connect((self.inets_standard_timer_0, 'expire_cmd_out'), (self.inets_time_probe_0, 'time_later_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "temp")

@@ -75,6 +75,8 @@ namespace gr {
       set_msg_handler(pmt::mp("data_in"), boost::bind(&framing_impl::catagorization, this, _1 ));
       message_port_register_in(pmt::mp("reset_index"));
       set_msg_handler(pmt::mp("reset_index"), boost::bind(&framing_impl::reset_frame_index, this, _1 ));
+      message_port_register_in(pmt::mp("reset_initial_index"));
+      set_msg_handler(pmt::mp("reset_initial_index"), boost::bind(&framing_impl::reset_initial_frame_index, this, _1 ));
       message_port_register_out(pmt::mp("frame_out"));
       // only in develop_mode
       message_port_register_out(pmt::mp("frame_pmt_out"));
@@ -91,6 +93,13 @@ namespace gr {
      */
     framing_impl::~framing_impl()
     {
+    }
+
+    void 
+    framing_impl::reset_initial_frame_index(pmt::pmt_t pmt_in)
+    {
+      _default_index = int(pmt::to_double(pmt_in));
+      _frame_index = _default_index;
     }
 
     void 

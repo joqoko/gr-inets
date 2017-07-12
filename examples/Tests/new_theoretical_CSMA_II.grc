@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>new_theoretical_CSMA</value>
+      <value>new_theoretical_CSMA_II</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>new_theoretical_CSMA</value>
+      <value>new_theoretical_CSMA_II</value>
     </param>
   </block>
   <block>
@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>0.003</value>
+      <value>0.001</value>
     </param>
   </block>
   <block>
@@ -159,7 +159,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>2</value>
     </param>
   </block>
   <block>
@@ -391,7 +391,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -526,7 +526,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.20"</value>
+      <value>"addr=10.0.0.6"</value>
     </param>
   </block>
   <block>
@@ -1040,7 +1040,7 @@
     </param>
     <param>
       <key>counter_name</key>
-      <value>"sent_4"</value>
+      <value>"sent_3"</value>
     </param>
     <param>
       <key>record_on</key>
@@ -1296,7 +1296,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(400, 380)</value>
+      <value>(832, 252)</value>
     </param>
     <param>
       <key>_rotation</key>

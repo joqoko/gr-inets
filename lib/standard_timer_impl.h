@@ -33,7 +33,7 @@ namespace gr {
       int _block_id;
       int _disable_timer;
       bool _in_active;
-      int _duration_ms;
+      double _duration_ms;
       pmt::pmt_t _frame_info;
       int _system_time_granularity_us;
       void start_timer(pmt::pmt_t trigger);

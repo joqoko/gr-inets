@@ -30,7 +30,7 @@ namespace gr {
   namespace inets {
 
     general_timer::sptr
-    general_timer::make(int develop_mode, int block_id, int timer_type, int duration_ms, int system_time_granularity_us, double reserved_time_ms)
+    general_timer::make(int develop_mode, int block_id, int timer_type, double duration_ms, int system_time_granularity_us, double reserved_time_ms)
     {
       return gnuradio::get_initial_sptr
         (new general_timer_impl(develop_mode, block_id, timer_type, duration_ms, system_time_granularity_us, reserved_time_ms));
@@ -39,7 +39,7 @@ namespace gr {
     /*
      * The private constructor
      */
-    general_timer_impl::general_timer_impl(int develop_mode, int block_id, int timer_type, int duration_ms, int system_time_granularity_us, double reserved_time_ms)
+    general_timer_impl::general_timer_impl(int develop_mode, int block_id, int timer_type, double duration_ms, int system_time_granularity_us, double reserved_time_ms)
       : gr::block("general_timer",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -79,15 +79,15 @@ namespace gr {
 
     void general_timer_impl::reset_duration(pmt::pmt_t cmd_in)
     {
-      if(pmt::is_integer(cmd_in))
+      if(pmt::is_number(cmd_in))
       {
-        _duration_ms = pmt::to_long(cmd_in);
+        _duration_ms = pmt::to_double(cmd_in);
         if(_develop_mode)
           std::cout << "duration of general_timer block ID " << _block_id << " is reset to " << _duration_ms << " [ms] " << std::endl;
       }
       else   
       {
-        std::cout << "error: general_timer block ID " << _block_id << " can only reassign duration to a integer number (in [ms])." << std::endl;
+        std::cout << "error: general_timer block ID " << _block_id << " can only reassign duration to a number (in [ms])." << std::endl;
       }
     }
 

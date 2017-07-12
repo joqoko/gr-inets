@@ -93,6 +93,7 @@ install(FILES
     cmd_and.h
     cmd_switch.h
     cmd_port_control.h
-    parameter_list.h DESTINATION include/inets
+    parameter_list.h
+    frame_redundancy_remover.h DESTINATION include/inets
 
 )

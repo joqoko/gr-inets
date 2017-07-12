@@ -78,6 +78,7 @@
 #include "inets/cmd_switch.h"
 #include "inets/cmd_port_control.h"
 #include "inets/parameter_list.h"
+#include "inets/frame_redundancy_remover.h"
 #include "inets/general_timeout.h"
 #include "inets/cogmac_ch_pool.h"
 #include "inets/frame_replicate.h"
@@ -100,6 +101,7 @@
 #include "inets/cmd_switch.h"
 #include "inets/cmd_port_control.h"
 #include "inets/parameter_list.h"
+#include "inets/frame_redundancy_remover.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -267,3 +269,5 @@ GR_SWIG_BLOCK_MAGIC2(inets, cmd_switch);
 GR_SWIG_BLOCK_MAGIC2(inets, cmd_port_control);
 %include "inets/parameter_list.h"
 GR_SWIG_BLOCK_MAGIC2(inets, parameter_list);
+%include "inets/frame_redundancy_remover.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_redundancy_remover);

@@ -93,6 +93,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(56, 268)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>Single_rxp_time_s</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>700</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(528, 4)</value>
     </param>
     <param>
@@ -719,7 +746,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(488, 616)</value>
+      <value>(488, 624)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1038,7 +1065,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(832, 420)</value>
+      <value>(824, 436)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1113,7 +1140,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(448, 408)</value>
+      <value>(392, 408)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1275,7 +1302,7 @@
     </param>
     <param>
       <key>counts</key>
-      <value>16</value>
+      <value>15</value>
     </param>
     <param>
       <key>reset</key>
@@ -1393,7 +1420,7 @@
     </param>
     <param>
       <key>duration_ms</key>
-      <value>1000000</value>
+      <value>Single_rxp_time_s * 1000</value>
     </param>
     <param>
       <key>address_check</key>

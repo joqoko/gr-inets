@@ -18,39 +18,29 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_INETS_FRAME_REDUNDANCY_REMOVER_IMPL_H
+#define INCLUDED_INETS_FRAME_REDUNDANCY_REMOVER_IMPL_H
 
-#ifndef INCLUDED_INETS_GENERAL_TIMER_H
-#define INCLUDED_INETS_GENERAL_TIMER_H
-
-#include <inets/api.h>
-#include <gnuradio/block.h>
+#include <inets/frame_redundancy_remover.h>
 
 namespace gr {
   namespace inets {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup inets
-     *
-     */
-    class INETS_API general_timer : virtual public gr::block
+    class frame_redundancy_remover_impl : public frame_redundancy_remover
     {
-     public:
-      typedef boost::shared_ptr<general_timer> sptr;
+     private:
+      int _develop_mode;
+      int _block_id;
+      int _last_index;
+      void check_redundancy(pmt::pmt_t cmd_in);
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of inets::general_timer.
-       *
-       * To avoid accidental use of raw pointers, inets::general_timer's
-       * constructor is in a private implementation
-       * class. inets::general_timer::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(int develop_mode, int block_id, int timer_type, double duration_ms, int system_time_granularity_us, double reserved_time_ms);
+     public:
+      frame_redundancy_remover_impl(int develop_mode, int block_id);
+      ~frame_redundancy_remover_impl();
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_GENERAL_TIMER_H */
+#endif /* INCLUDED_INETS_FRAME_REDUNDANCY_REMOVER_IMPL_H */
 

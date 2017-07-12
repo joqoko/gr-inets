@@ -64,6 +64,7 @@ namespace gr {
       pmt::pmt_t crc32_bb_calc(pmt::pmt_t msg);
       void catagorization(pmt::pmt_t data_in);
       void reset_frame_index(pmt::pmt_t pmt_in);
+      void reset_initial_frame_index(pmt::pmt_t pmt_in);
       pmt::pmt_t data_frame_formation(pmt::pmt_t rx_payload);
       pmt::pmt_t ampdu_subframe_formation(pmt::pmt_t rx_payload);
       pmt::pmt_t amsdu_subframe_formation(pmt::pmt_t rx_payload);

@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
 <block>
-  <name>frame_index_selector</name>
-  <key>inets_frame_index_selector</key>
+  <name>frame_redundancy_remover</name>
+  <key>inets_frame_redundancy_remover</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.frame_index_selector($develop_mode, $block_id, $selected_index, $output_unselected)</make>
+  <make>inets.frame_redundancy_remover($develop_mode, $block_id)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
-
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>
@@ -21,73 +20,32 @@
       <key>0</key>
       <opt>hide:part</opt>
       <opt>hide_control:all</opt>
-      <opt>hide_pmt:all</opt>
     </option>
     <option>
       <name>on</name>
       <key>1</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
-      <opt>hide_pmt:part</opt>
     </option>
     <option>
       <name>time</name>
       <key>2</key>
       <opt>hide:none</opt>
       <opt>hide_control:none</opt>
-      <opt>hide_pmt:part</opt>
     </option>
   </param>
 
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>33</value>
+    <value>49</value>
     <type>int</type>
     <hide>$develop_mode.hide_control</hide>
   </param>
 
   <param>
-    <name>Selected index</name>
-    <key>selected_index</key>
-    <value>1</value>
-    <type>int_vector</type>
-    <hide>part</hide>
-  </param>
-
-  <param>
-    <name>Output unselected frame</name>
-    <key>output_unselected</key>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>Yes</name>
-      <key>0</key>
-    </option>
-    <option>
-      <name>No</name>
-      <key>1</key>
-    </option>
-  </param>
-
-  <param>
-    <name>Output selected frame</name>
-    <key>output_selected</key>
-    <type>enum</type>
-    <hide>part</hide>
-    <option>
-      <name>Yes</name>
-      <key>0</key>
-    </option>
-    <option>
-      <name>No</name>
-      <key>1</key>
-    </option>
-  </param>
-
-  <param>
-    <name>Show reset port</name>
-    <key>reset_selection</key>
+    <name>Output redundant frame</name>
+    <key>output_re</key>
     <type>enum</type>
     <hide>part</hide>
     <option>
@@ -99,6 +57,7 @@
       <key>0</key>
     </option>
   </param>
+
 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -106,14 +65,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>reset_index_in</name>
-    <type>message</type>
-    <optional>1</optional>
-    <hide>$reset_selection</hide>
-  </sink>
-
-  <sink>
-    <name>frame_in</name>
+    <name>cmd_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
@@ -124,16 +76,14 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>frame_out</name>
+    <name>cmd_out</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>$output_selected</hide>
   </source>
-
   <source>
-    <name>unselected_frame_out</name>
+    <name>redundancy_out</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>$output_unselected</hide>
+    <hide>$output_re</hide>
   </source>
 </block>

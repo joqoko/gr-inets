@@ -378,7 +378,7 @@ namespace gr {
 //      std::cout << "_in_cca is: " << _in_cca << std::endl;
 //      std::cout << "time condition is: " << (start_time + (_cs_duration / 1000) - current_time) << std::endl;
 //      std::cout << ((current_time < start_time + _cs_duration / 1000) && _in_cca) << std::endl;
-      while((current_time < start_time + _cs_duration / 1000) && _cca)
+      while((current_time < start_time + double(_cs_duration) / 1000) && _cca)
       {
         boost::this_thread::sleep(boost::posix_time::microseconds(_system_time_granularity_us)); 
         gettimeofday(&t, NULL);
@@ -390,7 +390,7 @@ namespace gr {
       if(_cca)
       {
         if(_develop_mode == 1)
-          std::cout << "Carrier sensing passed. " << std::endl;
+          std::cout << "carrier sensing passed. " << std::endl;
         message_port_pub(pmt::mp("cmd_pass_out"), _cmd);
       }
       else

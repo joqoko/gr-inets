@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: theoretical_csma_rx
 # Author: PWA
-# Generated: Mon Jul  3 16:08:43 2017
+# Generated: Thu Jul  6 08:56:42 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -77,6 +77,7 @@ class theoretical_csma_rx(gr.top_block, Qt.QWidget):
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
         self.destination_address = destination_address = 1
         self.cs_threshold = cs_threshold = 0.005
+        self.Single_rxp_time_s = Single_rxp_time_s = 700
 
         ##################################################
         # Blocks
@@ -89,9 +90,9 @@ class theoretical_csma_rx(gr.top_block, Qt.QWidget):
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
         self.inets_run_0 = inets.run(20, 10)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
-        self.inets_general_timer_0 = inets.general_timer(0, 5, 0, 1000000, 10, 0)
+        self.inets_general_timer_0 = inets.general_timer(0, 5, 0, Single_rxp_time_s * 1000, 10, 0)
         self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 0, 0.0015, 0, "/home/inets/source/gr-inets/results/", "", 1)
-        self.inets_frame_counter_0 = inets.frame_counter(0, 36, 16, 0)
+        self.inets_frame_counter_0 = inets.frame_counter(0, 36, 15, 0)
         self.inets_frame_check_0 = inets.frame_check(0, 9)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_counter_0_0_2 = inets.counter(1, 1, 1, "", 0, "/home/inets/source/gr-inets/results/", 1)
@@ -222,6 +223,12 @@ class theoretical_csma_rx(gr.top_block, Qt.QWidget):
 
     def set_cs_threshold(self, cs_threshold):
         self.cs_threshold = cs_threshold
+
+    def get_Single_rxp_time_s(self):
+        return self.Single_rxp_time_s
+
+    def set_Single_rxp_time_s(self, Single_rxp_time_s):
+        self.Single_rxp_time_s = Single_rxp_time_s
 
 
 def main(top_block_cls=theoretical_csma_rx, options=None):

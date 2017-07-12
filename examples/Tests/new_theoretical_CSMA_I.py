@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: new_theoretical_CSMA_I
 # Author: PWA
-# Generated: Mon Jul  3 16:08:40 2017
+# Generated: Thu Jul  6 08:56:45 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -64,7 +64,7 @@ class new_theoretical_CSMA_I(gr.top_block, Qt.QWidget):
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
         self.source_address = source_address = 3
-        self.slot_time = slot_time = 4
+        self.slot_time = slot_time = 8
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = 0
         self.rx_center_frequency = rx_center_frequency = 4.3e8
@@ -74,7 +74,8 @@ class new_theoretical_CSMA_I(gr.top_block, Qt.QWidget):
         self.mu = mu = 0.6
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
         self.destination_address = destination_address = 2
-        self.cs_threshold = cs_threshold = 0.001
+        self.cs_threshold = cs_threshold = 0.0005
+        self.Single_rxp_time_s = Single_rxp_time_s = 700
 
         ##################################################
         # Blocks
@@ -86,14 +87,14 @@ class new_theoretical_CSMA_I(gr.top_block, Qt.QWidget):
         self.inets_receiving_0 = inets.receiving(1, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_random_filter_0_0 = inets.random_filter(0, 3, 0.03)
         self.inets_random_filter_0 = inets.random_filter(0, 3, 0.95)
-        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [1, 0.609124698035174, 0.369452804946533,   0.224084453516903, 0.135914091422952,   0.082436063535006, 0.050000000000000, 0.030326532985632,   0.018393972058572,   0.011156508007421, 0.006766764161831,   0.004104249931195,   0.002489353418393, 0.001509869171116, 0.000915781944437])
-        self.inets_general_timer_1 = inets.general_timer(0, 5, 0, slot_time, 10, 0)
-        self.inets_general_timer_0 = inets.general_timer(0, 5, 0, 1000000, 10, 0)
+        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [1.000000000000000,   1.000000000000000,   1.000000000000000, 1.000000000000000, 0.738905609893065,   0.448168907033806, 0.271828182845905,   0.164872127070013, 0.100000000000000, 0.060653065971263,   0.036787944117144,   0.022313016014843, 0.013533528323661,   0.008208499862390,   0.004978706836786, 0.003019738342232, 0.001831563888873])
+        self.inets_general_timer_0 = inets.general_timer(0, 5, 0, Single_rxp_time_s * 1000, 10, 0)
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
         self.inets_frame_probe_1 = inets.frame_probe(2, 100, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
         self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 1, 0.001, 0, "/home/inets/source/gr-inets/results/", "", 1)
-        self.inets_frame_counter_0 = inets.frame_counter(0, 36, 15, 0)
-        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 770, 3, 1)
+        self.inets_frame_counter_0 = inets.frame_counter(0, 36, 14, 0)
+        self.inets_frame_buffer_0 = inets.frame_buffer(0, 16, 1, 0, 0, 0)
+        self.inets_dummy_source_0 = inets.dummy_source(0, 23, 817, 3, 1)
         self.inets_counter_0_0_0_0 = inets.counter(3, 1, 1, "sent_3", 1, "/home/inets/source/gr-inets/results/", 0)
         self.inets_counter_0_0_0 = inets.counter(1, 1, 1, "tx_frame", 0, "/home/inets/source/gr-inets/results/", 0)
         self.inets_cmd_switch_0 = inets.cmd_switch(0, 47)
@@ -111,18 +112,18 @@ class new_theoretical_CSMA_I(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_cmd_path_0_0_0, 'cmd_out'), (self.inets_counter_0_0_0_0, 'message_in'))
         self.msg_connect((self.inets_cmd_switch_0, 'cmd_out'), (self.inets_random_filter_0, 'cmd_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
+        self.msg_connect((self.inets_frame_buffer_0, 'dequeue_element'), (self.inets_carrier_sensing_0, 'cmd_in'))
         self.msg_connect((self.inets_frame_counter_0, 'select_out'), (self.inets_cmd_path_0, 'cmd_in'))
         self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_general_timer_0, 'active_in'))
         self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_parameter_list_0, 'trigger_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_carrier_sensing_0, 'cmd_in'))
         self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_frame_counter_0, 'counts_in'))
-        self.msg_connect((self.inets_general_timer_1, 'expire_signal_out'), (self.inets_carrier_sensing_0, 'cmd_in'))
         self.msg_connect((self.inets_parameter_list_0, 'parameter_out'), (self.inets_counter_0_0_0_0, 'reset_counter'))
         self.msg_connect((self.inets_parameter_list_0, 'parameter_out'), (self.inets_random_filter_0, 'set_threshold'))
         self.msg_connect((self.inets_random_filter_0, 'win_cmd_out'), (self.inets_cmd_switch_0, 'switch_off'))
         self.msg_connect((self.inets_random_filter_0, 'win_cmd_out'), (self.inets_dummy_source_0, 'trigger'))
         self.msg_connect((self.inets_random_filter_0_0, 'win_cmd_out'), (self.inets_cmd_path_0_0_0, 'cmd_in'))
-        self.msg_connect((self.inets_random_filter_0_0, 'lose_cmd_out'), (self.inets_general_timer_1, 'active_in'))
+        self.msg_connect((self.inets_random_filter_0_0, 'lose_cmd_out'), (self.inets_frame_buffer_0, 'enqueue'))
         self.msg_connect((self.inets_random_filter_0_0, 'win_cmd_out'), (self.inets_receiving_0, 'rx_switch_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_power_out'), (self.inets_carrier_sensing_0, 'power_in'))
         self.msg_connect((self.inets_receiving_0, 'rx_switch_out'), (self.inets_sending_0, 'in'))
@@ -133,6 +134,7 @@ class new_theoretical_CSMA_I(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_sending_0, 'data_frame_out'), (self.inets_counter_0_0_0, 'message_in'))
         self.msg_connect((self.inets_sending_0, 'rx_control_out'), (self.inets_receiving_0, 'rx_switch_in'))
         self.msg_connect((self.inets_standard_timer_0, 'expire_cmd_out'), (self.inets_cmd_switch_0, 'cmd_in'))
+        self.msg_connect((self.inets_standard_timer_0, 'expire_cmd_out'), (self.inets_frame_buffer_0, 'dequeue'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "new_theoretical_CSMA_I")
@@ -228,6 +230,12 @@ class new_theoretical_CSMA_I(gr.top_block, Qt.QWidget):
 
     def set_cs_threshold(self, cs_threshold):
         self.cs_threshold = cs_threshold
+
+    def get_Single_rxp_time_s(self):
+        return self.Single_rxp_time_s
+
+    def set_Single_rxp_time_s(self, Single_rxp_time_s):
+        self.Single_rxp_time_s = Single_rxp_time_s
 
 
 def main(top_block_cls=new_theoretical_CSMA_I, options=None):

@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_FRAME_INDEX_SELECTOR_H
-#define INCLUDED_INETS_FRAME_INDEX_SELECTOR_H
+#ifndef INCLUDED_INETS_FRAME_REDUNDANCY_REMOVER_H
+#define INCLUDED_INETS_FRAME_REDUNDANCY_REMOVER_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API frame_index_selector : virtual public gr::block
+    class INETS_API frame_redundancy_remover : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<frame_index_selector> sptr;
+      typedef boost::shared_ptr<frame_redundancy_remover> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::frame_index_selector.
+       * \brief Return a shared_ptr to a new instance of inets::frame_redundancy_remover.
        *
-       * To avoid accidental use of raw pointers, inets::frame_index_selector's
+       * To avoid accidental use of raw pointers, inets::frame_redundancy_remover's
        * constructor is in a private implementation
-       * class. inets::frame_index_selector::make is the public interface for
+       * class. inets::frame_redundancy_remover::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, std::vector<unsigned int> selected_index, int output_unselected);
+      static sptr make(int develop_mode, int block_id);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_FRAME_INDEX_SELECTOR_H */
+#endif /* INCLUDED_INETS_FRAME_REDUNDANCY_REMOVER_H */
 

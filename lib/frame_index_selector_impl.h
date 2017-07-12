@@ -31,12 +31,13 @@ namespace gr {
      private:
       int _develop_mode;
       int _block_id;
-      const std::vector<unsigned int> _selected_index;
+      std::vector<unsigned int> _selected_index;
       int _output_unselected;
       void check_index(pmt::pmt_t frame_in);
+      void reset_index(pmt::pmt_t frame_in);
 
      public:
-      frame_index_selector_impl(int develop_mode, int block_id, const std::vector<unsigned int> selected_index, int output_unselected);
+      frame_index_selector_impl(int develop_mode, int block_id, std::vector<unsigned int> selected_index, int output_unselected);
       ~frame_index_selector_impl();
     };
 

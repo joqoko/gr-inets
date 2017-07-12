@@ -166,6 +166,24 @@
     <hide>part</hide>
   </param>
 
+  <param>
+    <name>Reset N_Mul_Fr</name>
+    <key>reset_N_Mul_Fr_Ctrl</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Enable</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+    <option>
+      <name>Disable</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -175,6 +193,13 @@
     <name>trigger_in</name>
     <type>message</type>
     <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>reset_N_Mul_Fr_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$reset_N_Mul_Fr_Ctrl</hide>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:

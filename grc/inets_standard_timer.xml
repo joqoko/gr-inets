@@ -47,7 +47,7 @@
     <name>Duration [ms]</name>
     <key>duration</key>
     <value>1000</value>
-    <type>int</type>
+    <type>raw</type>
     <hide>part</hide>
   </param>
 

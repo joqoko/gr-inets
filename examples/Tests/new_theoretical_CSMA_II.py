@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: new_theoretical_CSMA
+# Title: new_theoretical_CSMA_II
 # Author: PWA
-# Generated: Tue Jul  4 10:28:19 2017
+# Generated: Tue Jul  4 10:28:18 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -30,12 +30,12 @@ import sys
 from gnuradio import qtgui
 
 
-class new_theoretical_CSMA(gr.top_block, Qt.QWidget):
+class new_theoretical_CSMA_II(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "new_theoretical_CSMA")
+        gr.top_block.__init__(self, "new_theoretical_CSMA_II")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("new_theoretical_CSMA")
+        self.setWindowTitle("new_theoretical_CSMA_II")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -53,18 +53,18 @@ class new_theoretical_CSMA(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "new_theoretical_CSMA")
+        self.settings = Qt.QSettings("GNU Radio", "new_theoretical_CSMA_II")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
         self.tx_center_frequency = tx_center_frequency = 4.3e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
-        self.source_address = source_address = 4
+        self.source_address = source_address = 3
         self.slot_time = slot_time = 4
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = 0
@@ -74,8 +74,8 @@ class new_theoretical_CSMA(gr.top_block, Qt.QWidget):
 
         self.mu = mu = 0.6
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
-        self.destination_address = destination_address = 1
-        self.cs_threshold = cs_threshold = 0.003
+        self.destination_address = destination_address = 2
+        self.cs_threshold = cs_threshold = 0.001
         self.Single_rxp_time_s = Single_rxp_time_s = 500
 
         ##################################################
@@ -96,7 +96,7 @@ class new_theoretical_CSMA(gr.top_block, Qt.QWidget):
         self.inets_frame_counter_0_0 = inets.frame_counter(0, 36, 3, 0)
         self.inets_frame_counter_0 = inets.frame_counter(0, 36, 15, 0)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 770, 3, 1)
-        self.inets_counter_0_0_0_0 = inets.counter(3, 1, 1, "sent_4", 1, "/home/inets/source/gr-inets/results/", 0)
+        self.inets_counter_0_0_0_0 = inets.counter(3, 1, 1, "sent_3", 1, "/home/inets/source/gr-inets/results/", 0)
         self.inets_counter_0_0_0 = inets.counter(1, 1, 1, "tx_frame", 0, "/home/inets/source/gr-inets/results/", 0)
         self.inets_cmd_switch_0 = inets.cmd_switch(0, 47)
         self.inets_cmd_path_0_1 = inets.cmd_path(0, 44, 1)
@@ -147,7 +147,7 @@ class new_theoretical_CSMA(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_standard_timer_0, 'expire_cmd_out'), (self.inets_cmd_switch_0, 'cmd_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "new_theoretical_CSMA")
+        self.settings = Qt.QSettings("GNU Radio", "new_theoretical_CSMA_II")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -248,7 +248,7 @@ class new_theoretical_CSMA(gr.top_block, Qt.QWidget):
         self.Single_rxp_time_s = Single_rxp_time_s
 
 
-def main(top_block_cls=new_theoretical_CSMA, options=None):
+def main(top_block_cls=new_theoretical_CSMA_II, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

@@ -96,7 +96,8 @@ list(APPEND inets_sources
     cmd_and_impl.cc
     cmd_switch_impl.cc
     cmd_port_control_impl.cc
-    parameter_list_impl.cc )
+    parameter_list_impl.cc
+    frame_redundancy_remover_impl.cc )
 
 set(inets_sources "${inets_sources}" PARENT_SCOPE)
 if(NOT inets_sources)
