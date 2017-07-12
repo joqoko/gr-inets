@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: csma_80211
+# Title: csma_80211_IV
 # Author: PWA
-# Generated: Wed Jul 12 12:25:18 2017
+# Generated: Wed Jul 12 12:29:09 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -29,12 +29,12 @@ import sys
 from gnuradio import qtgui
 
 
-class csma_80211(gr.top_block, Qt.QWidget):
+class csma_80211_IV(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "csma_80211")
+        gr.top_block.__init__(self, "csma_80211_IV")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("csma_80211")
+        self.setWindowTitle("csma_80211_IV")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -52,18 +52,18 @@ class csma_80211(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "csma_80211")
+        self.settings = Qt.QSettings("GNU Radio", "csma_80211_IV")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.6"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.9"
         self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.timeout_duration_ms = timeout_duration_ms = 1000
         self.system_time_granularity_us = system_time_granularity_us = 10
-        self.source_address = source_address = 1
+        self.source_address = source_address = 4
         self.samp_rate = samp_rate = 400000
         self.rx_gain = rx_gain = 0
         self.rx_center_frequency = rx_center_frequency = 3.9e8
@@ -72,7 +72,7 @@ class csma_80211(gr.top_block, Qt.QWidget):
 
         self.mu = mu = 0.6
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
-        self.destination_address = destination_address = 2
+        self.destination_address = destination_address = 100
         self.cs_threshold = cs_threshold = 0.001
 
         ##################################################
@@ -151,7 +151,7 @@ class csma_80211(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_timeout_0, 'frame_info_out'), (self.inets_frame_type_check_0_0, 'frame_info_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "csma_80211")
+        self.settings = Qt.QSettings("GNU Radio", "csma_80211_IV")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -240,7 +240,7 @@ class csma_80211(gr.top_block, Qt.QWidget):
         self.cs_threshold = cs_threshold
 
 
-def main(top_block_cls=csma_80211, options=None):
+def main(top_block_cls=csma_80211_IV, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

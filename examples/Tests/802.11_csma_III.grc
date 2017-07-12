@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>csma_80211_II</value>
+      <value>csma_80211_III</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>csma_80211_II</value>
+      <value>csma_80211_III</value>
     </param>
   </block>
   <block>
@@ -337,7 +337,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>2</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -472,7 +472,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.6"</value>
+      <value>"addr=10.0.0.3"</value>
     </param>
   </block>
   <block>
