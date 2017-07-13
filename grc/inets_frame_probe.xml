@@ -155,11 +155,33 @@
     </option>
   </param>
 
+  <param>
+    <name>Enable rename file</name>
+    <key>enable_new_name</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+
 
   <sink>
     <name>info_in</name>
     <type>message</type>
     <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>file_name_in</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$enable_new_name</hide>
   </sink>
 
   <source>

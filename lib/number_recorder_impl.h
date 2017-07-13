@@ -18,39 +18,35 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifndef INCLUDED_INETS_NUMBER_RECORDER_IMPL_H
+#define INCLUDED_INETS_NUMBER_RECORDER_IMPL_H
 
-#ifndef INCLUDED_INETS_ADDRESS_CHECK_H
-#define INCLUDED_INETS_ADDRESS_CHECK_H
-
-#include <inets/api.h>
-#include <gnuradio/block.h>
+#include <inets/number_recorder.h>
 
 namespace gr {
   namespace inets {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup inets
-     *
-     */
-    class INETS_API address_check : virtual public gr::block
+    class number_recorder_impl : public number_recorder
     {
-     public:
-      typedef boost::shared_ptr<address_check> sptr;
+     private:
+      int _develop_mode;
+      int _block_id;
+      int _name_with_timestamp;
+      std::string _recorder_name;
+      std::string _file_name_str;
+      void recording(pmt::pmt_t cmd_in);
+      void change_file_name(pmt::pmt_t new_name);
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of inets::address_check.
-       *
-       * To avoid accidental use of raw pointers, inets::address_check's
-       * constructor is in a private implementation
-       * class. inets::address_check::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(int develop_mode, int block_id, int my_address, int mode);
+
+     public:
+      number_recorder_impl(int develop_mode, int block_id, std::string recorder_name, std::string record_path, int name_with_timestamp);
+      ~number_recorder_impl();
+
+      // Where all the action really happens
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_ADDRESS_CHECK_H */
+#endif /* INCLUDED_INETS_NUMBER_RECORDER_IMPL_H */
 

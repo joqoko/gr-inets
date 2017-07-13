@@ -51,6 +51,7 @@ namespace gr {
       void countdown_sensing();
       void oneshot_sensing();
       void reset_duration(pmt::pmt_t cmd_in);
+      void set_cs_threshold(pmt::pmt_t cs_threshold_in);
       void continuous_sensing();
       void unlimited_sensing();
 

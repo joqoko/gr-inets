@@ -31,6 +31,7 @@ namespace gr {
      private:
       int _develop_mode;
       int _block_id;
+      bool _output_n;
       std::vector<double> _list;
       void kick(pmt::pmt_t cmd_in);
 

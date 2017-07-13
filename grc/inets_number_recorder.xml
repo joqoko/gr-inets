@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
 <block>
-  <name>address_check</name>
-  <key>inets_address_check</key>
-  <category>inets_dmf_mac</category>
+  <name>number_recorder</name>
+  <key>inets_number_recorder</key>
+  <category>inets_dmf_tool</category>
   <import>import inets</import>
-  <make>inets.address_check($develop_mode, $block_id, $my_address, $mode)</make>
+  <make>inets.number_recorder($develop_mode, $block_id, $recorder_name, $record_path, $name_with_timestamp)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
-
   <param>
     <name>Develop mode</name>
     <key>develop_mode</key>
@@ -39,53 +38,64 @@
   <param>
     <name>Block id</name>
     <key>block_id</key>
-    <value>17</value>
+    <value>50</value>
     <type>int</type>
-    <hide>$develop_mode.hide_control</hide>
+    <hide>$show_id.hide_id</hide>
   </param>
 
   <param>
-    <name>My address</name>
-    <key>my_address</key>
-    <value>source_address</value>
-    <type>int</type>
-    <hide>part</hide>
-  </param>
-
-  <param>
-    <name>Mode</name>
-    <key>mode</key>
+    <name>Display mode</name>
+    <key>show_id</key>
     <type>enum</type>
     <hide>part</hide>
     <option>
-      <name>Destination</name>
+      <name>show name</name>
       <key>0</key>
+      <opt>hide_id:part</opt>
+      <opt>hide_name:none</opt>
     </option>
     <option>
-      <name>Source</name>
+      <name>show ID</name>
       <key>1</key>
+      <opt>hide_id:none</opt>
+      <opt>hide_name:part</opt>
     </option>
   </param>
 
   <param>
-    <name>Show not pass</name>
-    <key>show_not_pass</key>
+    <name>Name</name>
+    <key>recorder_name</key>
+    <value>""</value>
+    <type>string</type>
+    <hide>$show_id.hide_name</hide>
+  </param>
+
+  <param>
+    <name>Records path</name>
+    <key>record_path</key>
+    <value>"/home/inets/source/gr-inets/results/"</value>
+    <type>string</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>filename with timestamp</name>
+    <key>name_with_timestamp</key>
     <type>enum</type>
     <hide>part</hide>
     <option>
-      <name>show</name>
-      <key>0</key>
-      <opt>hide:part</opt>
+      <name>Yes</name>
+      <key>1</key>
     </option>
     <option>
-      <name>hide</name>
-      <key>1</key>
-      <opt>hide:all</opt>
+      <name>No</name>
+      <key>0</key>
     </option>
   </param>
+
   <param>
-    <name>Output payload pmt</name>
-    <key>output_payload_pmt</key>
+    <name>Enable rename file</name>
+    <key>enable_new_name</key>
     <type>enum</type>
     <hide>part</hide>
     <option>
@@ -97,13 +107,14 @@
       <key>0</key>
     </option>
   </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>frame_info_in</name>
+    <name>cmd_in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>
@@ -113,23 +124,11 @@
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
-  <source>
-    <name>address_check_pass_out</name>
-    <type>message</type>
-    <optional>1</optional>
-  </source>
 
-  <source>
-    <name>payload_out</name>
+  <sink>
+    <name>change_file_name_in</name>
     <type>message</type>
     <optional>1</optional>
-    <hide>$output_payload_pmt</hide>
-  </source>
-
-  <source>
-    <name>address_check_fail_out</name>
-    <type>message</type>
-    <optional>1</optional>
-    <hide>$show_not_pass</hide>
-  </source>
+    <hide>$enable_new_name</hide>
+  </sink>
 </block>

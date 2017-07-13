@@ -79,6 +79,7 @@ Index		block name				Categories
  47		cmd_switch				inets_dmf_tool
  48		cmd_port_control			inets_dmf_tool
  49		frame_redundancy_remover 		inets_dmf_tool
+ 50		recorder 				inets_dmf_tool
 
 
  100+		frame_probe				inets_dmf_tool

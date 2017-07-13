@@ -64,6 +64,11 @@ namespace gr {
         pmt::mp("info_in"),
         boost::bind(&frame_probe_impl::read_info, this, _1)
       ); 
+      message_port_register_in(pmt::mp("file_name_in"));
+      set_msg_handler(
+        pmt::mp("file_name_in"),
+        boost::bind(&frame_probe_impl::change_file_name, this, _1)
+      ); 
       struct timeval t;
       gettimeofday(&t, NULL);
       _last_time = t.tv_sec + t.tv_usec / 1000000.0;
@@ -86,6 +91,23 @@ namespace gr {
      */
     frame_probe_impl::~frame_probe_impl()
     {
+    }
+
+    void
+    frame_probe_impl::change_file_name(pmt::pmt_t new_name)
+    { 
+      // currently only accept double as input
+      if(pmt::is_real(new_name))
+      {
+        time_t tt = time(0);   // get time now
+        struct tm * now = localtime( & tt );
+        std::ostringstream file_name;
+        if(_name_with_timestamp)
+          file_name << "/home/inets/source/gr-inets/results/" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday << "_" << now->tm_hour << "_" << now->tm_min << "_" << now->tm_sec << "_block" << _block_id << "_" << _file_name_extension << new_name << ".txt";
+        else
+          file_name << "/home/inets/source/gr-inets/results/" << _file_name_extension << new_name << ".txt";
+        _file_name_str = file_name.str();
+      }
     }
 
     void

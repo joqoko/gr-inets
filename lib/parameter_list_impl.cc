@@ -44,12 +44,14 @@ namespace gr {
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
+        _output_n(true),
         _list(list)
     {
       if(_develop_mode)
         std::cout << "develop_mode of parameter_list check ID: " << _block_id << " is activated." << std::endl;
       message_port_register_in(pmt::mp("trigger_in"));
       message_port_register_out(pmt::mp("parameter_out"));
+      message_port_register_out(pmt::mp("n_parameter_out"));
       set_msg_handler(pmt::mp("trigger_in"), boost::bind(&parameter_list_impl::kick, this, _1 ));
     }
 
@@ -63,6 +65,11 @@ namespace gr {
     void
     parameter_list_impl::kick(pmt::pmt_t cmd_in)
     {
+      if(_output_n)
+      {
+        message_port_pub(pmt::mp("n_parameter_out"), pmt::from_long(_list.size()));
+        _output_n = false;
+      }
       if(_develop_mode)
         std::cout << "parameter_list ID: " << _block_id;
       if(_list.size() > 0) 

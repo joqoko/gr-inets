@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: csma_80211_I
+# Title: csma_80211_III
 # Author: PWA
-# Generated: Fri Jul 14 01:03:59 2017
+# Generated: Thu Jul 13 22:51:31 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -29,12 +29,12 @@ import sys
 from gnuradio import qtgui
 
 
-class csma_80211_I(gr.top_block, Qt.QWidget):
+class csma_80211_III(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "csma_80211_I")
+        gr.top_block.__init__(self, "csma_80211_III")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("csma_80211_I")
+        self.setWindowTitle("csma_80211_III")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -52,21 +52,21 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "csma_80211_I")
+        self.settings = Qt.QSettings("GNU Radio", "csma_80211_III")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.14"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.3"
         self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.timeout_duration_ms = timeout_duration_ms = 50
         self.system_time_granularity_us = system_time_granularity_us = 10
-        self.source_address = source_address = 1
+        self.source_address = source_address = 3
         self.slot_time = slot_time = 8
         self.samp_rate = samp_rate = 400000
-        self.rx_gain = rx_gain = 5
+        self.rx_gain = rx_gain = 10
         self.rx_center_frequency = rx_center_frequency = 3.9e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
@@ -76,7 +76,7 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
         self.destination_address = destination_address = 100
         self.cs_threshold = cs_threshold = 0.001
-        self.Single_rxp_time_s = Single_rxp_time_s = 5
+        self.Single_rxp_time_s = Single_rxp_time_s = 300
         self.SIFS = SIFS = 10
 
         ##################################################
@@ -84,15 +84,13 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         ##################################################
         self.inets_unbundle_0 = inets.unbundle(0, 16, "num_transmission")
         self.inets_timeout_0 = inets.timeout(0, 10, timeout_duration_ms, 1000, 0)
-        self.inets_time_probe_0 = inets.time_probe(0, 200, 0, 0, "node"+str(source_address)+"_roundtime", "/home/inets/source/gr-inets/results/", 1)
         self.inets_standard_timer_0 = inets.standard_timer(0, 51, slot_time, 10)
         self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0.0002, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=0, tx_gain=0)
         self.inets_run_0_0 = inets.run(20, 10)
         self.inets_resend_check_0 = inets.resend_check(0, 24, 6)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_random_filter_0 = inets.random_filter(0, 3, 0.95)
-        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667])
-        self.inets_number_recorder_0_1 = inets.number_recorder(0, 50, "node"+str(source_address)+"_bof_busy", "/home/inets/source/gr-inets/results/", 0)
+        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [1.000000000000000, 0.738905609893065,   0.448168907033806, 0.271828182845905,   0.164872127070013, 0.100000000000000, 0.060653065971263,   0.036787944117144,   0.022313016014843, 0.013533528323661,   0.008208499862390,   0.004978706836786, 0.003019738342232, 0.001831563888873])
         self.inets_number_recorder_0_0 = inets.number_recorder(0, 50, "node"+str(source_address)+"_num_transmission", "/home/inets/source/gr-inets/results/", 0)
         self.inets_number_recorder_0 = inets.number_recorder(0, 50, "node"+str(source_address)+"_bof_busy", "/home/inets/source/gr-inets/results/", 0)
         self.inets_general_timer_0_2 = inets.general_timer(0, 5, 0, Single_rxp_time_s * 1000, 10, 0)
@@ -102,6 +100,8 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         self.inets_framing_0 = inets.framing(0, 17, 1, 1, 0, 1, destination_address, 1, source_address, 1, 318, 2, 524, 2, 2, 1, 1, 0, ([2, 3]), ([1000, 1000]), 2, 0, 300, 1)
         self.inets_frame_type_check_0_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
         self.inets_frame_type_check_0 = inets.frame_type_check(0, 25, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
+        self.inets_frame_probe_1_0 = inets.frame_probe(2, 100, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "node"+str(source_address)+"_end_tx", 0)
+        self.inets_frame_probe_1 = inets.frame_probe(2, 200, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "node"+str(source_address)+"_start_tx", 0)
         self.inets_frame_probe_0 = inets.frame_probe(1, 100, 0, 1, 0.001, 0, "/home/inets/source/gr-inets/results/", "", 1)
         self.inets_frame_path_1_0_1 = inets.frame_path(0, 39)
         self.inets_frame_path_1_0 = inets.frame_path(0, 39)
@@ -132,7 +132,6 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.inets_address_check_0, 'address_check_pass_out'), (self.inets_frame_type_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_backoff_0, 'busy_time_out'), (self.inets_number_recorder_0, 'cmd_in'))
-        self.msg_connect((self.inets_backoff_0, 'bof_time_out'), (self.inets_number_recorder_0_1, 'cmd_in'))
         self.msg_connect((self.inets_backoff_0, 'frame_info_out'), (self.inets_resend_check_0, 'frame_info_in'))
         self.msg_connect((self.inets_backoff_1, 'frame_info_out'), (self.inets_cmd_switch_0, 'switch_on'))
         self.msg_connect((self.inets_backoff_1, 'frame_info_out'), (self.inets_counter_0_0_0, 'message_in'))
@@ -149,10 +148,10 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_cmd_path_0_0, 'cmd_out'), (self.inets_counter_0_0_0_0_1, 'reset_counter'))
         self.msg_connect((self.inets_cmd_path_0_0_0, 'cmd_out'), (self.inets_backoff_1, 'power_in'))
         self.msg_connect((self.inets_cmd_path_0_0_0_0, 'cmd_out'), (self.inets_backoff_1, 'cs_threshold_in'))
+        self.msg_connect((self.inets_cmd_path_0_0_1, 'cmd_out'), (self.inets_frame_probe_1, 'file_name_in'))
+        self.msg_connect((self.inets_cmd_path_0_0_1, 'cmd_out'), (self.inets_frame_probe_1_0, 'file_name_in'))
         self.msg_connect((self.inets_cmd_path_0_0_1, 'cmd_out'), (self.inets_number_recorder_0, 'change_file_name_in'))
         self.msg_connect((self.inets_cmd_path_0_0_1, 'cmd_out'), (self.inets_number_recorder_0_0, 'change_file_name_in'))
-        self.msg_connect((self.inets_cmd_path_0_0_1, 'cmd_out'), (self.inets_number_recorder_0_1, 'change_file_name_in'))
-        self.msg_connect((self.inets_cmd_path_0_0_1, 'cmd_out'), (self.inets_time_probe_0, 'change_file_name_in'))
         self.msg_connect((self.inets_cmd_switch_0, 'cmd_out'), (self.inets_random_filter_0, 'cmd_in'))
         self.msg_connect((self.inets_dummy_source_0, 'output'), (self.inets_framing_0, 'data_in'))
         self.msg_connect((self.inets_frame_analysis_0, 'frame_info_out'), (self.inets_frame_check_0, 'frame_info_in'))
@@ -169,10 +168,10 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_frame_type_check_0, 'ack_frame_info_out'), (self.inets_timeout_0, 'ack_frame_info_in'))
         self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_backoff_1, 'frame_info_in'))
         self.msg_connect((self.inets_frame_type_check_0_0, 'data_frame_info_out'), (self.inets_frame_path_1_0_1, 'frame_in'))
-        self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_time_probe_0, 'time_later_in'))
+        self.msg_connect((self.inets_frame_type_check_0_0, 'ack_frame_info_out'), (self.inets_frame_probe_1_0, 'info_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_counter_0_0_0_0_1, 'message_in'))
         self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_path_1_0, 'frame_in'))
-        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_time_probe_0, 'time_former_in'))
+        self.msg_connect((self.inets_framing_0, 'frame_out'), (self.inets_frame_probe_1, 'info_in'))
         self.msg_connect((self.inets_framing_0_0, 'frame_out'), (self.inets_general_timer_0_1_0, 'active_in'))
         self.msg_connect((self.inets_general_timer_0_1, 'expire_signal_out'), (self.inets_carrier_sensing_0, 'stop_in'))
         self.msg_connect((self.inets_general_timer_0_1_0, 'expire_signal_out'), (self.inets_sending_0, 'in'))
@@ -191,7 +190,7 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_resend_check_0, 'resend_check_fail_out'), (self.inets_cmd_switch_0, 'switch_on'))
         self.msg_connect((self.inets_resend_check_0, 'resend_check_pass_out'), (self.inets_counter_0_0_0_0_0_0, 'message_in'))
         self.msg_connect((self.inets_resend_check_0, 'resend_check_pass_out'), (self.inets_frame_path_1_0, 'frame_in'))
-        self.msg_connect((self.inets_resend_check_0, 'resend_check_fail_out'), (self.inets_time_probe_0, 'time_later_in'))
+        self.msg_connect((self.inets_resend_check_0, 'resend_check_fail_out'), (self.inets_frame_probe_1_0, 'info_in'))
         self.msg_connect((self.inets_run_0_0, 'trigger_out'), (self.inets_general_timer_0_2, 'active_in'))
         self.msg_connect((self.inets_run_0_0, 'trigger_out'), (self.inets_parameter_list_0, 'trigger_in'))
         self.msg_connect((self.inets_run_0_0, 'trigger_out'), (self.inets_standard_timer_0, 'active_in'))
@@ -204,7 +203,7 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_unbundle_0, 'cmd_out'), (self.inets_number_recorder_0_0, 'cmd_in'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "csma_80211_I")
+        self.settings = Qt.QSettings("GNU Radio", "csma_80211_III")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -317,7 +316,7 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         self.SIFS = SIFS
 
 
-def main(top_block_cls=csma_80211_I, options=None):
+def main(top_block_cls=csma_80211_III, options=None):
 
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):

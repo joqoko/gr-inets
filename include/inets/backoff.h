@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::backoff::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us, int virtual_cs);
+      static sptr make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us, int virtual_cs, int min_window_size);
     };
 
   } // namespace inets

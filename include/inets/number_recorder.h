@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_INETS_ADDRESS_CHECK_H
-#define INCLUDED_INETS_ADDRESS_CHECK_H
+#ifndef INCLUDED_INETS_NUMBER_RECORDER_H
+#define INCLUDED_INETS_NUMBER_RECORDER_H
 
 #include <inets/api.h>
 #include <gnuradio/block.h>
@@ -33,24 +33,24 @@ namespace gr {
      * \ingroup inets
      *
      */
-    class INETS_API address_check : virtual public gr::block
+    class INETS_API number_recorder : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<address_check> sptr;
+      typedef boost::shared_ptr<number_recorder> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of inets::address_check.
+       * \brief Return a shared_ptr to a new instance of inets::number_recorder.
        *
-       * To avoid accidental use of raw pointers, inets::address_check's
+       * To avoid accidental use of raw pointers, inets::number_recorder's
        * constructor is in a private implementation
-       * class. inets::address_check::make is the public interface for
+       * class. inets::number_recorder::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int my_address, int mode);
+      static sptr make(int develop_mode, int block_id, std::string recorder_name, std::string record_path, int name_with_timestamp);
     };
 
   } // namespace inets
 } // namespace gr
 
-#endif /* INCLUDED_INETS_ADDRESS_CHECK_H */
+#endif /* INCLUDED_INETS_NUMBER_RECORDER_H */
 

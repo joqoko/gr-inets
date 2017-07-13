@@ -29,21 +29,22 @@ namespace gr {
   namespace inets {
 
     address_check::sptr
-    address_check::make(int develop_mode, int block_id, int my_address)
+    address_check::make(int develop_mode, int block_id, int my_address, int mode)
     {
       return gnuradio::get_initial_sptr
-        (new address_check_impl(develop_mode, block_id, my_address));
+        (new address_check_impl(develop_mode, block_id, my_address, mode));
     }
 
     /*
      * The private constructor
      */
-    address_check_impl::address_check_impl(int develop_mode, int block_id, int my_address)
+    address_check_impl::address_check_impl(int develop_mode, int block_id, int my_address, int mode)
       : gr::block("address_check",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _block_id(block_id),
         _develop_mode(develop_mode),
+        _mode(mode),
         _my_address(my_address)
     {
       if(_develop_mode)
@@ -70,7 +71,13 @@ namespace gr {
         std::cout << "++++++++   address_check ID: " << _block_id << "   +++++++++" << std::endl;
       }
       pmt::pmt_t not_found;
-      int received_frame_address = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found));
+      // mode == 0, check the destination address of coming frame. Used for unicast
+      // mode != 0, check the source address of coming frame. Used for debugging and special MAC
+      int received_frame_address = 0;
+      if(_mode == 0)
+        received_frame_address = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("destination_address"), not_found));
+      else
+        received_frame_address = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("source_address"), not_found));
       int is_my_address = (_my_address == received_frame_address);
       if(_develop_mode == 1)
         std::cout << "My address is " << _my_address << " and rx frame address is " << received_frame_address << ". Frame check is: " << is_my_address << " (1: passed, 2: failed)." << std::endl;

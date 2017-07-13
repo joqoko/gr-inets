@@ -180,6 +180,24 @@
     </option>
   </param>
 
+  <param>
+    <name>Show threshold output port</name>
+    <key>show_thre</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>Not show</name>
+      <key>1</key>
+      <opt>hide:part</opt>
+    </option>
+    <option>
+      <name>show</name>
+      <key>0</key>
+      <opt>hide:none</opt>
+    </option>
+  </param>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -225,5 +243,11 @@
     <type>message</type>
     <optional>1</optional>
     <hide>$show_fail</hide>
+  </source>
+  <source>
+    <name>cs_threshold_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$show_thre</hide>
   </source>
 </block>

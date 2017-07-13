@@ -32,16 +32,16 @@ namespace gr {
   namespace inets {
 
     backoff::sptr
-    backoff::make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us, int virtual_cs)
+    backoff::make(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us, int virtual_cs, int min_window_size)
     {
       return gnuradio::get_initial_sptr
-        (new backoff_impl(develop_mode, block_id, backoff_type, backoff_time_unit_ms, min_backoff_ms, max_backoff_ms, apply_cs, cs_threshold, system_time_granularity_us, virtual_cs));
+        (new backoff_impl(develop_mode, block_id, backoff_type, backoff_time_unit_ms, min_backoff_ms, max_backoff_ms, apply_cs, cs_threshold, system_time_granularity_us, virtual_cs, min_window_size));
     }
 
     /*
      * the private constructor
      */
-    backoff_impl::backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us, int virtual_cs)
+    backoff_impl::backoff_impl(int develop_mode, int block_id, int backoff_type, int backoff_time_unit_ms, int min_backoff_ms, int max_backoff_ms, int apply_cs, double cs_threshold, int system_time_granularity_us, int virtual_cs, int min_window_size)
       : gr::block("backoff",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
@@ -59,6 +59,7 @@ namespace gr {
         _power(0),
         _in_backoff(false),
         _nav_us(0),
+        _min_window_size(min_window_size),
         _virtual_cs(!virtual_cs)
     {
       if(_develop_mode == 1)
@@ -67,6 +68,8 @@ namespace gr {
       std::srand((unsigned)time(NULL));  
       message_port_register_in(pmt::mp("frame_info_in"));
       message_port_register_out(pmt::mp("frame_info_out"));
+      message_port_register_out(pmt::mp("busy_time_out"));
+      message_port_register_out(pmt::mp("bof_time_out"));
       set_msg_handler(
         pmt::mp("frame_info_in"),
         boost::bind(&backoff_impl::start_backoff, this, _1)
@@ -81,6 +84,15 @@ namespace gr {
         pmt::mp("power_in"),
         boost::bind(&backoff_impl::carrier_sensing, this, _1)
       );
+      message_port_register_in(pmt::mp("cs_threshold_in"));
+      set_msg_handler(
+        pmt::mp("cs_threshold_in"),
+        boost::bind(&backoff_impl::set_cs_threshold, this, _1)
+      );
+      struct timeval t;
+      gettimeofday(&t, NULL);
+      _start_busy = t.tv_sec + t.tv_usec / 1000000.0;
+      _ch_busy = false;
     }
 
     /*
@@ -90,6 +102,18 @@ namespace gr {
     {
     }
 
+    void backoff_impl::set_cs_threshold(pmt::pmt_t cs_threshold_in)
+    {
+      if(pmt::is_real(cs_threshold_in))
+      {
+        _cs_threshold = pmt::to_double(cs_threshold_in);
+        if(_develop_mode)
+          std::cout << "backoff ID " << _block_id << " carrier sensing threshold is reset to " << _cs_threshold << std::endl;
+      }
+      else
+        std::cout << "++++ backoff ID " << _block_id << " error: port cs_threshold_in receives unknown data type. please check your connections." << std::endl;
+    }
+
     void backoff_impl::carrier_sensing(pmt::pmt_t power_in)
     {
       if(pmt::is_real(power_in))
@@ -97,16 +121,21 @@ namespace gr {
         if(_backoff_type == 1 && _apply_cs)
         {
           _power = pmt::to_double(power_in);
-          _ch_busy = (_power > _cs_threshold);
-          /*
-          if(_develop_mode && _ch_busy)
+          bool ch_busy_now = (_power > _cs_threshold);
+          if(_in_backoff && ch_busy_now && !_ch_busy)
           {
             struct timeval t;
             gettimeofday(&t, NULL);
-            double current_time_show = t.tv_sec - double(int(t.tv_sec/10)*10) + t.tv_usec / 1000000.0;
-            std::cout << "in carrier sensing, average rx power is: " << _power << ", received at " << current_time_show << " s" << std::endl;
+            _start_busy = t.tv_sec + t.tv_usec / 1000000.0;
           }
-          */
+          if(_in_backoff && !ch_busy_now && _ch_busy)
+          {
+            struct timeval t;
+            gettimeofday(&t, NULL);
+            double end_busy = t.tv_sec + t.tv_usec / 1000000.0;
+            message_port_pub(pmt::mp("busy_time_out"), pmt::from_double(end_busy - _start_busy));
+          }
+          _ch_busy = ch_busy_now;
         }
         else
           _ch_busy = false;
@@ -185,8 +214,20 @@ namespace gr {
              */
             if(_backoff_type == 1)
             {
-              int num_transmission = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("num_transmission"), not_found));
-              _n_backoff = num_transmission;
+              if(pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found)) == 2)
+              {
+                // ACK frame
+                _n_backoff = 1;
+                if(_develop_mode)
+                  std::cout << "backoff ID " << _block_id << " is trigger by ACK frame means the last DATA frame is successfully acked. " << std::endl;
+              }
+              else
+              {
+                // other frames
+                int num_transmission = pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("num_transmission"), not_found));
+                _n_backoff = num_transmission;
+              }
+              _n_backoff = _n_backoff + _min_window_size;
 //              if(_apply_cs)
                 boost::thread thrd(&backoff_impl::countdown_exp_backoff_cs, this);
 //              else
@@ -282,6 +323,8 @@ namespace gr {
     {
       struct timeval t;
       _in_backoff = true;
+      gettimeofday(&t, NULL);
+      double begin_time = t.tv_sec + t.tv_usec / 1000000.0;
       if(_n_backoff)
       {
         //float backoff_time = std::rand() % std::pow(2, _n_backoff) + _min_bakcoff_ms;
@@ -354,6 +397,9 @@ namespace gr {
           std::cout << "backoff counter reset so no waiting this time." << std::endl; 
       }
       message_port_pub(pmt::mp("frame_info_out"), _frame_info);
+      gettimeofday(&t, NULL);
+      double end_time = t.tv_sec + t.tv_usec / 1000000.0;
+      message_port_pub(pmt::mp("bof_time_out"),pmt::from_double(end_time - begin_time));
       _in_backoff = false;
     }
   } /* namespace inets */

@@ -51,6 +51,22 @@
     <type>raw</type>
   </param>
 
+  <param>
+    <name>Output number of parameters</name>
+    <key>output_n</key>
+    <value>1</value>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>No</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>Yes</name>
+      <key>0</key>
+    </option>
+  </param>
+  
 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -72,5 +88,11 @@
     <name>parameter_out</name>
     <type>message</type>
     <optional>1</optional>
+  </source>
+  <source>
+    <name>n_parameter_out</name>
+    <type>message</type>
+    <optional>1</optional>
+    <hide>$output_n</hide>
   </source>
 </block>

@@ -45,6 +45,7 @@ namespace gr {
       std::string _file_name_str;
       std::string _file_name_extension;
       void read_info(pmt::pmt_t frame_info);
+      void change_file_name(pmt::pmt_t new_name);
       void show_detail(pmt::pmt_t frame_info);
       void disp_vec(std::vector<unsigned char> vec);
       void disp_int_vec(std::vector<uint32_t> vec);

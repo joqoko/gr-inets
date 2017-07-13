@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: temp
-# Generated: Mon Jul  3 21:35:44 2017
+# Generated: Thu Jul 13 12:04:13 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -85,19 +85,28 @@ class temp(gr.top_block, Qt.QWidget):
         self._range_mu_range = Range(0, 1, 0.01, 0.6, 200)
         self._range_mu_win = RangeWidget(self._range_mu_range, self.set_range_mu, 'BB Derotation Gain', "counter_slider", float)
         self.top_grid_layout.addWidget(self._range_mu_win, 2,0,1,1)
-        self.inets_time_probe_0 = inets.time_probe(0, 200, 0)
-        self.inets_standard_timer_0 = inets.standard_timer(0, 51, 14.444, 10)
+        self.inets_standard_timer_0_0 = inets.standard_timer(0, 51, 100, 10)
         self.inets_run_0 = inets.run(1, 10)
-        self.inets_cmd_path_0 = inets.cmd_path(0, 44, 1)
+        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [1.000, 0.22, 0.0003])
+        self.inets_general_timer_0 = inets.general_timer(0, 5, 0, 1000, 10, 0)
+        self.inets_frame_probe_1 = inets.frame_probe(2, 101, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_frame_probe_0 = inets.frame_probe(2, 100, 0, 0, 0.01, 1, "/home/inets/source/gr-inets/results/", "test", 0)
+        self.inets_frame_counter_0 = inets.frame_counter(0, 36, 3, 0)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.inets_cmd_path_0, 'cmd_out'), (self.inets_standard_timer_0, 'active_in'))
-        self.msg_connect((self.inets_cmd_path_0, 'cmd_out'), (self.inets_time_probe_0, 'time_former_in'))
-        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_standard_timer_0, 'active_in'))
-        self.msg_connect((self.inets_standard_timer_0, 'expire_cmd_out'), (self.inets_cmd_path_0, 'cmd_in'))
-        self.msg_connect((self.inets_standard_timer_0, 'expire_cmd_out'), (self.inets_time_probe_0, 'time_later_in'))
+        self.msg_connect((self.inets_frame_counter_0, 'unselect_out'), (self.inets_general_timer_0, 'active_in'))
+        self.msg_connect((self.inets_frame_counter_0, 'select_out'), (self.inets_standard_timer_0_0, 'disable_timer_in'))
+        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_frame_counter_0, 'counts_in'))
+        self.msg_connect((self.inets_general_timer_0, 'expire_signal_out'), (self.inets_parameter_list_0, 'trigger_in'))
+        self.msg_connect((self.inets_parameter_list_0, 'n_parameter_out'), (self.inets_frame_counter_0, 'set_n_counts_in'))
+        self.msg_connect((self.inets_parameter_list_0, 'parameter_out'), (self.inets_frame_probe_0, 'file_name_in'))
+        self.msg_connect((self.inets_parameter_list_0, 'parameter_out'), (self.inets_frame_probe_1, 'info_in'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_general_timer_0, 'active_in'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_parameter_list_0, 'trigger_in'))
+        self.msg_connect((self.inets_run_0, 'trigger_out'), (self.inets_standard_timer_0_0, 'active_in'))
+        self.msg_connect((self.inets_standard_timer_0_0, 'expire_cmd_out'), (self.inets_frame_probe_0, 'info_in'))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "temp")

@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::time_probe::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int mode);
+      static sptr make(int develop_mode, int block_id, int mode, int record_on, std::string recorder_name, std::string record_path, int name_with_timestamp);
     };
 
   } // namespace inets

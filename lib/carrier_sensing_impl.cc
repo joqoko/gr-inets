@@ -62,6 +62,7 @@ namespace gr {
       message_port_register_in(pmt::mp("cmd_in"));
       message_port_register_out(pmt::mp("cmd_fail_out"));
       message_port_register_out(pmt::mp("cmd_pass_out"));
+      message_port_register_out(pmt::mp("cs_threshold_out"));
       set_msg_handler(
         pmt::mp("cmd_in"),
         boost::bind(&carrier_sensing_impl::start_sensing, this, _1)
@@ -136,6 +137,7 @@ namespace gr {
           _cs_threshold = _cs_threshold / len * rx_sens;
           if(_develop_mode)
             std::cout << " rx_sensitivity is " << rx_sens << " and the noise floor is " << _cs_threshold << std::endl;
+          message_port_pub(pmt::mp("cs_threshold_out"), pmt::from_double(_cs_threshold));
           _nf_initial_n = -1;
         }
         else
@@ -149,7 +151,6 @@ namespace gr {
           double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
           std::cout << "in carrier sensing, average rx power is: " << power << ", received at " << current_time << " s" << std::endl;
         }
-        
       }
       else
         std::cout << "carrier_sensing ID " << _block_id << " error: not valid power signal" << std::endl;

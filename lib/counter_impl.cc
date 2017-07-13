@@ -101,7 +101,7 @@ namespace gr {
       if(_develop_mode == 3)
         std::cout << "counter results at time " << current_time << " is " << _counter << std::endl;
       std::ofstream ofs (_file_name_str.c_str(), std::ofstream::app);
-      ofs << _counter << " ";
+      ofs << _counter << " " << std::endl;
       ofs.close();
       _counter = 0;
     }

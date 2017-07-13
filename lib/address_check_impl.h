@@ -33,11 +33,12 @@ namespace gr {
       int _develop_mode;
       int _block_id;
       int _my_address;
+      int _mode;
       int _apply_address_check;
       void check_address(pmt::pmt_t frame_info);
 
      public:
-      address_check_impl(int develop_mode, int block_id, int my_address);
+      address_check_impl(int develop_mode, int block_id, int my_address, int mode);
       ~address_check_impl();
 
     };

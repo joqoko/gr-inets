@@ -32,12 +32,18 @@ namespace gr {
       int _develop_mode;
       int _block_id;
       int _mode;
+      int _record_on;
+      int _name_with_timestamp;
+      std::string _recorder_name;
+      std::string _file_name_str;
+      std::string _file_name_extension;
       double _former_time;
       void get_former(pmt::pmt_t cmd_in);
       void calc_duration(pmt::pmt_t cmd_in);
+      void change_file_name(pmt::pmt_t new_name);
 
      public:
-      time_probe_impl(int develop_mode, int block_id, int mode);
+      time_probe_impl(int develop_mode, int block_id, int mode, int record_on, std::string recorder_name, std::string record_path, int name_with_timestamp);
       ~time_probe_impl();
 
     };
