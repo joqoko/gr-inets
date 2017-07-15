@@ -557,6 +557,10 @@ namespace gr {
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("header_length"), pmt::from_long(get_frame_header_length()));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("address_check"),pmt::from_long(0));
       frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("good_frame"),pmt::from_long(0));
+      struct timeval t; 
+      gettimeofday(&t, NULL);
+      double gen_time = t.tv_sec + t.tv_usec / 1000000.0;
+      frame_info  = pmt::dict_add(frame_info, pmt::string_to_symbol("generation_time"),pmt::from_double(gen_time));
       return frame_info;
     }
 

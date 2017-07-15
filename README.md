@@ -80,6 +80,8 @@ Index		block name				Categories
  48		cmd_port_control			inets_dmf_tool
  49		frame_redundancy_remover 		inets_dmf_tool
  50		recorder 				inets_dmf_tool
+ 51		frame_lifetime				inets_dmf_mac
+ 52		cmd_editor				inets_dmf_tool
 
 
  100+		frame_probe				inets_dmf_tool

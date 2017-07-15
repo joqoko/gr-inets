@@ -116,6 +116,10 @@ namespace gr {
             //std::cout << "frame type: " << frame_type << " ack_dest: " << ack_dest << " wait_src: " << wait_src << " ack_src: " << ack_src << "wait_dest: " << wait_dest << " ack_index: " << ack_index << " wait_index: " << wait_index << std::endl;
             if((frame_type == 2 || frame_type == 5) && (ack_dest == wait_src) && (ack_src == wait_dest) && (ack_index == wait_index))
             { 
+              double gen_time = pmt::to_double(pmt::dict_ref(_waiting_frame_info, pmt::string_to_symbol("generation_time"), not_found));
+              int num_transmission = pmt::to_double(pmt::dict_ref(_waiting_frame_info, pmt::string_to_symbol("num_transmission"), not_found));
+              ack_frame_info = pmt::dict_add(ack_frame_info, pmt::string_to_symbol("generation_time"),pmt::from_double(gen_time));
+              ack_frame_info = pmt::dict_add(ack_frame_info, pmt::string_to_symbol("num_transmission"),pmt::from_long(num_transmission));
               _in_timeout = false;
               message_port_pub(pmt::mp("frame_info_out"), ack_frame_info);
               if(_develop_mode)

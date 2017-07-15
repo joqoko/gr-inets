@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>5</value>
+      <value>2400</value>
     </param>
   </block>
   <block>
@@ -240,7 +240,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>6</value>
+      <value>4</value>
     </param>
   </block>
   <block>
@@ -725,7 +725,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1208, 824)</value>
+      <value>(1248, 816)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -820,7 +820,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(632, 448)</value>
+      <value>(640, 448)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -952,6 +952,65 @@
     <param>
       <key>cs_threshold</key>
       <value>0.005</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_cmd_editor</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>52</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>field_name</key>
+      <value>"num_transmission"</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1088, 868)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_cmd_editor_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>operation</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1406,7 +1465,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>show_id</key>
@@ -1473,7 +1532,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>show_id</key>
@@ -1540,7 +1599,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>show_id</key>
@@ -1607,7 +1666,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>show_id</key>
@@ -1674,7 +1733,74 @@
     </param>
     <param>
       <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>show_id</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(544, 304)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>counter_id</key>
+      <value>11</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_counter_0_0_0_0_0_1</value>
+    </param>
+    <param>
+      <key>interval_mode</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>counter_name</key>
+      <value>"node"+str(source_address)+"_dropped"</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_counter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
     </param>
     <param>
       <key>show_id</key>
@@ -1998,6 +2124,164 @@
     </param>
     <param>
       <key>unselect</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_lifetime</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>202</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>show_id</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>enable_new_name</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>output_l</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(632, 1016)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_lifetime_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>mode</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>recorder_name</key>
+      <value>"node"+str(source_address)+"_roundtime_success"</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>name_with_timestamp</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>inets_frame_lifetime</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_id</key>
+      <value>201</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>develop_mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>show_id</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>enable_new_name</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>output_l</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1352, 1008)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>inets_frame_lifetime_0_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>mode</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>recorder_name</key>
+      <value>"node"+str(source_address)+"_roundtime_fail"</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>name_with_timestamp</key>
       <value>0</value>
     </param>
   </block>
@@ -2947,7 +3231,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(640, 944)</value>
+      <value>(640, 936)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3077,7 +3361,7 @@
     </param>
     <param>
       <key>recorder_name</key>
-      <value>"node"+str(source_address)+"_bof_busy"</value>
+      <value>"node"+str(source_address)+"_bof_time"</value>
     </param>
     <param>
       <key>record_path</key>
@@ -3333,7 +3617,7 @@
     </param>
     <param>
       <key>develop_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -3341,7 +3625,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 800)</value>
+      <value>(976, 808)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3681,7 +3965,7 @@
     </param>
     <param>
       <key>record_on</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>record_path</key>
@@ -3689,7 +3973,7 @@
     </param>
     <param>
       <key>name_with_timestamp</key>
-      <value>1</value>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -3787,11 +4071,11 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1464, 948)</value>
+      <value>(648, 868)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>180</value>
+      <value>0</value>
     </param>
     <param>
       <key>id</key>
@@ -3830,9 +4114,9 @@
   </connection>
   <connection>
     <source_block_id>inets_backoff_0</source_block_id>
-    <sink_block_id>inets_resend_check_0</sink_block_id>
+    <sink_block_id>inets_cmd_editor_0</sink_block_id>
     <source_key>frame_info_out</source_key>
-    <sink_key>frame_info_in</sink_key>
+    <sink_key>cmd_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_backoff_1</source_block_id>
@@ -3877,6 +4161,12 @@
     <sink_key>cmd_in</sink_key>
   </connection>
   <connection>
+    <source_block_id>inets_cmd_editor_0</source_block_id>
+    <sink_block_id>inets_resend_check_0</sink_block_id>
+    <source_key>cmd_out</source_key>
+    <sink_key>frame_info_in</sink_key>
+  </connection>
+  <connection>
     <source_block_id>inets_cmd_path_0</source_block_id>
     <sink_block_id>inets_standard_timer_0</sink_block_id>
     <source_key>cmd_out</source_key>
@@ -3908,6 +4198,12 @@
   </connection>
   <connection>
     <source_block_id>inets_cmd_path_0_0</source_block_id>
+    <sink_block_id>inets_counter_0_0_0_0_0_1</sink_block_id>
+    <source_key>cmd_out</source_key>
+    <sink_key>reset_counter</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_cmd_path_0_0</source_block_id>
     <sink_block_id>inets_counter_0_0_0_0_1</sink_block_id>
     <source_key>cmd_out</source_key>
     <sink_key>reset_counter</sink_key>
@@ -3923,6 +4219,18 @@
     <sink_block_id>inets_backoff_1</sink_block_id>
     <source_key>cmd_out</source_key>
     <sink_key>cs_threshold_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_cmd_path_0_0_1</source_block_id>
+    <sink_block_id>inets_frame_lifetime_0</sink_block_id>
+    <source_key>cmd_out</source_key>
+    <sink_key>change_file_name_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_cmd_path_0_0_1</source_block_id>
+    <sink_block_id>inets_frame_lifetime_0_0</sink_block_id>
+    <source_key>cmd_out</source_key>
+    <sink_key>change_file_name_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_cmd_path_0_0_1</source_block_id>
@@ -4040,9 +4348,21 @@
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0_0</source_block_id>
+    <sink_block_id>inets_frame_lifetime_0</sink_block_id>
+    <source_key>ack_frame_info_out</source_key>
+    <sink_key>cmd_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_type_check_0_0</source_block_id>
     <sink_block_id>inets_time_probe_0</sink_block_id>
     <source_key>ack_frame_info_out</source_key>
     <sink_key>time_later_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_frame_type_check_0_0</source_block_id>
+    <sink_block_id>inets_unbundle_0</sink_block_id>
+    <source_key>ack_frame_info_out</source_key>
+    <sink_key>cmd_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_frame_type_check_0_0</source_block_id>
@@ -4166,9 +4486,27 @@
   </connection>
   <connection>
     <source_block_id>inets_resend_check_0</source_block_id>
+    <sink_block_id>inets_counter_0_0_0_0_0_1</sink_block_id>
+    <source_key>resend_check_fail_out</source_key>
+    <sink_key>message_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_resend_check_0</source_block_id>
+    <sink_block_id>inets_frame_lifetime_0_0</sink_block_id>
+    <source_key>resend_check_fail_out</source_key>
+    <sink_key>cmd_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_resend_check_0</source_block_id>
     <sink_block_id>inets_time_probe_0</sink_block_id>
     <source_key>resend_check_fail_out</source_key>
     <sink_key>time_later_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>inets_resend_check_0</source_block_id>
+    <sink_block_id>inets_unbundle_0</sink_block_id>
+    <source_key>resend_check_fail_out</source_key>
+    <sink_key>cmd_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_resend_check_0</source_block_id>
@@ -4211,12 +4549,6 @@
     <sink_block_id>inets_timeout_0</sink_block_id>
     <source_key>data_frame_out</source_key>
     <sink_key>data_frame_info_in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>inets_sending_0</source_block_id>
-    <sink_block_id>inets_unbundle_0</sink_block_id>
-    <source_key>data_frame_out</source_key>
-    <sink_key>cmd_in</sink_key>
   </connection>
   <connection>
     <source_block_id>inets_sending_0</source_block_id>

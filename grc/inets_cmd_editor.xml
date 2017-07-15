@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<block>
+  <name>cmd_editor</name>
+  <key>inets_cmd_editor</key>
+  <category>inets_dmf_tool</category>
+  <import>import inets</import>
+  <make>inets.cmd_editor($develop_mode, $block_id, $field_name, $operation, $value)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+
+  <param>
+    <name>Develop mode</name>
+    <key>develop_mode</key>
+    <type>enum</type>
+    <hide>$develop_mode.hide</hide>
+    <option>
+      <name>off</name>
+      <key>0</key>
+      <opt>hide:part</opt>
+      <opt>hide_control:all</opt>
+    </option>
+    <option>
+      <name>on</name>
+      <key>1</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+    <option>
+      <name>time</name>
+      <key>2</key>
+      <opt>hide:none</opt>
+      <opt>hide_control:none</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Block id</name>
+    <key>block_id</key>
+    <value>52</value>
+    <type>int</type>
+    <hide>$develop_mode.hide_control</hide>
+  </param>
+
+  <param>
+    <name>Field name</name>
+    <key>field_name</key>
+    <value>""</value>
+    <type>string</type>
+    <hide>part</hide>
+  </param>
+
+  <param>
+    <name>Operation</name>
+    <key>operation</key>
+    <type>enum</type>
+    <hide>part</hide>
+    <option>
+      <name>+</name>
+      <key>1</key>
+    </option>
+    <option>
+      <name>-</name>
+      <key>2</key>
+    </option>
+  </param>
+
+  <param>
+    <name>Value</name>
+    <key>value</key>
+    <value>1</value>
+    <type>raw</type>
+    <hide>part</hide>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>cmd_in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>cmd_out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+</block>

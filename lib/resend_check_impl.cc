@@ -127,8 +127,6 @@ namespace gr {
           if(_develop_mode)
             std::cout << "an unknown type frame with index " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("frame_index"), not_found)) << " from node: " << pmt::to_long(pmt::dict_ref(frame_in, pmt::string_to_symbol("source_address"), not_found))  << " has been transmitted " << n_transmission  << "th time" << std::endl;
         } 
-        frame_in = pmt::dict_delete(frame_in, pmt::string_to_symbol("num_transmission"));
-        frame_in = pmt::dict_add(frame_in, pmt::string_to_symbol("num_transmission"), pmt::from_long(n_transmission + 1));
         message_port_pub(pmt::mp("resend_check_pass_out"),frame_in);
       }
     }

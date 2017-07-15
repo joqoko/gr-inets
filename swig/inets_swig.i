@@ -80,6 +80,8 @@
 #include "inets/parameter_list.h"
 #include "inets/frame_redundancy_remover.h"
 #include "inets/number_recorder.h"
+#include "inets/frame_lifetime.h"
+#include "inets/cmd_editor.h"
 #include "inets/general_timeout.h"
 #include "inets/cogmac_ch_pool.h"
 #include "inets/frame_replicate.h"
@@ -104,6 +106,8 @@
 #include "inets/parameter_list.h"
 #include "inets/frame_redundancy_remover.h"
 #include "inets/number_recorder.h"
+#include "inets/frame_lifetime.h"
+#include "inets/cmd_editor.h"
 %}
 %include "gnuradio/digital/constellation.h"
 
@@ -276,3 +280,9 @@ GR_SWIG_BLOCK_MAGIC2(inets, frame_redundancy_remover);
 
 %include "inets/number_recorder.h"
 GR_SWIG_BLOCK_MAGIC2(inets, number_recorder);
+
+%include "inets/frame_lifetime.h"
+GR_SWIG_BLOCK_MAGIC2(inets, frame_lifetime);
+
+%include "inets/cmd_editor.h"
+GR_SWIG_BLOCK_MAGIC2(inets, cmd_editor);

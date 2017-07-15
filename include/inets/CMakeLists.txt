@@ -95,6 +95,8 @@ install(FILES
     cmd_port_control.h
     parameter_list.h
     frame_redundancy_remover.h
-    number_recorder.h DESTINATION include/inets
+    number_recorder.h
+    frame_lifetime.h
+    cmd_editor.h DESTINATION include/inets
 
 )
