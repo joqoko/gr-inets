@@ -189,19 +189,6 @@ namespace gr {
       {
         if(pmt::is_dict(frame_info))
         {
-/*     
-          if(_develop_mode)
-          {
-            std::cout << "++++  backoff ID: " << _block_id << " ++++" << std::endl;
-          }
-          if(_develop_mode == 2)
-          {
-            struct timeval t;
-            gettimeofday(&t, NULL);
-            double current_time = t.tv_sec - double(int(t.tv_sec/100)*100) + t.tv_usec / 1000000.0;
-            std::cout << "* backoff ID: " << _block_id << " backoff timer is triggered at time " << current_time << " s" << std::endl;
-          }
-*/     
           _frame_info = frame_info;
           pmt::pmt_t not_found;
           /*
@@ -217,7 +204,7 @@ namespace gr {
               if(pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found)) == 2)
               {
                 // ACK frame
-                _n_backoff = 1;
+                _n_backoff = _min_window_size + 1;
                 if(_develop_mode)
                   std::cout << "backoff ID " << _block_id << " is trigger by ACK frame means the last DATA frame is successfully acked. " << std::endl;
               }

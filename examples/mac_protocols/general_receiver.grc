@@ -382,7 +382,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>4.1e8</value>
+      <value>3.9e8</value>
     </param>
   </block>
   <block>
@@ -544,7 +544,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.20"</value>
+      <value>"addr=10.0.0.14"</value>
     </param>
   </block>
   <block>
@@ -618,7 +618,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(512, 200)</value>
+      <value>(584, 220)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -650,6 +650,10 @@
     </param>
     <param>
       <key>show_stop</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>show_thre</key>
       <value>1</value>
     </param>
     <param>
@@ -817,6 +821,22 @@
       <key>counter_name</key>
       <value>"1"</value>
     </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_counter</key>
@@ -867,6 +887,22 @@
     <param>
       <key>counter_name</key>
       <value>"6"</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -919,6 +955,22 @@
       <key>counter_name</key>
       <value>"8"</value>
     </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_counter</key>
@@ -969,6 +1021,22 @@
     <param>
       <key>counter_name</key>
       <value>"10"</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1021,6 +1089,22 @@
       <key>counter_name</key>
       <value>"4"</value>
     </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_counter</key>
@@ -1071,6 +1155,22 @@
     <param>
       <key>counter_name</key>
       <value>"2"</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1123,6 +1223,22 @@
       <key>counter_name</key>
       <value>"7"</value>
     </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_counter</key>
@@ -1173,6 +1289,22 @@
     <param>
       <key>counter_name</key>
       <value>"9"</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1225,6 +1357,22 @@
       <key>counter_name</key>
       <value>"3"</value>
     </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_counter</key>
@@ -1275,6 +1423,22 @@
     <param>
       <key>counter_name</key>
       <value>"5"</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>reset</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>name_with_stamp</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1481,6 +1645,10 @@
       <key>selected_index</key>
       <value>1</value>
     </param>
+    <param>
+      <key>reset_selection</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_frame_index_selector</key>
@@ -1539,6 +1707,10 @@
     <param>
       <key>selected_index</key>
       <value>2</value>
+    </param>
+    <param>
+      <key>reset_selection</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1599,6 +1771,10 @@
       <key>selected_index</key>
       <value>4</value>
     </param>
+    <param>
+      <key>reset_selection</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_frame_index_selector</key>
@@ -1657,6 +1833,10 @@
     <param>
       <key>selected_index</key>
       <value>8</value>
+    </param>
+    <param>
+      <key>reset_selection</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1717,6 +1897,10 @@
       <key>selected_index</key>
       <value>10</value>
     </param>
+    <param>
+      <key>reset_selection</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_frame_index_selector</key>
@@ -1775,6 +1959,10 @@
     <param>
       <key>selected_index</key>
       <value>6</value>
+    </param>
+    <param>
+      <key>reset_selection</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1835,6 +2023,10 @@
       <key>selected_index</key>
       <value>3</value>
     </param>
+    <param>
+      <key>reset_selection</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_frame_index_selector</key>
@@ -1893,6 +2085,10 @@
     <param>
       <key>selected_index</key>
       <value>7</value>
+    </param>
+    <param>
+      <key>reset_selection</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1953,6 +2149,10 @@
       <key>selected_index</key>
       <value>9</value>
     </param>
+    <param>
+      <key>reset_selection</key>
+      <value>1</value>
+    </param>
   </block>
   <block>
     <key>inets_frame_index_selector</key>
@@ -2011,6 +2211,10 @@
     <param>
       <key>selected_index</key>
       <value>5</value>
+    </param>
+    <param>
+      <key>reset_selection</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -2091,6 +2295,10 @@
       <value>1</value>
     </param>
     <param>
+      <key>enable_new_name</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
@@ -2155,7 +2363,7 @@
     </param>
     <param>
       <key>cs_mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>comment</key>
@@ -2168,6 +2376,10 @@
     <param>
       <key>develop_mode</key>
       <value>2</value>
+    </param>
+    <param>
+      <key>enable_new_name</key>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -2352,6 +2564,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>show_id</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>enable_new_name</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
@@ -2366,6 +2586,26 @@
     <param>
       <key>id</key>
       <value>inets_time_probe_0</value>
+    </param>
+    <param>
+      <key>mode</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>recorder_name</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>record_on</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>record_path</key>
+      <value>"/home/inets/source/gr-inets/results/"</value>
+    </param>
+    <param>
+      <key>name_with_timestamp</key>
+      <value>1</value>
     </param>
   </block>
   <connection>
@@ -2514,8 +2754,8 @@
   </connection>
   <connection>
     <source_block_id>inets_receiving_0</source_block_id>
-    <sink_block_id>inets_carrier_sensing_0</sink_block_id>
+    <sink_block_id>inets_frame_probe_0_0_0</sink_block_id>
     <source_key>rx_power_out</source_key>
-    <sink_key>power_in</sink_key>
+    <sink_key>info_in</sink_key>
   </connection>
 </flow_graph>
