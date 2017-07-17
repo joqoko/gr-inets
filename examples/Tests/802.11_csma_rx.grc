@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>300</value>
+      <value>900</value>
     </param>
   </block>
   <block>
@@ -2506,7 +2506,7 @@
     </param>
     <param>
       <key>tx_gain</key>
-      <value>15</value>
+      <value>5</value>
     </param>
     <param>
       <key>constellation</key>
