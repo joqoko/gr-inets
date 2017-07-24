@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: csma_80211_II
 # Author: PWA
-# Generated: Sun Jul 16 23:27:30 2017
+# Generated: Sun Jul 23 22:38:48 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -59,7 +59,7 @@ class csma_80211_II(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.20"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.16"
         self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.timeout_duration_ms = timeout_duration_ms = 100
         self.system_time_granularity_us = system_time_granularity_us = 10
@@ -72,11 +72,11 @@ class csma_80211_II(gr.top_block, Qt.QWidget):
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
 
         self.mu = mu = 0.6
-        self.min_window_size = min_window_size = 4
+        self.min_window_size = min_window_size = 1
         self.diff_preamble_128 = diff_preamble_128 = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0][0:128]
         self.destination_address = destination_address = 100
         self.cs_threshold = cs_threshold = 0.001
-        self.Single_rxp_time_s = Single_rxp_time_s = 1200
+        self.Single_rxp_time_s = Single_rxp_time_s = 60
         self.SIFS = SIFS = 10
 
         ##################################################
@@ -85,12 +85,12 @@ class csma_80211_II(gr.top_block, Qt.QWidget):
         self.inets_unbundle_0 = inets.unbundle(0, 16, "num_transmission")
         self.inets_timeout_0 = inets.timeout(0, 10, timeout_duration_ms, 1000, 0)
         self.inets_standard_timer_0 = inets.standard_timer(0, 51, slot_time, 10)
-        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=0, tx_gain=0)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0.0002, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=0, tx_gain=10)
         self.inets_run_0_0 = inets.run(20, 10)
         self.inets_resend_check_0 = inets.resend_check(1, 24, 6)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_random_filter_0 = inets.random_filter(0, 3, 0.95)
-        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667])
+        self.inets_parameter_list_0 = inets.parameter_list(0, 49, [1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667, 1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667, 1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667, 1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667, 1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667, 1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667, 1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667, 1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667, 1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667, 1, 0.738905609893065, 0.448168907033806, 0.271828182845905, 0.164872127070013, 0.100000000000000, 0.060653065971263, 0.036787944117144, 0.022313016014843, 0.013533528323661, 0.008208499862390, 0.004978706836786, 0.003019738342232, 0.001831563888873, 0.001110899653824, 0.000673794699909, 0.000408677143846, 0.000247875217667])
         self.inets_number_recorder_0_1 = inets.number_recorder(0, 50, "node"+str(source_address)+"_bof_time", "/home/inets/source/gr-inets/results/", 0)
         self.inets_number_recorder_0_0 = inets.number_recorder(0, 50, "node"+str(source_address)+"_num_transmission", "/home/inets/source/gr-inets/results/", 0)
         self.inets_number_recorder_0 = inets.number_recorder(0, 50, "node"+str(source_address)+"_bof_busy", "/home/inets/source/gr-inets/results/", 0)
@@ -113,7 +113,7 @@ class csma_80211_II(gr.top_block, Qt.QWidget):
         self.inets_frame_check_0 = inets.frame_check(0, 9)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, 837, 3, 1)
-        self.inets_counter_0_1_0 = inets.counter(1, 1, 1, "node"+str(source_address)+"_node1_data", 1, "/home/inets/source/gr-inets/results/", 0)
+        self.inets_counter_0_1_0 = inets.counter(1, 1, 1, "node"+str(source_address)+"_node1_ack", 1, "/home/inets/source/gr-inets/results/", 0)
         self.inets_counter_0_1 = inets.counter(1, 1, 1, "node"+str(source_address)+"_node1_data", 1, "/home/inets/source/gr-inets/results/", 0)
         self.inets_counter_0_0_3_0 = inets.counter(1, 3, 1, "node"+str(source_address)+"_node3_ack", 1, "/home/inets/source/gr-inets/results/", 0)
         self.inets_counter_0_0_3 = inets.counter(1, 3, 1, "node"+str(source_address)+"_node3_data", 1, "/home/inets/source/gr-inets/results/", 0)
@@ -129,16 +129,16 @@ class csma_80211_II(gr.top_block, Qt.QWidget):
         self.inets_counter_0_0_0 = inets.counter(1, 10, 1, "node"+str(source_address)+"_acked", 1, "/home/inets/source/gr-inets/results/", 0)
         self.inets_counter_0_0 = inets.counter(1, 1, 1, "node"+str(source_address)+"_bad_frame", 0, "/home/inets/source/gr-inets/results/", 1)
         self.inets_cmd_switch_0 = inets.cmd_switch(0, 47)
-        self.inets_cmd_path_1 = inets.cmd_path(0, 44, 1)
-        self.inets_cmd_path_0_0_2_0 = inets.cmd_path(0, 44, 1)
-        self.inets_cmd_path_0_0_2 = inets.cmd_path(0, 44, 1)
-        self.inets_cmd_path_0_0_1 = inets.cmd_path(0, 44, 1)
-        self.inets_cmd_path_0_0_0_0 = inets.cmd_path(0, 44, 1)
-        self.inets_cmd_path_0_0_0 = inets.cmd_path(0, 44, 1)
-        self.inets_cmd_path_0_0 = inets.cmd_path(0, 44, 1)
-        self.inets_cmd_path_0 = inets.cmd_path(0, 44, 1)
+        self.inets_cmd_path_1 = inets.cmd_path(0, 44, 1, "")
+        self.inets_cmd_path_0_0_2_0 = inets.cmd_path(0, 44, 1, "")
+        self.inets_cmd_path_0_0_2 = inets.cmd_path(0, 44, 1, "")
+        self.inets_cmd_path_0_0_1 = inets.cmd_path(0, 44, 1, "")
+        self.inets_cmd_path_0_0_0_0 = inets.cmd_path(0, 44, 1, "")
+        self.inets_cmd_path_0_0_0 = inets.cmd_path(0, 44, 1, "")
+        self.inets_cmd_path_0_0 = inets.cmd_path(0, 44, 1, "")
+        self.inets_cmd_path_0 = inets.cmd_path(0, 44, 1, "")
         self.inets_cmd_editor_0 = inets.cmd_editor(0, 52, "num_transmission", 1, 1)
-        self.inets_carrier_sensing_0 = inets.carrier_sensing(0, 11, 4, 100, 0.005, system_time_granularity_us, 100, 10)
+        self.inets_carrier_sensing_0 = inets.carrier_sensing(0, 11, 4, 100, 0.005, system_time_granularity_us, 100, 5)
         self.inets_backoff_1 = inets.backoff(0, 11, 1, slot_time, slot_time, 100, 0, 0.005, 10, 1, min_window_size)
         self.inets_backoff_0 = inets.backoff(0, 11, 1, slot_time, slot_time, 400, 0, 0.005, 10, 1, min_window_size)
         self.inets_address_check_2_3 = inets.address_check(0, 17, 1, 0)

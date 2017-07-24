@@ -241,8 +241,11 @@ namespace gr {
           std::cout << "backoff ID " << _block_id << " error: port frame_info_in receives unknown data type. please check your connections." << std::endl;
       }
       else
-         std::cout << "backoff ID " << _block_id << " warning: port frame_info_in received correct data type but in _in_backoff states. backoff timer cannot be triggered twice." << std::endl;
-        
+      {
+        std::cout << "backoff ID " << _block_id << " warning: port frame_info_in received correct data type but in _in_backoff states. backoff timer cannot be triggered twice. input cmd is directly forwarded to the next block" << std::endl;
+        message_port_pub(pmt::mp("frame_info_out"), _frame_info);
+        message_port_pub(pmt::mp("bof_time_out"),pmt::from_double(0));
+      }  
     }
 
     void 

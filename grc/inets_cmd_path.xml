@@ -4,7 +4,7 @@
   <key>inets_cmd_path</key>
   <category>inets_dmf_mac</category>
   <import>import inets</import>
-  <make>inets.cmd_path($develop_mode, $block_id, $switch_s)</make>
+  <make>inets.cmd_path($develop_mode, $block_id, $switch_s, $display)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -59,6 +59,14 @@
       <key>0</key>
       <opt>hide:none</opt>
     </option>
+  </param>
+
+  <param>
+    <name>Display text</name>
+    <key>display</key>
+    <value>""</value>
+    <type>raw</type>
+    <hide>none</hide>
   </param>
 
 

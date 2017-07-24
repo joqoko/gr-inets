@@ -32,10 +32,11 @@ namespace gr {
       int _develop_mode;
       int _block_id;
       int _switch_s;
+      std::string _display;
       void control(pmt::pmt_t cmd_in);
 
      public:
-      cmd_path_impl(int develop_mode, int block_id, int switch_s);
+      cmd_path_impl(int develop_mode, int block_id, int switch_s, std::string display);
       ~cmd_path_impl();
 
     };

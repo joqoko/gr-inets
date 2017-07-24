@@ -53,7 +53,7 @@ namespace gr {
         _counter(0),
         _record_on(record_on),
         _name_with_timestamp(name_with_timestamp),
-        _virgin(0)
+
     {
       if(_develop_mode)
         std::cout << "the " << _counter_id << "th message counter is activated." << std::endl;

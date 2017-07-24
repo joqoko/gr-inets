@@ -29,21 +29,22 @@ namespace gr {
   namespace inets {
 
     cmd_path::sptr
-    cmd_path::make(int develop_mode, int block_id, int switch_s)
+    cmd_path::make(int develop_mode, int block_id, int switch_s, std::string display)
     {
       return gnuradio::get_initial_sptr
-        (new cmd_path_impl(develop_mode, block_id, switch_s));
+        (new cmd_path_impl(develop_mode, block_id, switch_s, display));
     }
 
     /*
      * The private constructor
      */
-    cmd_path_impl::cmd_path_impl(int develop_mode, int block_id, int switch_s)
+    cmd_path_impl::cmd_path_impl(int develop_mode, int block_id, int switch_s, std::string display)
       : gr::block("cmd_path",
               gr::io_signature::make(0, 0, 0),
               gr::io_signature::make(0, 0, 0)),
         _develop_mode(develop_mode),
         _block_id(block_id),
+        _display(display),
         _switch_s(switch_s)
     {
       if(_develop_mode)
@@ -74,6 +75,8 @@ namespace gr {
         if(_develop_mode)
           std::cout << " cmd_path block ID " << _block_id << " is set to OFF node. input cmd is discarded." << std::endl;
       }
+      if(_display.size() > 0)
+        std::cout << "cmd_path ID " << _block_id << " " << _display << std::endl;
     }
 
   } /* namespace inets */

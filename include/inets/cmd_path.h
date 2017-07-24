@@ -46,7 +46,7 @@ namespace gr {
        * class. inets::cmd_path::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int develop_mode, int block_id, int switch_s);
+      static sptr make(int develop_mode, int block_id, int switch_s, std::string display);
     };
 
   } // namespace inets
