@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: csma_80211_I
 # Author: PWA
-# Generated: Sun Jul 23 22:38:49 2017
+# Generated: Tue Jul 25 08:57:58 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -59,14 +59,14 @@ class csma_80211_I(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.14"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.9"
         self.tx_center_frequency = tx_center_frequency = 3.9e8
         self.timeout_duration_ms = timeout_duration_ms = 100
         self.system_time_granularity_us = system_time_granularity_us = 10
         self.source_address = source_address = 1
         self.slot_time = slot_time = 8
         self.samp_rate = samp_rate = 400000
-        self.rx_gain = rx_gain = 5
+        self.rx_gain = rx_gain = 25
         self.rx_center_frequency = rx_center_frequency = 3.9e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)

@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>CogMAC_I</value>
+      <value>CogMAC_III</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>CogMAC_I</value>
+      <value>CogMAC_III</value>
     </param>
   </block>
   <block>
@@ -186,7 +186,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>400000000</value>
+      <value>460000000</value>
     </param>
   </block>
   <block>
@@ -213,7 +213,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>4</value>
     </param>
   </block>
   <block>
@@ -814,7 +814,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.3"</value>
+      <value>"addr=10.0.0.9"</value>
     </param>
   </block>
   <block>
@@ -1460,7 +1460,7 @@
     </param>
     <param>
       <key>counter_name</key>
-      <value>"cogmac_tx_pool1_cca30"</value>
+      <value>"cogmac_tx_pool4_cca30"</value>
     </param>
     <param>
       <key>record_on</key>

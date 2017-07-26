@@ -364,7 +364,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>5</value>
+      <value>25</value>
     </param>
   </block>
   <block>
@@ -580,7 +580,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"addr=10.0.0.14"</value>
+      <value>"addr=10.0.0.9"</value>
     </param>
   </block>
   <block>

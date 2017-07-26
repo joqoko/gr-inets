@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: csma_80211_II
 # Author: PWA
-# Generated: Sun Jul 23 22:38:48 2017
+# Generated: Mon Jul 24 20:49:11 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -66,7 +66,7 @@ class csma_80211_II(gr.top_block, Qt.QWidget):
         self.source_address = source_address = 2
         self.slot_time = slot_time = 8
         self.samp_rate = samp_rate = 400000
-        self.rx_gain = rx_gain = 10
+        self.rx_gain = rx_gain = 0
         self.rx_center_frequency = rx_center_frequency = 3.9e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
@@ -85,7 +85,7 @@ class csma_80211_II(gr.top_block, Qt.QWidget):
         self.inets_unbundle_0 = inets.unbundle(0, 16, "num_transmission")
         self.inets_timeout_0 = inets.timeout(0, 10, timeout_duration_ms, 1000, 0)
         self.inets_standard_timer_0 = inets.standard_timer(0, 51, slot_time, 10)
-        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0.0002, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=0, tx_gain=10)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0.005, t_pretx_interval_s=0.0002, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=0, tx_gain=0)
         self.inets_run_0_0 = inets.run(20, 10)
         self.inets_resend_check_0 = inets.resend_check(1, 24, 6)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)

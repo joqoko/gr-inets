@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: csma_80211_rx
 # Author: PWA
-# Generated: Sun Jul 23 22:38:38 2017
+# Generated: Tue Jul 25 08:57:59 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -66,7 +66,7 @@ class csma_80211_rx(gr.top_block, Qt.QWidget):
         self.source_address = source_address = 100
         self.slot_time = slot_time = 8
         self.samp_rate = samp_rate = 400000
-        self.rx_gain = rx_gain = 20
+        self.rx_gain = rx_gain = 10
         self.rx_center_frequency = rx_center_frequency = 3.9e8
 
         self.rrc = rrc = firdes.root_raised_cosine(1.0, sps, 1, 0.5, 11*sps)
@@ -81,7 +81,7 @@ class csma_80211_rx(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0, t_pretx_interval_s=0, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=0, tx_gain=5)
+        self.inets_sending_0 = inets.sending(develop_mode=0, block_id=11, constellation=gnuradio.digital.constellation_qpsk().base(), preamble=diff_preamble_128, samp_rate=samp_rate, sps=sps, system_time_granularity_us=system_time_granularity_us, usrp_device_address=usrp_device_address, center_frequency=tx_center_frequency, interframe_interval_s=0, t_pretx_interval_s=0, file_name_extension_t_control="t1TXs", file_name_extension_pending="Tfr", record_on=0, name_with_timestamp=0, tx_gain=0)
         self.inets_run_0 = inets.run(20, 10)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, rx_center_frequency)
         self.inets_general_timer_0 = inets.general_timer(0, 5, 0, Single_rxp_time_s * 1000, 10, 0)

@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: CogMAC_I
 # Author: PWA
-# Generated: Tue Jul 11 17:18:13 2017
+# Generated: Wed Jul 26 15:17:28 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -86,11 +86,11 @@ class CogMAC_I(gr.top_block, Qt.QWidget):
         self.destination_address = destination_address = 3
         self.cs_threshold = cs_threshold = 0.005
         self.ch_switch_ms = ch_switch_ms = 15
-        self.ch_pool_size = ch_pool_size = 2
+        self.ch_pool_size = ch_pool_size = 4
         self.center_frequency = center_frequency = 400000000
         self.PU_time_ms = PU_time_ms = 500
         self.N_Mul_Fr = N_Mul_Fr = 25
-        self.CCA2_ms = CCA2_ms = 30
+        self.CCA2_ms = CCA2_ms = 210
 
         ##################################################
         # Blocks
@@ -110,7 +110,7 @@ class CogMAC_I(gr.top_block, Qt.QWidget):
         self.inets_run_0 = inets.run(1, 10)
         self.inets_receiving_0 = inets.receiving(0, 21, gnuradio.digital.constellation_qpsk().base(), rrc, mu, diff_preamble_128, rx_gain, samp_rate, sps, 30, usrp_device_address, center_frequency)
         self.inets_parameter_list_0 = inets.parameter_list(1, 49, [25,23,21,19,17,15,13,11,9,7,5,3])
-        self.inets_general_timer_4 = inets.general_timer(0, 5, 0, 200000, 10, 0)
+        self.inets_general_timer_4 = inets.general_timer(0, 5, 0, 60000, 10, 0)
         self.inets_general_timer_3 = inets.general_timer(0, 3, 0, rx_mode_ms, 10, 0)
         self.inets_general_timer_2_0 = inets.general_timer(0, 3, 0, 100, 10, 0)
         self.inets_general_timer_2 = inets.general_timer(0, 3, 0, 200, 10, 0)
@@ -122,7 +122,7 @@ class CogMAC_I(gr.top_block, Qt.QWidget):
         self.inets_frame_redundancy_remover_0 = inets.frame_redundancy_remover(0, 49)
         self.inets_frame_probe_1 = inets.frame_probe(2, 999, 0, 0, 0.01, 0, "/home/inets/source/gr-inets/results/", "", 1)
         self.inets_frame_probe_0_1 = inets.frame_probe(1, 99, 0, 0, 0.001, 0, "/home/inets/source/gr-inets/results/", "", 1)
-        self.inets_frame_probe_0 = inets.frame_probe(1, 100, 0, 0, 0.001, 0, "/home/inets/source/gr-inets/results/", "", 1)
+        self.inets_frame_probe_0 = inets.frame_probe(1, 100, 0, 0, 0.001, 0, "/home/inets/source/gr-inets/results/", "CogMAC_pool2", 0)
         self.inets_frame_path_3_0 = inets.frame_path(0, 39)
         self.inets_frame_path_2_0 = inets.frame_path(0, 39)
         self.inets_frame_path_2 = inets.frame_path(0, 39)
@@ -151,7 +151,7 @@ class CogMAC_I(gr.top_block, Qt.QWidget):
         self.inets_frame_and_0_0 = inets.frame_and(0, 38, 0)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, frame_length, 3, 1)
-        self.inets_counter_0 = inets.counter(0, 100, 1, "cogmac_tx", 1, "/home/inets/source/gr-inets/results/", 0)
+        self.inets_counter_0 = inets.counter(0, 100, 1, "cogmac_tx_poo4_CCA2_150", 1, "/home/inets/source/gr-inets/results/", 0)
         self.inets_cogmac_timing_0 = inets.cogmac_timing(0, 37, frame_length, constellation.bits_per_symbol() * (samp_rate / sps), samp_rate, (diff_preamble_128), 64, CCA2_ms, PU_time_ms, tx_mode_ms, rx_mode_ms, 15, 148, inter_fr_ms, ch_pool_size, ch_switch_ms, N_Mul_Fr)
         self.inets_cogmac_rm_rep_0 = inets.cogmac_rm_rep(0, 37)
         self.inets_cogmac_ch_pool_0 = inets.cogmac_ch_pool(0, 35, ch_pool_size, 350000000, 0, 10000000)
