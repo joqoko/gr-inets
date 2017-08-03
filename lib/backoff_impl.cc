@@ -204,7 +204,7 @@ namespace gr {
               if(pmt::to_long(pmt::dict_ref(frame_info, pmt::string_to_symbol("frame_type"), not_found)) == 2)
               {
                 // ACK frame
-                _n_backoff = _min_window_size + 1;
+                _n_backoff = 1;
                 if(_develop_mode)
                   std::cout << "backoff ID " << _block_id << " is trigger by ACK frame means the last DATA frame is successfully acked. " << std::endl;
               }

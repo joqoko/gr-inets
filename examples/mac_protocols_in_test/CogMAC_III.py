@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: CogMAC_I
+# Title: CogMAC_III
 # Author: PWA
-# Generated: Thu Jul 27 08:10:57 2017
+# Generated: Thu Jul 27 08:11:00 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -31,12 +31,12 @@ import sys
 from gnuradio import qtgui
 
 
-class CogMAC_I(gr.top_block, Qt.QWidget):
+class CogMAC_III(gr.top_block, Qt.QWidget):
 
     def __init__(self, constellation=gnuradio.digital.constellation_qpsk().base()):
-        gr.top_block.__init__(self, "CogMAC_I")
+        gr.top_block.__init__(self, "CogMAC_III")
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("CogMAC_I")
+        self.setWindowTitle("CogMAC_III")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -54,7 +54,7 @@ class CogMAC_I(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "CogMAC_I")
+        self.settings = Qt.QSettings("GNU Radio", "CogMAC_III")
         self.restoreGeometry(self.settings.value("geometry").toByteArray())
 
         ##################################################
@@ -68,7 +68,7 @@ class CogMAC_I(gr.top_block, Qt.QWidget):
         self.sps = sps = 4
         self.range_rx_gain = range_rx_gain = 0
         self.range_mu = range_mu = 0.6
-        self.usrp_device_address = usrp_device_address = "addr=10.0.0.3"
+        self.usrp_device_address = usrp_device_address = "addr=10.0.0.9"
         self.tx_mode_ms = tx_mode_ms = 5
         self.system_time_granularity_us = system_time_granularity_us = 1000
         self.source_address = source_address = 1
@@ -86,8 +86,8 @@ class CogMAC_I(gr.top_block, Qt.QWidget):
         self.destination_address = destination_address = 3
         self.cs_threshold = cs_threshold = 0.005
         self.ch_switch_ms = ch_switch_ms = 15
-        self.ch_pool_size = ch_pool_size = 1
-        self.center_frequency = center_frequency = 400000000
+        self.ch_pool_size = ch_pool_size = 4
+        self.center_frequency = center_frequency = 460000000
         self.PU_time_ms = PU_time_ms = 500
         self.N_Mul_Fr = N_Mul_Fr = 25
         self.CCA2_ms = CCA2_ms = 30
@@ -151,7 +151,7 @@ class CogMAC_I(gr.top_block, Qt.QWidget):
         self.inets_frame_and_0_0 = inets.frame_and(0, 38, 0)
         self.inets_frame_analysis_0 = inets.frame_analysis(0, 7, 1, 1, 1, 1, 1, 2, 2, 2, 1, source_address)
         self.inets_dummy_source_0 = inets.dummy_source(0, 23, frame_length, 3, 1)
-        self.inets_counter_0 = inets.counter(0, 100, 1, "cogmac_tx_pool1_cca30", 1, "/home/inets/source/gr-inets/results/", 0)
+        self.inets_counter_0 = inets.counter(0, 100, 1, "cogmac_tx_pool4_cca30", 1, "/home/inets/source/gr-inets/results/", 0)
         self.inets_cogmac_timing_0 = inets.cogmac_timing(0, 37, frame_length, constellation.bits_per_symbol() * (samp_rate / sps), samp_rate, (diff_preamble_128), 64, CCA2_ms, PU_time_ms, tx_mode_ms, rx_mode_ms, 15, 148, inter_fr_ms, ch_pool_size, ch_switch_ms, N_Mul_Fr)
         self.inets_cogmac_rm_rep_0 = inets.cogmac_rm_rep(0, 37)
         self.inets_cogmac_ch_pool_0 = inets.cogmac_ch_pool(0, 35, ch_pool_size, 350000000, 0, 10000000)
@@ -264,7 +264,7 @@ class CogMAC_I(gr.top_block, Qt.QWidget):
         self.msg_connect((self.inets_unbundle_0_0_0_0_0, 'cmd_out'), (self.inets_framing_0, 'reset_initial_index'))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "CogMAC_I")
+        self.settings = Qt.QSettings("GNU Radio", "CogMAC_III")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -426,7 +426,7 @@ def argument_parser():
     return parser
 
 
-def main(top_block_cls=CogMAC_I, options=None):
+def main(top_block_cls=CogMAC_III, options=None):
     if options is None:
         options, _ = argument_parser().parse_args()
 
